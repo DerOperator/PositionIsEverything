@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>IE5.5/win phantom box bug</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" A demo displaying an IE bug involving floating and 'white-space: nowrap' " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+
+<!--
+
+html {
+margin: 0; padding: 0;}
+
+body {margin:0; padding: 0; background: #eff;
+font-family: verdana, sans-serif; font-size: 14px;
+/*** The pixelized text is only necessary because resetting
+         'text size' in IE would break this demo.  (oh no!) ***/
+}
+
+p {margin: .5em 1em 1em 20px;}
+
+a {border: 0; color: #000;}
+
+h1 {font-size: 22px; text-align: center; border-bottom: 3px solid #fff;
+       background: #000; margin: 0; color: #fff; padding: 3px;}
+
+h2 {font-size: 1.1em; margin: 2em 0 0 10px;}
+
+img#indicator {position: absolute; top: 64px; left: 520px;}
+
+* html img#indicator {
+left: 510px;            /**** IE5.x sees only this value, others see 520px. ****/
+lef\t: 520px;            /**** IE6 sees this value. ****/
+}
+
+/**** The above is the Tan hack to fix the IE5.x box model error.
+   http://css-discuss.incutio.com/?page=BoxModelHack  See: 'A Modified SBMH' ****/
+
+
+.small {font-size: 12px;}
+
+#return{position: absolute; top: 40px; right: 0; text-align: right; padding: .5em;}
+
+#textbox {clear: both;}
+
+/****************************************************************************
+                                        Demo rules start here
+****************************************************************************/
+
+div#wrapper {
+border: 5px solid #f00;
+background: #cef;
+margin: 60px 0 0 50px;
+width: 480px;                     /**** This width makes #wrapper too narrow for inline list to fit, ****/
+}                                            /****  and this is necessary to trigger the IE5.5/win bug. ****/
+
+ul#demolist {
+margin: 0;
+white-space: nowrap;     /**** Bug trigger. This property is not recognized by Moz/Op6 if on <li> ****/
+}
+
+#demolist li {
+display: inline;                  /**** Bug trigger; must be inline element for bug to occur ****/
+background: #669;
+margin: 0 5px 0 0;
+padding: 0 4px;
+color: #fff;
+font-size: 12px;
+}
+
+#float {
+float: left;                          /**** Bug trigger ****/
+width: 120px;
+height: 180px;
+background: #ec4;
+text-align: center;
+font-size: 16px;
+}
+
+-->
+
+</style>
+
+</head>
+
+<body>
+
+<h1>IE5.5/win phantom box bug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+
+<div id="wrapper"> <!-- Red border -->
+
+<div id="float">
+<br />
+<br />
+Left<br />floated<br />box
+<br />
+<br />
+<strong>#float &nbsp;</strong>
+</div>
+
+<p>
+This red bordered div (<strong>#wrapper</strong>) should be 480px wide.
+The <strong>black arrow</strong> above indicates the true right 'content edge' of #wrapper.
+The unordered list below contains seven list items given  'display: inline' and
+'white-space: nowrap', making them a non-wrappable line.
+</p>
+
+<!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+          Below is the 'inline' list. Since it is inline, the code tags must be arranged as seen below,
+      or standards compliant browsers like Mozilla will place space gaps in between each list item.
+                IE will not show the gaps, so this method forces conformity between browsers.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+
+<ul id="demolist">
+<li>&nbsp;&lt;li&gt;&nbsp;One</li
+><li>&nbsp;&lt;li&gt;&nbsp;Two</li
+><li>&nbsp;&lt;li&gt;&nbsp;Three&nbsp;(xtra&nbsp;long)</li
+><li>&nbsp;&lt;li&gt;&nbsp;four</li
+><li>&nbsp;&lt;li&gt;&nbsp;five</li
+><li>&nbsp;&lt;li&gt;&nbsp;six</li
+><li>&nbsp;&lt;li&gt;&nbsp;seven</li>
+</ul>
+
+<div id="textbox"></div>
+
+<h2>Look at this in IE5.5/win.</h2>
+<p>
+See that textless line of 'ghost' list items above the 'true' list item line?
+That is where the line should (and does) appear in Mozilla and Opera. But IE does not like
+to let nested elements protrude beyond their containers, even when those containers are given
+specified rigid dimensions. In IE the right edge of #wrapper is pushed over to accomodate
+that rigid line of list items, violating the
+<a href="http://www.w3.org/TR/REC-CSS2/visufx.html#overflow">W3C standard</a>.
+(see 'overflow:visible')
+</p>
+<p>
+I could replace the list items  by 'nowrap' spans, or even just one span, and the bug would still appear.
+</p>
+<h2>Screenshots:</h2>
+<p>
+<ul>
+<li><a href="images/float.inline.IE5.jpg">IE5/win</a></li>
+<li><a href="images/float.inline.IE5.5.gif">IE5.5/win</a></li>
+<li><a href="images/float.inline.IE6.gif">IE6/win</a></li>
+<li><a href="images/float.inline.moz.gif">Moz1/win and Op6/7.0</a> (displays are similar)</li>
+<li><a href="images/float.inline.op7.1.gif">Op7.1</a> Opera is losing ground! </li>
+</ul>
+</p>
+<p>
+If #wrapper were not 'extended' in this manner, all browsers but IE5/win would match. However, when
+it is extended, and a float is involved, it seems to induce the bug you see here. The line is dropped down
+below the float, leaving those 'ghost' backgrounds behind. A truly bizarre bug.
+</p>
+<p>
+<strong>Notes: </strong> IE5/win does not have the bug because it does not recognize 'white-space' as a valid property, thus
+the container is not 'extended', and the bug is not triggered. IE6/win doesn't show the phantom
+boxes, but still drops the line below the float.
+</p>
+<p>
+Either a left or a right float will trigger the bug.
+</p>
+<p>
+<strong>Opera 7.1</strong> is strangely displaying as IE6 does, but without extending the container.
+Maybe that's next on the agenda. Opera has recently exibited a flirtation with 'Explorer love' as documented in
+<a href="../floatmodel.html"><strong>this&nbsp;page</strong></a>.
+</p>
+<h2>But here's the kicker!</h2>
+<p>
+Look close and you'll see that it is NOT the 'ghost' line that is extending #wrapper,
+despite its being longer (due to the presence of the float).
+Rather it is the 'true' line below the float that controls the right edge of #wrapper.
+I've made the third &lt;li&gt; longer than the others to illustrate this point.
+</p>
+<p>
+I do not know what is going on inside IE's rendering engine, <em>but I'll bet it ain't pretty!</em>
+</p>
+<p>
+<strong>Partial Fix:</strong> It's possible to eliminate the ghost li's by applying the
+<a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a>
+to either the list or the list items. Note that this only removes the ghost line, making
+all IE/Win versions look like IE6. The incorrect placement of the list itself remains the same.
+</p>
+<h2>Special Info</h2>
+<p style="border: 1px solid black; padding: 3px; background: #eee;">
+The murky veil surrounding the need for a box dimension to prevent so many IE bugs has been partially
+lifted, due to the discovery of a heretofore
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/haslayout.asp">obscure&nbsp;page</a>
+in the massive Microsoft website. There is no real explaination of this "hasLayout" property, but now there is at least some
+structure to the madness that has been inflicted on us by Microsoft, for what it's worth. Apparently a box needs "Layout" or all
+heck can break loose, bug-wise. MS does not state that specifically, but their browser behaviors leave no doubt whatsoever.
+</p>
+<p>
+Screenshot thanks to <a href="http://nemesis1.f2o.org/"><strong>Gary Bland</strong></a>,
+and <a href="http://www.fabrice-pascal.de/bugbase/"><strong>Fabrice Pascal</strong></a>,
+of the <a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-dicuss</strong></a> list.
+</p>
+<p>
+Kudos to <a href="http://www.designdetector.com/"><strong>Chris Hester</strong></a>
+for tipping me off to the Op7.1 non-compliance.
+</p>
+
+
+
+&nbsp;
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: September 9th, 2008<br />
+Created August 31, 2002
+</p>
+&nbsp;
+</div>
+&nbsp;
+
+<div id="return">
+<a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a><br />
+<a href="peekaboo.html"><strong>Next IE demo</strong></a>
+</div>
+
+<img id="indicator" src="images/indicator.png" />  <!-- This is the abs/positioned black arrow -->
+
+</body>
+
+
+</html>

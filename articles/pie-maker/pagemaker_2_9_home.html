@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>ClevaTreva Designs - CSS Source Ordered 1-3 Columned Page Maker v2.90</title>
+<link rel="stylesheet" href="css/ctdesign.css" type="text/css" />
+</head>
+<body>
+<div id="pagecontainer">
+  <div id="wrapper">
+    <div class="leftbg">
+      <div id="clearheadercenter"></div>
+      <dl id="menu">
+        <dt>Pagemaker Menu for PIE Site</dt>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="../../index.html" title="Position is Everything Home Page"><span class="bb"><span class="aa">P.I.E. Home</span></span></a></div></div></div></div></div></dd>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="../../articles.html" title="Position is Everything Articles Page"><span class="bb"><span class="aa">P.I.E. Articles</span></span></a></div></div></div></div></div></dd>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="ctgenhist.html" title="Pagemaker Version History"><span class="bb"><span class="aa">Version History</span></span></a></div></div></div></div></div></dd>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="pagemaker_form.html" title="Pagemaker Form v2.90"><span class="bb"><span class="aa">Pagemaker</span></span></a></div></div></div></div></div></dd>
+      </dl>	  
+      <h1>CSS Source Ordered 1-3 Columned Page Maker v2.90</h1>
+      <div id="bodytext">
+        <p>Good news! The Version History, Design Notes and Contact details have been moved off this page! Use the link to Version History to read these.</p>
+		<h2>Features:</h2>
+		<ul>
+		  <li>Source Ordered Layout (Content First).</li>
+          <li>Substantial x-browser support in one design.</li>
+          <li>100% page height design (except MAC IE 5.x, which is fluid height instead). Fluid
+              height version soon.</li>
+          <li>No images used to make layout (unless you add your own 3D effects).</li>
+          <li>Fully customisable by user from online form (makes the css for you).</li>
+          <li>Heavily commented css and source code to explain design.</li>
+          <li>User can select from various Doctypes to use.</li>
+          <li>On line Tooltips to explain the form.</li>
+          <li>Uses source code ideas from Paul O'Brien, Big John, and loads of others, plus
+              lots of ideas of my own!</li>
+          <li>Allows multiple header and footer rows.</li>
+          <li>Centered/Left Aligned fix-width design (fluid width design may come later), user
+              sets the widths of all columns.</li>
+          <li>Top and Bottom margins (shows background color) now possible within the 100% height.</li>
+          <li>It's FREE.</li>
+        </ul>
+        <p>After a long wait, a revised version of the full height pagemaker (once this version
+           is settled down, I will add a radio button to remove the full height hacks for those
+           of you who always fill their pages, even for 1600x1200 screens!). Big John persuaded
+           me to do some work after over a year of me getting my head down at a new job and
+           relegating this project to the bottom of the pile. Thanks for the push John - I've
+           really enjoyed getting my hands dirty again! My own server wasn't doing much for me,
+           so John offered to host this tool on his site, so Kudos to him.</p>
+        <p>This one was really tidying up the bugs with Gecko based browsers (the big one was
+           the incorrect sizing of the left and right columns if they were not equal in width).
+           I have also made some changes to the way the CLEAR div works to force Gecko browsers
+           to behave with floated divs. Note that there is one just before the FOOTER div.  This
+           is needed to make Safari behave. If it is not there, if you re-size the Safari window,
+           the footer stays where it is, rather than moving to the new bottom of the page position.</p>
+        <p>This design does not use images to fill the background (unless you want to use one of my
+           repeating background images for the filler to either side of the main content). The
+           pagemaker no longer allows you to set horizontal borders on the various bits.  Instead, it
+           sets a horizontal div at the pixel thickness of the border with a suitable background color.
+		   The default layout gives you an example of how.</p>
+        <p>Why? I hear you ask. Because most designers won't leave their page design to just this
+           skeleton of boxes, but will add 3D effects. Note how this page uses VERY minimal images to
+           give such an effect, WITHOUT the use of floats.  Cool, huh?</p>
+        <p>So, what do I need now? Folks with browsers I don't have (IE6 and Firefox 1.07 PC) to check
+           it out. If someone has the latest version of Opera, can you check it out with the window
+           in restored state and try to re-size it. Does Opera still fail to recalculate where
+           everything should be (it used to leave the footer in a weird place)?  Does Safari work OK?</p>
+         <p>I hope you benefit from using the tool (you may have to enable Javascript if you have it enabled, and Internet Explorer may warn you about Active-X, where you must allow content).  Use the new link at the top of the page to load the Pagemaker Tool.</p>
+      </div>
+      <div id="clearfootercenter"></div>
+    </div>
+    <div id="wrapperleftimg">&nbsp;</div>
+  </div>
+  <div id="header">
+    <div id="topmargin" class="bottomtopmargin">&nbsp;</div>
+    <div id="headerbg1" class="threeDupperleftbg" style="zmargin-right:150px;zmargin-top:-23px;">
+      <div class="threeDupperrightbg">
+        <div class="threeDuppermiddlebg"></div>
+      </div>
+    </div>
+    <div id="subheader1">
+	  <div id="ctlogo">&nbsp;</div>
+    </div>
+    <div id="headerbg2" class="threeDlowerleftbg">
+      <div class="threeDlowerrightbg">
+        <div class="threeDlowermiddlebg"></div>
+      </div>
+    </div>
+    <div id="headerbg3" class="threeDupperleftbg">
+      <div class="threeDupperrightbg">
+        <div class="threeDuppermiddlebg"></div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div id="footerbg3" class="threeDlowerleftbg">
+      <div class="threeDlowerrightbg">
+        <div class="threeDlowermiddlebg"></div>
+      </div>
+    </div>
+    <div id="footerbg2" class="threeDupperleftbg">
+      <div class="threeDupperrightbg">
+        <div class="threeDuppermiddlebg"></div>
+      </div>
+    </div>
+    <div id="subfooter2">
+      <div id="copyright">
+  		<p>Except where owned by others, all content &copy; ClevaTreva Designs 2005.</p>
+      </div>
+    </div>
+    <div id="footerbg1" class="threeDlowerleftbg">
+      <div class="threeDlowerrightbg">
+        <div class="threeDlowermiddlebg"></div>
+      </div>
+    </div>
+  </div>
+  <div id="madewithwebcoder">
+    <a href="http://www.tsware.net/" title="Link to TSWare"><img src="images/webcoder001.gif" alt="Made with WebCoder 2005" /></a>
+  </div>
+</div>
+</body>
+
+
+</html>

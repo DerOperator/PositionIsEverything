@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>IE5.5/win Missing First Letter Bug</title>
+
+<meta name="Big John" content="August 30, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" A demo displaying an IE bug involving floating and 'white-space: nowrap' " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style rel="stylesheet" type="text/css">
+
+html, body {margin: 0; padding: 0; border: 0;}
+
+body {
+  background: #eff;
+  font-family: verdana, sans-serif;
+  font-size: 80%;
+  }
+
+p {margin: .5em 15%;}
+
+a {border: 0; color: #000;}
+
+h1 {
+  font-size: 22px;
+  text-align: center;
+  border-bottom: 3px solid #fff;
+  background: #000;
+  margin: 0;
+  color: #fff;
+  padding: 3px;
+  }
+
+.small {font-size: .9em;}
+
+#return{
+  position: absolute;
+  top: 40px;
+  right: 0;
+  text-align: right;
+  padding: .5em;
+  }
+
+.alignright {margin-top: 0; text-align: right;}
+
+.tip {
+background-color: #fff;
+border: 1px solid #900;
+color: #000;
+padding: 5px;
+}
+
+
+/****************************************************************************
+                                        Demo rules start here
+****************************************************************************/
+
+.innerbox,  .innerbox-widthtest {
+  border: 3px solid #f00;  /***** This does not affect bug *****/
+  letter-spacing: .3em;
+  position: relative;
+  font-family: serif;
+  font-weight: bold;
+  font-size: 2em;
+  }
+
+.innerbox-widthtest {
+  width: 60%;
+  }
+
+.outerbox2 {
+  border-top: 10px solid #80f;  /***** Only a top border (any length) will fix the bug *****/
+  }
+
+.outerbox3 {
+  padding-top: 10px;  /***** Only a top padding (any units or length) will fix the bug *****/
+  }
+
+.outerbox4 {
+  width: 60%;
+  }
+
+.outerbox1, .outerbox2, .outerbox3, .outerbox4 {   /***** These do not affect bug *****/
+  margin: 20px 8%;
+  background: #bbb;
+  }
+
+</style>
+
+</head>
+
+<body>
+
+<h1>IE5.5/win Missing First Letter Bug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+
+<br />
+<p class="alignright">
+<a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a><br />
+<a href="inlinelist.html"><strong>Next IE demo</strong></a>
+</p>
+
+<p>
+<em>This bug was fixed in IE6, but the demo is being kept online for historical reasons.</em>
+</p>
+
+<p>
+So you have a <strong>block element</strong>, and <strong>another block element</strong>
+inside it. The inner element has a bit of text, and has been given <strong>position: relative</strong>
+plus <strong>letter-spacing: xxx</strong>. Then you view it in <strong>IE5.5/win</strong>. What's this?
+The first letter of the text is nowhere to be seen! Interestingly, there <em>is</em> a space
+left open for it. This peculiar bug is usually seen in headers, for reasons that will become obvious.
+</p>
+
+<div class="outerbox1">
+<div class="innerbox">
+First letter
+</div>
+</div>
+
+<p>
+In the demo above, the <strong>outer div</strong> has a <strong>grey background</strong>,
+and the <strong>inner div</strong> has a <strong>red border</strong>.
+Notice that the text string seems to be in the proper place. It's the inner div itself that appears
+contracted, by the width of one letter. I have found that when content is somehow displaced
+outside of a 'relative' container (in IE) it's usually invisible, as in this case.
+</p>
+<p>
+<strong>Fixes:</strong> It turns out that this is a rather sickly bug, easily squashed by design
+or happenstance. One way is to have a top border, not on the inner div like you would think,
+(the one with positioning and letter-spacing), but rather on the outer div. (?) The following test has a <strong>top
+border</strong> (purple) on the <strong>outer div</strong>.
+</p>
+
+<div class="outerbox2">
+<div class="innerbox">
+First letter
+</div>
+</div>
+
+<br />
+<p>
+The next fix is exactly the same except that instead of a top border, this time it's a
+<strong>top padding</strong>.
+Either padding or borders on any other side, or on the inner div, do not fix the bug.
+</p>
+
+<div class="outerbox3">
+<div class="innerbox">
+First letter
+</div>
+</div>
+
+<br />
+<p>
+Now we move on to 'width'. If you give the inner red bordered div a width (or a 'height'),
+the missing letter is indeed visible. (width="60%")
+</p>
+<br />
+<p class="tip">
+The width-fix mentioned above is now understood (July 2008) to be triggering something called
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>.
+Many IE bugs are fixed by applying hasLayout via a
+<a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a> to certain critical boxes,
+in this case the inner red box.
+</p>
+<br />
+<p>
+ But now look a the next demo. The letters are too far apart! Or.. are they...?
+</p>
+
+<div class="outerbox1">
+<div class="innerbox-widthtest">
+First letter
+</div>
+</div>
+
+<p>
+Comparison with Opera and Mozilla reveals that the test above is in fact the <em>only one</em>
+of all the tests that
+gets it right, when viewed in IE5.5/6. The other tests show about half of the called-for space.
+In fact, if the unit for 'letter-spacing' is given in pixels rather than EMs, even this test will show the
+reduced spacing.
+</p>
+<p>
+Yes folks, <em>two</em> IE bugs for the price of one! Gettem while they're hot.
+</p>
+<p>
+BTW, Opera/Mozilla/Win and IE5.2.1/OSX all display all the test demos properly.
+</p>
+<br />
+
+<p>
+The next test has the same width, but applied to the outer grey div instead.
+</p>
+
+<div class="outerbox4">
+<div class="innerbox">
+First letter
+</div>
+</div>
+
+<p>
+It turns out that the spacing bug is dependent on which element is given the 'font-size'.
+In other words, if the big 2.5em font-size is on the 'body' element, all the tests would
+have the correct spacing. So if the bug fixing width is on the outer element but the enlarged
+font-size is on the inner element (like the above demo), the spacing bug will not be fixed. Confused yet?
+</p>
+
+<br />
+<p>
+Finally, the most likely-to-occur bug killer of all, a <strong>wrapped text line</strong>.
+This is why the first letter bug is restricted to headers and the like.
+</p>
+
+<div class="outerbox1">
+<div class="innerbox">
+First letter First letter First letter First letter First letter
+</div>
+</div>
+
+<br />
+<p>
+As an after-thought I made the inner div into a span.
+</p>
+
+<div class="outerbox1">
+<span class="innerbox">First letter</span>
+</div>
+
+<p>
+Amazing! The inner span is still pushed over a letter width as in the first test demo,
+but now the text has been shoved
+over to match. There's something really strange going on here...
+</p>
+<br />
+<p>
+<strong>Screenshots: </strong>
+<a href="images/fl_ie50.gif">IE5</a>,
+<a href="images/fl_ie5.5.gif">IE5.5</a>,
+<a href="images/fl_ie6.gif">IE6</a>
+<br />
+<a href="images/fl_moz.gif">Moz, Op6 and IE5.2/Mac</a> (displays are similar)
+</p>
+<p>
+<strong>Thanks</strong>
+to <a href="http://www.info.com.ph/~etan/w3pantheon/style/csshub.html"><strong>Edwardson Tan</strong></a>
+ for the screenshots and the motivation,
+<a href="http://www.mapledesign.co.uk/"><strong>Peter Bowyer</strong></a> for finding the bug, and its
+'letter-spacing' trigger, and <a href="http://www.violetsky.net/"><strong>Stephanie Sullivan</strong></a>
+for the Mac info,  all members of the
+<a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss</strong></a> list.
+</p>
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 7, 2008<br />
+Created September 20, 2002
+</p>
+<br />
+</body>
+
+
+</html>

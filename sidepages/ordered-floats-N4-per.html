@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+	<title>Nav4 Source Ordered Demo</title> 
+
+<meta name="Big John" content="February 3, 2003">
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A Nav4 demo showing a possible 3-col, source-ordered layout." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0;}
+
+body {margin: 0; padding: 0; font-family: verdana, sans-serif; background: #f8eedd;}
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff;}
+
+h4 {font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+a {color: #000;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+
+/*XXXXXXXXXXXXX The demo rules start here XXXXXXXXXXXXX*/
+
+.demo {font-family: georgia, serif; border: 1px solid black; margin: 0 0 0 10px;}  
+
+.demo p { margin: 0; border: 2px solid #a95; font-size: 16px;}  /* margin is applied here, browsers may vary. ***/
+
+.clearfooter {clear: both; margin: 0; font-size: 18px;}
+
+h2 {margin: 0; font-size: 24px; font-weight: normal; border: 1px solid black; padding: 0 0 3px 0;}
+
+.float-wrapper {float: left; width: 65%; border: 2px solid purple; margin: 0;} /*** Must enclose two of the three cols. Must include center col. ***/
+
+.first-float {float: right; width: 49%;  border: 2px solid red;}
+
+.second-float {float: left; width: 49%;  border: 2px solid red;}
+
+.third-float {float: right; width: 33%;  border: 2px solid red;}
+
+
+.first-float p {background: #6bd;}
+
+.second-float p {background: #9dc;}
+
+.third-float p {background: #ecc; padding: 4px 0 0 0;}
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<p class="alignright">
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a><br />
+<a href="../ordered-floats.html#nav4"><strong>Return to Source Ordered Floats</strong></a>
+</p>
+
+<div class="demo">
+
+<h2>Header - Nav4 all-float demo<br /><a href="../ordered-floats.html">Return to 
+Source Ordered Columns</a></h2>
+
+	<div class="float-wrapper"> 
+
+<!-- This wrapper comes first, and is floated left. It contains the number one (left-floated) col, 
+	and the non-floated number two col. The number three col is non-floated, and
+	comes last following the wrapper float. -->
+
+
+<div class="first-float">
+<p>
+This demo works in Nav4/win, and will show sizable gaps between the cols 
+at most screen sizes. All the boxes have borders to show the 'permanent' spaces that
+surround the floats, and the borders. The third col actually has a small amount of extra top padding to 
+adjust the first text line into alignment with the other cols.
+</p>
+<p>
+Using this code will require some 
+<a href="http://css-discuss.incutio.com/?page=CssHacks">browser hiding hacks</a> 
+to keep the Nav4 and non-Nav4 code 
+from mixing together. This page does not address the many unrelated Nav4 bugs that
+may be encountered when using this layout.
+</p>
+<p>
+If the clearing element is a paragraph, the layout breaks. A div or hx element is fine.
+</p>
+</div>
+
+<div class="second-float">
+<p>
+Two , and this is some text to make sure that the boxes they are in are fully stretched out.
+Two , and this is some text to make sure that the boxes they are in are fully stretched out.
+Two , and this is some text to make sure that the boxes they are in are fully stretched out.
+Two , and this is some text to make sure that the boxes they are in are fully stretched out.
+Two , and this is some text to make sure that the boxes they are in are fully stretched out.
+Two , and this is some text to make sure that the boxes they are in are fully stretched out.
+Two , and this is some text to make sure that the boxes they are in are fully stretched out.
+</p>
+</div>
+
+	</div>
+
+<div class="third-float">
+<p>
+Three, and this is some text to make sure that the boxes they are in are fully stretched out.
+Three , and this is some text to make sure that the boxes they are in are fully stretched out.
+Three , and this is some text to make sure that the boxes they are in are fully stretched out.
+Three , and this is some text to make sure that the boxes they are in are fully stretched out.
+Three , and this is some text to make sure that the boxes they are in are fully stretched out.
+Three , and this is some text to make sure that the boxes they are in are fully stretched out.
+Three , and this is some text to make sure that the boxes they are in are fully stretched out.
+</p>
+</div>
+
+<div class="clearfooter">Clearing Footer &lt;div&gt;</div>
+
+</div>
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and
+interesting to say about any CSS subject, please contact me. I want to know! ">e-mail</a> 
+&copy;positioniseverything<br />
+Last updated: Febuary 3, 2003<br />
+Created Groundhog Day (Feb 2nd), 2003
+</p>
+
+
+</body>
+
+
+</html>

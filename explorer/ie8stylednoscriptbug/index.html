@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+    <title>IE8 &rsquo;&lt;noscript&gt;-ghost&rsquo; appearance bug</title>
+    	<meta name="author" content="O.P.Gob�e, the Netherlands, www.justarrangingbits.org" />
+
+
+<meta http-equiv="content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="This demo page shows an IE8 bug involving the noscript element." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+
+<link rel="SHORTCUT ICON" href="favicon.html" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+
+/* general page styling */
+html {margin: 0;padding: 0;border: 0;}
+body {margin: 0;padding:0;font-size: 80%;background: #ded;font-family: verdana,sans-serif;}
+h1 {font-size: 22px; text-align: center; border-bottom: 3px solid #fff; background-color: #000;
+	margin: 0 0 10px 0; color: #fff; padding: 3px;}
+ul.links {margin: -5px 5px 10px 0; padding: 0; list-style: none; text-align: right;}
+li {margin: 0; padding: 0;}
+li a {margin: 0 5px;}
+#main {position:relative;display:block;width:925px;margin:50px auto;}
+.caption {color: #600; font-style: italic; display: block; margin: -.7em 0 30px 0;}
+img {margin: 20px 0;}
+
+
+/* Styles for the <noscript> element. The background-color and border properties
+are the only styles that appear on the ghost version of the noscript element*/
+.noscript {
+  font-size: 175%;
+  padding: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: red;
+  background-color: white;
+  border: 10px solid black;
+  float: left;
+  margin: 10px;
+  }
+
+.updated {
+  font-size:80%;
+  color:gray;
+  }
+
+</style>
+
+</head>
+
+<body>
+<h1>The IE8 noscript-ghost bug</h1>
+
+<ul class="print-hide links">
+<li><strong>Written by Paul Gob&eacute;e</strong> @<a href="http://www.justarrangingbits.org/" ><em>justarrangingbits</em></a></li>
+<li><a href="http://www.lumc.nl/con/3090/46189/902201059122533?setlanguage=English&amp;setcountry=en">Dept. of Anatomy &amp; Embryology, Leiden University Medical Center</a></li>
+<li><a href="../../explorer.html">Return to Explorer Demos</a></li>
+</ul>
+
+<div id="main">
+	<h3>The &lt;noscript&gt; element</h3>
+
+<p>
+The contents of a &lt;noscript&gt; element should only be displayed when there is no script
+engine or running of scripts is switched off. The &lt;noscript&gt; tag originated in those olden
+days when some browsers didn't have JavaScript on board. Nowadays the tag has lost much
+of its value, as all browsers have script support for decades, and only a very limited number
+of users switches off JavaScript in daily practice. Nevertheless, the &lt;noscript&gt; tag isn't
+deprecated, and remains valuable in these limited situations.
+</p>
+
+<h3>The bug</h3>
+
+<p>
+In Internet Explorer 8's  default view, the &lt;noscript&gt; element can experience a wonderous
+transformation. This will happen when you style the &lt;noscript&gt; element to have a
+<strong>background-color</strong> or a <strong>border</strong>, so as to have it clearly
+show up in the unfortunate case there is no script support.
+</p>
+
+<p>
+Below is a graphic of what would be seen in such a scriptless browser:
+</p>
+
+<img src="ffnoscriptvisible.png" alt="" /> <br /><span class="caption">Image 1</span>
+
+
+
+<p>
+Now, with <strong>Internet Explorer 8</strong>, heralded to finally be in support of the standards, and with its
+script engine running at full swing, a strange 'ghost' of the &lt;noscript&gt; element appears.
+ <strong>See it yourself, by viewing this page in IE8.</strong>
+</p>
+
+<!-- HERE IS THE NOSCRIPT TAG-->
+<noscript class="noscript">PLEASE ENABLE JAVASCRIPT TO ACTIVATE THIS PAGE!</noscript>
+
+<p>
+This paragraph is preceeded by a noscript element with left floating, borders and a background,
+along with the script warning text.
+If you view the page in IE8 you will see a ghost of the floated noscript element complete with
+borders, padding and background, <em>but with no text content</em>. IE8 apparently forgets
+that the &lt;noscript&gt; element, should only be displayed when, well... when there is <em>no script</em>.
+</p>
+
+<p>
+Below is a screenshot showing what IE8 renders with scripting enabled.
+</p>
+
+<img src="ie8shot.png" alt="" /> <br /><span class="caption">Image 2</span>
+
+<p>
+The ghost can vary in appearance depending on its display property value. If it's made "block"
+it will always show in IE8, but if it's "inline" then the ghost will disappear when "compatibility&nbsp;mode"
+is enabled, probably because of the way IE7 handled inline elements in general.
+</p>
+
+<p>
+Web-developers across the world were so happy IE8 was finally going to relieve them of the burden of
+'fixing the site for IE', but as it appears, Internet Explorer continues to cause extra work,
+<a href="http://www.flickr.com/photos/pauls/172883694/">preventing web-developers from working efficiently</a>...
+</p>
+
+<span class='updated'>Updated last: April 20th, 2009.</span>
+
+</div>
+
+
+</body>
+
+
+</html>

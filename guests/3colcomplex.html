@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+
+<title>3 Column Complex Layout demo</title>
+
+	<meta name="author" content="Holly Bergevin, April 1, 2003" />
+	<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+	<meta name="mssmarttagspreventparsing" content="true" />
+	<meta name="description" content="A demo showing possibilities for laying out a 
+	complex 3-col page." />
+	<meta name="keywords" content="demo,test,big john,big,john,position is everything,
+	position,css,html,bug,bugs,bug fix,holly bergevin,holly's wilderness" />
+	<meta name="distribution" content="global" />
+	<meta name="resource-type" content="document" />
+	<meta name="robots" content="all" />
+	<meta http-equiv="imagetoolbar" content="no" />
+
+<style type="text/css">
+<!--
+
+/* >>>>> Page Styles <<<<< */
+
+html, body {margin: 0; padding: 0; font-size: 100%; }
+
+body {
+  	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  	font-size: 80%;
+	color: #000;
+	background: #9ba49b; }
+
+#pagetitle {
+	margin: 0;
+	padding: 10px 0 0 0;
+	text-align: center;
+	font-size: 210%;
+	color: #771464; }
+
+pre {
+	margin: 0 0 0 10px;
+	padding-top: 8px;
+	font-family: Verdana, sans-serif;
+	font-size: 95%;
+	font-weight: normal; }
+
+p {margin: 0; padding: 8px 7px 0 10px; }
+
+#contents p {font-weight: bold; }
+
+.altcolor {color: #eef7e2; font-weight: bold; }
+
+.altcolor2 {color: #cde7a8; }
+
+.altcolor3 { color: #771464; font-weight: bold; }
+
+#demotext {
+	border: 2px solid #233622;
+	background: #cde7a8;
+	color: #233622;
+	margin: 8px 149px 5px 10px;
+	padding: 0 5px 5px 0;
+	position: relative; } /*** for IE6 ***/
+ 
+a:link {color: #eef7e2; text-decoration: underline; padding: 1px; }
+
+a:visited {color: #eef7e2; text-decoration: underline; padding: 1px; }
+
+a:hover {color: #000; background: #eef7e2; text-decoration: underline; padding: 1px; }
+
+#leftbox a:link, #leftbox a:visited {color: #233622; text-decoration: underline; }
+
+.right a:link strong, .right a:visited strong, .right a:link, .right a:visited {
+	color: #000; text-decoration: underline; background: #eef7e2; padding: 1px; }
+/*** Redundancy in this selector and the one below allows Op6 to display links properly ***/
+
+.right a:hover strong, .right a:hover {color: #771464; background: #f4e6ef; padding: 1px; }
+
+#contents a:link, #contents a:visited {
+	color: #000; text-decoration: underline; background: #f4e6ef; padding-top: 0; }
+
+#contents a:hover {color: #f9f; background: #233622; padding-top: 0; }
+
+#footer a:link, #footer a:visited {color: #771464; }
+
+strong {font-weight: bold; color: #233622; }
+	
+pre strong {color: #000; }
+
+#contents strong {color:  #f9f; }
+
+#contents pre.altcolor2 strong {color: #cde7a8; }
+
+.alignright  {margin: 0; padding: 1em 10px 2.5em 0; text-align: right; }
+
+.small {font-size: .9em; color: #771464; }
+
+.alignright strong {color: #771464; font-weight: bold; }
+
+.decoration {float: right; margin: 0.5em 1em 3px 3px; position: relative; } /*** for IE6 ***/
+
+html[xmlns] .decoration {margin: 0 1em 0 0; } /*** Moz put the image too low ***/
+
+.kudos {
+	margin-top: 3em; 
+	border-top: 3px double #233622; 
+	border-bottom: 3px double #233622;
+	padding-bottom: 5px; }
+
+#bottom {font-size: 1px; line-height:0; margin:0; padding:0;}
+
+
+/* *****>>>>> Demo Styles <<<<<***** */
+
+/*** The #header div has a static position and a background image ***/
+
+#header {
+	margin: 0;
+	padding: 0; 
+	background: url("images/waterlilies6.jpg") 0 0 no-repeat; /*** this is a shorthand 
+								   property for the various 
+								   background properties ***/
+	height: 100px; } /*** must be set so the following absolutely positioned divs are 
+			    placed correctly on initial load of the page***/ 
+
+#leftbox {
+	position: absolute;
+	left: 0px;
+	width: 215px;
+	border-top: 1px solid #000;
+	background-color: #9ba49b;
+	color: #000; 
+	padding-top: 5px; }
+
+#container {
+	margin-left: 215px;
+	background: #faf5f8 url("images/rightbg.gif") 100% 0 repeat-y;
+	border-left: 1px solid #000; }
+
+#navmenu {
+	background-color: #879186;
+	border: 1px solid #000;
+	border-width: 1px 0;
+	padding: 3px 0;
+	position: relative; } /*** IE6 needs this to display the div ***/  
+
+/* Hide from IE5-Mac \*/
+* html #navmenu {height: 1%;}
+/* end hide *//*** This hack will make IE5-win display the background color for the nav ***/
+
+#navmenu ul {
+	display: block;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-family: Verdana, sans-serif;
+	text-align: center;
+	line-height: 1.2em; }
+
+#navmenu ul li {
+  	font-weight: bold;
+  	display: block;
+  	float: left;
+  	position: relative; /*** IE6 needs this to display the links ***/
+	padding: 1px 0;
+	margin: 3px 0;
+	width: 10em;  
+	border-right: 2px solid #000; }
+
+#navmenu ul li.first {
+	margin-left: 0; 
+	list-style: none; }
+
+#navmenu ul li.last {
+	border-right: none; }
+
+#navmenu a {
+	padding: 3px 0;
+	color: #000; } 
+
+#navmenu a:hover {
+ 	color: #faf5f8; 
+	background: #879186; }
+
+#navclear {
+  	display: block;
+	clear: both; }
+
+/*** IE5/Mac has trouble with right positioned boxes due to a secret margin. See  
+     - http://www.l-c-n.com/IE5tests/right_pos/index.shtml - Philippe Wittenbergh's page 
+     for an explanation of this problem and Sam Foster's page for an explanation of the 
+     hack used  - http://www.sam-i-am.com/testsuite/css/mac_ie5_hack.html - ***/
+ 
+#rightbox {
+	position: absolute;
+	right: 16px;
+	margin-right: -15px;
+	width: 138px;
+	padding-top: 5px; }
+
+/* hide the following from IE5-Mac \*/
+#rightbox {
+	right: 0;
+	margin-right: 0; }
+/* IE5-Mac can see the rest */
+
+#wrapper {
+	margin-right: 138px;
+	padding-top: 5px; }
+
+/*** Tan hack for IE. Only IE browsers see this selector.
+     This replaces the old Tantek hack. Please see Edwardson Tan's page.
+     http://www.info.com.ph/~etan/w3pantheon/style/modifiedsbmh.html ***/
+
+* html #wrapper {
+	width: 100%; /*** IE5.5 needs this value to eliminate a horizontal scrollbar ***/
+	w\idth: auto; } /*** resets the value for IE6 and IE5-Mac ***/
+
+.left {
+	float: left;
+	margin-left: 6px;
+	width: 43%;
+	padding: 5px 5px 5px 0;
+	background: #c3c8c3; }
+
+html>body .left {margin-left: 12px; } /*** IE doubles the margin on the float. This sets
+					the margin to the correct width for others ***/
+
+.right {
+	float: right;
+	margin-right: 6px;
+	width: 43%;
+	padding: 5px 5px 5px 0;
+	background: #c3c8c3; }
+
+html>body .right {margin-right: 12px; } /*** IE doubles the margin on the float. This sets
+					the margin to the correct width for others ***/
+
+.clear {
+	clear: both;
+	margin: 0;
+	padding: 0; }
+
+#contents {
+	background-color: #233622;
+	margin: 8px 149px 5px 10px;
+	/*margin-right: 149px;
+	margin-left: 10px;*/
+	color: #eef7e2;
+	padding: 3px 3px 15px 3px;
+	position: relative; } /*** IE6 needs this to display the div ***/
+
+#footer {
+	background: #f0f1f0;
+	margin-top: 1.5em;
+	margin-right: 139px;
+	border-top: 1px dashed #888; }
+
+-->
+
+</style>
+
+
+</head>
+
+<body>
+
+	<div id="header"><h1 id="pagetitle">Perched Upon a Lily Pad</h1></div>
+
+	<div id="leftbox">
+
+<pre>
+<strong>#leftbox</strong> {
+  position: absolute;
+  left: 0px;
+  width: 215px;
+  }
+</pre>	
+
+		<p>This fixed width sidebar, <strong>#leftbox</strong>, is absolutely 
+		positioned with a left position given but no top positioning. This is so 
+		it will automatically position itself based on the size of the 
+		<strong>#header</strong> div.</p>
+
+		<p class="altcolor">This box gets its background color from the background 
+		color set in the <strong>&lt;body></strong> tag. This way it 
+		will&nbsp;appear to run the full height of the page.</p>
+
+<pre>
+<strong>#header</strong> {
+background-image:
+  url("images/waterlilies6.jpg");
+background-position: 0 0;
+background-repeat: no-repeat;
+height: 100px;
+}
+</pre>
+			
+		<p>The <strong>#header</strong> div at the top of the page spans the width 
+		of the viewport. It has a background image applied and is given a height so 
+		that the following absolutely positioned divs are placed properly on 
+		initial load of the page.</p>
+
+		<p class="altcolor kudos">Many thanks are extended to 
+		<a href="http://plikt.sverok.net/">Jonas&nbsp;Erlandsson</a> whose original 
+		request for help spawned this demo idea, to 
+		<a href="http://www.l-c-n.com/phiw/" title="Philippe's inspiring image 
+		gallery">Philippe&nbsp;Wittenbergh</a> for Mac testing and very excellent 
+		advice, and to <a href="../index-3.html" 
+		title="Big John's bug and demo site">Big&nbsp;John</a> for inspiration and 
+		support, and for "bugging" me to make this&nbsp;demo.</p>
+ 
+	</div>
+
+	<div id="container">
+
+		<div id="navmenu">
+
+			<ul>
+				<li class="first"><a href="#">links&nbsp;and&nbsp;links</a></li> 
+				<li><a href="#">links&nbsp;and&nbsp;links</a></li> 
+				<li><a href="#">links&nbsp;and&nbsp;links</a></li>
+				<li><a href="#">links&nbsp;and&nbsp;links</a></li>
+				<li class="last"><a href="#">links&nbsp;and&nbsp;links</a></li>
+			</ul>
+
+			<span id="navclear"></span>
+  
+		</div>
+
+		<div id="rightbox">
+
+<pre>
+<strong>#rightbox</strong> {
+  position: absolute;
+  right: 0;
+  margin-right: 0;
+  width: 138px;
+  }
+</pre>
+
+			<p>This absolutely positioned <strong>#rightbox</strong> has a fixed 
+			width and right positioning set. Again, no top positioning is
+			given so this div will adjust its height to what comes before it.</p>
+
+			<p class="altcolor3">The background-color on this div is made by a
+			repeating <strong>.gif</strong> placed on the <strong>#container</strong>
+			div.</p> 
+
+			<p>Because this div, and the <strong>#leftbox</strong> div are
+			both absolutely positioned and have fixed widths, care must be taken 
+			with content that may not wrap, such as long URIs or 
+			<strong>&lt;pre></strong> tags. IE will expand the divs to contain 
+			the content, which violates the specs, and other browsers will let 
+			too wide content spill outside of the div.</p>
+
+			<p class="altcolor3">IE5/Mac presents an additional challenge with this
+			right positioned AP div. See source for more information and the hack 
+			used to overcome the problem.</p> 
+ 
+		</div>
+
+		<div id="demotext"><!-- This is an added textbox for the purposes of the demo -->
+
+<p class="alignright" style="padding-bottom: .5em;">
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+
+			<p>Following <strong>#leftbox</strong>, a 
+			<strong>#container</strong> div is opened which will hold the rest of 
+			the page. This div is given a left margin equal to the width of the 
+			absolutely positioned (AP) div preceding it. In this case, 
+			<strong>#container</strong> has a left border and a repeating background 
+			image on the right that provides the background color for the 
+			<strong>#rightbox</strong> column.</p>
+
+<pre>
+<strong>#container</strong> {
+  margin-left: 215px;
+  background-image: url("rightbg.gif");
+  background-position: 100% 0;
+  background-repeat: repeat-y;
+  }
+</pre>
+
+			<p>Inside <strong>#container</strong>, a static div, 
+			<strong>#navmenu</strong>, holds nav links. The links are marked up 
+			as a horizontal unordered list.
+			<img class="decoration" src="images/waterlilysmall.jpg" 
+			width="215px" height="142px" alt="Water Lily Flowers" /></p>
+
+<pre>
+<strong>#navmenu ul</strong> {
+  display: block;
+  list-style: none;
+  text-align: center;
+  }
+<strong>#navmenu ul li</strong> {
+  display: block;
+  float: left;
+  width: 10em;
+  }
+</pre>
+
+			<p>Inside the <strong>&lt;ul></strong>, the <strong>&lt;li></strong>s 
+			are floated left and given a width and both the <strong>&lt;ul></strong> 
+			and the <strong>&lt;li></strong> are given a display property of 
+			<strong>{display:&nbsp;block}</strong>. Following the floats is a 
+			<strong>&lt;span></strong> that clears them. This menu will wrap nicely 
+			if the browser window is made narrow enough or the text is made large 
+			enough to cause that.</p> 
+
+		</div>
+
+		<div id="wrapper">
+
+			<div class="left">
+
+<pre>
+<strong>#wrapper</strong> {
+  margin-right: 138px; 
+  }
+</pre>
+
+				<p>A <strong>#wrapper</strong> div is opened to hold a couple 
+				of floats. Since it is within the <strong>#container</strong>, 
+				it needs only a right margin to clear the AP 
+				<strong>#rightbox</strong>.</p> 
+
+				<p class="altcolor3">IE5.5 will need a width on this 
+				<strong>#wrapper</strong> to prevent a horizontal scrollbar, 
+				but IE6 must not have a width. See source for the hack.</p>
+
+<pre>
+<strong>.left</strong> {
+  float: left;
+  width: 43%;
+  }
+<strong>.right</strong> {
+  float: right;
+  width: 43%;
+  }
+</pre>
+
+				<p>Inside the <strong>#wrapper</strong> are 
+				two float containers, one floated left and one floated right. 
+				Nothing extraordinary about either of these.</p>
+
+			</div>
+
+			<div class="right">
+
+				<p>Since these divs are both floated, there will be no 
+				<a href="../explorer/threepxtest.html"
+				title="See Big John's explanation of this effect">
+				<strong>3px&nbsp;text-jog</strong></a> in IE if one div is 
+				longer than the other.</p>
+				
+				<p class="altcolor3">IE doubles the margins of the floats on the 
+				side they contact their container, <strong>#wrapper</strong> in 
+				this case, and so the correct margin width for each float must 
+				be hacked for other browsers. See source.</p>
+
+<pre>
+<strong>.clear</strong> {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  }
+</pre> 
+
+				<p>Following the floats is a clearing div with 
+				<strong>{clear: both}</strong>.</p>
+
+				<p class="altcolor3">IE5/Mac needs the margin
+				and padding of this div set to 0 (zero). Because of this, 
+				if it was desired to put text in this clearing div, or put a 
+				border on it, it would need to extend the full width of the 
+				<strong>#wrapper</strong>. In this demo, it just holds a
+				space.</p>
+
+			</div>
+
+			<div class="clear">&nbsp;</div>
+
+		</div>
+
+		<div id="contents">
+
+<pre class="altcolor2">
+<strong>#contents</strong> {
+  margin-right: 149px;
+  margin-left: 10px;
+  }
+</pre>
+
+			<p class="altcolor">Another div contains the rest of the 
+			content of the page. This div, <strong>#contents</strong>, needs a 
+			right margin to clear the right AP div. Further margin width can be 
+			given to left and right if the background of <strong>#container</strong> 
+			is desired as a frame for <strong>#contents</strong> (as is done here).
+			</p>
+
+			<p class="altcolor2"><strong>Note:</strong> Due to the formatting of the 
+			text of this demo, which includes <strong>&lt;pre></strong> tags, this 
+			particular page will look rather messy if the browser window is 
+			narrowed significantly or if very large font sizes are used. If you 
+			would like to try resizing the browser or increasing the text size, 
+			please see <a href="3colcomplexside.html"> 
+			this&nbsp;example&nbsp;page</a>, which is made without 
+			<strong>&lt;pre></strong> tags. More layout tips and 
+			known&nbsp;problems can also be found on 
+			<a href="3colcomplexside.html">the&nbsp;same&nbsp;page</a>.</p>
+ 
+		</div>
+
+		<div id="footer">
+
+			<p class="small alignright"><strong>~ holly</strong>&nbsp; 
+			<a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">e-mail</a> 
+			&copy;~ holly's wilderness ~<br />
+			Last updated: February 1, 2006<br />
+			Created: April 1, 2003</p>
+		</div> 
+	</div>
+	<div id="bottom"></div>
+	
+</body>
+
+
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Equal Height Columns - revisited - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1>Equal Height Columns - revisited</h1>
+
+<div class="update">
+<h3>Stop Press!</h3>
+<p>Several problems have been found with this technique since publication. Those problems are discussed in <a href="appendix/equalheightproblems.html">Appendix J</a></p>
+</div>
+
+<h2 id="preamble">Huh?</h2>
+<p>As an astute disciple of CSS, you are probably about to point out that there is a well-known tried and tested method for this (and as already mentioned earlier in this article), the one popularised in Dan Cederholm's <a href="http://www.alistapart.com/articles/fauxcolumns/">Faux Columns</a>. If so, just wait - we are returning to the scene of the crime...</p>
+
+<h2 id="who">Who?</h2>
+<p>The real credit for this technique belongs to Mark Challoner who had the crucial insight - I have merely helped polish it to the point where you can see your boots in it.</p>
+
+<h2 id="what">What?</h2>
+<p>What it says on the tin - a method to make all columns appear to be the same height. But without the need for faux column style background images.</p>
+
+<div class="screenshot"><img src="images/screenshots/equalheight.gif" alt="animated screenshot showing layout with equal height columns" /></div>
+
+<h2 id="why">Why?</h2>
+<p>Because equal height columns are a perfectly reasonable design goal. And the even more astute disciple will be nodding sagely, ruminating over the problems that flow from faux columns. Namely:</p>
+<ol>
+<li>you have to change your background images any time you adjust the widths of your columns</li>
+<li>you have to do some weird and brain-hurting calculations if your design is not a fixed-width pixel-based layout</li>
+<li>you have to create background images in the first place, even if all you want to do is apply a solid background colour (or heaven forbid, a simple gutter line)</li>
+<li>you have to add an additional wrapping container div for each additional faux column you want</li>
+<li>some layouts are quite simply impossible to achieve <a href="#impossible_layouts" title="Lay the impossibility on me oh wise one">[note]</a></li>
+</ol>
+
+<p>The most astute disciple is already one step ahead and is awaiting the pronouncement that Faux Columns are dead. I wouldn't go that far - in fact, they probably remain the weapon of choice. However, the method about to be described certainly provides an alternative that overcomes the problems above in some, if not all, circumstances.</p>
+
+<h2 id="how">How?</h2>
+<p>The basic method works like this:</p>
+<ol>
+<li>Blocks which will act as columns must be wrapped in a container element</li>
+<li>Apply <code>overflow: hidden</code> to the container element</li>
+<li>Apply <code>padding-bottom: $big_value</code> <a href="#big_value" title="What the hell is $big_value?">[note]</a> to the column blocks, where $big_value is a large enough value to guarantee that it's equal to or larger than the tallest column</li>
+<li>Apply <code>margin-bottom: -$big_value</code> to the column blocks</li>
+</ol>
+
+<p>What happens is that columns really become as tall as the content they contain plus <code>$big_value</code> thanks to the <code>padding-bottom</code>. The negative <code>margin-bottom</code> brings the flow of the document back to where the same point as where the <code>padding-bottom</code> began, and the <code>overflow: hidden</code> on the containing element chops off the overflow<a href="#overflow_table_clash">[note]</a>. Consequently the columns' presence on the page only appears to be the height of the containing element and any background colour (or image for that matter) applied to the columns displays for that height. Most crucially, the height of the page reflects what appears to be on the page and does not dissappear into the scrolling distance.</p>
+<p>Remarkably, IE Win doesn't actually need the <code>overflow: hidden</code>, but it causes no problems so there is no need to hide it.</p>
+<p>Beware though, browsers don't let you throw arbitrarily large values at them. They have limits. Exceed that limit and the columns will expand to the padding-bottom value and you'll end up wiuth some pretty long pages. Fortunately, we know the number of that limit (which is actually provided by Safari which is the most conservative browser in this matter): <code>32767px</code>. This should suffice for most cases (though feel free to use a smaller value) and yields us code like this:</p>
+<pre><ins>#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px;
+	}
+#wrapper
+	{
+	overflow: hidden;
+	}</ins></pre>
+
+<p>Now if you wanted to actually achieve a 0.5em padding-bottom on the column, then you'd need code like this: <a href="#alternative_padding" title="Yes, there's more than one way to skin this cat">[note]</a></p>
+
+<pre>#block_1, #block_2, #block_3
+	{
+	<del>padding-bottom: 32767px;</del>
+	<del>margin-bottom: -32767px;</del>
+<ins>	padding-bottom: 1000em;
+	margin-bottom: -999.5em;</ins>
+	}</pre>
+
+<p>There seems to be a consensus that pixel values are usually a better bet for this type of malarkey. So, unless you need to do something like the previous example, it's wisest to stick to pixel values - especially since an em-based value which might seem fine at one font setting can end up breaking the browser's actual limit when increased.</p>
+
+<h3 id="how-rough-edges">The rough edges</h3>
+<p>Of course, it's only to be expected that things aren't quite that simple, and that we'll need to polish things up before this is production-ready.</p>
+<h4 id="how-rough-edges-safari">Safari</h4>
+<p>I'm not sure exactly which versions of Safari this effects, but the padding-bottom has a ghost effect that, though the columns are painted correctly, links and form elements that follow the columns and that by rights should be above it, are unclickable. <ins>(Fixed as of <a href="http://bugzilla.opendarwin.org/show_bug.cgi?id=5626" title="Bug 5626: REGRESSION: float element with bottom padding and negative margin overlaps subsequent elements">4 November 2005</a>)</ins></p>
+<p>This problem can be overcome by setting <code>position: relative</code> on any of the necessary elements. However, An unintended side-effect is that it cause such elements to vanish in IE Wins, 5.01 and 5.5, so we need to prevent those browsers seeing the <code>position: relative</code>.</p>
+<p>For example, if we had an element with the id "affected_element", we would add the following: <a href="#obvious_point_about_z-indexes" title="An obvious point about the value used here for z-indexes">[note]</a></p>
+<pre><ins>* &gt; #affected_element
+	{
+	position: relative;
+	z-index: 1000;
+	}</ins></pre>
+<h4 id="how-rough-edges-ie-mac">IE Mac 5</h4>
+<p>IE5 Mac gets the column heights right, but the height of the page ends up including the invisble padding. Whether or not you think this is acceptable is up to you, but a simple backslashed comment hack will prevent IE5 Mac from doing the whole equal heights expansion. Graceful degradation, baby...</p>
+<pre><ins>/* Start Mac IE5 filter \*/</ins>
+#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px; 
+	}
+<ins>/* End Mac IE5 filter */</ins></pre>
+<h4 id="how-rough-edges-opera-1">Opera - take 1</h4>
+<p>Operas 7.0 through 7.2 don't actually chop off the extended columns at the right place. For sure they don't march off quite as far as the numbers would make you think they would, but that's little comfort when you've got huge columns obliterating all in their path.</p>
+<p>Adding <code>display: inline-block</code> to the container element would solve this, but it would cause other problems to pop out from under the Opera bug carpet which are possibly fixable, but life's just too short - the most robust solution is to add our old friend <a href="../../easyclearing.html">EasyClearing</a>, and all's well again.</p>
+<p>Apart from in IE Win 5.01, where the addition of the easy clearing causes the exact opposite to happen - ie. where before all was well, now the columns stretch off into the distance. Because of Opera, mind. Fortunately, we can just add a <code>float: left;</code> and 5.01 is happy again.</p>
+<pre><ins>* html #wrapper
+	{
+	float: left;
+	}</ins></pre>
+<p class="example"><a href="example/equalheight.html">Example of the Equal Height Column technique (2-1-3 ordering)</a></p>
+
+<h4 id="how-rough-edges-opera-2">Opera - take 2</h4>
+<p>Opera 8 introduced <a href="http://www.fu2k.org/alex/css/bugs/opera8_overflowhiddenplusnegativemarginbottom">a bit of a bug</a> to its handling of <code>overflow: hidden</code>. So, even though the easy clearing is enough to sort out the lesser Operas (though note that 7.54 works just fine without any "help"), we are again faced with columns that wouldn't look out of place in <em>The Towering Inferno</em>.</p>
+<p>Fortunately, once more there is a fix. The large padding-bottom/negative margin-bottom routine needs to removed from the columns themselves and applied to elements <em>within</em> them instead.</p>
+<p>The most obvious way to achieve this would be to set a class on the final element in each of the columns, but that would be bad since a) you need to add the class in, and b) the class is essentially playing the same role as a clearing break element - since the class is actually a structural aid rather than saying anything about what's actually within the element in question.</p>
+<p>Better is to use the <code>:after</code> pseudo element which we can rely on since we're targeting a modern browser. Rather than using <code>padding-bottom</code>, we use <code>padding-top</code> instead, since we can't rely on <code>visibility: hidden</code> to hide the generated content. Because otherwise the generated content doesn't actually increase the height of the column, somewhat defeating its purpose.</p>
+<p>Of course, removing the <code>padding-bottom</code> from the columns causes all the other browsers to collapse the columns. We could hide the removal from IE Wins with a child descendant hack, but that wouldn't help Safari and Firefox. So we reach into our box of tricks and pull out the @media query hack <a href="#media_query_hack" title="Beware the @meejahor!">[note]</a>.</p>
+<p>Here's what the addional Opera 8 code looks like:</p>
+<pre>/* Start Mac IE5 filter \*/
+#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px; 
+	}
+/* End Mac IE5 filter */
+<ins>@media all and (min-width: 0px) {
+#block_1, *#block_2, #block_3
+	{
+	padding-bottom: 0;
+	margin-bottom: 0; 
+	}
+#block_1:after, #block_2:after, #block_3:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]';
+	display: block;
+	background: inherit;
+	padding-top: 32767px;
+	margin-bottom: -32767px;
+	height: 0;
+	}
+}</ins></pre>
+
+<p class="example"><a href="example/equalheightopera8fix.html">Example of the Equal Height Column technique with a fix for Opera 8 (2-1-3 ordering)</a></p>
+
+<h3 id="how-rough-edges-opera-3">Opera - take 3</h3>
+<p>The good news is that the beta version of Opera 9 fixes the bug in Opera 8. Considering the relatively small proportion of Opera users and the likelihood of such users to upgrade often and early, it's probably OK to just leave out the Opera 8 fix.</p>
+<p>On the other hand, if you want to figure out how to distinguish Operas 8 and 9, I'm not going to stop you.</p>
+
+<h2 id="where">Where?</h2>
+
+<div class="update">
+<h3>Stop Press!</h3>
+<p>Just in case you missed the bit at the top of the page, several problems have been found with this technique since publication. Those problems are discussed in <a href="appendix/equalheightproblems.html">Appendix J</a></p>
+</div>
+
+<h3 id="where-success">Works fully in</h3>
+<p>IE Win 7 beta 2, IE Win 6, IE Win 5.5, IE Win 5.01, Operas 7, 8 and 9, Firefox 1.5 and 1.0 <a href="#select_scroll_oddness">[note]</a>, Netscape 8, Safari 1.03 (and up), (OmniWeb5.0?)</p>
+
+<h3 id="where-failure">Doesn't work fully in</h3>
+
+<h4 id="where-netscape7">Netscapes 6 and 7</h4>
+<p>The longest column must not have been negatively shifted under any circumstances otherwise we're in the same old boat of following elements not being cleared correctly as with the <a href="anyorder.html">Any Order Columns</a> method. But with an added twist. Since the containing element has been set to <code>overflow: hidden</code>, anything in the columns below the point that Netscape mistakenly believes is the endpoint of the columns is cut off and not displayed.</p>
+
+<h4 id="where-ie-mac">IE Mac 5</h4>
+<p>As mentioned previously, the method causes the page to expand to the "actual" height of the columns. The choice is yours whether to accept that or to forego the equal heights in this superannuated browser, currently tottering around the edges interweb waiting to be put out of its misery.</p>
+
+<h4 id="where-opera6">Operas 5 and 6</h4>
+<p>Do not understand the method at all. It is left as an exercise to the reader to figure out the necessary hacks to cope with those browsers if required.</p>
+
+<h2 id="when">When?</h2>
+<p>This method is fairly robust, generic and nestable.</p>
+<p>It can get a little gnarly under certain circumstances  - in Operas and IE Win 5.01 (see the <a href="examples.html">expanded examples</a> for details.)</p>
+<h3 id="when-alternative-methods">Alternative methods</h3>
+<p><a href="http://www.alistapart.com/articles/fauxcolumns/">Faux Columns</a> have already been discussed. Ingo Chao has a faux columnless <a href="http://www.satzansatz.de/cssd/columnswapping.html">two em-based columns with equal height</a>.</p>
+<p>Modern browsers hold out the promise of being able to use <a href="http://www.456bereastreet.com/archive/200406/equal_height_boxes_with_css_part_ii/"><code>display:table</code></a> to achieve much the same effect. However once you have chosen that route you are stuck with a rigid table structure. There is no way you can reorder the column blocks. Moreover, browser support for positioning elements relatively or absolutely within a table cell, whether the cell actually a <code>td</code>, <code>th</code> or another element with <code>display:table-cell</code>) is non-existent except for some slight support in iCab 3.0. Apparently. Which puts you back to square one having to write markup that looks like a traditional table.</p>
+
+<h2 id="when-breaking-the-gridlock">Breaking the gridlock</h2>
+<p>Now that we have our revised mechanism for making columns the same height, it's time to turn our attention to how to position elements vertically within those columns.</p>
+
+
+
+
+
+<ul id="paging">
+<li id="next"><a href="verticalgrid.html">Next (Vertical Grids)</a></li>
+<li id="previous"><a href="anyorder.html">Previous (Any Order Columns)</a></li>
+</ul>
+
+<div id="footnotes">
+<h2>Footnotes</h2>
+<ol>
+<li id="impossible_layouts">Now I come to write this, of course I can't recall any, other than right hand columns that are sized in ems.</li>
+<li id="big_value"><code>$big_value</code> is a variable name, standing in for the actual value.</li>
+<li id="overflow_table_clash">This is why <code>display: table</code> is a no go for containing the floats. Safari just doen't get on well with the combination of <code>display: table</code> and <code>overflow: hidden</code>. The end result is that the overflowing stuff simply isn't hidden.</li>
+<li id="alternative_padding">Of course, you could just as well insert another element into the block, apply the normal equal <code>padding-bottom</code> and negative <code>margin-bottom</code> to that and just set the required <code>padding-bottom</code> on the outer element.</li>
+<li id="obvious_point_about_z-indexes">The value of <code>z-index</code> doesn't have to be 1000. Depending on your design and whether you're using <code>z-index</code> elsewhere, you might need to use a different value.</li>
+<li id="media_query_hack">Currently only Operas 7.20 and up support <a href="http://www.w3.org/TR/2002/CR-css3-mediaqueries-20020708/" title="the W3C dope on meeja queeeeries, suckers">media queries</a>, which means that they work as a hack/filter.  Personally I'm wary of this solution since it's more than likely that Safari and/or Firefox will support such declarations in the not too distant future and then this will break. That wouldn't be necessarily be the end of the story though - we could turn to the <a href="http://www.fu2k.org/alex/css/hacks/fuzzyspecificity">Fuzzy Specificity hack</a>. Of course, it would probably be too much to expect Opera to get fixed... <ins>The good news is that Opera 9b fixed the bug.</ins></li>
+<li id="select_scroll_oddness">The presence of a relatively positioned element within any of the blocks causes weird scrolling effects when trying to select text in Firefox 1.0. This bug has been fixed in 1.5, but just so you know. Details in this <a href="http://archivist.incutio.com/viewlist/css-discuss/64928">[css-d] thread</a></li>
+</ol>
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li class="current">Equal Height Columns - revisited</li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

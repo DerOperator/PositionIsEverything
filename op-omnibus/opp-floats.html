@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+
+<title>Multiple Opposing Floats</title>
+
+<meta name="Big John" content="October 16, 2003" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" An Opera6 bug involving multiple opposing floats. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0;}
+
+body {margin: 0; padding: 0; background: #eee; height: 35em;}
+
+pre {margin: 0; font-family: garamond, "times new roman", sans-serif;}
+
+p {font-size: .8em; font-family: verdana, arial, sans-serif;}
+
+pre {margin: 0; font-family: currier, monospace; font-size: .8em; color: #800;}
+
+a {color: #000;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .7em;}
+
+h1 {font-size: 1.1em; margin: .7em;}
+
+h2 {font-size: 1.2em;}
+
+.rightfloat span {font-size: .6em; font-weight: normal; color: #000;}
+
+.rightfloat p {margin: 0;}
+
+ul p {width: 40%; padding-bottom: 30px;}
+
+#textcol {
+position: absolute;
+top: 30px;
+left: 50%;
+right: 30px;
+border: 1px solid #000;
+padding: 0 15px;
+background: #ffd;
+margin-right/*this comment hides the value from IE5.0/Win*/ : 30px;}   
+
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+     The previous property and the following rule are for the purpose of making IE5/mac honor the 
+30px spacing on the right side of #textcol. IE5/mac does not obey the 'right' property at all. It does 
+    obey 'margin-right' but IE6/win does not (triggered by the opposing 'left' property). The rule below 
+   withholds the 'right' value from Moz, and also re-feeds the 'margin-right' to IE5/mac, which fails to
+	read it in the previous rule, along with IE5.0/win.   Good Ghod, has it really come to this?
+			http://www.dzr-web.com/misc/ie-right-positioning/
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+html>body #textcol {
+right: 0;
+margin-right: 30px;
+}
+
+
+/*******************************************************************************
+                 Demo positioning rules
+*******************************************************************************/
+
+#floatholder {
+margin: 30px 55% 0 2em;
+background: #d98;
+border: 10px solid #d63;
+text-align: center;
+font-family: "trebuchet ms", helvetica, sans-serif;
+}
+
+.leftfloat {
+float: left;
+width: 2em;
+height: 2.6em;
+background: #ddd;
+border: 1px solid #6a0;
+margin: 2px;
+font-size: .8em;
+line-height: 3em;
+}
+
+.rightfloat {
+float: right;
+width: 50%;
+height: 170px;
+background: #bdb;
+padding-top: 10px;
+border: 3px solid #090;
+font-size: 1.5em;
+font-weight: bold;
+color: #b22;
+}
+
+-->
+	</style>
+
+</head>
+<body>
+
+
+<!--XXXXXXXXXXX  Start of Demo  XXXXXXXXXXXXXXX-->
+
+<div id="floatholder">
+
+<div class="rightfloat">
+<h1>
+Multiple<br />Opposing<br />Floats
+</h1>
+<p>
+<span>(Right Float)</span>
+</p>
+</div>
+
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+<div class="leftfloat">LF</div>
+
+<div style="clear: both;"></div> 
+			<!-- This div cannot be displayed until it can touch "both" sides of
+			the orange container, without touching any floats. Since it is a 
+			'static' div and not floated, the orange container is forced to
+			become taller than all the floats within it. This is the standard
+			method to make a container 'enclose' floats. -->
+
+</div>
+
+<ul>
+<h2>
+Screenshots:
+</h2>
+<li><a href="images/opp-floats-op6.gif">Opera 6/win</a></li>
+<li><a href="images/opp-floats-op7.gif">Opera 7/win</a></li>
+<li><a href="images/opp-floats-moz.gif">Mozilla 1/win</a></li>
+<li><a href="images/opp-floats-IE.gif">IE5.5/win</a></li>
+<p>
+<strong>Note:</strong> Mozilla 1 displays exactly as the specs require.
+Opera 7 behaves like Mozilla if the float directions are reversed.
+IE would behave like Mozilla if #floatholder (orange box) were given any 'width'.
+</p>
+</ul>
+
+
+<!--XXXXXXXXXXX  End of Demo  XXXXXXXXXXXXXXXX-->
+
+
+<div id="textcol">
+<br />
+<p class="alignright">
+<a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a><br />
+<a href="bottomgap.html"><strong>Next Opera demo</strong></a>
+</p>
+<p>
+<strong>This demo</strong> shows what happens in <strong>Op6</strong> 
+and <strong>Op7</strong> when a long series of floats are forced to wrap against an opposing float.
+</p>
+<p>
+The grey boxes (div.leftfloat) are all left floated, and the green box (div.rightfloat) is right floated. 
+The orange container (div.floatholder) is a static element, with no specified 'width'. That's really
+all there is to it.
+</p>
+<p>
+In <strong>Op6</strong>, when the advancing line of left floats reaches the green right float, the next line 
+waits until the right float will no longer interfere, before rendering. 
+<strong>Op7</strong> is better, allowing two lines of floats to properly render before its bug forces the 
+rest below the green float.
+</p>
+<p>
+If the float directions are reversed, the demo behaves identically in <strong>Op6</strong>, but <strong>Op7</strong>
+strangely starts behaving correctly. Weird.
+</p>
+<p>
+Only <strong>Opera</strong> has this bug. 
+<strong>Mozilla</strong> renders 
+correctly, and even <strong>IE</strong> will get it right if the container has a specified 'width'.
+</p>
+<p>
+"But you said this demo <em>had</em> no width!"<br />
+That's right. So if you choose to view this
+in IE, <em>don't say I didn't warn you</em>.
+</p>
+<p>
+<strong style="color: #c00;">Update, March 29, 2005: </strong> Opera 8.b3 appears 
+to have <em>finally</em> vanquished 
+this long lived bug. The demo now appears exactly as does Gecko in that beta Opera
+version. <em>Woohoo!</em> 
+</p>
+
+<p>
+Kudos to <strong>Thomas</strong> (AKA "Tomcat76" on the Opera Support Forums) 
+for the timely heads up.   
+</p>
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: March 29, 2005<br />
+Created October 16, 2002
+</p>
+</div>
+
+</body>
+
+
+</html>
+

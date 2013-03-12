@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Problems with the Equal Height Columns method - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix J</small>Problems with the Equal Height Columns method</h1>
+
+<p>Several issues have been discovered since publication which, depending on your requirements, can cause severe problems when using the equal height technique.</p>
+
+<ol>
+<li><a href="#linking">Linking to anchors in elements within the containing block</a></li>
+<li><a href="#scrolling">Selecting and scrolling in Gecko-derived browsers</a></li>
+<li><a href="#printing">Printing in Internet Explorer</a></li>
+</ol>
+
+<h2 id="linking">Linking to anchors in elements within the containing block</h2>
+<p>Linking to an anchor in any of the columns within the element that has been set to overflow: hidden causes the content of that column to shift upwards. In IE and Firefox, that is.</p>
+<p class="example"><a href="../example/equalheightanchors.html">Example of anchors in the equal height method</a></p>
+<p>ie. it's not the large padding that's casuing the problem (though obviously it is the trigger of the behaviour)</p>
+
+<h3 id="linking-ie-fix">A fix for IE</h3>
+<p class="example"><a href="../example/equalheightanchorsiefix.html">Fix for anchor problem in IE</a></p>
+<p>IEs 6 and under are easy. Simply suppress the <code>overflow: hidden</code> on the containing wrapper element.</p>
+<p>IE7b thought doesn't work since <code>overflow:visible</code> makes the overflow of the columns, well, visible. So we use an expression instead, making the columns the height of the column container.</p>
+<p>However, there are dragons here...</p>
+<ol>
+<li>If we use the exact height of the wrapper, things can explode on first load or, absolutely without fail, when refreshing the page using F5. We can be worked around by taking a pixel off. Then the shorter columns are still shorter requiring the footer to be shifted up a pixel for good measure.</li>
+<li>Of course, it will fail utterly if the security level is such that expressions don't get evaluated or at the very least annoy the hell out of users with a prompt to allow the expressions to be evaluated...</li>
+</ol>
+<p>So if you don't like those dragons, you might prefer to force IE7 into <a href="http://www.fu2k.org/alex/css/examples/moreequalheightcolumnsquirks">Quirks mode</a>. <a href="#ie-fix-alt">[note]</a></p>
+
+<h3 id="linking-no-gecko-fix">No cure for Cancer</h3>
+<p>...or rather, there appears to be no fix for Gecko-based agents. I had thought shifting the padding and negative margin to the top (like for the Opera 8 fix) would sort things out, but once Gecko knows that the box is larger than what's displayed the anchor shifting occurs.</p>
+
+<h3 id="linking-half-gecko-fix">Half a cure for Geckos</h3>
+<p class="example"><a href="../example/equalheightanchorsgeckofix.html">Half fix for anchor problem in Gecko</a></p>
+
+<p>Ingo Chao has come up with a solution that works as long as certain conditions are met - the trick is to apply <code>position:absolute</code> to the target.</p>
+
+<p>For anchors of the form <code>&lt;a name=&quot;target&quot;&gt;&lt;/a&gt;</code>, this presents no problems. If the target element can stand being absolutely positioned, everything will be ok. Obviously though, attempts to apply the same technique to an anchor which is actually an id on an element enveloping content will result in dismal failure. And for many off-the-peg  blogs and CMSes, that's probably going to be the case.</p>
+
+<p>Furthermore, the parent element of the target must not have <code>position:relative</code> applied to it, which also somewhat reduces the usefullness of the technique.</p>
+
+
+<h3 id="linking-back-history">What the hell is going on?</h3>
+
+<p>Weirdly, just to add spice to the whole over-egged pudding, when used in equal heights mode, Opera 9 doesn't shift. But with the following <a href="http://www.fu2k.org/alex/css/testcases/overflowhiddenplusanchor">reduced test case</a>, it does.</p>
+
+<p>Two distinct behaviours can be seen in the previous reduced testcase.</p>
+<dl>
+<dt>Behaviour A</dt>
+<dd><em>the content shifts within the element to reveal the triggered anchor</em><br />
+Mozilla since 1.6a, IEs 5.01 through 6 and Opera 9b</dd>
+<dt>Behaviour B</dt>
+<dd><em>nothing happens</em><br />
+as seen in Safari, IE Mac 5, Mozilla 1.5 and earlier, and Operas pre v 9</dd>
+</dl>
+
+
+
+
+<p>The question is, are current Geckos, IE and Opera 9 correct in their handling of the above example? What do the specs say?</p>
+
+<blockquote><p>This value indicates that the content is clipped and that no scrolling user interface should be provided to view the content outside the clipping region.</p>
+<p><cite><a href="http://www.w3.org/TR/CSS21/visufx.html#propdef-overflow">CSS 2.1, 11.1.1 Overflow: the 'overflow' property</a></cite></p>
+</blockquote>
+
+<p>So does that mean that the content can be scrolled (though no interface should be provided) which is what Firefox and IE are doing, or does it mean that no scrolling should occur? But how would the latter jive with scrolling the content via scripting (which is surely meant to be allowed)?</p>
+
+<p>Sorry. Not fair. It's a bogus question. In the words of the editor of the CSS specs, Ian Hickson, "The spec doesn't define what happens with anchors." So, let's play detective and figure out when (and hopefully why) the behaviour changed in Mozilla and Opera.</p>
+
+<p>For Opera, the answer is fairly easy to track down thanks to a note in the <a href="http://snapshot.opera.com/windows/w90p1.html">changes log</a>, under the heading "Acid2 Fixes"...</p>
+
+<blockquote cite="http://snapshot.opera.com/windows/w90p1.html"><p>Elements with <code>overflow:hidden;</code> can scroll to anchors within them.</p></blockquote>
+
+<p>...which was done presumably (remember the specs say nothing about how an agent should handle anchors) because unless they scrolled to the anchor on the test page, nothing would show at all and so they would fail the test at the first hurdle.</p>
+
+<p>Safari has taken a different route to passing the test - by making the html element scrollable when overflow property is set to hidden, but not doing so for any other element.</p>
+
+<p>Of course there's nothing to say which of these paths (if either) is correct.
+There's nothing in the Acid2 guide reference that mentions testing for such behaviour and the only comment about the use of <code>overflow:hidden;</code> on the html element is:</p>
+
+<blockquote cite="http://www.webstandards.org/act/acid2/test.html"><pre>/* page setup */
+  html { font: 12px sans-serif; 
+  	margin: 0; padding: 0; overflow: hidden;
+  /* hides scrollbars on viewport, see 11.1.1:3 */</pre>
+<p><cite><a href="http://www.webstandards.org/act/acid2/test.html">The Second Acid Test</a></cite></p></blockquote>
+
+<p>...which leads us back to <em>that</em> section of the CSS specs which, er, has nothing to say about the treatment of anchors.</p>
+
+<p>So how did the test get into Acid 2? What is its purpose? Fortunately a little bird was able to tell me that Ian Hickson was the lead in constructing the Acid2 test. So I asked him why it was set up that way, with the content hidden and being scrolled to, and whether this was an intentional part of the test, or it just happened that way because that's how Mozilla and IE handled it</p>
+
+<blockquote>
+<p>Hmm. I didn't think about how anchors interacted with the overflow:hidden 
+text and just assumed it would work. :-)</p>
+<p>The reason I used overflow:hidden at all was to test make one of the browsers implement overflow:hidden on the root element, because authors were complaining it wasn't supported (I don't remember which one any more, probably Opera). Also, I needed to have scrolling to test fixed positioning, but I didn't want to show the scrollbar.</p>
+<p><cite>via personal correspondence</cite></p>
+</blockquote>
+
+
+<p>Incredibly dull downloading of many many copies of old versions, followed up by combing through the bug tracking system eventually gave up the <a href="http://bonsai.mozilla.org/cvsquery.cgi?treeid=default&amp;module=all&amp;branch=HEAD&amp;branchtype=match&amp;dir=&amp;file=&amp;filetype=match&amp;who=&amp;whotype=match&amp;sortby=Date&amp;hours=2&amp;date=explicit&amp;mindate=2003-10-13+14%3A58&amp;maxdate=2003-10-13+14%3A58&amp;cvsroot=%2Fcvsroot">point where Mozilla had begun to scroll overflow:hidden</a>, which in turn pointed to <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=221140">bug 221140</a> which gets us towards the heart of the matter.</p>
+
+<blockquote>
+<p>The basic problem here is that 'scroll' and 'auto' have never worked on table
+cells, and the working group decided to make 'hidden' work like 'scroll' and
+'auto', so now 'hidden' doesn't work either.</p>
+<p><cite><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=221140#c4">Bug 221140 - 'overflow: hidden' on table cells broken, comment #4</a></cite></p>
+</blockquote>
+
+<p>Of course, the question of exactly what and where the working group had decided is moot. Let's have another look at our old friend 11.1.1, the overflow:hidden definition (remembering that it says nothing about how user agents should deal with anchors):</p>
+
+<blockquote><p>This value indicates that the content is clipped and that no scrolling user interface should be provided to view the content outside the clipping region.</p>
+<p><cite><a href="http://www.w3.org/TR/CSS21/visufx.html#propdef-overflow">CSS 2.1, 11.1.1 Overflow: the 'overflow' property</a></cite></p>
+</blockquote>
+
+<p>Previously the same section had been:</p>
+
+<blockquote><p>This value indicates that the content is clipped and that no scrolling mechanism should be provided to view the content outside the clipping region; users will not have access to clipped content. The size and shape of the clipping region is specified by the 'clip' property.</p>
+<p><cite><a href="http://www.w3.org/TR/CSS2/visufx.html#overflow">CSS 2, 11.1.1 Overflow: the 'overflow' property</a></cite></p>
+</blockquote>
+
+<p>Do these changes to 2.1 mean that Behaviour A is correct and were they introduced for exactly such a situation? </p>
+<p>Prodding Ian Hickson again, I got the following explanation:</p>
+
+
+<blockquote>
+<p>It was changed in issue 1-16, around July-September 2003. But it was made 
+in response to an W3c-internal-only comment, so that won't help you...</p>
+<p>... I imagine the reasoning was "to make CSS compatible with the Web", which already behaved that way.</p>
+<p>... It was probably more "browsers won't change their behaviour to match the spec because doing so would break Web pages, so we'll change the spec to match the browsers instead". (This reasoning is the thinking behind much of the changes to CSS2.1. Pragmatism is an important factor in the development of the CSS2.1 and HTML5 specifications.)</p>
+<p><cite>via personal correspondence</cite></p>
+</blockquote>
+
+
+<h4 id="linking_the_mess_we_are_in">A bit of a mess...</h4>
+
+<p>So to sum up, the situation is happenstance yet quasi-official. That's how IE did it, so the W3 working group and Mozilla followed suit. And Opera followed along later to pass a test that reflected that status quo.</p>
+
+<p>Consequently there's nothing to say that Safari's divergent behaviour (scroll on html element, no scroll on any other) isn't correct. Or what the behaviour should be if a box that <code>overflow: hidden</code> is applied to is tall enough to show all the content within it, but there is additional padding-bottom beneath it...</p>
+
+<p><a href="http://dev.l-c-n.com/overflow/equal-height3-1.php" title="Mozilla causes the content within the container to scroll, Opera 9b the entire window.">La Chatte Noire example 1</a></p>
+<p><a href="http://dev.l-c-n.com/overflow/equal-height3-2.php" title="Opera 9b now causes the content to scroll, but only as much as is 'necessary'">La Chatte Noire example 2</a></p>
+
+<p>And <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=259615">Bug 259615 - 'overflow: hidden' elements shouldn't be scrollable by the user</a> probably shouldn't really be a bug. But <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=325942">Bug 325942</a> shows that some of the Mozilla team think it should.</p>
+
+<h3 id="linking_recommendations">Recommendations</h3>
+<p>Sorry, I don't have any recommendations. Really. It's up to you to decide what works for you, just like <strong>you</strong> should decide what browsers you should support. That said:</p>
+<ul>
+<li>Use of the method in situations like the <a href="../example/tucows.html">Tucows example</a> where the technique is used just for a component of the page will be solid. (ie. just place any anchors you might need before or after the columns)</li>
+<li>Use for whole page layouts will be solid if you can guarantee that you won't need to use named anchors within the columns.<a href="#anchors_wrong">[note]</a></li>
+</ul>
+<p>If you can't guarantee the absence of anchors, then you're probably going to be better off going with faux columns or a javascript-based solution.</p>
+<p>Of course, if Mozilla supported multiple background images this would all be irrelevant... Or if Mozilla could apply <code>position: absolute</code> to generated content properly...</p>
+
+<h2 id="scrolling">Selecting and scrolling in Gecko-derived browsers</h2>
+<p>Drag to select content within the longest column and keep dragging downwards - if the bottom of column is above the bottom of the viewport there is no problem. If it's below the bottom of the viewport then it keeps scrolling, shunting the content of all the columns upwards and very rapidly at that so that in all likelihood it just vanishes. (It is possible to scroll it back if some of the content is still visible and selectable - but that's an academic point since in reality the average user is going to be just as foobarred as if all the content had dissapeared)</p>
+<p>Fixed as of Firefox 1.5 and Camino 1.0, so this is basically a non-issue.</p>
+
+<h2 id="printing">Printing in Internet Explorer</h2>
+<p>A less serious problem (unless you're being bitten by it) is that it can cause printing problems for IE. Depending on the exact values used for padding-bottom and margin-bottom, the content in the columns can shift upwards  and even disappear entirely. The answer to this problem is to suppress the negative margin-bottom (and consequently the padding-bottom too) in a print style sheet. You shouldn't be printing the backgrounds in any case ;)</p>
+
+
+<h2 id="usefullness-of-ehc">Do not ask for whom the bell tolls</h2>
+
+<p>So, the end result may be that the actual usefulness of the equal heights technique is in exposing flaws in certain rendering engines (whether it's Safari and Opera or Explorer and Gecko that get it wrong I leave for others to decide).</p>
+
+<p>Fortunately for me, it's the technique that I'm least concerned about since there's always Faux Columns to fall back on. And even more fortunately I covered myself in the article by saying that Faux Columns would probably remain the weapon of choice ;)</p>
+
+
+
+
+<table id="problem_results">
+<tr>
+<th>Browser</th>
+<th>Shifts on anchor trigger</th>
+<th>Scrolls on select drag</th>
+</tr>
+<tr>
+<td>Firefox 1.5</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Firefox 1.07<br />
+NS 7.2</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>IE 6</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>IE 5.01 (+ 5.5 ?)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Opera 9b</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Opera 8.5, 8.0, 7.54, 7.23, 7.1, 6.06, 5.11</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Safari 2.0, 1.03</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>iCab 3.01</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>IE 5.23 (Mac)</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>NS 7.1, 6.23, 6.1</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</table>
+
+
+
+
+
+
+
+<div id="footnotes">
+<ol>
+<li id="ie-fix-alt">Alternatively there's an equally trivial fix for IE 5.01 and 5.5. Give the column wrapper a height and then set the columns to be 100% high. IE 6 would obviously be the same in Quirks mode, but in Standards mode that doesn't work. So we'd need to use the same type of expression as for IE7 instead, making the columns the height of the column container, with all the same caveats mentioned above. along with an additonal one that changing the font size can cause IE6 to go screwy. Of course, I don't recommend this over the above-mentioned method, but just so you know. There might be a situation where you can't rely on expressions and don't mind being in Quirks mode...</li>
+<li id="anchors_wrong">Incidentally, a certain celebrated ascetic mad monk, er, usability expert, has decreed <a href="http://www.useit.com/alertbox/within_page_links.html" title="Jakob Nielsen says 'Avoid Within-Page Links'">use of anchors considered harmful</a>.</li>
+</ol>
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li><a href="methodresults.html">Browser results for the methods</a></li>
+<li><a href="exampleresults.html">Browser results for the examples</a></li>
+<li><a href="holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="theory.html">Notes on theory</a></li>
+<li><a href="notes.html">Miscellaneous notes</a></li>
+<li class="current">Problems with the Equal Height Columns method</li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

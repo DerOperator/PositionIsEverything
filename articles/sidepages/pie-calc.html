@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+
+
+<head>
+	<title>Jello Mold Layout Generator</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="description" content="This is a tool to generate a Jello Mold codeset." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta http-equiv="Content-Language" content="en-us" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+
+<meta name="Rating" content="General" />
+<meta name="revisit-after" content="30 Days" />
+<meta name="doc-class" content="Living Document" />
+
+<link rel="SHORTCUT ICON" href="../../favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+	<style type="text/css" media="screen">
+
+html, body { border: 0; margin: 0; padding: 0;}
+
+/* Jello -- start copying here * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+body {
+	padding: 0 350px 0 350px;
+	margin: 0;
+	text-align: center;
+	background: gray;
+}
+		
+#sizer {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	width: 50%;
+	max-width: 290px;  /* version for IE is at the bottom of this style block */
+}
+
+#expander {
+	background: white;
+	margin: 0 -350px 0 -350px;
+	min-width: 700px; /* Critical Safari fix! */
+	position: relative;
+}
+
+/* Holly hack for IE \*/
+* html #expander { height: 0; }
+/* */
+
+/* helps IE get the child percentages right. */
+#wrapper { width: 100%; } 
+
+
+/* * --- stop copying, but be sure to grab IE's max-width, just above the body-tag --- * * * * * * * * * * * * * * */
+
+body { font-family: Tahoma, sans-serif; }
+
+#sidebar {
+	width: 20%;
+	float: left;
+	display: inline;
+	text-align: left;
+	margin-left: 6%;
+	color: #686;
+	font-family: arial, sans-serif;
+	font-size: .9em;
+	padding-top: 24em;
+	}
+
+#content {
+	width: 62%;
+	margin-right: 8%;
+	text-align: left;
+	display: inline;
+	float: right;
+	padding-bottom: 3em;
+}
+
+#footer { clear: both; padding: 0.5em 0 0.5em 0; margin: 1em 5% 1em 5%; border-top: 3px solid black; }
+
+p,
+label {
+	margin: .95em 0em .95em 0em;
+	font-size: 13px; 
+	line-height: 1.2;
+}
+
+
+/* http://positioniseverything.net/easyclearing */
+
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.clearfix {display: inline-table;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+/* * * Decorative Styles * * */
+h1 {
+	font-family: Georgia, serif;
+	text-align: center;
+	padding: 60px 0 30px 0; 
+	margin: 0;
+
+}
+h2 {
+	background: black;
+	color: white; 
+	padding: 2px;
+}
+p { }
+.fill { color: #aaa; }
+
+.back {text-align: right; padding: 3px 10px 0 0;}
+
+.alignright {margin: 30px 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+.return {position: absolute; top: 10px; right: 20px; width: 20em; text-align: right; font-size: .9em; line-height: 1.4;}
+
+.return a {color: #000;}
+
+#sidebar a {color: #686;}
+
+/* * * Form Styles * * */
+
+form {margin: 0 0 2em -20%; position: relative;}
+
+/*\*/
+* html form {height: 0;}
+/* Holly hack */
+
+label input { width: 40%; }
+
+label span {
+	display: block;
+	float: left;
+	width: 40%;
+	text-align: right;
+	padding-right: 2%;
+}
+
+label.max { padding-top: 25px; }
+
+.submit { text-align: center; padding-top: 20px; }
+
+</style>
+
+<!-- Here we use a conditional comment to give IE/5/6/Win the javascript hack that helps them do max-width -->
+
+<!--[if IE]>
+<style type="text/css">
+#sizer {
+	width:expression(document.body.clientWidth > 1280 ? "290px" : "50%" );
+}
+</style>
+<![endif]-->
+
+</head>
+
+<!-- The BODY contains the padding that pushes in the SIZER -->
+<body>
+
+<!-- The SIZER takes a percentage of the space left by the BODY -->
+<div id="sizer">
+
+<!-- The EXPANDER uses negative margins to push out the sides and take back the space lost to BODY padding -->
+	<div id="expander">
+
+<!-- The WRAPPER is set to width:100%. This helps IE get the percentage width of CONTENT and SIDEBAR correct -->
+		<div id="wrapper" class="clearfix">
+			<h1>Jello Generator</h1>
+			<div id="content">
+
+		<div class="return">
+
+    <a href="../jello-expo.html"><strong>Return to the Jello Mold Explanation</strong></a><br />
+    <a href="../jello.html"><strong>Return to The Jello Mold Piefecta</strong></a>
+    </div>
+		
+				<form method="get" action="http://www.positioniseverything.net/articles/sidepages/pie-calc.php">
+					<div id="twosizes">
+						<h3>Minimum Width</h3>
+						<label><span>Wrapper Minimum: </span><input type="text" id="fixed" name="fixed" value="700" /></label>
+						<h3>Maximum Width</h3>
+						<label><span>Wrapper Maximum: </span><input type="text" id="maxsite" name="maxsite" value="990" /></label>
+						<label><span>Window Width at the Maximum: </span><input type="text" id="maxwin" name="maxwin" value="1280" /></label>
+						<div class="submit"><input type="submit" value="Submit" /></div>
+					</div>
+				</form>
+				<h2>How do I work this thing?</h2>
+
+				<p>This tool allows you to specify exactly how you would like your customized 
+				Jello Mold to behave. You specify a <strong>maximum</strong> and <strong>minimum</strong>
+				width for your site, and then you can also specify the exact <strong>browser width at which 
+				the maximum width is <em>first</em> reached</strong>.</p>
+
+				<p>For example, if your design is flexible between 700px and 990px, you can show the full
+				990px width immediately when the browser's width is 990px. Or, alternatively, you can
+				set it to <em>not</em> reach this width until the browser is something larger, like 1280px.</p>
+				
+				<p><strong>Why would you want to do such a thing?</strong> Using this technique allows you
+				to keep very tight control of the width of your site, but still provide the <em>experience</em>
+				of a liquid layout to a wide range of screen resolutions. Rather than just the 800x600 and 
+				1024x768 users seeing a liquid layout, now the 1280x1024 ones will see something liquid as
+				well. <strong>It makes the user feel more in-control</strong>; it makes them feel like you're 
+				properly utilizing their screen real-estate.</p>	
+				
+				<p>Once you've got some values, submit it, and you can see the effect immendiately 
+				in this very page's styles. When you see what you like, view the source of 
+				this page and help yourself to your new customized code!</p>
+				
+				<h2>How does this thing work?</h2>
+
+				<p>You are providing the script with a set of values to use when calculating
+				the Jello Mold settings. The wrapper and window are equal at the minimum width,
+				making a ratio between them of 1. This ratio will gradually 
+				change as window width is increased until it matches your maximum width point.
+				Beyond that width, the maximum-width rules prevent the site from becoming any
+				wider.</p>				
+			</div>
+			<div id="sidebar">
+				<p>The author of this tool and the inventor of the Jello Mold concept is 
+				<a href="http://uwmike.com/"><strong>Mike&nbsp;Purvis</strong></a>,
+				a Canadian Engineering student who codes and writes when he can find the time.</p>
+				<img src="../images/purvis-bio.jpg" width="102px" height="75px" alt="Photo of Mike Purvis, looking rather impish." />
+			</div>
+			<div id="footer">
+				<p>written for P.I.E. by <a href="http://uwmike.com/">Mike Purvis</a> in July of 2005 | last updated November 2005</p>
+			</div>
+		</div> <!-- /wrapper -->
+
+	</div> <!-- /expander -->
+</div> <!-- /sizer -->
+
+</body>
+
+
+</html>

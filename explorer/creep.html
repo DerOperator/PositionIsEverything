@@ -1,0 +1,646 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+	<title>Magik Creeping Text</title>
+
+<meta name="Big John" content="May 2, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html," />
+<meta name="description" content="A bizarre text bug in Internet Explorer" />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+
+body {
+margin: 0;
+padding: 0;
+background: #eff;
+font-family: verdana,sans-serif;
+font-size: 100%;
+}
+
+h1 {
+font-size: 22px;
+text-align: center;
+border-bottom: 3px solid #fff;
+background: #000;
+margin-top: 0;
+color: #fff;
+padding: 3px;
+}
+
+span {
+font-weight: bold;
+}
+
+a {
+color: #000;
+}
+
+pre {color: #c00; font-size: 1.1em;}
+
+.alignright {
+margin-top: 0;
+text-align: right;
+}
+
+.small {
+font-size: .8em;
+}
+
+#textcol {
+position: absolute;
+left: 21em;
+right: 2em;
+border: 1px solid #000;
+font-size: .8em;
+padding: 15px;
+background: #ffd;
+margin-top: 10px;
+margin-right/* hide from IE5.0/Win */ : 3em;}
+
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+     The previous rule and the following rule is for the purpose of making IE5/mac honor the 2em
+      spacing on the right side of #rightcol. IE5/mac does not obey the 'right' property at all. It does
+    obey 'margin-right' but IE6/win does not (because of the opposing 'left' property). The rule below
+   withholds the 'right' value from Moz, and also re-feeds the 'margin-right' to IE5/mac, which fails to
+          read it in the previous rule, along with IE5.win.   Good Ghod, has it really come to this?
+                                     http://www.dzr-web.com/misc/ie-right-positioning/
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+html>body #textcol {
+right: 0;
+margin-right: 2em;
+}
+
+
+/**************** Demo rules *******************/
+
+#democol {
+margin-top: 10px;
+width: 11em;
+}
+
+#democol-linked {
+width: 11em;
+top: 37em;
+}
+
+#democol, #democol-linked, #democol-right {
+position: absolute;
+left: 1.5em;
+padding: 2em 0 0 5em;
+background: #ccc;
+font-size: .9em;
+}
+
+#democol-right {
+width: 5.4em;
+top: 60em;
+padding: 2em 7em 0 3.6em;
+}
+
+* html #democol, * html #democol-linked {
+width: 16em;
+w\idth: 11em;
+}
+
+ * html #democol-right {
+width: 16em;
+w\idth: 5.4em;
+}
+
+/**** The above is the Tan hack to fix the IE5.x box model error.
+   http://www.info.com.ph/~etan/w3pantheon/style/modifiedsbmh.html ****/
+
+
+#democol-linked a:hover{  /**** This hovered bg kills the creep (more or less) ****/
+background: #e9f;
+}
+
+.test, .test2, .test3 {
+border-left: 1px solid red;  /**** Here are the primary bug triggers ****/
+padding-bottom: 1px;
+margin-bottom: 2px;  /**** This margin is cosmetic only ****/
+}
+
+.test2, .test3 {
+border-left: 10px solid red;  /**** Here are the primary bug triggers ****/
+}
+
+.test3, .test4 {margin-top: .3em;}
+
+.test4 {
+border-right: 5px solid red;  /**** Here are the primary bug triggers ****/
+border-left: 5px solid red;
+padding-bottom: 1px;
+margin-bottom: 2px;  /**** This margin is cosmetic only ****/
+}
+
+.test4 span {border: 1px solid #4aa; font-weight: normal;}
+
+.right {text-align: right;}
+
+.background {background: #ffd;}  /**** This prevents partial loss of the left red border (?) ****/
+
+.right {text-align: right;}
+
+    .zoomfix {zoom: 1; height: 1%;}
+
+</style>
+
+<!-- below is a CC containing the "zoom fix" that cures the bug -->
+<!--[if IE]>
+  <style type="text/css">
+    .zoomfix {zoom: 1;}
+    /* any use of the zoom property (among others) will trigger hasLayout on an element in IE/Win */
+  </style>
+<![endif]-->
+
+
+</head>
+
+<body>
+
+<h1>
+Magik Creeping Text
+</h1>
+
+<div id="textcol">
+<p class="alignright">
+<a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a><br />
+<a href="firstletter.html"><strong>Next IE demo</strong></a>
+</p>
+<p>
+<strong>This is an IE/5.5/6/Win only bug,</strong> triggered by nesting one block element inside another,
+and giving  the following styles to the outer element:
+</p>
+<pre>
+   div {
+   border-left: 1px solid red;
+   padding-bottom: 1px;
+   }
+</pre>
+<p>
+<strong>Note:</strong> All that is required is a left border and a bottom padding.
+The size and units don't matter.
+</p>
+<p>
+Then repeat this set <em>at least twice</em>. The second and following sets trigger the bug.
+<br />
+<a href="images/creep.gif">Screenshot</a>
+</p>
+<p>
+<strong>When triggered,</strong> the bug pushes the text in the inner element
+(but not the element itself) to the left
+an amount equal to <strong>twice the width</strong> of the <strong>left border</strong>.
+The outer divs in the first group have 1px
+borders; the second group have 10px borders (short red lines). Each group is in its own static div.
+Notice that with each repetition the error is added to the previous errors!
+</p>
+<p>
+<strong><em>What the heck is going on here?</em></strong>
+</p>
+<p>
+The column to the left contains several live demos. Each grey box is absolutely positioned so that the Creep
+will not creep from one demo to the next, gaining size as it goes. The first group shows the minimal case to trigger the Creep.
+The <strong>first three sets</strong> in the <strong>second group</strong> have no nested inner div, and so
+do not show the 'creep'. Notice once again that the second static div
+picks up where the first leaves off. (if not, reload) Also, when the creeping text runs out of left
+padding (in the absolutely positioned grey container box) the letters outside the container get cut off.
+</p>
+<p>
+The <strong>third group</strong> down below in the next grey container box is in a seperate absolute div,
+due to bug interactions between demo groups, and displays
+some of the effects a hovered link background can have on the creep. The yellow backgrounds
+on the inner divs seem to prevent the partial loss of the red border, but otherwise don't help.
+<br />
+<strong>Reload to reset</strong> the effects.
+</p>
+<p>
+The <strong>fourth group</strong> at the bottom shows that this effect is not confined to the
+left side only, but can also occur on the right, given a right border trigger.
+It can even happen on both sides at the same time! Strangely, links
+do not seem to have any effect on the right creep, as with left creep. We can live with that.
+In fact, if there is <em>any</em> right creep, it seems to prevent hovered link action on the bug entirely.
+Notice how with 'right creep' the wrapping point is what creeps. Right aligned text will also be affected
+the same way.
+</p>
+<p>
+We believe it's the anonymous 'line boxes' (all inline content generates them) that are getting larger
+under the influence of the bug.
+To prove it, we placed bordered &lt;span>s on the text lines. Interesting. We also right-aligned the
+last five sets, which clearly shows that both ends of the invisible line boxes are getting extended.
+</p>
+<p>
+See <strong>Eric Meyer's</strong>
+<a href="http://www.meyerweb.com/eric/css/inline-format.html">Inline Model Document</a>
+for more on the line box topic.
+</p>
+<p>
+<strong>Fixes:</strong>
+Just avoid the bug trigger combo entirely.
+<br />
+Or you may give those outer nested divs a bottom border, which kills the bug.
+Only a bottom border will do! Giving the inner divs  bottom borders only cuts the creep
+in half. The other borders do nothing. Really weird.
+</p>
+<p>
+<strong>Update - July 7th 2008</strong>
+The Creeping Text bug is one of those from the IE6 float bug suite that fall to the
+<a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a>.
+Just apply the Zoom&nbsp;Fix to the outer of the two nested elements
+(via an extra class in this case) and the bug suffers a quiet demise.
+Below is another live demo, identical to the first one on the left, other
+than having the Zoom&nbsp;Fix applied to each outer div in each set.
+</p>
+
+<div>
+
+<div class="test zoomfix"> <!-- Each outer div gets the "zoomfix" class -->
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+<div class="test zoomfix">
+<div>
+No more creeping text!
+</div>
+</div>
+
+</div>
+
+<h4>Special Info</h4>
+<p style="border: 1px solid black; padding: 3px; background: #eee;">
+The murky veil surrounding the need for a box dimension to prevent so many IE bugs has been partially
+lifted, due to the discovery of a heretofore
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/haslayout.asp">obscure&nbsp;page</a>
+in the massive Microsoft website. There is no real explaination of this "hasLayout" property, but now there is at least some
+structure to the madness that has been inflicted on us by Microsoft, for what it's worth. Apparently a box needs "Layout" or all
+heck can break loose, bug-wise. MS does not state that specifically, but their browser behaviors leave no doubt whatsoever.
+</p>
+
+
+<h4>Conclusion</h4>
+<p>
+This bug can appear in a number of guises. and frankly it's just too variable to go into details.
+You'll have to work out whatever problems arise, and with what you now know, it shouldn't be too hard.
+(pardon us while we creep away)
+</p>
+
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 7, 2008<br />
+Created May 2, 2002
+</p>
+
+</div>
+
+<div id="democolumn">
+
+<div id="democol">
+
+<!--******************** First group *************************-->
+
+<div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+</div>
+<br /><br />
+
+<!--******************** Second group *************************-->
+
+<div id="democol2">
+
+<div class="test2">
+Magik creeping text!
+</div>
+
+<div class="test2">
+Magik creeping text!
+</div>
+
+<div class="test2">
+Magik creeping text!
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+<div class="test2">
+<div>
+Magik creeping text!
+</div>
+</div>
+
+</div>
+
+</div>
+
+<br /><br />
+
+<!--******************** Linked group *************************-->
+
+<div id="democol-linked">
+
+<div class="test3">
+<div class="background">
+Text before link.<br />
+<a href="#">Kill the creep!</a>
+</div>
+</div>
+
+<div class="test3">
+<div class="background">
+Text before link.<br />
+<a href="#">Kill the creep!</a>
+</div>
+</div>
+
+<div class="test3">
+<div class="background">
+Text before link.<br />
+<a href="#">Kill the creep!</a>
+</div>
+</div>
+
+<div class="test3">
+<div>
+<a href="#">Kill the creep!</a><br />
+No inner div BG.<br />
+</div>
+</div>
+
+<div class="test3">
+<div class="background">
+<a href="#">Kill the creep!</a><br />
+Link before text.<br />
+</div>
+</div>
+
+<div class="test3">
+<div class="background">
+<a href="#">Kill the creep!</a><br />
+Link before text.<br />
+</div>
+</div>
+
+<div class="test3">
+<div class="background">
+<a href="#">Kill the creep!</a><br />
+Link before text.<br />
+</div>
+</div>
+
+</div>
+
+<!--******************** 'Right' group *************************-->
+
+<div id="democol-right">
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4">
+<div class="background">
+<span>a a a a a a a a a a a</span>
+</div>
+</div>
+
+<div class="test4 right">
+<div class="background">
+<span>Right aligned a a a</span>
+</div>
+</div>
+
+<div class="test4 right">
+<div class="background">
+<span>Right aligned a a a</span>
+</div>
+</div>
+
+<div class="test4 right">
+<div class="background">
+<span>Right aligned a a a</span>
+</div>
+</div>
+
+<div class="test4 right">
+<div class="background">
+<span>Right aligned a a a</span>
+</div>
+</div>
+
+<div class="test4 right">
+<div class="background">
+<span>Right aligned a a a</span>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div style="position: absolute; top: 82em;">&nbsp;</div>
+<!-- This is a fudge to force a 'bottom margin' for the page in IE. Feh! -->
+
+</body>
+
+
+</html>

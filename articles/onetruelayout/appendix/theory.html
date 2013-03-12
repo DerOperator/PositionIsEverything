@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Notes on theory - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix H</small>Notes on theory</h1>
+
+<h2 id="possible-orderings">On possible orderings</h2>
+
+<p>Since the <em>Any Order</em> technique does not rely on wrapping elements, the blocks can be arranged in all possible combinations. For <em>n</em> columns, since any block can be in the position of any column, that number is given by the simple formula <em>n</em> <a href="http://en.wikipedia.org/wiki/Factorial">factorial</a> or <em>n</em>!</p>
+<p>eg. for <em>n</em> = 5, the possible orderings = 1 x 2 x 3 x 4 x 5 = 120</p>
+
+<p>With the wrapping elements (as in the original <a href="../../../ordered-floats.html">Source Ordered Columns</a>), things are more constrained. For each wrapping element we essentially end up with two sub columns - two sub-columns means two possible combinations, giving us the formula, 2<sup><em>n</em>-1</sup>.</p>
+<p>eg. for <em>n</em> = 5, the possible orderings = 2 x 2 x 2 x 2 = 16</p>
+
+<p>As you can see, as the number of columns increases, the potential number of combinations increases far more rapidly for the <em>Any Order</em> technique.</p>
+
+<p>More practically, wrapping elements can be used to good effect to enable groups of blocks to be stacked vertically within, rather than as, columns, giving yet more potential layout flexibility.</p>
+
+<table>
+<caption>Possible combinations for the different methods</caption>
+<colgroup span="3" width="1*" />
+<tbody>
+<tr>
+<th scope="col">Number of Columns</th>
+<th scope="col">Source Order Columns</th>
+<th scope="col">Any Order Columns</th>
+</tr>
+<tr>
+<th scope="row">2</th>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<th scope="row">3</th>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<th scope="row">4</th>
+<td>8</td>
+<td>24</td>
+</tr>
+<tr>
+<th scope="row">5</th>
+<td>16</td>
+<td>120</td>
+</tr>
+<tr>
+<th scope="row">6</th>
+<td>32</td>
+<td>720</td>
+</tr>
+<tr>
+<th scope="row">7</th>
+<td>64</td>
+<td>5040</td>
+</tr>
+<tr>
+<th scope="row">8</th>
+<td>128</td>
+<td>40320</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="faux-columns-and-wrappers">On faux columns and wrappers</h2>
+<p>Until enough browsers support multiple backgrounds on a single element, <em>n</em>-2 wrapping elements are required to hold the necessary background images to create the effect of <em>n</em> columns.</p>
+<p>Unless, of course, the layout is a fixed pixel-width one, in which case a single background image can be used for any number of columns.</p>
+
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li><a href="methodresults.html">Browser results for the methods</a></li>
+<li><a href="exampleresults.html">Browser results for the examples</a></li>
+<li><a href="holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li class="current">Notes on theory</li>
+<li><a href="notes.html">Miscellaneous notes</a></li>
+<li><a href="equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

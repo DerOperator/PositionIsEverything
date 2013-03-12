@@ -1,0 +1,196 @@
+html,body,span,p,div,label,legend{margin:0;padding:0;border:0}
+body{
+margin:0 auto 10px auto;
+font-family:verdana,arial, sans-serif;
+background-color:#EEE;
+color:#000;
+text-align:center;
+font-size:100.1%;
+}
+input,select{
+padding:0;
+font-family:verdana,arial,sans-serif;
+font-size:90%;
+}
+h1{
+font-size:95%;
+margin:2px;
+}
+h3{
+font-size:80%;
+font-style:italic;
+font-weight:normal;
+margin:0;
+}
+h2{
+font-size:100%;
+margin:2px 0;
+}
+h4{
+font-size:80%;
+margin:2px 0 7px 0;
+}
+legend{margin:5px 0}
+.c1l{
+margin:2px 28px 0 0;
+float:right;
+display:inline;
+}
+* html .c1l{margin-top:0}
+.c2l{
+margin:7px 28px 0 0;
+float:right;
+display:inline;
+}
+* html .c2l{margin-top:4px}
+#ct{
+font-size:60%;
+margin:10px;
+}
+.fb{
+font-size:70%;
+width:155px;
+margin-bottom: 3px;
+padding:2px;
+}
+label{
+font-size:70%;
+font-weight:normal;
+padding:2px;
+border:2px solid #696969;
+border-top-color:#E1E1E1;
+border-left-color:#E1E1E1;
+background:#C0C0C0;
+float:left;
+display:inline;
+margin-right:5px;
+width:210px;
+}
+.fc125{width:125px}
+.fc200{width:200px}
+.fc210-lm3{margin-left:3px}
+.fc210-lm8{margin-left:8px}
+.fc210-lm223{margin-left:223px}
+.fc305-lm3{width:305px;margin-left:3px}
+.fc433-lm8{width:433px;margin-left:8px}
+.fc433-lm226{width:433px;margin-left:226px}
+.fs{
+text-align:left;
+width:680px;
+padding:5px;
+border:2px solid #F3F3F3;
+border-top-color:#8F8F8F;
+border-left-color:#8F8F8F;
+margin:0 auto 10px auto;
+background:#FFF;
+}
+select{
+margin:1px 28px 0 0;
+float:right;
+display:inline;
+background:#F7F7FF;
+width:75px;
+}
+.fsb165{width:165px}
+.fsb210{width:210px}
+.fsb215{width:215px}
+.fsb2l35,.fsb2l45,.fsb2l57,.fsb2l75{
+margin:6px 28px 0 0;
+float:right;
+display:inline;
+background:#F7F7FF;
+width:35px;
+}
+.fsb2l45{width:45px}
+.fsb2l57{width:57px}
+.fsb2l75{width:75px}
+.gr{margin:10px 5px 5px;text-align:center}
+.gfs{
+zoverflow:auto;
+border:.1em solid #777;
+margin:.8em 0;
+margin-bottom:0.3em;
+padding:0 .2em;
+background-color:#EEE;
+width:673px;
+}
+.gl{
+font-size: 65%;
+line-height:166%;
+font-weight:bold;
+background-color:#CCC;
+border:1px #777 solid;
+display:block;
+width:200px;
+}
+.hg,.hg2l{
+float:left;
+display:inline;
+margin:10px 3px 0 -29px;
+}
+.hg{margin-top:5px}
+.lt45,.lt65,.lt100,.lt110,.lt120,.lt150,.lt190,.lt240,.lt370{
+float:left;
+display:inline;
+margin-top:2px;
+margin-bottom:2px;
+width:45px;
+}
+.lt65{width:65px}
+.lt100{width:100px}
+.lt110{width:110px}
+.lt120{width:120px}
+.lt150{width:150px}
+.lt190{width:190px}
+.lt240{width:240px}
+.lt370{width:370px}
+.pl,.pl2l{
+float:right;
+display:inline;
+margin:2px 28px 0 -25px;
+}
+.pl2l{margin-top:7px}
+.rl{
+float:right;
+display:inline;
+margin:7px 25px 0 -25px;
+}
+.tf25,.tf25-rt,.tf57,.tf2l57,.tf2l25-rt{
+margin:1px 28px 1px 0;
+float:right;
+display:inline;
+background-image:url(../images/blueshadow.gif);
+font-size:85%;
+width:25px;
+}
+.tf25-rt{text-align:right}
+.tf57{width:57px}
+.tf2l57{margin-top:6px;width:57px}
+.tf2l25-rt{margin-top:6px;width:25px;text-align:right}
+#tf{
+text-align: center;
+margin:0 auto auto;
+width:713px;
+position:relative;
+border:2px solid #8F8F8F;
+border-top-color:#F3F3F3;
+border-left-color:#F3F3F3;
+background-color:#DDD;
+}
+#tb{
+text-align: center;
+margin:0 auto 10px auto;
+position:relative;
+width:713px;
+border:2px solid #8F8F8F;
+border-top-color:#F3F3F3;
+border-left-color:#F3F3F3;
+background-color:#DDD;
+}
+.rc{
+display:block;
+overflow:auto;
+zoom: 1;
+border-bottom:5px solid transparent; /* fix for moz browsers collapsing margins */
+}
+* html .rc{margin-bottom:5px;border:0} /* undoes above fix so IE is OK */

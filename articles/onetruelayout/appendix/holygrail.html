@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Any Order Columns - Liquid center, fixed-width sides - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix D</small>Any Order Columns - Liquid center, fixed-width sides</h1>
+<h2>aka <a href="http://glish.com/css/7.asp">The Holy Grail</a></h2>
+
+
+<p>We should be able to take the <a href="../anyorder.html">Any Order Columns</a> technique, apply the relevant amount of <code>margin-left</code> and <code>right</code> to the main block and then neg the side columns into position. Something like this:</p>
+
+<pre>#block_1
+	{
+	float: left;
+	margin-left: 15em;
+	margin-right: 200px;
+	}
+#block_2
+	{
+	float: left;
+	margin-left: -100%;
+	width: 15em;
+	}
+#block_3
+	{
+	float: left;
+	margin-left: -200px;
+	width: 200px;
+	}</pre>
+
+
+<p>In theory that's great, but it only actually works in Safari. To make it work (after a fashion) in IE, Firefox and Opera requires expressions and other odd difficult to fathom kludges.</p>
+
+<p>The solution is a wrapping element. The nice thing though, is it only has to wrap the first block. The wrapping element is 100% wide and floated. Now we can apply those left and right margins on the first block to get it into place and the negging can proceed.</p>
+
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayout/example/holygrail">Semi-interactive example of the Any Order technique with fluid main column and fixed width ancillary columns</a></p>
+
+<h3 id="how-hang-on-a-minute">Hang on a minute</h3>
+<p>Some of the different scenarios need slightly different handling - but it's still a very simple technique.</p>
+
+<p>How different? Well the quirks are:</p>
+
+<h4 id="how-column1-last-in-source">For orderings 3-2-1 and 2-3-1</h4>
+
+<p>Explorer needs the central column shifted over by the width of the left column, otherwise it buts up flat on the very left. Fortunately setting <code>position: relative</code> and its <code>left</code> value to the width of the left column does the job.</p>
+
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayout/example/holygrail?order=321">Example of the Any Order technique with fluid main column and fixed width ancillary columns (3-2-1 ordering)</a></p>
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayout/example/holygrail?order=231">Example of the Any Order technique with fluid main column and fixed width ancillary columns (2-3-1 ordering)</a></p>
+
+<h4 id="how-213">For ordering 2-1-3</h4>
+
+<p>#block_3 needs to be floated right (in all the other cases, all the floats are in the same direction so this is the closest there is to a gotcha) Explorer overdoes the -100% negging and just requires a negative margin that is the same as its width</p>
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayout/example/holygrail?order=213">Example of the Any Order technique with fluid main column and fixed width ancillary columns (2-1-3 ordering)</a></p>
+
+<h3 id="where-success">Works in...</h3>
+<p>IEs 5.01, 5.5, 6.0 on the PC, Firefox 1, Operas 8, 7 (.02 though .54), and the latest Safari.</p>
+
+<h3 id="where-partial-success">Wheels beginning to fall off...</h3>
+<p>Netscape 7.2 fails to clear the footer properly.</p>
+
+<p>IE5 on the mac gets a horizontal scroll bar that extends to where the width of the page would be if the neg-floated elements had actually floated to the right of the main column. But it does work, so it's just an unfortunate side effect as far as I'm concerned.</p>
+
+<p>Opera 6 works, apart from 1-2-3 and its mirror 3-2-1. Not that it matters ;) However, it looks as if judicious Opera hacking could overcome this.</p>
+
+<h3 id="where-failure">Doesn't work in...</h3>
+<p>Unsurprisingly, Opera 5 doesn't display the columns as columns at all.</p>
+
+<h3 id="when">Fitness for public consumption</h3>
+<p>I presume that as with the non-fixed width ancillary columns, that this technique is a) nestable,  b) possible with additional columns and c) amenable to the <a href="../equalheight.html">Equal Height Columns</a> method.</p>
+<p>However, because I personally have no use for this type of layout, I have not tested these presumptions.</p>
+
+<h2 id="how-without-wrapper">No wrapper - slight return</h2>
+<p>Of course, another problem with not having a wrapper element around the first block, is that, since it is floated but has no explicit width, the block will only be as wide as its content makes it. If there's not enough content to expand the block to fill the available space, the <code>margin-right</code> will not reach the right hand edge of the viewport and the rest of the positioning will be out of wack.</p>
+
+<p>Now we could assume that there will always be enough content to expand things just so, or we could do something like:</p>
+
+<pre>
+#block_1:after
+	{
+	content: '.';
+	display: block;
+	float: left;
+	width: 100%;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
+	}</pre>
+<p>Nice try, but only Opera really gets it. Safari and Mozilla prefer something along these lines:</p>
+<pre>
+#block_1:after
+	{
+	content: '. . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .';
+	display: block;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
+	}</pre>
+
+<p>But Opera hates it with a passion. A solution could be fashioned out of this material, but really, until browsers get their act together, the additional wrapper is just so much less of a drag...</p>
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li><a href="methodresults.html">Browser results for the methods</a></li>
+<li><a href="exampleresults.html">Browser results for the examples</a></li>
+<li class="current">Any Order Columns - Liquid center, fixed-width sides</li>
+<li><a href="anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="theory.html">Notes on theory</a></li>
+<li><a href="notes.html">Miscellaneous notes</a></li>
+<li><a href="equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

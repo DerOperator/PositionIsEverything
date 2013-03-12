@@ -1,0 +1,737 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Example - In Search of the One True Layout - Makeover of BBC homepage</title>
+<style type="text/css">
+/* <![CDATA[ */
+div, h3, h4, ul
+	{
+	margin: 0;
+	padding: 0;
+	}
+form
+	{
+	margin: 0;
+	}
+label
+	{
+	white-space: nowrap;
+	}
+#navigation
+	{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 48.5em;
+	}
+#main
+	{
+	width: 49.25em; /* 48.25 should be enough, but give IE space */
+	}
+#highlightedfeature
+	{
+	float: left;
+	width: 30em;
+	wid\th: 12.75em;
+	margin-left: 18.25em;
+	padding-left: 17.25em;
+	}
+* html #highlightedfeature, * html #todaywrapper
+	{
+	/*\*/ display: inline; /* */
+	}
+#explore
+	{
+	float: left;
+	width: 18em;
+	margin-left: -48.25em;
+	}
+#todaywrapper
+	{
+	float: left;
+	width: 30em;
+	margin-left: 18.25em;
+	}
+* html #todaywrapper
+	{
+	width: 30.5em;
+	}
+* html #browse_block
+	{
+	margin-left: -48.75em;
+	}
+* html > body #today h2
+	{
+	display: inline-block;
+	width: 29.35em;
+	}
+#services
+	{
+	float: left;
+	width: 18em;
+	}
+* html #services
+	{
+	zwidth: 17.5em;
+	}
+#whereilive
+	{
+	float: left;
+	width: 11.75em;
+	margin-left: 0.25em;
+	}
+#browse_block
+	{
+	float: left;
+	width: 18em;
+	margin-left: -48.25em;
+	}
+#searchbox
+	{
+	float: left;
+	width: 15em;
+	}
+#searchbutton
+	{
+	float: right;
+	width: 5.35em;
+	height: 2.15em;
+	}
+* html #searchbutton
+	{
+	width: 5.5em;
+	height: 2.22em;
+	}
+	
+#downloads
+	{
+	clear: both;
+	padding: 0.25em;
+	}
+* html #downloads
+	{
+	float: left;
+	width: 30em;
+	wid\th: 29.5em;
+	}
+#footline
+	{
+	clear: both;
+	width: 48.25em;
+	}
+#about
+	{
+	margin-top: 0.25em;
+	}
+div#news, div#sport, div#tv, div#radio
+	{
+	position: relative;
+	margin-bottom: 0.25em;
+	padding-bottom: 0.25em;
+	}
+div#childrens
+	{
+	position: relative;
+	padding: 0.25em;
+	}
+#headline, #bodyline, #today
+	{
+	/*\*/ overflow: hidden; /* */
+	}
+#bodyline
+	{
+	position: relative; /* so that #browse_block doesn't have to be */
+	}
+* html #headline, * html #bodyline, * html #today
+	{
+	float: left; /* this also needs feeding to Opera */
+	}
+@media all and (min-width: 0px) {
+#explore, #browse_block
+	{
+	width: 17.75em;
+	}
+#headline, #bodyline, #today
+	{
+	float: left;
+	}
+#headline, #bodyline
+	{
+	position: relative;
+	left: -0.25em;
+	}
+#footline
+	{
+	width: 48em;
+	}
+}
+#highlightedfeature, #explore, #services, #whereilive, #browse_block
+	{
+	/*\*/
+	padding-bottom: 20000px;
+	margin-bottom: -20000px;
+	/* */
+	}
+#headline, #bodyline, #today
+	{
+	margin-bottom: 0.25em;
+	}
+#whereilive, div#news, div#sport, div#tv, div#radio, div#childrens
+	{
+	background: #daf3f8;
+	}
+#explore, #browse_block, #about, #downloads
+	{
+	background: #b5e6f4;
+	}
+#highlights
+	{
+	background: #0878a6
+	}
+#today
+	{
+	Zbackground: #ffcc00;
+	}
+body
+	{
+	background: #ffffff;
+	font-family: verdana,arial,helvetica,sans-serif;
+	margin: 0.5em;
+	padding-top: 6.5em;
+	}
+h2
+	{
+	font-family: arial,helvetica,sans-serif;
+	margin: 0;
+	padding: 1px 5px 0 5px;
+	font-size: 1em;
+	font-weight: normal;
+	background: #0878a6;
+	color: #ffffff;
+	border-bottom: solid 0.25em #ffffff;
+	}
+a:link, a:visited, a:active
+	{
+	text-decoration: none;
+	}
+a:hover, a
+	{
+	text-decoration: underline;
+	color: #003366;
+	}
+#headline #highlightedfeature *
+	{
+	font-size: 0.65em;
+	color: #ffffff;
+	}
+#headline #highlightedfeature * *
+	{
+	font-size: 1em;
+	}
+#headline #highlightedfeature h3
+	{
+	font-size: 1em;
+	font-weight: normal;
+	margin-top: 0.25em 0 0 0 0;
+	}
+#highlightedfeature ul
+	{
+	list-style-position: inside;
+	font-weight: bold;
+	margin: 1em 0 0.5em 0;
+	}
+#highlightedfeature li
+	{
+	font-size: 0.6em;
+	margin-top: 0.35em;
+	}
+* html #highlightedfeature ul
+	{
+	list-style-position: outside;
+	margin-top: -0.5em;
+	}
+* html #highlightedfeature li
+	{
+	margin-top: 0;
+	}
+#headline #highlightedfeature p
+	{
+	margin-top: 0;
+	margin-right: 1em;
+	}
+p.date
+	{
+	margin-bottom: 0.75em !important;
+	margin-right: 0 !important;
+	font-weight: bold;
+	}
+#today h2 em
+	{
+	font-size: 0.8em;
+	font-style: normal;
+	position: absolute;
+	top: 0.2em;
+	right: 1.5em;
+	}
+* html #today h2 em
+	{
+	top: 0.1em;
+	right: 1em;
+	}
+#main p
+	{
+	font-size: 0.65em;
+	}
+#downloads p a
+	{
+	font-weight: bold;
+	}
+#explore p, #browse_block p
+	{
+	margin: 0 0.5em 0 0.5em;
+	}
+#explore p
+	{
+	margin-top: 0; /*0.3em;*/
+	font-weight: bold;
+	}
+#services p
+	{
+	margin: 0 0.5em 0 9em;
+	}
+p#languages
+	{
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	}
+p.console
+	{
+	position: absolute;
+	top: 0.5em;
+	right: 0;
+	}
+#main #radio p
+	{
+	margin-left: 0.5em;
+	}
+#main #downloads p
+	{
+	margin: 0;
+	padding: 0;
+	}
+#news ul, #sport ul, #tv ul, #explore ul
+	{
+	font-size: 0.65em;
+	margin-left: 9em;
+	margin-top: 0.75em;
+	margin-right: 0.5em;
+	margin-bottom: 0.75em;
+	}
+#explore ul
+	{
+	margin: 0.25em 0.5em 0.5em 2em;
+	font-weight: bold;
+	}
+#main #explore li
+	{
+	margin-top: 0.25em;
+	}
+img
+	{
+	border: none;
+	}
+#news ul img, #sport ul img, #tv ul img
+	{
+	position: absolute;
+	margin-left: -8.5em;
+	}
+#news ul img, #sport ul img, #tv ul img, #whereilive p img
+	{
+	width: 6.35em;
+	height: 4.7em;
+	}
+#news li, #sport li, #tv li
+	{
+	margin-bottom: 0.35em;
+	}
+* html #news li, * html #sport li, * html #tv li
+	{
+	margin-bottom: 0;
+	}
+#main li strong
+	{
+	font-size: 1.25em;
+	}
+#radio h4
+	{
+	font-size: 0.65em;
+	margin-top: 0.5em;
+	margin-left: 0.5em;
+	font-weight: normal;
+	}
+#radio ul
+	{
+	position: relative;
+	font-size: 0.65em;
+	margin: 0.5em;
+	}
+#radio ul li
+	{
+	line-height: 1.2;
+	margin: 0;
+	padding: 0;
+	margin-left: 1.5em;
+	}
+* #radio ul li
+	{
+	position: relative;
+	}
+ul li#fivelive, ul li#bbc7
+	{
+	margin-top: -4.75em;
+	}
+li#fivelive, li#fivelivesportsextra, li#onextra, li#sixmusic
+	{
+	margin-left: 10em !important;
+	}
+li#bbc7, li#asiannetwork, li#worldservice, li#allradio
+	{
+	margin-left: 18.5em !important;
+	}
+div#childrens p
+	{
+	margin: 0;
+	padding: 0;
+	width: 10.5em;
+	font-size: 0.8em;
+	font-weight: bold;
+	}
+p#CBeebies
+	{
+	position: absolute;
+	top: 0.5em;
+	left: 50%;
+	}
+#main p img, #searchbutton
+	{
+	vertical-align: middle;
+	}
+#whereilive ul
+	{
+	font-size: 0.75em;
+	margin-left: 1.95em;
+	margin-bottom: 0;
+	}
+#browse_block h3, #services h3, #whereilive h3
+	{
+	font-size: 1em;
+	margin: 0 0.3em 0 0.3em;
+	padding: 0;
+	font-weight: normal;
+	}
+#explore h3, #browse_block h4, #whereilive h4, p#popularsearch
+	{
+	font-size: 0.8em;
+	font-weight: bold;
+	margin: 0.75em 0.35em 0 0.35em;
+	padding: 0;
+	}
+#explore h3
+	{
+	clear: both;
+	border-top: solid 0.5em #b5e6f4; /* would be better as transparent, but IE7 don't like it */
+	margin-top: 0.5em;
+	}
+* html #explore h3
+	{
+	border-top: none;
+	}
+p#popularsearch
+	{
+	margin-bottom: 0.5em;
+	}
+#browse_block h5
+	{
+	font-size: 0.8em;
+	font-weight: normal;
+	margin: 0.75em 0.35em 0 0.35em;
+	padding: 0;
+	}
+#directory
+	{
+	position: absolute;
+	top: 0.35em;
+	right: 48em;
+	width: 10em;
+	text-align: right;
+	}
+* html #directory
+	{
+	right: 47em;
+	}
+p#atoz a
+	{
+	font-weight: bold;
+	}
+li
+	{
+	color: #003366;
+	}
+#whereilive td, #whereilive th
+	{
+	vertical-align: top;
+	text-align: left;
+	font-size: 0.5em;
+	padding: 0.25em;
+	}
+#highlightedfeature
+	{
+	background-image: url(../images/bbc/tomatoes_bg.jpg);
+	background-position: 60% 0%;
+	zbackground-repeat: no-repeat;
+	background-color: #006633;
+	}
+#whereilive p
+	{
+	position: relative;
+	margin: 0.5em;
+	}
+#changeloc
+	{
+	position: absolute;
+	top: 0;
+	right: 0.25em;
+	}
+#whereilive table img
+	{
+	width: 3.75em;
+	height: 3.25em;
+	}
+body div#navigation h2
+	{
+	background: #999999 !important;
+	color: #ffffff !important;
+	font-size: 1.25em;
+	padding: 0.25em;
+	font-family: Gill Sans, Arial;
+	}
+#navigation h3
+	{
+	margin-left: 0.5em;
+	}
+#navigation p
+	{
+	margin-left: 0.75em;
+	}
+#commentary
+	{
+	margin-top: 2em;
+	}
+html > body #commentary
+	{
+	position: relative;
+	z-index: 2000;
+	}
+#commentary a, #navigation a
+	{
+	text-decoration: underline;
+	}
+/* ]]> */
+</style>
+</head>
+<body>
+<div id="main">
+<div id="headline">
+<div id="highlightedfeature">
+<h3><a href="../../../go/homepage/int/pr/no/2909050000/h1/-/food/news_and_events/events_britfoodftnt.shtml">British Food Fortnight</a></h3>
+<p class="date">24 September - 9 October 2005</p>
+<p>This two-week event encourages adults and children to appreciate home-grown British produce.</p>
+<ul>
+<li><a href="../../../go/homepage/int/pr/no/2909050000/b1/-/food/news_and_events/events_britfoodftnt.shtml">More about British Food Fortnight</a></li><li><a href="../../../go/homepage/int/pr/no/2909050000/b2/-/dna/actionnetwork/C1958.html">Join/start a local food campaign</a></li><li><a href="../../../go/homepage/int/pr/no/2909050000/b3/-/news/1/hi/uk/4270946.stm">Home-grown success stories</a></li><li><a href="../../../go/homepage/int/pr/no/2909050000/b4/-/gardening/htbg/module7/index.html">How to grow your own produce</a></li><li><a href="../../../go/homepage/int/pr/no/2909050000/b5/-/http_/www.britishfoodfortnight.co.uk/index1.html">www.britishfoodfortnight.co.uk</a></li>
+</ul>
+</div>
+<div id="explore">
+<h2>Explore bbc.co.uk</h2>
+<form action="http://www.bbc.co.uk/go/homepage/int/search/butt/sub/t/-/cgi-bin/search/results.pl">
+<p>
+<label for="allbbc">bbc.co.uk <input id="allbbc" type="radio" name="tab" value="allbbc" checked="checked" /></label>
+<label for="newsonly">BBC News <input id="newsonly" type="radio" name="tab" value="news" /></label>
+<label for="www">The Web <input id="www" type="radio" name="tab" value="www" /></label>
+<input name="go" type="hidden" value="homepage" />
+</p>
+<p><input type="text" size="10" name="q" value="" id="searchbox" /> <input id="searchbutton" type="image" src="../images/bbc/h_search.gif" value="Search" alt="Search" /></p>
+</form>
+<h3>Other people are searching for:</h3>
+<ul>
+<li><a href="../../../go/homepage/int/search/pl1/-/cgi-bin/search/results810e.html?q=iran&amp;tab=allbbc&amp;go=homepage_pl1">iran</a></li><li><a href="../../../go/homepage/int/search/pl2/-/cgi-bin/search/resultsf8a5.html?q=iraq&amp;tab=allbbc&amp;go=homepage_pl4">iraq</a></li><li><a href="../../../go/homepage/int/search/pl3/-/cgi-bin/search/results7093.html?q=newsnight&amp;tab=allbbc&amp;go=homepage_pl6">newsnight</a></li>
+</ul>
+<p id="popularsearch"><a href="../../../go/homepage/int/search/pan/new/t/-/search/pan.html">See what's popular and new</a></p>
+</div><!-- div#explore -->
+</div><!-- div#headline -->
+<div id="bodyline">
+<div id="todaywrapper">
+<div id="today">
+<h2>Today <em>Wednesday 28th September 2005</em></h2>
+<div id="serviceswhere">
+<div id="services">
+<div id="news">
+<h3><a href="../../../go/homepage/int/ne/nti/news/t/-/news/index.html">News</a></h3>
+<ul>
+<li><a href="../../../go/homepage/int/ne/nhdr/h1/t/-/news/1/hi/uk/4288682.stm"><img src="../images/bbc/_40850732_mum_grab_66.jpg" alt="Maria Otone de Menezes" /><strong>Menezes' family call for justice</strong></a></li><li><a href="../../../go/homepage/int/ne/nhdr/h2/t/-/news/1/hi/education/4287712.stm">Junk food to be banned in schools</a></li>
+</ul>
+<p class="console"><a href="../../../go/homepage/int/ne/nw/bbandnews/t/-/news/broadband/news_console.stm" onclick="window.open(this.href,'console','width=671,height=407,toolbar=0,location=0,status=0,menubar=0,scrollbars=0,resizable=0,top=100,left=100');return false;"><strong>Watch/Listen</strong> to BBC News</a></p>
+<p id="languages"><a href="../../../go/homepage/int/ne/world/ws/t/-/worldservice/us/languages.shtml">News in 43 languages &nbsp;<img src="../images/bbc/worldnewstext.gif" style="width: 5.77em; height: 1.25em;" alt="World News" /></a></p>
+<p><a href="../../../go/homepage/int/ne/nrss/log/i/-/news/rss/newsonline_uk_edition/front_page/rss.html"><img src="../images/bbc/rss_smaller.gif" alt="RSS" /></a> | <a href="../../../go/homepage/int/ne/nrss/wha/t/-/news/1/hi/help/rss/default.stm" >What is RSS?</a></p>
+</div><!-- div#news -->
+<div id="sport">
+<h3><a href="../../../go/homepage/int/sp/sti/nsport/t/-/sport/index.html">Sport</a></h3>
+<ul>
+<li><a href="../../../go/homepage/int/sp/shdr/hs1/t/-/news/sport1/hi/football/europe/4282206.stm"><img src="../images/bbc/_40853310_boss66.jpg" alt="" /><strong>Reds &amp; Chelsea share Euro spoils</strong></a></li><li><a href="../../../go/homepage/int/sp/shdr/hs2/t/-/news/sport1/hi/football/europe/4285628.stm">Inter Milan 1-0 Rangers</a></li><li><a href="../../../go/homepage/int/sp/shdr/hs3/t/-/news/sport1/hi/football/europe/4285902.stm">Champions League round-up</a></li>
+</ul>
+<p class="console"><a  href="../../../go/homepage/int/sp/sw/bbandsport/t/-/news/1/hi/help/3662494.stm" onclick="window.open('/go/homepage/int/sp/sw/bbandsport/t/-/mediaselector/check/sol/ukfs_sport/hi/av?redirect=fs_fp.stm&amp;nbram=1&amp;bbram=1&amp;nbwm=1&amp;bbwm=1&amp;news=1','console','width=671,height=407,toolbar=0,location=0,status=0,menubar=0,scrollbars=0,resizable=0,top=100,left=100');return false;"><strong>Watch/Listen</strong> to BBC Sport</a></p>
+<p><a href="../../../go/homepage/int/sp/srss/log1/i/-/news/rss/sportonline_uk_edition/front_page/rss.html"><img src="../images/bbc/rss_smaller.gif" alt="RSS" /></a> | <a href="../../../go/homepage/int/sp/srss/wha1/t/-/news/sport1/hi/help/rss/index.html">What is RSS?</a></p>
+</div><!-- div#sport -->
+<div id="tv">
+<h3><a href="../../../go/homepage/int/tv/tvti/television/t/-/tv/index.html">TV</a></h3>
+<ul>
+<li><a href="../../../go/homepage/int/tv/B/5/bdy/-/bbcfour/lostdecade/index.html"><img src="../images/bbc/tv_pick_attlee.jpg" alt="The Lost Decade information (Image: Clement Attlee, British Prime Minister from 1945-1951)" /><strong>The Lost Decade</strong></a><br />
+Starts 1 Oct, <a href="../../../go/homepage/int/tv/B/5/bdy/-/bbcfour.html">BBC Four</a><br />
+<a href="../../../go/homepage/int/tv/B/5/bdy/-/mediaselector/check/broadband/mediawrapper/consoles/thelostdecade59f9.html?redirect=console.shtml?pack3&amp;nbram=1&amp;bbram=1" onclick="window.open(this.href,'console','width=750,height=535,toolbar=0,location=0,status=0,menubar=0,scrollbars=0,resizable=0,top=100,left=100');return false;">Watch previews of the season</a></li><li><a href="../../../go/homepage/int/tv/sch/schedules/t/-/cgi-perl/whatson/search/grid5de4.html?MEDIUM=tv">BBC TV listings</a></li><li><a href="../../../go/homepage/int/tv/sch/channels/t/-/tv/index.html">BBC TV channels</a></li>
+</ul>
+</div><!-- div#tv -->
+<div id="radio">
+<h3><a href="../../../go/homepage/int/rad/rti/radio/t/-/radio/index.html">Radio</a></h3>
+<h4><a href="../../../go/homepage/int/rad/rsch/sch/t/-/cgi-perl/whatson/search/gridd45c.html?MEDIUM=radio">BBC Radio schedules</a></h4>
+<ul>
+<li id="radio1"><a href="../../../go/homepage/int/rad/cha/radio1/t/-/radio1/index.html">Radio 1</a></li>
+<li id="radio2"><a href="../../../go/homepage/int/rad/cha/radio2/t/-/radio2/index.html">Radio 2</a></li>
+<li id="radio3"><a href="../../../go/homepage/int/rad/cha/radio3/t/-/radio3/index.html">Radio 3</a></li>
+<li id="radio4"><a href="../../../go/homepage/int/rad/cha/radio4/t/-/radio4/index.html">Radio 4</a></li>
+<li id="fivelive"><a href="../../../go/homepage/int/rad/cha/fivelive/t/-/fivelive/index.html">Five Live</a></li>
+<li id="fivelivesportsextra"><a href="../../../go/homepage/int/rad/cha/sportsextra/t/-/fivelive/sportsextra/index.html">Sports Extra</a></li>
+<li id="onextra"><a href="../../../go/homepage/int/rad/cha/1xtra/t/-/1xtra/index.html">1Xtra</a></li>
+<li id="sixmusic"><a href="../../../go/homepage/int/rad/cha/6music/t/-/6music/index.html">6 Music</a></li>
+<li id="bbc7"><a href="../../../go/homepage/int/rad/cha/bbc7/t/-/bbc7/index.html">BBC 7</a></li>
+<li id="asiannetwork"><a href="../../../go/homepage/int/rad/cha/asiannetwork/t/-/asiannetwork/index.html">Asian Network</a></li>
+<li id="worldservice"><a href="../../../go/homepage/int/rad/cha/worldservice/t/-/worldservice/index.html">World Service</a></li>
+<li id="allradio"><a href="../../../go/homepage/int/rad/all/allradio/t/-/radio/index.html">All BBC Radio</a></li>
+</ul>
+<p class="console"><a  href="../../../go/homepage/int/rad/wat/listenagain/t/-/radio/aod/index.html" onclick="aodpopup(this.href);return false;"><strong>Listen</strong> to shows you've missed</a></p>
+<p><a href="../../../go/homepage/int/rad/cha/pod/t/-/radio/downloadtrial/index.html">Radio download and podcast trial</a></p>
+</div><!-- div#radio -->
+<div id="childrens">
+<p id="CBBC"><a href="../../../go/homepage/int/kid/cimg/cbbcimg/i/-/children/index.html"><img src="../images/bbc/cbbc.gif" style="width: 2.57em; height: 2.34em;" alt="CBBC" /> CBBC</a></p>
+<p id="CBeebies"><a href="../../../go/homepage/int/kid/cbimg/cbeebies/i/-/cbeebies/index.html"><img src="../images/bbc/cbeebies.gif" style="width: 4.22em; height: 1.875em;" alt="CBeebies" /> CBeebies</a></p>
+</div><!-- div#childrens -->
+</div><!-- div#services -->
+<div id="whereilive">
+<h3><a href="../../../go/homepage/int/wil/wilti/wil/t/-/whereilive/index.html">Where I Live</a></h3>
+<h4>London, Central</h4>
+<p><img src="../images/bbc/maps_44.gif" alt="Location map" width="64" height="47" /><a id="changeloc" href="../../../go/homepage/int/wil/wilimg/button/i/-/whereilive/yourarea/index.html"><img src="../images/bbc/h_changeloc.gif" alt="Change Location" style="width: 10em; height: 2.22em;" /></a></p>
+<h4>Local weather:</h4>
+<table>
+<tr>
+<th colspan="2">Wednesday</th>
+<th colspan="2">Thursday</th>
+</tr>
+<tr>
+<td rowspan="2"><img src="../images/bbc/3.gif" alt="sunny intervals" width="30" height="26" /></td>
+<td>max 18&deg;C</td>
+<td rowspan="2"><img src="../images/bbc/12.gif" alt="Light rain" width="30" height="26" /></td>
+<td>max 17&deg;C</td>
+</tr>
+<tr>
+<td>min 10&deg;C</td>
+<td>min 12&deg;C</td>
+</tr>
+</table>
+<ul>
+<li><a href="../../../go/homepage/int/wil/wth/5day/t/-/weather/5day.shtml">Local 5-day forecast</a></li><li><a href="../../../go/homepage/int/wil/wth/world/t/-/weather/index.html">Weather for UK &amp; world</a></li>
+</ul>
+<h4>Local information:</h4>
+<ul>
+<li><a href="../../../go/homepage/int/wil/loc/localbbc/t/-/london.html">BBC London</a></li><li><a href="../../../go/homepage/int/wil/loc/travelupdate/t/-/travelnews/local/london.shtml">Travel updates</a></li><li><a href="../../../go/homepage/int/wil/loc/action/t/-/actionnetwork/index.html">Action Network: get involved locally</a></li>
+</ul>
+<h4>What's on in London, Central:</h4>
+<ul>
+<li><a href="../../../go/homepage/int/wil/what/cinema/t/-/films/listings/results961d.shtml?rid=44">Cinema</a></li><li><a href="../../../go/homepage/int/wil/what/music/t/-/music/whereilive/results961d.shtml?rid=44">Music</a></li>
+</ul>
+<h4>National information:</h4>
+<ul>
+<li><a href="../../../go/homepage/int/wil/nat/england/t/-/england/index.html">England</a></li><li><a href="../../../go/homepage/int/wil/nat/nthireland/t/-/northernireland/index.html">Northern Ireland</a></li><li><a href="../../../go/homepage/int/wil/nat/scotland/t/-/scotland/index.html">Scotland</a>/<a href="../../../go/homepage/int/wil/nat/alba/t/-/alba/index.html">Alba</a></li><li><a href="../../../go/homepage/int/wil/nat/wales/t/-/wales/index.html">Wales</a>/<a href="../../../go/homepage/int/wil/nat/cymru/t/-/cymru/index.html">Cymru</a></li>
+</ul>
+</div><!-- div#whereilive -->
+</div><!-- div#serviceswhere -->
+</div><!-- div#today -->
+<div id="downloads">
+<p>Audio and video links may require you to <a href="../../../go/homepage/int/plug/real/real/t/-/webwise/categories/plug/real/real0b4b.shtml?intro" onclick="openWindow(this.href);return false;">download additional plug-ins</a></p>
+</div><!-- div#downloads -->
+</div><!-- div#todaywrapper -->
+<div id="browse_block">
+<h3>Browse</h3>
+<h4><a href="../../../go/homepage/int/br/bus/bizmoney/t/-/business/index.html">Business &amp; Money</a></h4>
+<p><a href="../../../go/homepage/int/br/bus/biznews/t/-/news/1/hi/business/default.stm">Business News</a>, <a href="../../../go/homepage/int/br/bus/ecom/t/-/news/1/hi/business/e-commerce/default.stm">E-commerce</a>, <a href="../../../go/homepage/int/br/bus/yourmoney/t/-/news/1/hi/business/your_money/default.stm">Your Money</a>...</p>
+<h4><a href="../../../go/homepage/int/br/kid/children/t/-/cbbc/index.html">Children's</a></h4>
+<p><a href="../../../go/homepage/int/br/kid/cbbc/t/-/children/index.html">CBBC</a>, <a href="../../../go/homepage/int/br/kid/cbbcsearch/t/-/cbbc/search/index.html">CBBC Search</a>, <a href="../../../go/homepage/int/br/kid/cbeebies/t/-/cbeebies/index.html">CBeebies</a>...</p>
+<h4><a href="../../../go/homepage/int/br/ent/ent/t/-/entertainment/index.html">Entertainment</a></h4>
+<p><a href="../../../go/homepage/int/br/ent/collective/t/-/collective/index.html">Collective</a>, <a href="../../../go/homepage/int/br/ent/comedy/t/-/comedy/index.html">Comedy</a>, <a href="../../../go/homepage/int/br/ent/film/t/-/film/index.html">Film</a>...</p>
+<h4><a href="../../../go/homepage/int/br/he/health/t/-/health/index.html">Health</a></h4>
+<p><a href="../../../go/homepage/int/br/he/healthyliving/t/-/health/healthy_living/index.html">Healthy Living</a>, <a href="../../../go/homepage/int/br/he/parenting/t/-/parenting/index.html">Parenting</a>, <a href="../../../go/homepage/int/br/he/relationships/t/-/health/relationships/index.html">Relationships</a>...</p>
+<h4><a href="../../../go/homepage/int/br/his/history/t/-/history/index.html">History</a></h4>
+<p><a href="../../../go/homepage/int/br/his/ancient/t/-/history/ancient/index.html">Ancient History</a>, <a href="../../../go/homepage/int/br/his/family/t/-/history/familyhistory/index.html">Family History</a>, <a href="../../../go/homepage/int/br/his/wars/t/-/history/war/index.html">Wars</a>...</p>
+<h4><a href="../../../go/homepage/int/br/lea/learning/t/-/learning/index.html">Learning</a></h4><p><a href="../../../go/homepage/int/br/lea/languages/t/-/languages/index.html">Languages</a>, <a href="../../../go/homepage/int/br/lea/revision/t/-/schools/revision/index.html">Revision</a>, <a href="../../../go/homepage/int/br/lea/schools/t/-/schools/index.html">Schools</a>...</p>
+<h4><a href="../../../go/homepage/int/br/life/life/t/-/lifestyle/index.html">Lifestyle</a></h4><p><a href="../../../go/homepage/int/br/life/food/t/-/food/index.html">Food</a>, <a href="../../../go/homepage/int/br/life/gardening/t/-/gardening/index.html">Gardening</a>, <a href="../../../go/homepage/int/br/life/holidays/t/-/holiday/index.html">Holidays</a>...</p>
+<h4><a href="../../../go/homepage/int/br/mus/music/t/-/music/index.html">Music</a></h4><p><a href="../../../go/homepage/int/br/mus/profiles/t/-/music/profiles/index.html">Artist Profiles</a>, <a href="../../../go/homepage/int/br/mus/gigs/t/-/music/whatson/index.html">Gigs &amp; Concerts</a>, <a href="../../../go/homepage/int/br/mus/musicnews/t/-/music/news/index.html">Music News</a>...</p>
+<h4><a href="../../../go/homepage/int/br/ne/news/t/-/news/index.html">News</a></h4><p><a href="../../../go/homepage/int/br/ne/politics/t/-/news/1/hi/uk_politics/default.stm">Politics</a>, <a href="../../../go/homepage/int/br/ne/uknews/t/-/news/1/hi/uk/index.html">UK News</a>, <a href="../../../go/homepage/int/br/ne/worldnews/t/-/news/1/hi/world/index.html">World News</a>...</p>
+<h4><a href="../../../go/homepage/int/br/sci/science/t/-/sn/index.html">Science &amp; Nature</a></h4><p><a href="../../../go/homepage/int/br/sci/animals/t/-/nature/animals/index.html">Animals</a>, <a href="../../../go/homepage/int/br/sci/human/t/-/science/humanbody/index.html">Human Body &amp; Mind</a>, <a href="../../../go/homepage/int/br/sci/space/t/-/space/index.html">Space</a>...</p>
+<h4><a href="../../../go/homepage/int/br/soc/society/t/-/society/index.html">Society &amp; Culture</a></h4><p><a href="../../../go/homepage/int/br/soc/arts/t/-/arts/index.html">Arts</a>, <a href="../../../go/homepage/int/br/soc/disability/t/-/ouch/index.html">Disability</a>, <a href="../../../go/homepage/int/br/soc/religion/t/-/religion/index.html">Religion &amp; Ethics</a>...</p>
+<h4><a href="../../../go/homepage/int/br/sp/sport/t/-/sport/index.html">Sport</a></h4><p><a href="../../../go/homepage/int/br/sp/cricket/t/-/news/sport1/hi/cricket/default.stm">Cricket</a>, <a href="../../../go/homepage/int/br/sp/football/t/-/news/sport1/hi/football/default.stm">Football</a>, <a href="../../../go/homepage/int/br/sp/rugby/t/-/news/sport1/hi/rugby_union/default.stm">Rugby Union</a>...</p>
+<h5>Can't find it?</h5>
+<p id="atoz">Try the <a href="../../../go/homepage/int/br/az/azindex/t/-/a-z/index.html">A-Z Index</a></p>
+<p id="directory"><a href="../../../go/homepage/int/br/dir/dir/t/-/directory/index.html">See full directory</a></p>
+</div>
+</div><!-- div#bodyline -->
+<div id="footline">
+<div id="highlights">
+wonderland
+</div>
+<div id="navigation">
+<h2>one true layout™ - bbc.co.uk</h2>
+<h3>This is not the BBC homepage</h3>
+<p>This is a makeover of the <a href="http://www.bbc.co.uk/">BBC homepage</a> that uses no tables and is scalable. See below for <a href="#commentary" title="skip to the commentary">commentary</a>.</p>
+</div>
+<div id="about">
+About the BBC
+</div>
+</div><!-- div#footline -->
+</div><!-- div#main -->
+<div id="commentary">
+<p id="article_location">This example forms part of the <em>Position is Everything</em> article, <a href="../index.html">In Search of the One True Layout</a>.</p>
+<h3>About the makeover</h3>
+<p>A copy of the page this is a makeover of can be viewed <a href="bbc_original.html">here</a></p>
+<p>This is just a demo of what's possible. It is not a fully stress-tested solution being proffered up. Consequently to keep that clear (and hopefully keep the BBC's lawyers off my back), only the main content has been reproduced and styled up. Plus, who'm I kidding, it's not like I'm getting paid to do this...</p>
+<p>All layout tables have been removed and the content reordered as a first pass at making it more appropriate for user agents without styling. However, one compromise has been made to maintain the original design. Personally, the explore search box would be grouped together with the browse categories and follow the highlighted feature, what's on today and the localised info, but that would make it impossible to make the explore and highlighted feature boxes line up vertically (unless we set a guesstimated em-based height for them - perfectly feasible but it wouldn't be a useful demonstration of the techinques involved).</p>
+<p>The layout is now completely em-based and so is scalable.</p>
+<h4>IE Win 6 and 5.5 (and 7 beta 2)</h4>
+<p>li elements  are spaced too far apart</p>
+<p>Resizing is ropey - bumping up the size causes the top "row" to shunt rightwards. Probably because in my haste I've actually got the numbers wrong, but have massaged it so it appears to work and now can't be bothered to figure out just what's up.</p>
+<h4>IE Win 5.01</h4>
+<p>A, er, fair amount of space before the main content kicks in. Plus the today bar isn't long enough. Don't know, don't care. Other than that it's as good as the other IE Wins.</p>
+<h4>IE Mac 5</h4>
+<p>Doesn't get the equal height columns and degrades accordingly.</p>
+<h4>Firefox/Netscape</h4>
+<p>Firefox 1.5 and 1.0 work. So does Netscape 8 and 7.2. And so does Firefox 1.5 beta (it doesn't have any columns after the negatively shifted one so no problems arise).</p>
+<p>NB. Weird scrolling effects occur in Firefox 1.0 when trying to select text. This bug has been fixed in 1.5 and since I'm not getting paid for this... Details in this <a href="http://archivist.incutio.com/viewlist/css-discuss/64928">[css-d] thread</a>.</p>
+<h4>Opera</h4>
+<p>Operas need a fair bit of hand holding, with Opera 9 beta being the easiest to knock into line. Opera 7 has the incorrect absolute positioning bug and so the "see full directory" and the date vanish. Plus a bizarre enormous amount of horizontal scrolling appears - no doubt related to the absolute positioning wackness...</p>
+<p>As for Opera 8, it's so bust because of the <code>overflow: hidden</code> bug that I've not even bothered to cater for it. The text displays - the columns are elongated far beyond what is needed though.</p>
+<h4>iCab 3.0 beta</h4>
+<p>Close, but no cigar. Well, no that close at all. The "Where I live" content disappears (except for the map and the "change location" button) as does the childrens telly section. The plugins block shunts upwards to appear just below the "Today" bar. And the main images start doing some kind of hierarchical indentation dance. Things look much better when the equal heights business gets removed. Hack, anyone?</p>
+</div>
+</body>
+
+
+</html>

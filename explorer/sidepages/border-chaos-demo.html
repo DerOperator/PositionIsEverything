@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  
+
+<head>
+    <title>Border Chaos Demonstration Page</title>
+    <meta name="Author" content="Jonathan McLean" />
+
+<meta http-equiv="content-Type" content="text/html; charset=UTF-8" /> 
+<meta name="description" content="This demo page shows buggy CSS border behaviors in Explorer for Windows." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+
+<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+
+	<style type="text/css">
+
+body {margin: 5px 4%; padding: 0; background: #aaa; font: small Verdana, Arial, sans-serif;}
+
+#global-wrapper {border: 2px black solid; background: white; min-width: 30em;}
+
+#header {padding-right: 17.5em; border-bottom: 1px solid black; background: black; color: white;}
+
+#header h1 {float: left; width: 100%; font: bold 170% Arial, sans-serif; text-align: center; margin: 1ex -1px 1ex 0; letter-spacing: 0.1em;}
+
+#header h1 span {padding-right: 1em;}
+
+#header ul.links {float: right; width: 17.5em; display: inline; margin: 0 -17.5em 0 1px; padding: 0;}
+
+#header ul.links li {list-style-type: none; margin: 0; padding: 0;}
+
+#header ul.links li {font-weight: normal;}
+
+#header ul.links a {color: white; font-weight: bold; text-decoration: none;}
+
+#header ul.links a:hover {text-decoration: underline;}
+
+#content {margin: 10px;}
+
+#content a {color: #137; font-weight: bold;}
+
+#content a:active {color: #731;}
+
+#nav-menu {float: right; border: 3px solid black; padding: 7px; margin: 0 0 10px 10px;}
+
+#nav-menu ul {margin: 0 0 0 1em; padding: 0;}
+
+#nav-menu li {margin: 0; padding: 0;}
+
+h2 {font: bold 145% Arial, sans-serif;}
+
+h3 {font: bold 120% Arial, sans-serif;}
+
+.clear {clear: both;}
+
+
+/*** Bug demo rules ***/
+
+.demo-outer {
+    border: 3px dashed black;
+    padding: 8px;
+}
+
+.demo-inner {
+    border: 3px solid black;
+    padding: 0 8px 8px 8px;
+}
+
+.demo1 {
+    border: 1px solid black;
+    margin-top: 8px;
+}
+
+.demo2 {
+    border: 1px solid blue;
+    margin-top: -1px; /*** This negative margin is the primary bug trigger ***/ 
+}
+
+.demo-outer p {
+    margin-bottom: 0;
+}
+
+</style>
+
+  </head>
+  <body>
+    <div id="global-wrapper">
+      <div id="header">
+        <h1><span>Border Chaos Demo</span></h1>
+        <div class="clear"></div>
+      </div>
+      <div id="content">
+        <div id="nav-menu">
+          <ul>
+            <li><a href="../border-chaos.html">Return to Border Chaos Explanation Page</a></li>
+          </ul>
+        </div>
+        <h2>Demo</h2>
+
+<!-- Demo starts here -->		
+<div class="demo-outer">
+        
+		  <div class="demo-inner">
+            <div class="demo1">This is a &lt;div&gt; with a border and a positive top margin.</div>
+            <div class="demo2">This is a &lt;div&gt; with a border and a negative top margin.</div>
+            <div class="demo1">This is a &lt;div&gt; with a border and a positive top margin.</div>
+            <div class="demo2">This is a &lt;div&gt; with a border and a negative top margin.</div>
+          </div>
+        
+		  <p>This is a &lt;p&gt; that does <strong>not</strong> have a border.</p>
+        
+</div>
+<!-- Demo ends here -->		
+
+      </div>
+    </div>
+  </body>
+
+
+</html>

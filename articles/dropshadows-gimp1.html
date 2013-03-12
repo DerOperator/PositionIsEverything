@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+<title>Making Drop Shadow Images for the PNG Drop Shadows Method</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A discussion of the theory of CSS floating." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+</head>
+
+<body id="dropshadows">
+
+<h1>Making Shadow Images for the PNG Drop Shadows Method</h1>
+
+<div class="wrapper">
+
+<div class="consultbox">
+<h2>Are complex CSS issues making your programmers <em>crazy?</em></h2>
+<p>I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Hire me to help you too.</a></p>
+
+<h3><a href="http://everyones.com/webinar/bigjohn">Big John's CSS Webinars!</a></h3>
+
+<p>Let Big&nbsp;John (yours&nbsp;truly) <a href="http://everyones.com/webinar/bigjohn">teach&nbsp;you</a> 
+about CSS in a setting where you can
+actually <em>ask questions</em>. Will wonders never cease? Learn about the cascade
+and its arcane mysteries, or dive into the cesspool of IE6 with Big&nbsp;John as your lifeguard.
+</p>
+
+<p>
+Besides upcoming webinar dates, you can also download recorded versions
+of <a href="http://everyones.com/webinar/bigjohn">previous webinars</a> 
+(some free, some for sale). 
+</p>
+
+</div>
+
+<p class="alignright">
+<a href="../articles.html"><strong>Return to Articles.</strong></a><br />
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+
+<p style="margin: 1.5em 10% 1.5em 360px; font-style: italic;">
+This tutorial was written due to popular demand. I owe special thanks to <strong>David&nbsp;Tiley</strong> for
+his strong encouragement and help improving this, my first foray into the world of graphics
+creation. Thanks Dave!
+</p>
+
+<p>
+The <a href="dropshadows2.html">Four Sided PNG Drop Shadows Method</a> provides a way to
+place a large drop shadow or glow image onto a smaller box of any arbitrary
+size, and it works very well indeed. However, what that article <em>doesn't</em> provide is a step-by-step guide showing
+graphics novices how to go about making that large drop shadow. It's time to remedy the omission.
+</p>
+
+<p class="tip">
+For this graphics tutorial I've decided to use <a href="http://www.gimp.org/"><strong>Gimp</strong></a>,
+because of its universal availability and because Gimp is now a rather sophisticated graphics editor.
+Gimp is Open Source (free!) and is rapidly improving with a huge fan/user base, so its future is very bright.
+This tutorial assumes at least a basic familiarity with graphics editors in general, but does not assume
+that the reader is a guru.
+</p>
+
+<h2>Creating the Image</h2>
+
+<img style="float: right; margin: 15px 0 10px 15px;" src="images/ds-gimp1/newdialog.png" alt="" />
+<p>
+In <a href="http://www.gimp.org/"><strong>Gimp's</strong></a> main window, go to
+<strong>File>New</strong> (Ctrl+N). In the <strong>New&nbsp;Image</strong> dialog,
+click on the <strong>Advanced&nbsp;Options</strong> expander to see all the options. Specify a width
+and height that will be larger than the maximum shadow you will need. This can be a
+difficult decision. If you make it too small then a large shadowed box might show a gap somewhere
+along the box edge, but making the shadow image very wide and tall leads to unnecessary bandwidth
+and load times. Luckily these shadow images are mostly full transparency so even a huge one is
+surprisingly small in file size.
+I've chosen 300px as the size for this demo, but more typically it would be 1000px or even larger.
+</p>
+<p>
+If your shadow is to be entirely shades of gray, you can set the <strong>Color&nbsp;space</strong> field to "Grayscale"
+as I've done here. This makes the resulting PNG file about 40% smaller than if all the color channels were used.
+If the shadow is to have some color in it, make sure you leave the color space setting at "RGB color" or it won't
+be possible to do so.
+</p>
+<p>
+The <strong>Fill&nbsp;with</strong>, <strong>Template</strong>, <strong>resolution</strong>, and <strong>Comment</strong>
+fields are fine with the default settings. The <strong>Reset&nbsp;button</strong> is handy for returning to the default settings
+if they've been changed and you can't remember what they were.
+</p>
+<img style="float: right; margin: 0 0 10px 15px; clear: right;" src="images/ds-gimp1/newimage.png" alt="" />
+<p>
+ With everything set, click "OK" to create your image.
+</p>
+<p>
+You should see a new window with a dashed line surrounding the new image.
+The checkerboard pattern is there to reveal the fact that the image is transparent.
+That checkerboard won't show up on the finished image so don't worry about it.
+The rulers seen along the left and top edges in the screenshot are a Gimp option I've
+chosen under: <strong>View>Show&nbsp;Rulers</strong> (Shift+Ctrl+R).
+You may find those rulers to be very handy for some kinds of graphics work.
+Notice how in the screenshot with the title bare text "Untitled-1.0" there's an
+asterisk before the file name? That's to show that the image hasn't been saved (or has unsaved changes).
+</p>
+<img style="float: right; clear: right; margin: 15px 0 10px 15px;" src="images/ds-gimp1/fill.png" alt="" />
+<p>
+I like to work with a solid light background to judge the shadows against, so let's go ahead and fill that image with some white.
+In the <strong>Toolbox&nbsp;Window</strong>, click the <strong>Bucket&nbsp;Fill&nbsp;Tool</strong> (Shift+B)
+to activate it, then click on the foreground swatch The little white rectangle overlapping the black one in the graphic)
+and set it to white. (click the double pointed arrow to switch the two colors) I actually prefer an off-white color so that
+the image stands out against the white image window background, so that's what I've done for the graphic images in this tutorial.
+ Now left-click on your image directly and the image layer should fill with your chosen foreground color.
+</p>
+<p>
+We don't want our finished shadow image to have that white color, so make a new layer to work on. This layer will
+contain the actual shadow which will become the finished production image. Go to
+<strong>Layer>New&nbsp;Layer</strong> (Shift+Ctrl+N). In the dialog leave all the defaults alone and click OK.
+</p>
+<img style="float: left; margin: 0px 15px 10px 0; padding-top: 25px;" src="images/ds-gimp1/layers1.png" alt="" />
+<p>
+There should now be two layers showing in the Layers dialog (as shown) with the new layer highlighted.
+Make sure this layer is <em>always highlighted</em> from now on or you'll be working on that white background
+layer instead! Be aware that you can drag the layers in the Layers dialog past each other to change their
+stacking order and also temporarily hide them by clicking those little eyeball icons on the layer boxes.
+Go ahead and try it just for fun.
+</p>
+<p>
+Gimp has a very flexible dialog/dock system, but it can take some getting used to. If you can't find
+the Layers dialog or any other dockable dialog, go to <strong>Windows>Dockable&nbsp;Dialogs</strong>
+for a complete button list of those dialogs. These "docks" are separate windows that can hold persistent
+dialogs such as Layers and History in a handy group format. To learn how dialogs are added to and
+removed from docks, see
+<a href="http://docs.gimp.org/2.6/en/gimp-concepts-docks.html">Dialogs&nbsp;and&nbsp;Docking</a>
+in the Gimp online manual.
+</p>
+
+<h2>Shrinkage</h2>
+
+<img style="float: right; margin: 15px 0 10px 15px;" src="images/ds-gimp1/shrinkselect.png" alt="" />
+<p>
+The next step is to select the entire image and shrink that selection box by the amount you want for your drop shadow width.
+This width is critical to the <a href="dropshadows2.html">Four Sided PNG Drop Shadows Method</a>.
+The CSS for the method must be tailored to match the shrink length you will choose, but once you make
+the correct modifications to the code, any shadow width will work fine.
+
+Go to <strong>Select>All</strong> (Ctrl+A) and that should start the 'marching ants' going around your image.
+</p>
+<p>
+Go to <strong>Select>Shrink</strong> (Alt+S>H) to bring up the <strong>Shrink&nbsp;Selection</strong> dialog.
+</p>
+<img style="display: block; margin: 15px 0 10px 0;" src="images/ds-gimp1/shrinkdialog.png" alt="" />
+<p>
+The length value you choose will be the width of your shadow. I've picked 10px in this demo. For now don't worry
+about varying shadow widths on different sides, just make it as big as the widest shadow you will need.
+</p>
+<p>
+Make sure the <strong>Shrink from image border</strong> checkbox is checked, or else the shrink action
+won't work. This seems to be true <em>only</em> when the entire image is selected. Otherwise you need
+to uncheck the box for it to work. Don't ask me why, I have no idea. That's just the way Gimp does it. Oh&nbsp;well.
+</p>
+<p>
+Now you should be seeing something like the screenshot to the right, with a select box some distance
+inward from the image edge. Ignore the extra dashed line around the image edge, it has no actual effect.
+You can tell which is the real selection by the 'marching&nbsp;ants' effect on the inner line.
+</p>
+
+<p class="tip">
+Be aware that the
+<a href="dropshadows2.html">Four Sided PNG Drop Shadows Method</a>
+<em>requires</em> that the image area outside the select box be the same size on all sides of the image.
+It doesn't matter what kind of graphics you place in these side-areas. Shadows, border lines, transparency, whatever, as long as the distance
+from the select box to the image edge is the same on all sides. Your content box (div.shadow-four) will end up with its
+edge exactly aligned with the select box line, so any backgrounds or borders that you wish to have appear within the selected region
+are best applied to div.shadow-four, <em>not the main drop shadow image</em>.
+<br /><br />
+Also be aware that the width of this area outside the select box (taken as a px length value) must be doubled
+and used as the px length values for all css lengths in the method except the relative shift offsets on
+.shadow-four, which get the px length values without doubling, but as negative values of course.
+</p>
+
+<h2>Applying the Shadow</h2>
+
+<img style="float: right; margin: 15px 0 10px 15px;" src="images/ds-gimp1/dropdialog1.png" alt="" />
+<p>
+Here comes the fun part. To bring up the <strong>Drop&nbsp;Shadow</strong> dialog, go to: <br />
+<strong>Filters>Light&nbsp;and Shadow>Drop&nbsp;Shadow</strong>
+</p>
+<p>
+<strong><em>The default values in this dialog need to be changed to match your desired drop shadow parameters.</em></strong>
+</p>
+<p>
+Here's what the options do:
+</p>
+<ul>
+  <li><strong>Offset X and Offset Y</strong> &#8213; Moves the overall shadow horizontally and vertically from its
+  default centered position behind the shadowed select box.</li>
+  <li><strong>Blur radius</strong> &#8213; Controls the width of the shadow extending outward from the select box </li>
+  <li><strong>Color</strong> &#8213; Controls the color applied to the shadow (only gray allowed in grayscale).</li>
+  <li><strong>Opacity</strong> &#8213; The slider sets the opacity of the shadow.</li>
+  <li><strong>Allow resizing</strong> &#8213; If this is checked and the settings cause the added shadow to
+  be larger than the image size, the image will be resized so it can contain the extra shadowing. If it's unchecked, the
+  image remains the same size and any extra shadow gets clipped off.</li>
+</ul>
+<p class="tip">
+If the <strong>Allow resizing</strong> checkbox is checked, the resulting shadows may enlarge
+your image on one or more sides, causing the PNG drop shadows method to work incorrectly.
+Generally you should always uncheck this box.
+</p>
+<p>
+The procedure here is to try some settings, hit OK and see what results. Usually it's
+not quite what you want, so you then go to <strong>Edit>Undo</strong> (Ctrl+Z)
+and try again repeatedly until it's just right.
+</p>
+<p>
+If you only want a simple shadow all around the select box, just set the offsets to zero and give the blur radius
+something close to 10px. It's not always necessary or desirable to exactly match the shrink length you use.
+For instance, if you set the opacity to a low level you can widen the blur radius quite a lot without apparent clipping.
+I suggest you play around with various settings to see what effects you can get.
+</p>
+<img style="float: right; margin: 15px 0 10px 15px;" src="images/ds-gimp1/makeshadow.png" alt="" />
+<p>
+For this demo I chose X and Y offsets of 2px, a blur radius of 10px, a color of black, and an opacity of 60%. Note that
+those positive offsets along with the blur radius would cause image enlargement at the right and bottom edges if the
+"Allow resizing" checkbox were checked, but I keep it unchecked so I won't have to manually clip that excess
+later. Note that the offsets may also be negative, pulling the shadow up and to the left instead of down and right.
+</p>
+<p>
+Bring up the Drop Shadow dialog and insert the values as described, then hit OK.
+</p>
+<p>
+Now the shadow is in place and looking mighty fine, but check out the title bar of the image window.
+Three layers? Where did that come from? Well, it so happens that Gimp creates a new layer called
+<em>Drop&nbsp;Shadow</em> when making
+a drop shadow and puts the actual shadow on that layer. Furthermore, this new layer is placed on top of the
+selected layer. It's not a problem but be aware that this is happening so you won't be confused by it.
+</p>
+<img style="float: left; margin: 15px 15px 10px 0;" src="images/ds-gimp1/layers2.png" alt="" />
+<p>
+By the way, you may rename any layer in the Layers dialog simply by double clicking the name and typing a
+new one. In the future when you're building hi-rise multi-layer images it'll be nice to have descriptive
+names on all of them, eh? Oh yes.
+</p>
+<p>
+See that opacity slider in the Layers dialog? If you click on the Drop Shadow layer you can re-adjust
+the opacity of the shadow on-the-fly, fine tuning it to your exact desires. Sweet.
+</p>
+
+<h2>Saving the Image</h2>
+
+<p>
+Before you can save, make sure you go to the Layers dialog and click that eyeball icon on the Background layer.
+Doing that will kill the white background and reveal the checkerboard again. Now all is in readiness.
+To save the image, just go to <strong>File>Save&nbsp;As</strong> (Shift+Ctrl+S) and in the
+<strong>Save&nbsp;As</strong> dialog choose the location to save, and name the file too.
+You can get a <strong>Select&nbsp;File&nbsp;Type</strong> field by clicking the expander
+just above the Help button, but it's quicker to just type the <em>.png</em> extension on the file name.
+</p>
+<p>
+When you hit the Save button, a new <strong>Export File</strong> dialog pops up. The reason for this is that
+your image has layers and the PNG format doesn't do layers (except for the proprietary Fireworks PNG format).
+This dialog will automatically compress the layers to a single layer for you. Make sure that the
+<strong>Merge&nbsp;Visible&nbsp;Layers</strong> radio
+button is selected. This will exclude the white background layer from the exported PNG because you just
+made it invisible by clicking the eyeball icon for that layer. Now hit the Export button.
+</p>
+<p>
+Yet another box pops up (sigh), the <strong>Save&nbsp;as&nbsp;PNG</strong> dialog. Just uncheck all the
+checkboxes (unless you feel the need to check some of them) and keep the compression slider at the maximum level.
+Hit Save. Woohoo! You've finally got your excellent drop shadow image!
+</p>
+
+<h2>Extra Points</h2>
+
+<ul>
+  <li>If the goal is to make a 'glow' effect rather than a shadow, just invert all the color settings mentioned in the tutorial,
+  including the white background on the bottom layer.</li>
+  <li>It's a good idea to save the layered image as an <strong>.xcf</strong> file type. That's Gimp's
+  proprietary format, and it will save all the layering and select information so that later on you may
+  easily make different versions of your PNG shadow image without repeating all the steps.</li>
+  <li>If you forgot to set the image to grayscale when you created it, just go to
+  <strong>Image>Mode>Grayscale</strong> and you're good. Remember that a grayscale
+  shadow cannot have any RGB colors at all, only shades of gray.</li>
+</ul>
+
+<h2>Wrap Up</h2>
+
+<p>
+I hope you liked my first graphics tutorial. I know this one doesn't break any new ground, but
+quite a few people have asked me for advice on making these shadow images, so here you go!
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: June 23, 2009<br />
+Created June 20, 2009
+</p>
+
+</div>
+
+</body>
+
+
+</html>

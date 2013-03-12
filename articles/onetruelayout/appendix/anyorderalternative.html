@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Any Order Columns - an alternative approach - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix E</small>Any Order Columns - an alternative approach</h1>
+
+<p>Philippe Wittenbergh suggested a possible workaround for the Gecko 1.8b2 bug - and what do you know, it's the basis for a whole new alternative way of doing any order columns. Up to a point.</p>
+
+<h2 id="how">How?</h2>
+<p>Each column is still floated, but we:</p>
+<ol>
+<li>add <code>position: relative</code></li>
+<li>substitute <code>left</code> for <code>margin-left</code>. The value of <code>left</code> for block <em>n</em> is worked out so:
+<ol>
+<li>determine the position of the leftmost edge of the block</li>
+<li>add up the widths of any block that precedes it in the source</li>
+<li>subtract the total of the widths from the leftmost edge</li>
+</ol>
+</li>
+</ol>
+
+<p>The following CSS gives us our standard 2-1-3 ordering:</p>
+<pre><ins>#block_1
+        {
+        position: relative;
+        float: left;
+        width: 34%;
+        left: 33%;
+        }
+* html #block_1
+        {
+        display: inline;
+        }
+#block_2
+        {
+        position: relative;
+        float: left;
+        width: 33%;
+        left: -34%;
+        }
+#block_3
+        {
+        position: relative;
+        float: left;
+        width: 33%;
+        }</ins></pre>
+
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayout/example/anyorderalternative">Interactive example of the alternative Any Order technique</a></p>
+
+<h3 id="how-half-an-alternative">Half an alternative</h3>
+<p>This works fine in modern browsers with the equal height method, but because of the <code>position: relative</code> applied to the columns, it can never be souped up to be used as the underlying chassis for the vertical grid.</p>
+<p>Of course, if you don't have any need for vertical grid-style positioning, then it will do just fine.</p>
+
+<h3 id="how-less-of-an-alternative">Somewhat less of an alternative</h3>
+<p>Unfortunately it doesn't work in IE Win 5.01 or 5.5. And adding equal heights into the mix makes IE Win 6 lose the plot. Moreover IE Mac 5 pays no attention to the <code>left</code> declarations. And the same goes for Safari 1.03.</p>
+
+<h3 id="how-alternative-alternative">An alternative alternative</h3>
+<p>On the other hand it works in all Netscapes back to 6.1 (and gets round the longest column problem that occurs in some of them) and all versions of Opera back to 7.0. - feed the 'original' Any Order technique to all versions of IE and you've got the best of both worlds. Forgive me for leaving that for someone else to implement...</p>
+
+<h2 id="where">Where?</h2>
+
+<table id="agent_results">
+<caption>Overview of browser behaviour for alternative method</caption>
+<colgroup>
+<col width="50%" />
+</colgroup>
+<colgroup span="2" width="25%" />
+<thead>
+<tr>
+<th scope="col">Browser</th>
+<th scope="col">Any Order</th>
+<th scope="col">Equal Heights</th>
+</tr>
+</thead>
+<tbody>
+<tr class="important">
+<th scope="row">IE Win 6</th>
+<td>pass</td>
+<td>fail <a href="#IEWin6_equal">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.5</th>
+<td>fail <a href="#IEWin5_anyorder">[note]</a></td>
+<td>fail <a href="#IEWin5_equal">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.01</th>
+<td>fail <a href="#IEWin5_anyorder">[note]</a></td>
+<td>fail <a href="#IEWin5_equal">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">IE Mac 5.2</th>
+<td>fail <a href="#IEMac5_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.5</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Netscape 8.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.2, 7.1, 7.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.2, 6.1</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.0</th>
+<td>fail <a href="#N6.0_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr>
+<th scope="row">Netscape 4.7</th>
+<td>fail <a href="#N4.7_anyorder">[note]</a></td>
+<td>fail <a href="#N4.7_equal">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Netscape 4.04</th>
+<td>fail <a href="#N4.04_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 8.0, 8.5</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 7.5, 7.2, 7.1, 7.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 6</th>
+<td>pass</td>
+<td>fail <a href="#Op6_equal">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 5</th>
+<td>fail <a href="#Op5_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr class="important">
+<th scope="row">Safari 2.0, 1.3</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Safari 1.03</th>
+<td>fail <a href="#Saf1_anyorder">[note]</a></td>
+<td>fail <a href="#Saf1_equal">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">OmniWeb 5.0.1</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">iCab 3.0 beta</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+</tbody>
+</table>
+
+
+<table id="agent_notes">
+<caption>Notes on individual browser behaviour</caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody>
+<tr>
+<th id="IEWin6" colspan="2">IE Win 6.0</th>
+</tr>
+<tr>
+<th id="IEWin6_equal">Equal Heights</th>
+<td headers="IEWin6 IEWin6_equal">
+<p>The <code>overflow: hidden</code> does not do its magic and the columns are painted into the distance.</p>
+</td>
+</tr>
+<tr>
+<th id="IEWin5" colspan="2">IE Win 5.5, 5.01</th>
+</tr>
+<tr>
+<th id="IEWin5_anyorder">Any Order</th>
+<td headers="IEWin5 IEWin5_anyorder">
+<p>Shifted elements are incorrectly positioned</p>
+</td>
+</tr>
+<tr>
+<th id="IEWin5_equal">Equal Heights</th>
+<td headers="IEWin5 IEWin5_equal">
+<p>Given the problems with the any ordering, the results are not pretty</p>
+</td>
+</tr>
+<tr>
+<th id="IEMac5" colspan="2">IE Mac 5.2</th>
+</tr>
+<tr>
+<th id="IEMac5_anyorder">Any Order</th>
+<td headers="IEMac5 IEMac5_anyorder">
+<p>The <code>left</code> declarations are completely ignored and the columns display in source order</p>
+</td>
+</tr>
+<tr>
+<th id="N6.0" colspan="2">Netscape 6.0</th>
+</tr>
+<tr>
+<th id="N6.0_anyorder">Any Order</th>
+<td headers="N6.0 N6.0_anyorder">
+<p>Columns simply stack up on top of each other and no background colour is painted</p>
+</td>
+</tr>
+<tr>
+<th id="N4.7" colspan="2">Netscape 4.7</th>
+</tr>
+<tr>
+<th id="N4.7_anyorder">Any Order</th>
+<td headers="N4.7 N4.7_anyorder">
+<p>Background colours not painted but the positioning is preserved.</p>
+<p>Float clearing would need additional markup cruft.</p>
+</td>
+</tr>
+<tr>
+<th id="N4.7_equal">Equal Heights</th>
+<td headers="N4.7 N4.7_equal">
+<p>Columns vanish.</p>
+</td>
+</tr>
+<tr>
+<th id="N4.04" colspan="2">Netscape 4.04</th>
+</tr>
+<tr>
+<th id="N4.04_anyorder">Any Order</th>
+<td headers="N4.04 N4.04_anyorder">
+<p>Background colours not painted and columns just stack.</p>
+</td>
+</tr>
+<tr>
+<th id="Op6" colspan="2">Opera 6</th>
+</tr>
+<tr>
+<th id="Op6_equal">Equal Heights</th>
+<td headers="Op6 Op6_equal">
+<p>There's a rendering display problem (which is more sever in the Mac than the Win version) that causes the columns to be painted overlong. The "usual" fixes of clicking back and forward or switching to another app and back again don't work, but scrolling up and down make's everything magically ok!</p>
+</td>
+</tr>
+<tr>
+<th id="Op5" colspan="2">Opera 5</th>
+</tr>
+<tr>
+<th id="Op5_anyorder">Any Order</th>
+<td headers="Op5 Op5_anyorder">
+<p>Background colours not painted and columns just stack.</p>
+</td>
+</tr>
+<tr>
+<th id="Saf1" colspan="2">Safari 1.03</th>
+</tr>
+<tr>
+<th id="Saf1_anyorder">Any Order</th>
+<td headers="Saf1 Saf1_anyorder">
+<p>The <code>left</code> declarations are completely ignored and the columns display in source order</p>
+</td>
+</tr>
+<tr>
+<th id="Saf1_equal">Equal Heights</th>
+<td headers="Saf1 Saf1_equal">
+<p>The <code>left</code> declarations still don't work, but the column heights are correctly painted.</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li><a href="methodresults.html">Browser results for the methods</a></li>
+<li><a href="exampleresults.html">Browser results for the examples</a></li>
+<li><a href="holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li class="current">Any Order Columns - an alternative approach</li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="theory.html">Notes on theory</a></li>
+<li><a href="notes.html">Miscellaneous notes</a></li>
+<li><a href="equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

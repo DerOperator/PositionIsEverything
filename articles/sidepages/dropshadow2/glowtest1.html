@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+  <title>All-around PNG Glow Demo</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=ISO-8859-1">
+
+<style type="text/css">
+
+body {
+	background: #012 url(green1.gif);
+  margin: 10px 50px;
+  color: #dda;
+	font-family: verdana, sans-serif;
+  text-align: center;
+  }
+
+h1 {font-size: 1.3em; margin: .7em 0;}
+
+p {font-size: 1em; margin: .3em auto; width: 50em;}
+
+img {display: block; width: 18em;}
+/* Prevents baseline gap under image, width in ems to allow size testing. */
+
+
+/***
+Normally all the styles would be applied to the shadow group in the five basic rule sets,
+but to enhance the effect of this demo I have separated the BG calls into an extra set
+controlled by hovering of the outer div. This isn't really necessary, but it does look cool.
+***/
+
+.shadow-one {
+	position: absolute;
+  top: 5.5em;  /* Cosmetic positioning; not required */
+  left: 50%;  /* Cosmetic; horizontally locates left edge of demo in center of positioned parent */
+  margin-left: -10em;  /* Cosmetic; pulls demo to left by half of its width for centering */
+	padding-top: 50px;  /* Constrains .shadow-two's size and location */
+	padding-left: 50px;  /* Constrains .shadow-two's size and location */
+  }  /* Absolute positioning forces shrink-to-fit behavior on the outer div, collapsing the div group around the image */
+
+.corner-a {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  }   /* This div goes to the upper right corner and paints the shadow there using part of main image */
+
+.corner-b {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 50px;
+  }   /* This div goes to the lower left corner and paints the shadow there using part of main image */
+
+.shadow-two {
+	}  /* BG call for this div is in the group rule below */
+
+.shadow-three {
+  position: relative;
+  left: -50px;
+	top: -50px;
+	}  /* Positioned relative and shifted up and left by the size of the paddings on .shadow-one */
+
+.shadow-four {
+  position: relative;
+	left: 25px;
+	top: 25px;
+	}  /* Shifted back down and right by half the padding size to center the content on the glow */
+
+
+.corner-a,
+.corner-b,
+.shadow-two,
+.shadow-three {
+	background: url(glow-white-25px.png) -3000px no-repeat;
+  }  /* This rule calls the BG image for all divs that need it, so only one path needs to change
+  when switching to a different shadow image. The shadow image starts out hidden in all divs
+  where it is used, to be shown on hover of .shadow-one... */
+
+
+/*** Position the shadow BG's only on .shadow-one;hover so that they show... ***/
+
+.shadow-one:hover>.corner-a {
+	background-position: right top;
+  }  /* Paints the upper right corner glow */
+
+.shadow-one:hover>.corner-b {
+	background-position: left bottom;
+	}  /* Paints the lower left corner glow */
+
+.shadow-one:hover>.shadow-two {
+	background-position: right bottom;
+	}  /* Paints glow along right and bottom edges */
+
+.shadow-one:hover>*>.shadow-three {
+	background-position: left top;
+	}  /* Paints glow along top and left edges */
+
+</style>
+
+</head>
+<body>
+
+<h1>The all-around PNG glow effect</h1>
+
+<p>
+Go ahead and hover the image to see the glow. Pretty good, eh?
+Resize the text to make the image resize, proving the method works
+on all content sizes.
+</p>
+
+<div class="shadow-one">
+
+    <div class="corner-a"></div>
+    <div class="corner-b"></div>
+
+    <div class="shadow-two">
+        <div class="shadow-three">
+            <div class="shadow-four">
+                <img src="houdini.jpg" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>

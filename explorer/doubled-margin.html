@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+<title>IE5/6 Doubled Float-Margin Bug - CSS fixes and workarounds</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="This demo shows a bug in IE when multiple floats are in a 'widthless' container." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+
+.consultbox {
+float: left;
+font-size: 80%;
+background: white;
+border: 2px solid #000;
+width: 300px;
+margin: 10px 30px 20px 20px;
+padding: 12px 10px 8px 30px;
+line-height: 1.5;
+}
+
+.consultbox img {margin-bottom: -4px;}
+
+.consultbox h2 {
+margin: 0 0 8px -20px;
+padding: 0;
+line-height: 1.2;
+text-align: center;
+}
+
+.consultbox h3 {
+margin: 20px 0 0 -20px !important;
+padding: 0 !important;
+font-size: 130%;
+color: #b00;
+}
+
+.consultbox h4 {
+margin: 4px 0 0 -10px !important;
+padding: 0 !important;
+color: #059 !important;
+}
+
+.consultbox h4 a {
+color: #059 !important;
+}
+
+.consultbox p {
+margin: 2px 0 8px !important;
+}
+
+html,
+body {
+margin: 0;
+padding: 0;
+border: 0;
+}
+
+body {
+margin-bottom: 40px;
+padding: 0;
+font-size: 80%;
+background: #efe;
+font-family: verdana,sans-serif;
+}
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h4 {clear: both; font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+.textbox {margin: 2em 0 3em;}
+
+.textbox p {margin: .6em 18% .6em 18%; padding: 0;}
+
+blockquote {margin: 1.6em 22% 1.6em; padding: 0;}
+
+blockquote span {color: #d00;}
+
+a:link, a:visited, a:active {color: #000;}
+
+.alignright {margin: 0 30px 30px 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+pre {margin: 30px 12%; padding: 20px 20px 20px 40px; background: #f0ddb8;
+	border: 2px solid #000; font-size: 1.2em; font-family: monospace; font-weight: bold;}
+
+pre span {color: #d00;}
+
+ul {text-align: right; padding-right: 30px; list-style: none;}
+
+html[xmlns] pre {font-size: 1.3em;} /*** This hack sends a fudged value to Mozilla ***/
+
+.textbox .imageholder {padding: 20px 0 20px;}
+
+/*XXXXXXXXXXXXXXXXXXXX Demo rules start here XXXXXXXXXXXXXXXXXXXXXXX*/
+
+.floatholder {
+width: 500px;
+border: 2px solid #000;
+margin: 0 0 40px 20%;
+background: #dc8;
+}
+
+.floatbox {
+/*display: inline;*/
+float: left;
+width: 150px;
+height: 150px;
+margin: 5px 0 5px 100px;
+background: #aa6;
+border: 1px solid #00f;
+color: #ffd;
+font-size: 1.8em;
+text-align: center;
+}
+
+.floatbox div {
+margin-top: 55px;
+}
+
+.bugfix {
+display: inline; /*** This is the fix for the doubled margin bug ***/
+}
+
+.bugfix div {
+margin-top: 35px;
+}
+
+.bugfix span {
+font-size: .7em;
+}
+
+</style>
+
+	</head>
+
+	<body>
+
+<h1>The IE5/6 Doubled Float-Margin Bug&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+
+<div class="consultbox">
+<h2>Are complex CSS issues making your programmers <em>crazy?</em></h2>
+<p>I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Hire me to help you too.</a></p>
+
+<h3><a href="http://everyones.com/webinar/bigjohn">Big John's CSS Webinars!</a></h3>
+
+<p>Let Big&nbsp;John (yours&nbsp;truly) <a href="http://everyones.com/webinar/bigjohn">teach&nbsp;you</a> 
+about CSS in a setting where you can
+actually <em>ask questions</em>. Will wonders never cease? Learn about the cascade
+and its arcane mysteries, or dive into the cesspool of IE6 with Big&nbsp;John as your lifeguard.
+</p>
+
+<p>
+Besides upcoming webinar dates, you can also download recorded versions
+of <a href="http://everyones.com/webinar/bigjohn">previous webinars</a> 
+(some free, some for sale). 
+</p>
+
+</div>
+
+<ul>
+<li><a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a></li>
+<li><a href="floatIndent.html"><strong>Next IE demo</strong></a></li>
+</ul>
+
+<div class="textbox">
+
+<h4>What Goes Wrong With Float Margins in IE6</h4>
+
+<p>
+A coder innocently places a left float into a container box, and uses a left margin on the float to push
+it away from the left side of the container. Seems pretty simple, right? Well it is until it's viewed in
+<strong>IE6</strong>. In that browser the left float margin has mysteriously been doubled in length!
+</p>
+
+<p>
+Thankfully, <strong>IE7 does not show this bug</strong>.
+</p>
+
+<h4>The Way It Oughta Be</h4>
+
+<p>
+The graphic below shows a simple div (tan box) containing a left-floated div (green box) . The float
+has a left margin of "100px", producing a 100px gap between the left edge of the container box and
+the left edge of the float box. So far so good.
+</p>
+
+<p class="imageholder">
+<img src="images/marg-norm.gif" width="504px" height="166px" alt=""/>
+</p>
+
+<pre>
+.floatbox {
+  float: left;
+  width: 150px;
+  height: 150px;
+  margin: 5px 0 5px <span>100px</span>;
+  /*This last value applies the 100px left margin */
+  }
+</pre>
+
+<h4>The Old IE "Doubletake"</h4>
+
+<p>
+That exact same code when viewed in <strong>IE/Win</strong> is displayed in a <em>slightly different way</em>.
+The graphic below shows what IE/Win does to the arrangement.
+</p>
+
+<p class="imageholder">
+<img src="images/marg-doubled.gif" width="504px" height="166px" alt=""/>
+</p>
+
+<p>
+Why is this happening? Don't ask such silly questions! This is IE6, remember? Conformance with the specs
+is only to be hoped for, not expected. The simple fact is it does happen.
+</p>
+
+<h4>Important Points</h4>
+
+<p>
+This bug <em>only</em> occurs when the float margin goes in the same direction as the float and is trapped
+directly between the float and the inside edge of the container box. Any other left-margined floats
+that are displayed in the same row won't show the doubled margin. Only those floats that begin a new row
+will suffer from the bug. Also, the doubled margin displays <strong>mirror-symmetry</strong>, working the same
+way to the right as it does to the left.
+
+</p>
+
+<h4>At Last, A Fix!</h4>
+
+<p>
+Up 'til now (Jan '04) this bug was thought to be unfixable, and was generally controlled by replacing the faulty
+margin with a left padding on a non-visible float, along with a nested inner box to serve as the visible box within
+the invisible float, or by hacking a one-half margin value for IE/win only. It works, but is clunky and messes up
+the clean source code. Well that's all over now.
+</p>
+
+<p>
+<a href="mailto:stevec@topdogstrategy.com"><strong>Steve Clason</strong></a> has discovered a fix,
+outlined in his <a href="floatIndent.html"><strong>Guest&nbsp;Demo</strong></a>,
+that fixes both this doubled margin bug and a weird text indent bug as well.
+It's a classic type of IE bug fix, using one property to cure a bug that affects an unrelated property.
+</p>
+
+<h4>So What Is It Already?</h4>
+
+<p>
+Dig this. Simply placing {display: inline;} on the float is all that is needed! Yup. Sounds too easy, don't it?
+Nevertheless it's true that a mere display declaration of "inline" is enough to do the job.
+</p>
+
+<p>
+Those who are familiar with the specs on floats are aware that floats automatically become "block" elements,
+no matter what they were before becoming floats. As Steve points out from the W3C:
+</p>
+
+
+
+
+
+
+
+
+<blockquote>
+<a href="http://www.w3.org/TR/CSS2/visuren.html#dis-pos-flo"><strong>9.7 Relationships between 'display', 'position', and 'float'</strong></a><br /><br />
+"...if 'float' has a value other than 'none', the box is floated and 'display' is set according to the table below..." <br /><br />
+The table gives this information: <br />
+<strong>Specified value = inline</strong> ..leads to..
+<strong>Computed value = block</strong><br />
+</blockquote>
+
+<p>
+That means that {display: inline;} on a float should be no different than using {display: block;} (or no display value at all),
+and indeed all browsers follow this specification, including IE. <em>But</em>, this does somehow trigger IE to stop doubling the
+float's margin. Thus, this fix can be applied straight, without any fussy hiding methods.
+</p>
+
+<p>
+In fact, you could just apply the Inline&nbsp;Fix to <em>all floats</em> if you like, since
+there are no known side-effects. That way the bug can never gain traction regardless of any
+margins you might or might not use. Of course if you do this, the bug can't happen and you
+get no chance to play the big CSS guru to your boss...
+</p>
+
+<p>
+Below are <strong>two live demos</strong> using the same code as previously, first displaying the IE bug as usual,
+and next the same demo with the "inline" fix applied to the float.
+</p>
+
+</div>
+
+<!--XXXXXXXXX Live Demos XXXXXXXXX-->
+
+<div class="floatholder">
+
+<div class="floatbox">
+<div>Float</div>
+</div>
+
+<div style="clear: both;"></div>
+
+</div>
+
+<div class="floatholder">
+
+<div class="floatbox bugfix">
+<div>Float,<br /><span>with<br />{display: inline;}</span></div>
+</div>
+
+<div style="clear: both;"></div>
+
+</div>
+
+<!--XXXXXXXXX End Live Demos XXXXXXXXX-->
+
+<div class="textbox">
+<pre>
+
+.floatbox {
+  float: left;
+  width: 150px;
+  height: 150px;
+  margin: 5px 0 5px 100px;
+  <span>display: inline;</span>
+  }
+</pre>
+
+<h4>Serendipity</h4>
+
+<p>
+You may notice that this bug fix idea is duplicated at the bottom of Steve's demo page. Y'see, at the beginning
+of this episode Steve noticed the <a href="floatIndent.html">IE&nbsp;text&nbsp;indent&nbsp;bug</a> and found the "inline" fix for it.
+He brought it to our attention and since this was a cool bug with a fix, we then asked Steve to
+write it up as a "Guest Demo" for PIE. During the course of preparing the demo, Steve discovered that the fix
+also works to cure the Doubled Margin Bug, a much more common problem.  Steve is a busy guy, so he asked
+me to write this "in depth" demo page to cover the fix while explaining the bug itself more completely.
+</p>
+
+<p>
+We started our Guest Demo "program" primarily for encouraging others to focus their attentions on the various
+CSS display difficulties (and to avoid so much hard work ourselves).
+</p>
+
+<p>
+Well! Apparently it's working accordin' to plan. Way to go, Steve! :-)
+</p>
+
+<br />
+
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: June 3, 2009<br />
+Created January 19, 2004
+</p>
+
+</div>
+
+</body>
+
+
+</html>

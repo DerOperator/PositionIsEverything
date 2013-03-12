@@ -1,0 +1,691 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Example - In search of the One True Layout - Nested Rounded Corners</title>
+<style type="text/css">
+/* <![CDATA[ */
+#container
+	{
+	width: 790px;
+	}
+#group_1-8
+	{
+	float: left;
+	width: 630px;
+	}
+#group_9
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	}
+#group_1-5
+	{
+	float: left;
+	width: 470px;
+	margin-left: 160px;
+	}
+* html #group_1-5
+	{
+	display: inline;
+	}
+#block_1
+	{
+	float: left;
+	width: 150px;
+	margin-left: 160px;
+	background-color: #ff0000;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 150px;
+	margin-left: -310px;
+	background-color: #00ff00;
+	}
+#block_3
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #0000ff;
+	}
+#block_4
+	{
+	float: left;
+	width: 230px;
+	margin-left: 240px;
+	background-color: #999900;
+	}
+* html #block_4
+	{
+	display: inline;
+	}
+#block_5
+	{
+	float: left;
+	width: 230px;
+	margin-left: -470px;
+	background-color: #009999;
+	}
+#block_6
+	{
+	float: left;
+	width: 150px;
+	margin-left: -630px;
+	background-color: #990099;
+	}
+#block_7
+	{
+	float: left;
+	width: 310px;
+	margin-left: 320px;
+	background-color: #ffcc00;
+	}
+* html #block_7
+	{
+	display: inline;
+	}
+#block_8
+	{
+	float: left;
+	width: 310px;
+	margin-left: -630px;
+	background-color: #ff6600;
+	}
+#block_9
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #660066;
+	}
+#group_4-5, #group_7-8
+	{
+	margin-top: 10px;
+	}
+/* Start Mac IE5 filter \*//* */
+#block_1, #block_2, #block_3, #block_4, #block_5, #block_6, #block_7, #block_8, #block_9
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px;
+	background-image: url(../images/backgrounds/rounded_TL.gif);
+	background-repeat: no-repeat;
+	}
+/* End Mac IE5 filter */
+@media all and (min-width: 0px) {
+#block_1, #block_2, #block_3, #block_4, #block_5, #block_6, #block_7, #block_8, #block_9
+	{
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+	/* mysterious 5 pixel shift - Opera I love you */
+	margin-top: -5px;
+	background-position: 0 5px;
+	}
+#block_1:before, #block_2:before, #block_3:before, #block_4:before, #block_5:before, #block_6:before, #block_7:before, #block_8:before, #block_9:before
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]';
+	display: block;
+	background: inherit;
+	padding-top: 32767px !important;
+	margin-bottom: -32767px !important;
+	height: 0;
+	}
+}
+.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	height: 20px;
+	background-image: url(../images/backgrounds/rounded_BL.gif);
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	}
+.wrapper .verticalalign
+	{
+	width: 150px;
+	}
+#block_4 .verticalalign, #block_5 .verticalalign
+	{
+	width: 230px;
+	}
+#block_7 .verticalalign, #block_8 .verticalalign
+	{
+	width: 310px;
+	}
+/* since we're using pixel widths we don't need to
+do the usual 100% fix for old Operas or IE */
+.verticalalign p
+	{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	background-image: url(../images/backgrounds/rounded_BR.gif);
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+	}
+/* IE Win shifts these snaps upwards - at some font-sizes (sigh) */
+* html #group_1-3 .verticalalign, * html #group_4-5 .verticalalign, 
+* html #group_7-8 .verticalalign, * html #block_9 .verticalalign
+	{
+	bottom: -1px;
+	}
+/* IE Mac 5 makes a hash of the absolute positioning */
+* html>body .verticalalign
+	{
+	position: static;
+	width: 100% !important;
+	}
+* html>body .verticalalign p
+	{
+	position: static;
+	float: right;
+	}
+.wrapper_extra
+	{
+	position: relative;
+	}
+/* IE 5.01 doesn't like this */
+* html .wrapper
+	{
+	position/**/: relative;
+	}
+.wrapper
+	{
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	display: inline-block; /* Fixes nasty Opera7 scrolling bug */
+	}
+/* easy clearing */
+.wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+.wrapper
+	{
+	display: inline-block;
+	}
+/*\*/
+* html .wrapper
+	{
+/* only IE 5.01 should get this float value - otherwise 5.5 sometimes makes the width of wrapper too small */
+	float: left;
+	float/**/: none;
+	}
+.wrapper
+	{
+	display: block;
+	}
+/* end easy clearing */
+.wrapper h2
+	{
+	z-index: 1000;
+	margin: 0;
+	padding: 10px;
+	background-image: url(../images/backgrounds/rounded_TR.gif);
+	background-position: 100% 0;
+	background-repeat: no-repeat;
+	}
+/* Firefox 1.0 doesn't like the pos:rel - cause text selection problems
+see http://archivist.incutio.com/viewlist/css-discuss/64928 for details */
+* html .wrapper h2
+	{
+	position: relative;
+	}
+.wrapper p
+	{
+	margin: 0;
+	padding: 0 10px 10px 10px;
+	}
+/* ]]> */
+</style>
+<style type="text/css">
+@import url(onetruelayoutbasic.css);
+</style>
+</head>
+<body>
+<div id="header">
+<h1>One True Layout™ - Nested Rounded Corners</h1>
+</div>
+<div id="container" class="wrapper_extra">
+<div class="wrapper">
+<div id="group_1-8">
+<div class="wrapper_extra">
+<div class="wrapper">
+<div id="group_1-5">
+<div id="group_1-3" class="wrapper_extra">
+<div class="wrapper">
+<div id="block_1">
+<h2>Block 1</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 1</p></div>
+</div>
+<div id="block_2">
+<h2>Block 2</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 2</p></div>
+</div>
+<div id="block_3">
+<h2>Block 3</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 3</p></div>
+</div>
+</div><!-- close div.wrapper -->
+</div><!-- close div.wrapper_extra -->
+<div id="group_4-5" class="wrapper_extra">
+<div class="wrapper">
+<div id="block_4">
+<h2>Block 4</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 4</p></div>
+</div>
+<div id="block_5">
+<h2>Block 5</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 5</p></div>
+</div>
+</div><!-- close div.wrapper -->
+</div><!-- close div.wrapper_extra -->
+</div><!-- close div#group_1-5 -->
+<div id="block_6">
+<h2>Block 6</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 6</p></div>
+</div>
+</div><!-- close div.wrapper -->
+</div><!-- close div.wrapper_extra -->
+<div id="group_7-8" class="wrapper_extra">
+<div class="wrapper">
+<div id="block_7">
+<h2>Block 7</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 7</p></div>
+</div>
+<div id="block_8">
+<h2>Block 8</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 8</p></div>
+</div>
+</div><!-- close div.wrapper -->
+</div><!-- close div.wrapper_extra -->
+</div><!-- close div#group_1-8 -->
+<div id="block_9">
+<h2>Block 9</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 9</p></div>
+</div>
+</div><!-- close div.wrapper -->
+</div><!-- close div#container.wrapper_extra -->
+<div id="footer">
+<p>Footer text</p>
+</div>
+<p id="article_location">This example forms part of the <em>Position is Everything</em> article, <a href="../index.html">In Search of the One True Layout</a>.</p>
+<div class="output">
+<h2>HTML Output</h2>
+<pre>
+&lt;div id="container" class="wrapper_extra"&gt;
+&lt;div class="wrapper"&gt;
+&lt;div id="group_1-8"&gt;
+&lt;div class="wrapper_extra"&gt;
+&lt;div class="wrapper"&gt;
+&lt;div id="group_1-5"&gt;
+&lt;div id="group_1-3" class="wrapper_extra"&gt;
+&lt;div class="wrapper"&gt;
+&lt;div id="block_1"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper --&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper_extra --&gt;
+&lt;div id="group_4-5" class="wrapper_extra"&gt;
+&lt;div class="wrapper"&gt;
+&lt;div id="block_4"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_5"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper --&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper_extra --&gt;
+&lt;/div&gt;&lt;!-- close div#group_1-5 --&gt;
+&lt;div id="block_6"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper --&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper_extra --&gt;
+&lt;div id="group_7-8" class="wrapper_extra"&gt;
+&lt;div class="wrapper"&gt;
+&lt;div id="block_7"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_8"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper --&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper_extra --&gt;
+&lt;/div&gt;&lt;!-- close div#group_1-8 --&gt;
+&lt;div id="block_9"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div.wrapper --&gt;
+&lt;/div&gt;&lt;!-- close div#container.wrapper_extra --&gt;
+</pre>
+</div>
+<div class="output">
+<h2>CSS Rules</h2>
+<pre>
+#container
+	{
+	width: 790px;
+	}
+#group_1-8
+	{
+	float: left;
+	width: 630px;
+	}
+#group_9
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	}
+#group_1-5
+	{
+	float: left;
+	width: 470px;
+	margin-left: 160px;
+	}
+* html #group_1-5
+	{
+	display: inline;
+	}
+#block_1
+	{
+	float: left;
+	width: 150px;
+	margin-left: 160px;
+	background-color: #ff0000;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 150px;
+	margin-left: -310px;
+	background-color: #00ff00;
+	}
+#block_3
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #0000ff;
+	}
+#block_4
+	{
+	float: left;
+	width: 230px;
+	margin-left: 240px;
+	background-color: #999900;
+	}
+* html #block_4
+	{
+	display: inline;
+	}
+#block_5
+	{
+	float: left;
+	width: 230px;
+	margin-left: -470px;
+	background-color: #009999;
+	}
+#block_6
+	{
+	float: left;
+	width: 150px;
+	margin-left: -630px;
+	background-color: #990099;
+	}
+#block_7
+	{
+	float: left;
+	width: 310px;
+	margin-left: 320px;
+	background-color: #ffcc00;
+	}
+* html #block_7
+	{
+	display: inline;
+	}
+#block_8
+	{
+	float: left;
+	width: 310px;
+	margin-left: -630px;
+	background-color: #ff6600;
+	}
+#block_9
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #660066;
+	}
+#group_4-5,
+ #group_7-8
+	{
+	margin-top: 10px;
+	}
+/* Start Mac IE5 filter \*//* */
+#block_1, #block_2, #block_3, #block_4, #block_5, #block_6,
+ #block_7, #block_8, #block_9
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px;
+	background-image: url(../images/backgrounds/rounded_TL.gif);
+	background-repeat: no-repeat;
+	}
+/* End Mac IE5 filter */
+@media all and (min-width: 0px) {
+#block_1, #block_2, #block_3, #block_4, #block_5, #block_6,
+ #block_7, #block_8, #block_9
+	{
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+	/* mysterious 5 pixel shift - Opera I love you */
+	margin-top: -5px;
+	background-position: 0 5px;
+	}
+#block_1:before, #block_2:before, #block_3:before, #block_4:before, #block_5:before, #block_6:before,
+ #block_7:before, #block_8:before, #block_9:before
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]';
+	display: block;
+	background: inherit;
+	padding-top: 32767px !important;
+	margin-bottom: -32767px !important;
+	height: 0;
+	}
+}
+.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	height: 20px;
+	background-image: url(../images/backgrounds/rounded_BL.gif);
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	}
+.wrapper .verticalalign
+	{
+	width: 150px;
+	}
+#block_4 .verticalalign, #block_5 .verticalalign
+	{
+	width: 230px;
+	}
+#block_7 .verticalalign, #block_8 .verticalalign
+	{
+	width: 310px;
+	}
+/* since we're using pixel widths we don't need to
+do the usual 100% fix for old Operas or IE */
+.verticalalign p
+	{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	background-image: url(../images/backgrounds/rounded_BR.gif);
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+	}
+/* IE Win shifts these snaps upwards - at some font-sizes (sigh) */
+* html #group_1-3 .verticalalign, * html #group_4-5 .verticalalign, 
+* html #group_7-8 .verticalalign, * html #block_9 .verticalalign
+	{
+	bottom: -1px;
+	}
+/* IE Mac 5 makes a hash of the absolute positioning */
+* html&gt;body .verticalalign
+	{
+	position: static;
+	width: 100% !important;
+	}
+* html&gt;body .verticalalign p
+	{
+	position: static;
+	float: right;
+	}
+.wrapper_extra
+	{
+	position: relative;
+	}
+/* IE 5.01 doesn't like this */
+* html .wrapper
+	{
+	position/**/: relative;
+	}
+.wrapper
+	{
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	display: inline-block; /* Fixes nasty Opera7 scrolling bug */
+	}
+/* easy clearing */
+.wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+.wrapper
+	{
+	display: inline-block;
+	}
+/*\*/
+* html .wrapper
+	{
+/* only IE 5.01 should get this float value - otherwise 5.5 sometimes makes the width of wrapper too small */
+	float: left;
+	float/**/: none;
+	}
+.wrapper
+	{
+	display: block;
+	}
+/* end easy clearing */
+.wrapper h2
+	{
+	z-index: 1000;
+	margin: 0;
+	padding: 10px;
+	background-image: url(../images/backgrounds/rounded_TR.gif);
+	background-position: 100% 0;
+	background-repeat: no-repeat;
+	}
+/* Firefox 1.0 doesn't like the pos:rel - cause text selection problems
+see http://archivist.incutio.com/viewlist/css-discuss/64928 for details */
+* html .wrapper h2
+	{
+	position: relative;
+	}
+.wrapper p
+	{
+	margin: 0;
+	padding: 0 10px 10px 10px;
+	}
+</pre>
+</div>
+</body>
+
+
+</html>

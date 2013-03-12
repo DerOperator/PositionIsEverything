@@ -1,0 +1,506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>IE and italics problem</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="italic,html,css,bug,Internet Explorer,demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A bug report dealing with Explorer's problems with justified and italicized text." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	color: black;
+	background-color: white;
+	font-size: 100%;
+	margin: 1em 7% 3em 7%;
+}
+
+.css {
+	background-color: #ffe;
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+}
+pre {
+	background-color: #ffe;
+}
+a {
+	text-decoration: underline;
+}
+a, a:visited {
+	color: #039;
+}
+a:hover {
+	color: red;
+	text-decoration: none;
+}
+.small {
+	font-size: 0.9em;
+}
+/* styles for examples */
+.ex1, .ex1i, .ex2, .ex2i, .ex2p, .ex2ip {
+	font-size: 40px;
+	font-family: 'Times New Roman', serif;
+	margin: 10px 0;
+	padding: 0;
+	background: #cfc url(images/g10vc.gif) repeat;
+}
+.ex1, .ex1i {
+	border: 1px solid black;
+	width: 200px;
+}
+* html .ex1, * html .ex1i {
+	width: 202px;
+	w\idth: 200px;
+}
+.ex2, .ex2i, .ex2p, .ex2ip {
+	width: 6em;
+	text-align: justify;
+}
+.ex2p, .ex2ip {
+	padding: 0 0.4em;
+}
+* html .ex2p, * html .ex2ip {
+	width: 6.4em;
+	w\idth: 6em;
+}
+.ex1i, .ex2i, .ex2ip {
+	font-style: italic;
+	background-color: #ff9;
+}
+.wrap3, .wrap3h {
+	width: 90%;
+	background-color: #eee;
+}
+.wrap3 {
+	overflow-x: scroll;
+}
+.wrap4 {
+	width: 100%;
+}
+.side, .sideh {
+	float: left;
+	width: 160px;
+	background-color: #ccf;
+}
+.main, .mainh, .mainh5, .mainh6 {
+	margin-left: 170px;
+	background-color: #cfc;
+}
+.sideimg {
+	float: left;
+	width: 160px;
+	height: 80px;
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+.mainimg {
+	margin-left: 200px;
+	background-color: #cfc;
+	width: 300px;
+}
+.wrapimg {
+	width: 90%;
+	background: #eee url(images/g100vc2.gif) repeat;
+}
+.ex2wrap {
+	float: left;
+	margin-right: 20px;
+}
+.clear {
+	clear: both;
+}
+
+/* the following rule selectors are preceeded by "* html ", which allows IE6 and below
+to read the rules but prevents IE7 and up from reading them. */
+
+* html .wrap3, * html .wrap3h, * html .wrapimg {
+	height: 1%;
+}
+* html .mainh, * html .mainh5 {
+	margin-left: 0;
+	height: 1%;
+}
+* html .sideh {
+	margin-right: 7px;
+}
+* html .mainh5 {
+	overflow: visible;
+	width: 95%;
+	w\idth: auto;
+}
+* html .mainh6 {
+	margin-left: 0;
+	overflow: hidden;
+	o\verflow: visible;
+	width: 100%;
+	w\idth: auto;
+	he\ight: 1%;
+}
+* html .sideimg {
+	margin: 0 -3px;
+	ma\rgin: 0;
+}
+
+.alignright {margin: -3.5em 0 2em 0; text-align: right; font-size: .9em; list-style: none;}
+.alignright a {color: #000;}
+
+</style>
+</head>
+
+<body>
+
+<h1>IE and italics</h1>
+
+<ul class="alignright">
+<li><a href="../explorer.html">Return to Explorer Demos</a></li>
+<li><a href="../guests.html">Return to Guest Demos</a></li>
+<li><a href="doubled-margin.html">Next Explorer demo</a></li>
+</ul>
+
+<p>In this page a problem that IE6 and below have with italic text is described, with some (partial) fixes.
+<br /><strong><em>Note that IE7 does not show the bug</em></strong>.</p>
+
+
+<h2>The problem and some first examples</h2>
+<p>In short IE6 and lower have problems in computing/honoring the width of block elements that contain italic text. In its simplest form the problem can be seen here (to make it more evident a big font size and fixed pixel measurements have been chosen.) The two following boxes have a declared width of 200px. The first one honors it while the second one, which contains italic text, doesn't. It is about 9px wider. <span class="small">(Please note that there is nothing that prevents the two words to be broken in two different lines, and this actually happens with slightly changed values for width, font-size, ....)</span></p>
+
+<p class="ex1">lorem ipsum</p>
+<p class="ex1i">lorem ipsum</p>
+
+<p>Here is a screen shot, in case you are not viewing in IE6:<br />
+<img src="images/scr_IEt_1.gif" width="223px" height="119px" alt="screen shot of IE6 italics problem" /><br /></p>
+
+<p>The effect of the problem is always that a block element (the innermost container of the italics) is wider than it should be.
+It is not necessary for the element to have an assigned width, also elements with "auto" width are affected.  Depending on the
+page this effect may either be unnoticeable or totally break a layout.</p>
+
+<p><a name="one"></a>The problem affects any IE5 and IE6. The exact conditions that trigger it are not known, so the problem seems rather random.
+A (probably not exhaustive) list of findings:</p>
+
+<ul>
+<li>The occurrence of the problem seems affected by: length of the text line, specific content, and font (family, size, ...)</li>
+<li>A couple of italic words (maybe in the middle of normal text) are sometime sufficient to trigger the problem.</li>
+<li>To trigger the problem it seems necessary to have an italic word at the beginning or at the end of a line.</li>
+<li>The problem is of course more frequent if there is more italic text.</li>
+<li>The problem is much more frequent if there is italic and justified text: a block of italic justified text is almost always wider than necessary. This combination is not so much used on the web, but can be useful to study the bug.</li>
+<li>Of course it doesn't matter how the italics are obtained (&lt;em&gt; tags with standard setting, font-style:italic on a &lt;span&gt; tag, ...)</li>
+</ul>
+
+<p><a name="two"></a>Here is a separate <a href="sidepages/IEt_ij.html">page</a> with italic and justified text. No fixed font-size, so you can resize it,
+and see the varying effect of the bug.</p>
+
+<p>It is normal that some letters (like 'j', 'f', especially in their italic form) protrude from their container box (if no padding is present.)
+See the following example, or better this separate <a href="sidepages/IEt_ij2.html">page</a>, in IE6 and in Mozilla (or Opera.)</p>
+
+<p class="ex2">jj m m off three six.</p>
+<p class="ex2i">jj m m off three six.</p>
+
+<p>The following are screen shots of the rendering in IE6 (left), and in Mozilla (right.)  Op7 renders the same as Mozilla.<br/>
+<img src="images/scr_IEt_3.gif" width="270px" height="224px" alt="IE/Win rendering, cropped letters and enlarged boxes" />
+<img src="images/scr_IEt_2.gif" width="270px" height="224px" alt="Mozilla rendering, overflowing letters" /></p>
+
+<p>It seems that:</p>
+
+<ul>
+<li>In case of not italic text, IE6 wrongly crops the protruding parts.</li>
+<li>In case of italics, IE6 crops at the left side the protruding parts, and applies at the right side its wrong "ability" to enlarge a box instead of allowing the content to overflow.</li>
+</ul>
+
+<p><a name="three"></a>These overflowing/cropping effects are rarely noticed because normally text is surrounded by padding which mask them.<br/>
+But the IE6 box enlarging effect is much more noticeable. And it occurs even if there is enough padding to mask any overflow of the
+text, i.e. it cannot be fixed with the simple addition of padding.</p>
+
+<p>Looking at the examples with several IE versions (6, 5.5, 5.0), it appears that the problem is worse in IE5.0: the box
+enlargement seems always the same, but the text sometimes takes up more space, i.e. it comes nearer to the box edges.<br/>
+<span class="small">And a further weird bug sometimes appears in IE5.0 with justified italic text: a word touching the end
+of a line is entirely repeated at the beginning of the next line!</span></p>
+
+
+<h2>A second example</h2>
+
+<p><a name="four"></a>To show another manifestation of the problem we just need a page containing a single paragraph, with 'auto' or '100%' width, and italics.
+Please open the <a href="sidepages/IEt_fps.html">example</a> in a new window and slowly change its horizontal dimension. In IE6
+you will see an horizontal scrollbar that comes and goes. The horizontal scrollbar appears when IE renders the paragraph wider than
+it should. The amount of the problem is a few pixels, and (as already mentioned) is dependent on the font.</p>
+
+<p>This case also shows that the problem has further variance depending on IE version (6, 5.x) and, for IE6, mode (quirks, standards.)</p>
+
+<ul>
+<li>The previous page puts IE6 in standards mode and doesn't set any dimension for the paragraph. This is sufficient for IE6 to show the problem. But if the page is seen in IE5.x (which doesn't know about standards mode) the problem does not occur. The same if IE6 were put in quirks mode.</li>
+<li>This other <a href="sidepages/IEt_fpq.html">page</a> has width:100% set on the paragraph, and shows the problem with any IE/Win (and in any mode.)
+More generally it seems that setting any dimension on the element "helps" the bug to show up.  In other words: in standards mode the problem
+is always there, in quirks mode only if the containing element has any assigned dimension.</li>
+</ul>
+
+
+<h2>A third example</h2>
+
+<p>This is a slightly more complex example to show how this bug can weirdly mix with other IE6 misbehaviors. Let's assume we have:</p>
+
+<ul>
+<li>a left floated element (with any assigned width, it doesn't matter if expressed in px or em or percentage)</li>
+<li>some content that should flow at the right of the float, with italic text.</li>
+</ul>
+
+<p>The relevant markup is something like:</p>
+
+<pre>
+&lt;div id="side"&gt;some side content&lt;/div&gt;
+&lt;div id="main"&gt;some &lt;em&gt;main content&lt;/em&gt;&lt;/div&gt;
+&lt;div style="clear:both;"&gt;&lt;/div&gt;
+</pre>
+
+<p>And the relevant css:</p>
+
+<pre>
+#side {
+	float: left;
+	width: 160px;
+	background-color: #ccf;
+}
+#main {
+	margin-left: 170px;
+	background-color: #cfc;
+}
+</pre>
+
+<p><a name="five"></a>The example:</p>
+
+<div class="wrap3"><div class="wrap4">
+	<div class="side">
+	A left floated element, with width:160px.<br/>
+	Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore.
+	</div>
+	<div class="main">
+	A div with some italics and margin-left:170px.<br/>
+	<em>Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</em>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div></div>
+
+<p>Better seen in a <a href="sidepages/IEt_fis.html">separate page</a>.</p>
+
+<p>The effect of the bug on such example is a horizontal scrollbar appearing at some window sizes, as in the second example,
+because the main div takes up more than the available space.</p>
+
+<p>Now let's add a small thing that is commonly used to avoid many other IE bugs, i.e. the
+<a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a>, applied to the main div
+In our specific example this will cure the 3px jog. Note that the zoom fix is proprietary and won't
+validate unless it's hidden as described in the <a href="../articles/haslayout.html">Zoom&nbsp;Fix&nbsp;page</a>.
+Also be aware that IE7 does not need these fixes, so they are hidden in the example below via use of the star-html filter,
+which prevents IE7 and above from reading the rules. You may prefer just to use targeted conditional comments
+to achieve the same thing.</p>
+
+<pre>
+* html #main { margin-left: 0; height: 1%; }
+* html #side { margin-right: 7px; }
+</pre>
+
+<p><a name="six"></a>This is the rendered result:</p>
+
+<!-- wrapper esterno solo per Op6 -->
+<div><div class="wrap3h">
+	<div class="sideh">
+	A left floated element, with width:160px.<br/>
+	Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore.
+	</div>
+	<div class="mainh">
+	A div with some italics and a stated dimension.<br/>
+	<em>Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</em>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div></div>
+
+<p>Better seen in a <a href="sidepages/IEt_fih.html">separate page</a>.</p>
+
+<p>Now when the browser window is horizontally resized a much more interesting effect appears. The green main div that should
+stay at the right of the float jumps below the float and then again beside it, depending on the window width.</p>
+
+<p>So what happens? Only IE6 really knows, I can only say that:</p>
+<ul>
+<li>Due to the italics bug, IE6 makes (sometimes) the main div wider than it should.</li>
+<li>Anything that triggers HasLayout (such as the zoom fix) puts the IE6 rendering of the main div in a slightly different mode, that I would say "more blocky."</li>
+<li>The two previous points trigger another IE bug, that causes the main div to drop below the float when it cannot fit at its side.<br/>
+This is indeed another known common IE/Win problem. In short: a block element with a fixed dimension which should flow at the side of a float is instead moved below the float when there is not enough space. The problem usually appears only for window sizes below a certain value, but now it weirdly mixes with the italics problem, giving the jumping effect.</li>
+</ul>
+
+<p>Of course this combined jumping problem may occur in more complex situations and be not so easy to spot, in pages where
+there are many other elements which wrap or are wrapped by the ones that trigger the problem. The essential factors for it to appear
+seem to be:</p>
+
+<ul>
+<li>a float</li>
+<li>a block element which should flow at the side of the float, with hasLayout triggered on it</li>
+<li>some italics contained (even not directly) in the block</li>
+</ul>
+
+<p>Neither rearrangements of margins of the float and of the main div, nor addition of wrapping elements, seem to avoid the problem.</p>
+
+<p class="small"><a name="seven"></a>Here is a simple example showing the other mentioned IE problem. There is a left floated image (an image and not a
+div, to avoid mixing with the 3px jog problem), followed by a green div with fixed width and a margin-left to push it at the right of the
+image, all inside a container. If the browser window is narrowed enough, so that the "liquid" container should become insufficient to
+contain the green div (with its margin left), then the green div drops below the float, even if no more room is available there then
+beside the float (it simply moves vertically.) Moreover the liquid container stops to shrink (or better: IE enlarges it to enclose the green div.)
+More standard compliant browsers simply allow the fixed width green div to overflow the container and doesn't move it.</p>
+
+<!-- wrapper esterno solo per Op6 -->
+<div><div class="wrapimg">
+	<img class="sideimg" src="images/fli160q.gif" alt="left floated image 160px wide" />
+	<div class="mainimg">A fixed width (300px) div, with margin-left:200px</div>
+	<div class="clear">&nbsp;</div>
+</div></div>
+
+<p>Better seen in a <a href="sidepages/IE_fdi.html">separate page</a>.</p>
+
+
+<h2>A (partial) fix for the italics problem</h2>
+
+<p>Some examples shown at the beginning of this page suggest that the problem may somehow be related to an incorrect
+management of content that should overflow its container. Indeed the fix involves the use of the "overflow" property.</p>
+
+<p>Credit goes to <a href="http://webhost.bridgew.edu/etribou">Eric Tribou</a> who
+(in a <a href="http://archivist.incutio.com/viewlist/css-discuss/28590">message</a> on css-discuss)
+described a problem of this type that he had on a page, and how he fixed it. Eric also sent me some useful comments while he was working
+with this bug on his <a href="http://webhost.bridgew.edu/etribou/layouts/">layout pages</a>.</p>
+
+<p>The fix (for IE5.5 and IE6) is simple, it requires the following two actions:</p>
+<ul>
+<li>add <span class="css">overflow: visible</span> to the (innermost) <span class="css">block element</span>
+containing the italic text (the element whose width is going to be wrong)</li>
+<li>make sure that this element has the <a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a> applied</li>
+</ul>
+
+<p>The overflow declaration should have no effect since "visible" is the default value of the "overflow" property,
+however it seems to change something in the IE5.5+/Win rendering, so that the enlarging of the element no more happens.</p>
+
+<p>These are the same examples of the beginning of this page, with the fix. Now all the boxes honor the stated width.</p>
+
+<p class="ex1">lorem ipsum</p>
+<p class="ex1i" style="overflow: visible;">lorem ipsum</p>
+
+<p class="ex2">jj m m off three six.</p>
+<p class="ex2i" style="overflow: visible;">jj m m off three six.</p>
+
+<p>Please note that, as result of the fix, the letters that should overflow the boxes, are really cropped. Fortunately these are rather
+extreme cases. Normally there is padding around the text, so the crop doesn't happen, and all is well.</p>
+
+<p>This fix doesn't have any effect in IE5.0, it works only in IE5.5+.  A fix for IE5.0 is:</p>
+<ul>
+<li>use <span class="css">overflow: hidden</span></li>
+<li>make sure that the box has an assigned <span class="css">width.</span></li>
+</ul>
+
+<p>This restores the correct width for the box containing the italics. However (as we noted) IE5.0 really needs more space,
+so the fix may (more frequently than in IE5.5 and IE6) cause the text to be cropped. Care should be taken that sufficient padding
+is present to avoid this. It seems that a padding of 0.4em is always enough, while the half (0.2em) is sufficient for IE5.5 and IE6.</p>
+
+<p>The same examples as before, now with overflow: hidden. The last example is repeated with some padding, to avoid the letters cut off
+(and the other bug, in IE5.0 only, of the repeated word.)</p>
+
+<p class="ex1">lorem ipsum</p>
+<p class="ex1i" style="overflow: hidden;">lorem ipsum</p>
+
+<div class="ex2wrap">
+<p class="ex2">jj m m off three six.</p>
+<p class="ex2i" style="overflow: hidden;">jj m m off three six.</p>
+</div>
+<div class="ex2wrap">
+<p class="ex2p">jj m m off three six.</p>
+<p class="ex2ip" style="overflow: hidden;">jj m m off three six.</p>
+</div>
+<div class="clear">&nbsp;</div>
+
+<p>It should also be noted that for IE5.5 and IE6, both overflow:visible and overflow:hidden, produce the same effect. Obviously
+the former is preferable, unless the box contains just text, to prevent other undesired cropping.</p>
+
+<p><a name="eight"></a>This is the same "jumping" page presented in the third example, with the added fix (overflow:visible for IE6,
+overflow:hidden for IE5.)  No more jumping of the content beside/below the float.</p>
+
+<!-- wrapper esterno solo per Op6 -->
+<div><div class="wrap3h">
+	<div class="sideh">
+	A left floated element, with width:160px.<br/>
+	Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore.
+	</div>
+	<div class="mainh6">
+	A div with some italics, a stated dimension, overflow:visible for IE6/Win, overflow:hidden for IE5.x/Win<br/>
+	<em>Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</em>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div></div>
+
+<p>Better seen in a <a href="sidepages/IEt_fioh.html">separate page</a>. This is the whole fix, hidden from IE7 and all non-IE/Win browsers):</p>
+<pre>
+* html #main {
+	overflow: hidden;
+	o\verflow: visible;
+	width: 100%;
+	w\idth: auto;
+	zoom: 1;
+}
+</pre>
+
+<p>Note: The use of width:100% in this page is possible thanks to another IE5 "peculiarity": it doesn't mean 100% of
+the parent box (which would not be appropriate), but 100% of the "available" space, i.e. the space that remains at the right
+of the float, see the <a href="../articles/float-bugs-1.html">IE float model</a>.</p>
+
+<p><a name="nine"></a>If one wants to avoid the overflow:hidden solution for IE5.0, another way to solve the problem is to set the width of
+the affected element to a value slightly less than the desired, to absorb the enlargement without breaking the layout. For
+example if the wanted width is 100%, then use 95% instead, if it is 17em, then use 16.6em. In other words: instead of forcing
+(with overflow:hidden) the box width to the desired value, simply assign a smaller width to the box, so that its enlargement
+doesn't break the layout.  This is not really a fix, but rather an obvious workaround, however it helps, sometimes.
+The following example is again the "jumping" case, now solved feeding IE5 with width:95% for the "second column" div.</p>
+
+<!-- wrapper esterno solo per Op6 -->
+<div><div class="wrap3h">
+	<div class="sideh">
+	A left floated element, with width:160px.<br/>
+	Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore.
+	</div>
+	<div class="mainh5">
+	A div with some italics, a stated dimension, overflow:visible, and width:95% for IE5/Win.<br/>
+	<em>Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</em>
+	</div>
+	<div class="clear">&nbsp;</div>
+</div></div>
+
+<p>Better seen in a <a href="sidepages/IEt_fi5.html">separate page</a>.</p>
+
+
+<h2>Final considerations</h2>
+
+<p>There are probably other things to discover about this problem and maybe methods to avoid it.</p>
+
+<p>I found explicit mentions of it just in a few messages on <a href="http://www.css-discuss.org/">css-discuss</a> and
+in the <a href="http://simon.incutio.com/archive/2003/04/09/italicBlockquotesCauseScrollba">Simon Willison 's weblog</a>.
+If anyone has further findings, or disagrees on something stated in this page, then I would like to
+<a href="mailto:bf@mclink.it">hear</a>.</p>
+
+<p>Many thanks to all css-d members (from whom I learned a lot about css and browsers problems) and especially to
+Big&nbsp;John.</p>
+
+<p>
+Created March 2004 by <a href="http://www.brunildo.org/test/">Bruno Fassino.</a><br />
+Last updated: September 9th, 2008<br />
+</p>
+
+</body>
+
+
+</html>

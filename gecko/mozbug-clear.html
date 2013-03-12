@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+	<title>Mozilla Clearing Bug</title> 
+
+<meta name="Big John" content="June 21, 2003" />
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A demo showing a float bug in Mozilla." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+
+html, body {margin: 0; padding: 0; border: 0;} /*** Kills all browser defaults ***/
+
+body {
+     background: #eed; 
+     color: #000; 
+     margin: 80px 0 0 18%; 
+     padding: 0;
+     font-family: verdana, sans-serif;
+     font-size: 80%;
+}
+
+h1 {
+position: absolute; 
+left: 12%; 
+top: 30px; 
+margin: 0; 
+font-size: 1.8em;
+}
+
+h2 {
+font-size: 1.1em; 
+margin: 0 15px; 
+padding: 20px 0 0;
+}
+
+p  {
+margin: .4em 10px 0 30px; 
+padding-bottom: .8em;
+}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+.return {position: absolute; width: 12em; right: 20px; top: 20px;}
+
+a {color: #000; text-decoration: underline;}
+
+.leftfloat h3 {
+text-align: left;
+padding: 10px;
+margin: 0;
+color: #0a0;
+}
+
+.rightfloat h3 {
+text-align: right;
+padding: 10px;
+margin: 0;
+color: #d00;
+}
+
+/*XXXXXXXXXX Start of demo CSS XXXXXXXXXXX*/
+
+.leftfloat {
+float: left;
+width: 240px;
+height: 80px;
+border: 5px solid #d00;
+background: #f0e0d0; 
+margin: 0;
+}
+
+.rightfloat {
+float: right;
+width: 240px;
+height: 80px;
+border: 5px solid #0a0;
+background: #e0f0e0; 
+margin: 0;
+}
+
+#content {
+border: 2px solid #000;
+background: #fffcf8;
+width:85%; 
+/*** Given a 'width' only to protect IE from various bugs. It has no effect on the mozbug. ***/
+}
+
+</style>
+
+</head>
+<body>
+
+<h1>Mozilla Clearing Bug</h1>
+
+<div class="return">
+<a href="../gecko.html"><strong>Return to Oopsies</strong></a>
+</div>
+
+
+<div id="content">
+
+<div class="leftfloat">
+<h3>Left float</h3>
+</div>
+
+<div class="rightfloat">
+<h3>Right float</h3>
+</div>
+
+<h2 style="clear: right">The Setup</h2>
+
+<p>
+The two colored boxes above are left and right floated boxes. Left comes first in the source, 
+right second, and both are followed by a flowed header ("The Setup") that has 'clear: right' applied to it. 
+The floats have a fixed pixel width. That's basically all there is to it. The body is margined a bit, and the 
+main header is absolute, so it is not involved with this demo in any important way.
+</p>
+
+<p>
+So you're asking "what's the big deal?". Well, when opposing floats like this cannot both fit side by side in a 
+container, the second one is forced below the first. In this case the green right float would go below the 
+red left float (but still remain floated to the right). Since the h2 element above ("The Setup") is cleared for right floats, it should 
+appear below the right float.
+</p>
+
+<h2>The Bug</h2>
+
+<p>
+<strong>In Geckos previous to Firefox 1.0</strong>, that does not happen. Instead, if the window is narrowed enough to cause a float wrap,
+the header (and the following flowed elements) begin up alongside the <em>left float!</em>
+In fact, the content is broken into two sections. 
+</p>
+
+<p>
+<strong>So go ahead, narrow that window!</strong>
+</p>
+
+<p>
+Below are screenshots, first in Mozilla (Gecko based browsers), and next in a non-Gecko browser.
+Remember that this bug is <em>fixed</em>, starting from <strong>Firefox 1.0</strong>.
+</p>
+
+<div style="text-align: center;">
+<img src="images/mozclear1.gif" width="357px" height="187px" alt="" />
+<p style="font-size: 1.4em; margin: 0 0 20px 0;">
+Gecko
+</p>
+<img src="images/mozclear2.gif" width="365px" height="244px" alt="" />
+<p style="font-size: 1.4em; margin: 0 0 20px 0;">
+Explorer
+</p>
+
+</div>
+
+<h2>Is There Symmetry?</h2>
+
+<p style="padding-bottom: 30px;">
+Sure is. Below is the same demo, except that the source order of the two floats is reversed,
+and the following header is cleared for left floats.
+</p>
+
+<div class="rightfloat">
+<h3>Right float</h3>
+</div>
+
+<div class="leftfloat">
+<h3>Left float</h3>
+</div>
+
+<h2 style="clear: left;">An Interesting Point</h2>
+
+<p>
+This Mozbug does not occur if the following cleared element has 'clear:&nbsp;both'. Only if the trailing 
+float is followed by an element that is cleared in the same direction as that float, will the Mozbug
+occur. I'll grant you that this situation is slightly unlikely, but gosh darn it, I want full float control!
+Mozilla is such a fine CSS browser that even this slight flaw takes on horrendous proportions.
+</p>
+
+<h2>What about the other browsers?</h2>
+
+<p>
+Opera has no problem with this feat. Amazingly, even Internet Explorer does well, altho
+the container (#content) must have an assigned dimension like height or width to avoid major buggyness in both IE5.5
+and IE6 for windows. Pretty typical for IE.
+</p>
+
+<h2>Fixes?</h2>
+
+<p>
+Uh, yah. Well, moving right along...
+</p>
+
+<p>
+Seriously, There is no way to correct the problem from the coding side. However...
+</p>
+
+<p>
+<strong style="color: #a00; font-size: 1.2em; font-style: italic;">Flash!</strong>
+It now appears (June 2004) that the latest Mozilla build <em>does not have this bug</em>. Woohoo!
+It took a while, but as a bonus they also fixed the problem where a cleared element not directly
+below a float fails to clear that float, which caused great difficulty when laying out the 
+<a href="../piefecta-rigid.html"><strong>Piefecta&nbsp;demo</strong></a>. 
+Hmmm, could there possibly be a connection?
+</p>
+
+<p>
+To see how a Mozbug gets fixed, take a look at the 
+<a href="http://bugzilla.mozilla.org/show_bug.cgi?id=148994">bugzilla page on this issue</a>.
+The fix, while now in the Mozilla builds, has been slow to be applied to the Firefox "branch". There does seem 
+to be some action going on for Firefox, so eventually the fix will become universal.
+</p>
+
+<p>
+<strong style="color: #a00; font-size: 1.2em; font-style: italic;">Flash! </strong> It's November 10th of 2004, and <strong>Firefox 1.0</strong>
+has just been released. A few days ago the fix was not in Firefox RC2, the final beta version, but the first official Firefox release 
+<em>does</em> contain the fix! Wow. This incorrect Gecko behavior was first noticed over 30 months ago, and we never dreamed 
+it would be this close a shave, but all's well that ends well. Woohoo again! Open Source <em>really rocks</em>. Bill Gates, are you taking notes?
+</p>
+
+<p>
+So, this means that while the problems are still around, it's just a matter of a year or two until they become
+very minor and can be ignored. Now if only IE bugs would go away that fast...
+</p>
+
+<p>
+<strong>Special Thanks</strong> to 
+<a href="http://www.neuance.net/"><strong>Douglas Livingstone</strong></a> for 
+discovering this Mozbug and pointing it out to me, and 
+<a href="http://mcsmurf.milten.lima-city.de/"><strong>Frank&nbsp;Wein</strong></a> for 
+pointing out the first instance of a fixed Moz build. 
+
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: December 28, 2005<br />
+Created June 22, 2003
+</p>
+
+</div>
+&nbsp;
+</body>
+
+</html>

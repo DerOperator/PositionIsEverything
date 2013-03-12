@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>The Jello Mold: min-width without scripting in IE, and a semi-liquid layout</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A discussion of the theory of CSS floating." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+<style type="text/css">
+
+</style>
+</head>
+
+<body id="jello">
+
+<h1>The Jello Mold Piefecta Layout</h1>
+
+<div class="maincol">
+
+<p class="alignright">
+<a href="../articles.html"><strong>Return to Articles.</strong></a><br />
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+
+<p style="text-align: right; font-style: italic;">
+
+The Jello Mold wrapper concept is courtesy of <a href="http://uwmike.com/archive/jello-liquid-layout/"><strong>Mike Purvis</strong></a>
+</p>
+
+<div class="sidenav">
+<ul>
+<li><a href="jello-expo.html" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()">Mike's Explanation</a></li>
+<li><a href="sidepages/pie-calc.html" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()">Jello Layout Tool</a></li>
+<li><a href="sidepages/min-demo.html" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()">Minimal Demo</a></li>
+<li><a href="sidepages/jello-piefecta-clean.html" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()">Jello Piefecta</a></li>
+<li><a href="sidepages/remotes/jello-piefecta-clean.css" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()">Jello CSS File</a></li>
+</ul>
+</div>
+
+<h2>Features Of The Jello Mold</h2>
+
+<p>
+If you have done a few liquid and rigid CSS layouts, you will be all too aware
+of their limitations. A rigid layout is great for maintaining text line lengths
+and artistic appearance, but as resolutions keep growing larger these layouts
+show embarrassing side spaces more and more.
+</p>
+
+<p>
+Liquid layouts have their own problems in the wide screens, stretching both text
+lines and designs beyond belief in some cases. Besides the obvious, Explorer for Windows
+can also have very nasty bugs in liquid layouts when rigid content that shares space
+with floats happens to "lock up" the page width. When that happens, the bad old 3px bug
+induces content dropping, and the only cure is to use min-width to stop the shrinkage
+before lockup happens.
+</p>
+
+<p>
+Unfortunately, IE does not support min-width as well as it supports the 3px bug,
+so a JavaScript is then needed to coerce compliance in IE. It's a big pain in the
+you know where.
+</p>
+
+<p class="tip">
+<strong>IE7</strong> now supports min-width and max-width and no longer has the
+3px bug, woohoo!
+</p>
+
+<h3>A New Hope</h3>
+
+<p>
+What if it were possible to create a layout that was not fully rigid, nor fully
+liquid, but at some selectable point in between? Further, what if this method
+also featured a "natural" min-width you could set, without need for scripting?
+Is this too much to ask for? Nope, it is now reality, thanks to another of those
+young geniuses,
+<a href="http://uwmike.com/archive/jello-liquid-layout/"><strong>Mike&nbsp;Purvis</strong></a>.
+Trust us folks, minds don't get any more devious than Mike's.
+</p>
+
+<p>
+The
+<a href="sidepages/jello-piefecta-clean.html">Jello Piefecta</a>
+has several interesting features that can be seen if you narrow and widen the window.
+Yes the center is now liquid, but notice that the outer content edge seems to be
+fluid, but if the window is narrow enough it will fill the viewport. If it is
+made narrower it generates a horizontal scrollbar similar to a min-width on the
+body element.
+</p>
+
+<p>
+But this effect works in IEwin, and there is no scripting! Now widen out the
+window, and while the page also widens, the rate at which it widens is less
+than the window. This rate, and the point where min-width stops the narrowing
+are both fully controllable.
+</p>
+
+<p>
+What you are seeing is the Jello Mold, as described by Mike himself
+<a href="jello-expo.html">here&nbsp;at&nbsp;PIE</a>, and a superb
+invention it is, too. We have taken a <em>new liquid center col version of the Piefecta</em>
+and inserted it into the Jello Mold, with spectacular results. Three cols,
+source ordered, any col longest, every area tilable, rigid side cols and liquid
+center col, and with a nice balance between a rigid and a liquid outer wrapper.
+To top it off, a max-width for those who insist that their text lines not be stretched
+halfway to Alpha Centauri.
+<p>
+
+<p>
+It works in <strong>all modern browsers</strong>, except that IEmac does not do
+the max-width trick, since it does not support either the CSS rule or the
+proprietary MS expression used to cover IEwin. (For a script-free layout, just
+omit the max-width expression for IEwin). IE7 natively supports max-width
+and does not need this expression. In fact the entire method could be dispensed with
+if IE6 were not around, so when it's finally gone you can just use the min-max widths
+and a percentage width on a single wrapper and be done with it. Won't that be nice?
+</p>
+
+<h3>Bugs</h3>
+
+<p>
+In <strong>IEwin</strong>, If any element preceeding the column group has text
+(such as the header), and
+narrowing the screen causes that text to wrap down to an extra line, it will bump
+the col group down as well. This causes IEwin to somehow "forget" the negative
+margining on the left column, causing it to cover the center col.
+</p>
+
+<p>
+Happily any further resizing or refreshing will restore the col margin. This means that
+the bug can only be an issue if a user manually narrows the window to the exact critical
+header wrap dimension, and not one pixel less. Since this is extremely unlikely,
+it's really a non-issue.
+</p>
+
+<p>
+<strong>Safari</strong> has a strange issue with the negative margins on #expander,
+the div that has large negative side margins.
+In that browser, if the Jello Mold is loaded into a window that is already narrower
+than the natural min-width, #expander is displayed as having <em>no width at all</em>,
+resulting in a classic "train&nbsp;wreck". You don't want to know. The answer is
+to assign a real min-width equalling the sum of the negative side margins on #expander,
+<em>to</em> #expander. End of problem. Kudos to
+<strong><a href="http://www.stevenluscherdesign.com/">Steven&nbsp;Luscher</a></strong> for
+discovering the bug and helping to test out the fix.
+</p>
+
+<p>
+There is an <strong>IEmac bug</strong> in designs that use negative margined columns
+that makes the left col links vanish on hover. This bug can be killed via
+a:hover&nbsp;{position:relative;}, <em>applied only on hover</em>. The IEmac fix
+is courtesy of
+<a href="http://la.di.da.free.fr/"><strong>Emmanuel&nbsp;Delaborde</strong></a>.
+</p>
+
+<h3>Rounding Errors</h3>
+
+<p>
+The right col 1px rounding errors are an inherent problem with Gecko (now totally suppressed
+in Firefox&nbsp;3, yay!), which is perhaps a bit <em>too</em> strict when  calculating the
+rendered dimensions of percentage defined elements. You can see the errors in the right col
+and also on the right side of the center col, but only at some window widths. Other browsers
+have rounding errors too, but not in this layout.
+</p>
+
+<p>
+Aditionally, it's possible for the bottom border on the wrapper to lose 1px of width,
+altho this does not always happen.
+See our <a href="../round-error.html">Rounding Errors</a> demo for more info.
+</p>
+
+<p>
+If you do not try to use visible elements that span the full width of this col or
+touch the right edge of the center col, the errors will pass unnoticed, as with this paragraph.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 4, 2008<br />
+Created July 18, 2005
+</p>
+
+</div>
+
+</body>
+
+
+</html>

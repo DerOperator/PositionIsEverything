@@ -1,0 +1,469 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Browser results for the examples - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix C</small>Browser results for the examples</h1>
+
+<p><em>For browsers which exist for different platforms, the results are the same unless expliclty mentioned.</em></p>
+
+<table id="agent_results">
+<caption>Overview of browser behaviour</caption>
+<colgroup span="4" width="25%"></colgroup>
+<thead>
+<tr>
+<th scope="col">Browser</th>
+<th scope="col"><a href="../example/rounded.html">Nested Rounded Corners</a></th>
+<th scope="col"><a href="../example/boxes.html">Boxes</a></th>
+<th scope="col"><a href="../example/borders.html">Borders</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">IE Win 7 beta2</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<th scope="row">IE Win 6.0</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass <a href="#IEWin6_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">IE Win 5.5</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass <a href="#IEWin6_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">IE Win 5.01</th>
+<td>Fail (mild) <a href="#IEWin5.01_rounded">[note]</a></td>
+<td>Fail (moderate) <a href="#IEWin5.01_boxes">[note]</a></td>
+<td>Pass (?) <a href="#IEWin5.01_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">IE Mac 5.2</th>
+<td>Fail <a href="#IEMac5_rounded">[note]</a></td>
+<td>Fail (mild) <a href="#IEMac5_boxes">[note]</a></td>
+<td>Fail (mild) <a href="#IEMac5_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Firefox 1.5</th>
+<td>Pass <a href="#FF1.5b_all">[note]</a></td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Firefox 1.0</th>
+<td>Pass <a href="#FF1_all">[note]</a></td>
+<td>Pass <a href="#FF1_rounded">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 8.0</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.2, 7.1</th>
+<td>Pass <a href="#N7.2_all">[note]</a></td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.0</th>
+<td>Fail (mild) <a href="#N7.0_rounded">[note]</a></td>
+<td>Fail (mild) <a href="#N7.0_boxes">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.2</th>
+<td>Fail <a href="#N6.2_rounded">[note]</a></td>
+<td>Fail (moderate) <a href="#N6.2_boxes">[note]</a></td>
+<td>Fail (severe) <a href="#N6.2_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 9.0 (beta)</th>
+<td>Pass</td>
+<td>Fail (moderate) <a href="#Op9_boxes">[note]</a></td>
+<td>Pass <a href="#Op9_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 8.5, 8.0</th>
+<td>Pass</td>
+<td>Pass <a href="#Op8_boxes">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 7.5</th>
+<td>Pass</td>
+<td>Pass <a href="#Op7.5_boxes">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 7.2</th>
+<td>Fail (mild) <a href="#Op7.2_rounded">[note]</a></td>
+<td>Pass <a href="#Op7.2_boxes">[note]</a></td>
+<td>Fail (mild) <a href="#Op7.2_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 7.1</th>
+<td>Fail (mild) <a href="#Op7.1_rounded">[note]</a></td>
+<td>Pass <a href="#Op7.1_boxes">[note]</a></td>
+<td>Fail (severe) <a href="#Op7.1_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 6.0</th>
+<td>Fail (severe) <a href="#Op6.0_rounded">[note]</a></td>
+<td>Fail (severe) <a href="#Op6.0_boxes">[note]</a></td>
+<td>Fail (severe) <a href="#Op6.0_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Safari 2, 1.3, 1.2</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Safari 1.0</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Fail (mild) <a href="#Saf1.0_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">iCab 3.0beta</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+</tbody>
+</table>
+
+<table id="agent_notes">
+<caption>Notes on individual browser behaviour</caption>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody>
+<tr>
+<th id="IEWin6" colspan="2">IE Win 6.0, 5.5</th>
+</tr>
+<tr>
+<th id="IEWin6_borders">Borders</th>
+<td headers="IEWin6 IEWin6_borders">
+<p>Bizarrely needs adjustment to cater for slight but unexplained  right-hand corner background shift</p>
+</td>
+</tr>
+
+<tr>
+<th id="IEWin5.01" colspan="2">IE Win 5.01</th>
+</tr>
+<tr>
+<th id="IEWin5.01_rounded">Rounded</th>
+<td headers="IEWin5.01 IEWin5.01_rounded">
+<p>Fails to extend all the boxes to quite the absolute height required</p>
+</td>
+</tr>
+<tr>
+<th id="IEWin5.01_boxes">Boxes</th>
+<td headers="IEWin5.01 IEWin5.01_boxes">
+<p>Extends side borders to bottom of page and truncates #block_3d though not its contents. On scrolling, the extended borders vanish which means it's probably <code>pos: rel</code> related</p>
+</td>
+</tr>
+<tr>
+<th id="IEWin5.01_borders">Borders</th>
+<td headers="IEWin5.01 IEWin5.01_borders">
+<p>Basic hacks allow nice degradation that maintains the decorative elements while forgoing the correct stretching of the bottom boxes. Without those hacks the columns simply vanish, presumably due to some <code>pos:rel</code> thing</p>
+</td>
+</tr>
+
+<tr>
+<th id="IEMac5" colspan="2">IE Mac 5.2</th>
+</tr>
+<tr>
+<th id="IEMac5_rounded">Rounded</th>
+<td headers="IEMac5 IEMac5_rounded">
+<p>Since it can't really cope with the snaps or corners it degrades positionally well enough, apart from div 9 which wraps underneath - nothing to do with the wrapping container since giving it extra space does not help.</p>
+</td>
+</tr>
+<tr>
+<th id="IEMac5_boxes">Boxes</th>
+<td headers="IEMac5 IEMac5_boxes">
+<p>Degrades nicely and as expected.</p>
+</td>
+</tr>
+<tr>
+<th id="IEMac5_borders">Borders</th>
+<td headers="IEMac5 IEMac5_borders">
+<p>Degrades nicely and as expected though requiring same background shifting as IE Win 6.0</p>
+</td>
+</tr>
+
+<tr>
+<th id="FF1.5b" colspan="2">Firefox 1.5b1, Camino 1.0a1</th>
+</tr>
+<tr>
+<th id="FF1.5b_all">All</th>
+<td headers="FF1.5b FF1.5b_all">
+<p>Float positioning when negative margins are around is bust in the beta versions and release candidate 1.</p>
+</td>
+</tr>
+<tr>
+<th id="FF1" colspan="2">Firefox 1.0</th>
+</tr>
+<tr>
+<th id="FF1_all">All methods</th>
+<td headers="FF1 FF1_all">
+<p>Also tested and passes in Firefox 0.8 and Mozillas 1.4, 1.5 and 1.6</p>
+</td>
+</tr>
+<tr>
+<th id="FF1_rounded">Rounded</th>
+<td headers="FF1 FF1_rounded">
+<p>The presence of a relatively positioned element within any of the blocks causes weird scrolling effects when trying to select text. This bug has been fixed in 1.5, but just so you know. Details in this <a href="http://archivist.incutio.com/viewlist/css-discuss/64928">[css-d] thread</a>.</p>
+</td>
+</tr>
+<tr>
+<th id="N7.2" colspan="2">Netscape 7.2, 7.1</th>
+</tr>
+<tr>
+<th id="N7.2_all">All methods</th>
+<td headers="N7.2 N7.2_all">
+<p>Strangely enough since I really would have expected these to fail</p>
+</td>
+</tr>
+<tr>
+<th id="N7.0" colspan="2">Netscape 7.0</th>
+</tr>
+<tr>
+<th id="N7.0_rounded">Rounded</th>
+<td headers="N7.0 N7.0_rounded">
+<p>Bottom right corner and snap inset upwards and leftwards.</p>
+<p>Mild failure, and probably hackable for working solutions.</p>
+<p><em>Following a machine crash, I no longer have a copy of Netscape 7.0 and cannot track one down, so this might no longer be true - but who cares?</em></p>
+</td>
+</tr>
+<tr>
+<th id="N7.0_boxes">Boxes</th>
+<td headers="N7.0 N7.0_boxes">
+<p>Extremely close, but bottom bg painting extends beyond the borders of the bottom-most boxes</p>
+</td>
+</tr>
+
+<tr>
+<th id="N6.2" colspan="2">Netscape 6.2</th>
+</tr>
+<tr>
+<th id="N6.2_rounded">Rounded</th>
+<td headers="N6.2 N6.2_rounded">
+<p>Much the same as Netscape 7.0</p>
+</td>
+</tr>
+<tr>
+<th id="N6.2_boxes">Boxes</th>
+<td headers="N6.2 N6.2_boxes">
+<p>Much the same as Netscape 7.0 but not quite as close</p>
+</td>
+</tr>
+<tr>
+<th id="N6.2_borders">Borders</th>
+<td headers="N6.2 N6.2_borders">
+<p>An utter mess</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op9" colspan="2">Opera 9.0 (beta)</th>
+</tr>
+<tr>
+<th id="Op9_boxes">Boxes</th>
+<td headers="Op9 Op9_boxes">
+<p>Final boxes only painted as far as bottom of verticallt aligned elements leaving ghostly space above bottommost border for each column.</p>
+</td>
+</tr>
+<tr>
+<th id="Op9_borders">Borders</th>
+<td headers="Op9 Op9_borders">
+<p>To get Opera 9 and 8 to play together at the same time requires some mundane if verbally spectacular and verbose hackery. Of course, you could just drop support for Opera 8...</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op8" colspan="2">Opera 8.5, 8.0</th>
+</tr>
+<tr>
+<th id="Op8_boxes">Boxes</th>
+<td headers="Op8 Op8_boxes">
+<p>Weirdness going on when setting margin and padding, along with ems. Gets it basically right but the leftmost column is shunted rightwards and needs explicit surgery to rectify things - which causes reload side-effect oddness in IEs.</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op7.5" colspan="2">Opera 7.54</th>
+</tr>
+<tr>
+<th id="Op7.5_boxes">Boxes</th>
+<td headers="Op7.5 Op7.5_boxes">
+<p>As with Opera 8</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op7.2" colspan="2">Opera 7.23</th>
+</tr>
+<tr>
+<th id="Op7.2_rounded">Rounded</th>
+<td headers="Op7.2 Op7.2_rounded">
+<p>Top left rounded corners dissappear</p>
+</td>
+</tr>
+<tr>
+<th id="Op7.2_boxes">Boxes</th>
+<td headers="Op7.2 Op7.2_boxes">
+<p>As with Opera 8</p>
+</td>
+</tr>
+<tr>
+<th id="Op7.2_borders">Borders</th>
+<td headers="Op7.2 Op7.2_borders">
+<p>As with Opera 8</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op7.1" colspan="2">Opera 7.10</th>
+</tr>
+<tr>
+<th id="Op7.1_rounded">Rounded</th>
+<td headers="Op7.1 Op7.1_rounded">
+<p>As with Opera 7.23</p>
+</td>
+</tr>
+<tr>
+<th id="Op7.1_boxes">Boxes</th>
+<td headers="Op7.1 Op7.1_boxes">
+<p>Bizarre! No overlong scrolling page!</p>
+</td>
+</tr>
+<tr>
+<th id="Op7.1_borders">Borders</th>
+<td headers="Op7.1 Op7.1_borders">
+<p>Bottom boxes overly extended</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op6.0" colspan="2">Opera 6.06</th>
+</tr>
+<tr>
+<th id="Op6.0_rounded">Rounded</th>
+<td headers="Op6.0 Op6.0_rounded">
+<p>Block 1 disappears, most snaps vanish, bottom corners vanish or incorrectly placed</p>
+</td>
+</tr>
+<tr>
+<th id="Op6.0_boxes">Boxes</th>
+<td headers="Op6.0 Op6.0_boxes">
+<p>Block 3 covers the central column (Block 1), snaps and bottom borders all over the place</p>
+</td>
+</tr>
+<tr>
+<th id="Op6.0_borders">Borders</th>
+<td headers="Op6.0 Op6.0_borders">
+<p>Block 3 covers the central column (Block 1), snaps and borders not shifted to bottom.</p>
+<p>Potentially hackable to degrade nicely à la IE Mac 5...</p>
+</td>
+</tr>
+
+<tr>
+<th id="Saf1.0" colspan="2">Safari 1.0.3</th>
+</tr>
+<tr>
+<th id="Saf1.0_borders">Borders</th>
+<td headers="Saf1.0 Saf1.0_borders">
+<p>Top borders not drawn correctly</p>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+
+
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li><a href="methodresults.html">Browser results for the methods</a></li>
+<li class="current">Browser results for the examples</li>
+<li><a href="holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="theory.html">Notes on theory</a></li>
+<li><a href="notes.html">Miscellaneous notes</a></li>
+<li><a href="equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

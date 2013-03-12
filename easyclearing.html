@@ -1,0 +1,621 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+<title>Clearing a float container without source markup</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="This demo shows a bug in IE when multiple floats are in a 'widthless' container." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">
+if (window.self != window.top) window.top.location = window.self.location;
+/* break my page out of any naughty framer's site. */
+</script>
+
+<style type="text/css">
+
+html {
+margin: 0;
+padding: 0;
+border: 0;
+}
+
+body {
+margin: 0;
+padding: 0;
+font-size: 100.01%;
+background: #f8eedd;
+font-family: verdana,sans-serif;
+}
+
+h1 {font-size: 1.4em; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h2 {font-size: 1.2em; font-weight: bold; margin: 2.5em 10% .5em;}
+
+h3 {font-size: 1.1em; font-weight: bold; margin: 1.5em 13% .5em;}
+
+.textbox {margin: 2em 0 3em; font-size: .8em;}
+
+.textbox p {margin: .6em 18% .6em 18%; padding: 0;}
+
+blockquote {margin: 1.6em 22% 1.6em; padding: 0;}
+
+.red {color: #d00;}
+
+a {color: #000;}
+
+.alignright {margin: 0 30px 30px 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+pre {margin: 30px 8%; padding: 20px 10px 20px 30px; background: #f0ddb8;
+	border: 2px solid #000; font-size: 120%; font-weight: bold; font-family: "courier new", monospace;}
+
+pre span {color: #d00;}
+
+ul {text-align: right; padding-right: 30px; list-style: none; font-size: .9em;}
+
+.textbox .imageholder {padding: 20px 0 20px;}
+
+p.alert {border: 1px solid #c00; background: white; padding: 10px; margin: 20px 25%; font-weight: bold;}
+
+/*XXXXXXXXXXXXXXXXXXXX First Demo rules start here XXXXXXXXXXXXXXXXXXXXXXX*/
+
+.guillotine-box {
+float: left;
+width: 200px;
+border: 4px solid #5a5;
+background: #ddd;
+margin: 0 40px 10px 0;
+color: #fff;
+font-size: .8em;
+}
+
+.guillotine-float {
+float: right;
+width: 130px;
+border: 3px solid #ff8;
+background: #766;
+color: #ffd;
+}
+
+.guillotine-box a:hover {
+background: #aaa; /*** Any hovered BG will trigger bug ***/
+}
+
+
+/*XXXXXXXXXXXXXXXXXXXX Second Demo rules start here XXXXXXXXXXXXXXXXXXXXXXX*/
+
+.floatholder {
+border: 4px solid #000;
+margin: 10px 0 0;
+background: #dc8;
+font-size: 1.2em;
+}
+
+.floatbox {
+float: left;
+width: 35%;
+background: #773;
+border: 3px solid #f55;
+color: #ffd;
+}
+
+.floatbox p {margin: 0;}
+
+.floatholder p {margin: 0;}
+
+.clearfix:after {
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+}
+
+.clearfix {display: inline-block;}  /* for IE/Mac */
+
+
+</style>
+
+    <!--[if IE]>
+    <style type="text/css">
+      .clearfix {
+        zoom: 1;     /* triggers hasLayout and clearing effect */
+        display: block;     /* resets display for IE/Win */
+        }  /* Only IE can see inside the conditional comment and read this CSS rule.
+        Don't ever use a normal HTML comment inside the CC or it will close prematurely. */
+    </style>
+    <![endif]-->
+
+
+</head>
+
+<body>
+
+<h1>How To Clear Floats Without Structural Markup</h1>
+
+<ul>
+<li><a href="index-2.html"><strong>Return to PIE</strong></a></li>
+</ul>
+
+<div class="textbox">
+<p style="text-align: right;">
+<em>(This clearing technique was developed by Tony Aslett, of csscreator.com. <br />
+The earliest known mention of the basic :after idea is found
+<a href="http://lists.w3.org/Archives/Public/www-style/2002Aug/0134.html">here</a>.)</em>
+</p>
+
+<p class="alert">
+Notice as of  March 4th, 2008: The article you are reading is getting a bit old and much new information on the subject of clearing has appeared since it was written.
+You may find <a href="http://www.sitepoint.com/blogs/2005/02/26/simple-clearing-of-floats/">this&nbsp;newer&nbsp;article</a> very interesting.
+</p>
+
+<h2  style="margin-top: 30px;">Clearing Floats The Old Fashioned Way</h2>
+
+<p>
+When a float is contained within a container box that has a visible border or background, that float does
+<em>not</em> automatically force the container's bottom edge down as the float is made taller. Instead the float is
+ignored by the container and will hang down out of the container bottom like a flag. Those familiar only
+with Explorer for Windows may scratch their heads and say "That's not right!" True, IE/Win does enclose
+a float within a container 'automatically', but only if the container element happens to possess the MS-only
+quality called
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>.
+</p>
+
+<p>
+This float-enclosing behavior in IE can also  be 'toggled' off again just by hovering of links within the container,
+if that hovering alters either the link background or one of several other CSS properties. Quite a mess,
+and we'll cover it farther along in the article, in the "Toggle&nbsp;Trouble" section.
+</p>
+
+<p>
+The W3C suggests placing a "cleared" element last in the container box, which is then recognized by the
+container height, forcing the container to enclose the float above that cleared element too. It's described
+more fully our article <a href="articles/float-theory.html">Float:&nbsp;The&nbsp;Theory</a>:
+</p>
+
+<blockquote>
+&ldquo;..let's say you give that following box the clear property,
+<span class="red">&nbsp;{clear:&nbsp;both;}&nbsp;</span>.
+What this does is extend the margin on the top of the cleared box, pushing
+it down until it "clears" the bottom of the float. In other words, the top
+margin on the cleared box (no matter what it may have been set to), is increased
+<strong>by the browser</strong>, to whatever length is necessary to keep
+the cleared box below the float.&rdquo;
+</blockquote>
+
+<p>
+So in effect, such a cleared box cannot be at the same horizontal level
+as a preceding float. It must appear just below that level. The image shows
+how this might look, with a red border representing the container element:
+</p>
+
+<div style="margin: 20px 0 20px; text-align: center;">
+<img src="articles/images/clear-box.gif" width="450px" height="248px"
+alt="Shows how a box may clear below a float." />
+</div>
+
+<p>
+The standard method of making an outer container <em>appear</em> to "enclose"
+a nested float is to place a <strong>complete "cleared" element</strong>
+last in the container, which has the effect of 'dragging' the lower edge of the containing box lower
+than the float. Thus the float appears to be enclosed within the container even tho it really isn't.
+The code for a cleared box usually looks something like this:
+</p>
+
+<pre>
+&lt;div> &lt;!-- float container --><br />
+&nbsp;&nbsp;&lt;div style="float:left; width:30%;">&lt;p>Some content&lt;/p>&lt;/div><br />
+&nbsp;&nbsp;&lt;p>Text not inside the float&lt;/p><br />
+&lt;div style="clear:both;">&lt;/div><br />
+&lt;/div>
+</pre>
+
+<p>
+Since that div is not floated, the container must recognize it and enclose
+it, and because of that top margin (added by the browser because of the
+"clear" property), the div "pulls" the bottom edge of the container down
+below the bottom edge of the float.
+</p>
+
+<h2>Problems With The Method</h2>
+
+<p>
+First and foremost, this clearing method is not at all intuitive, requiring an extra element be added to the markup.
+One of the major premises of CSS is that it helps reduce the bloated HTML markup found it the average site these days.
+So having to re-bloat the markup just so floats can be kept within their containers is not an ideal arrangement.
+</p>
+
+<p>
+Besides that, some browsers can have trouble with certain kinds of clearing elements in some situations.
+Mozilla is particularly sensitive to clearing problems.
+</p>
+
+<p>
+Up 'til now there was no other way to do this, but no more! Thanks to the efforts of <strong>Tony&nbsp;Aslett</strong>,
+creator and operator of <a href="http://www.csscreator.com/"><strong>csscreator.com</strong></a>, we can now use advanced
+CSS to "clear" a float container in non-IE browsers and just let IE keep wrongly clearing itself. The upshot is that we now have
+the option to avoid adding that pesky clearing element to the HTML markup. Woohoo!
+</p>
+
+<h2>"Clearing", 21st Century Style</h2>
+
+<p>
+In the new method, <em>no clearing element is used</em>. This does not affect IE/Win which simply keeps enclosing the
+float as always (assuming the container has a stated dimension), but non-IE browsers will need a substitute for
+that element. Here's how it's done.
+</p>
+
+<h3>Using :after</h3>
+
+<p>
+This <a href="http://www.w3.org/TR/REC-CSS2/generate.html#x5">CSS 2 property</a> allows extra content to be
+added at the end of an element via the CSS. That means no actual markup is needed in the HTML. The content is
+specified from within the CSS stylesheet, and appears in the page as would a real HTML element that had been
+inserted following all the normal content of the target element. Such <strong>:after</strong> generated content cannot receive some CSS properties,
+including 'position', 'float', list properties, and table properties. However, the 'clear' property <em>is</em> allowed.
+Do you see where we are going here?
+</p>
+
+<p>
+Imagine that we use <strong>:after</strong> to insert a simple character like a 'period', and then
+give that generated element
+<span class="red">&nbsp;{clear:&nbsp;both;}&nbsp;</span>. That's all you really need to do the job, but no one wants
+a line space messing up the end of their clean container box, so we also use
+<span class="red">&nbsp;{height:&nbsp;0;}&nbsp;</span> and
+<span class="red">&nbsp;{visibility:&nbsp;hidden;}&nbsp;</span> to keep our period from showing.
+</p>
+
+<pre>
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+</pre>
+
+<p>
+Notice that <span class="red">&nbsp;{display:&nbsp;block;}&nbsp;</span> is also applied to the :after
+element, because if it isn't then that element defaults to "inline", and cannot receive the "clear" property.
+Also, Tony's method originally used "overflow: hidden;" to hide the period, but sadly the latest FireFox versions
+will display the period if this is done.
+</p>
+
+<h3>But what about IE?</h3>
+
+<p>
+Since IE7 does not support the :after pseudoclass yet, we must rely on the same"auto-clearing" effect used for IE6,
+and that behavior happens when the float-containing element gets <strong>hasLayout</strong> applied to it.
+A simple declaration of "zoom:&nbsp;1;" will perform this trick in IE5.5 and up, but it's proprietary and needs to be
+<a href="articles/haslayout.html"><strong>hidden</strong></a> in order to validate.
+</p>
+
+<p>
+As a side benefit, hasLayout on float-enclosing elements also prevents several other major
+IE/Win float bugs. However, should this container box be placed following a previous <em>external</em>
+float, the IE height fix will trigger Microsoft's proprietary and illegal
+<a href="articles/float-bugs-1.html">Float&nbsp;Model</a>, so watch out for that, okay?
+</p>
+
+<h3>Toggle Trouble</h3>
+
+<p>
+It so happens that IE has, well, a <em>little problem</em> with this auto-enclosing behavior. You saw
+that coming, didn't you. Yes, IE bugs come in big bunches. This one results when that container element
+has links inside, following the float. When this happens and certain links are hovered, the auto-enclosing
+behavior is toggled or "switched off", causing the lower edge of the container box to suddenly jump up
+to the bottom of the non-floated content. Hovering other links restores the behavior. This interesting
+effect is of course called the <strong>IE/Win Guillotine Bug</strong>
+Those of you viewing in IE/Win may play around with the following live demos, and for a more complete explanation see the
+<a href="explorer/guillotine.html">IE/Win Guillotine Bug</a> demo page .
+</p>
+
+<p>
+The toggling only occurs when <strong>a:hover</strong> is used to change the <strong>link background</strong>
+or many other styling changes, such as <strong>padding</strong>, <strong>margin</strong>, or any
+<strong>font</strong> styling on the link. Strangely, having the <strong>text color</strong>
+change on hover does <em>not</em> toggle the bug.
+</p>
+
+<p>
+The containers are grey with green borders, and the floats are dark brown with yellow borders.
+Notice how the third and fourth links ouside the floats toggle the Guillotine Bug, and the first two
+un-toggle it. This seems to be related to the actual text lines themselves, so any links after the first
+two lines will toggle the effect. Links in the float will all un-toggle
+the effect. Just more weird IE bug behaviors, folks, nothing "unusual".<br/>
+<a href="images/guillotine.gif">Screenshot</a>
+</p>
+
+</div>
+
+<div style="padding: 10px 10% 20px 22%;">
+
+<div class="guillotine-box">
+
+<div class="guillotine-float">
+<a href="#">Float Link</a><br />
+Any link in this float will restore the cutoff portion, as will the links in the first two text lines outside the float.
+Something makes those first two lines "special".
+</div>
+
+<a href="#">Link</a><br />
+<a href="#">Link</a><br />
+<a href="#">Link</a><br />
+<a href="#">Link</a><br />
+
+
+</div>
+
+<div class="guillotine-box">
+
+<div class="guillotine-float">
+<a href="#">Float Link</a><br />
+The non-floated links to the left are wrapped in a paragraph, and that paragraph has the Holly hack value applied to it.
+Say "buh-bye" to the Guillotine Bug!
+</div>
+
+<p class="clearfix" style="margin: 0;">
+<a href="#">Link</a><br />
+<a href="#">Link</a><br />
+<a href="#">Link</a><br />
+<a href="#">Link</a><br />
+</p>
+
+</div>
+
+<div style="clear: both;"></div>
+
+</div>
+
+<div class="textbox">
+
+<p>
+The second demo has been "fixed" by placing those links in a paragraph, which then gets the zoom fix applied to it.
+Any block element will do just as well here. Yes, this means another element is needed, but unlike a clearing div,
+this paragraph is a "semantic" element. Text content really ought to be wrapped in semantic containers anyway, and
+since we forward-thinking coders always have our content thusly contained, it's easy to apply the same .clearfix class
+to one more element.
+</p>
+
+<h3>A Word About Floats In Floats</h3>
+
+<p>
+Observant readers will have noticed that the above demos have "enclosed" floats, even in Opera 7 and Mozilla!
+This is because the demos themselves are floats, and all modern browsers (including IE, luckily) always let floats
+enclose other floats. Of course there has to be an outer float, and it still threatens to break out of <em>its</em> container...
+</p>
+
+<h2>Putting It Together</h2>
+
+<p>
+First, this code gets added to the CSS stylesheet:
+</p>
+
+<pre>
+&lt;style type="text/css">
+
+  .clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    }
+
+&lt;/style>&lt;!-- main stylesheet ends, CC with new stylesheet below... -->
+
+&lt;!--[if IE]>
+&lt;style type="text/css">
+  .clearfix {
+    zoom: 1;     /* triggers hasLayout */
+    }  /* Only IE can see inside the conditional comment
+    and read this CSS rule. Don't ever use a normal HTML
+    comment inside the CC or it will close prematurely. */
+&lt;/style>
+&lt;![endif]--></pre>
+
+
+<p style="margin-bottom: 20px;">
+For the HTML, just add a class of <span class="red">.clearfix</span> to any element containing a float needing to be cleared,
+plus any Guillotine-Bug-fixing block elements within the container.
+That's it! It's not perfect, but it's a whole lot better than adding an entire extra 'dummy' element. Check out this live demo of the
+fix in action:
+</p>
+
+<div style="margin: 0 20%; height: 1%;">
+<!-- NOTE: This div wrapper prevents IE/Win in quirks mode from using BODY as the base for measuring the % width
+on .floatholder. This wrapper must be dimensionally defined before IE<6 will use it as the percentage base. --->
+
+<div class="floatholder">
+<div class="floatbox">
+<p>This float is not enclosed by the surrounding div container. </p>
+</div>
+<p>This container lacks the fix.</p>
+</div>
+
+<div style="height: 20px; clear: both;"></div> <!-- Just a spacer div between the demos -->
+
+<div style="border: 4px solid #000;
+margin: 10px 0 0;
+background: #dc8;
+font-size: 1.2em;" class="clearfix floatholder">
+<!-- the "clearfix" classname MUST be the first class in the attribute for the JS to work! -->
+<div class="floatbox">
+<p>See how this float no longer protrudes out of the containing box, with no extra clearing element used in the container!</p>
+</div>
+<p>This float container has a class attribute of "clearfix", which applies the :after fix, or the Holly hack, depending on the browser.</p>
+</div>
+
+</div>
+
+<h3>IE/Mac Strikes Back</h3>
+
+<p>
+All this is wonderful, but unfortunately IE for the Mac does not "auto-clear" floats, and also does not support
+<strong>:after</strong>, and so is left out of the clearing party. What's to be done?
+</p>
+
+<p>
+You might callously abandon IE/Mac, but consider that many people who use older Macs can't run Safari,
+or several other modern browsers. Thankfully this browser has been dropped by Microsoft, and at some
+future time the numbers of such IE/Mac users will become miniscule. Remember that even if a float
+appears to stick out of a container, no content will actually be obscured. It just won't look as pretty for
+those few viewers, that's all. Each author will have to decide on this issue according to their specific needs.
+</p>
+
+<p>
+This page once described a Javascript method to force compliance in IE/Mac, but now thanks to
+<a href="http://www.nolocation.com/"><strong>Mark&nbsp;Hadley</strong></a> and
+<a href="http://www.loungepenguin.co.uk/indexno.htm"><strong>Matt&nbsp;Keogh</strong></a>
+it's now possible
+to dispense with that ugly Javascript and go with a straight CSS fix. Woohoo!
+</p>
+
+<h3>Taming the IE/Mac Float Problem</h3>
+
+<p>
+Basically the fix is just a matter of applying a <strong>display:&nbsp;inline-block;</strong>
+to the <strong>.clearfix</strong> class, and hiding that property from all other
+browsers. That's it! We can easily do this with our existing code, slightly modified.
+</p>
+
+<pre>
+&lt;style type="text/css">
+
+  .clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+    }
+
+<span style="color: #a00;">.clearfix {display: inline-block;}  /* for IE/Mac */</span>
+
+&lt;/style>&lt;!-- main stylesheet ends, CC with new stylesheet below... -->
+
+&lt;!--[if IE]>
+&lt;style type="text/css">
+  .clearfix {
+    zoom: 1;     /* triggers hasLayout */
+    <span style="color: #a00;">display: block;     /* resets display for IE/Win */</span>
+    }  /* Only IE can see inside the conditional comment
+    and read this CSS rule. Don't ever use a normal HTML
+    comment inside the CC or it will close prematurely. */
+&lt;/style>
+&lt;![endif]--></pre>
+
+<p>
+The <strong>.clearfix {display: inline-block;}</strong> is seen by all browsers, and fixes IE/Mac.
+Then, inside the rule set that is hidden from IE/Mac, the display is reset to <strong>block</strong>.
+That's all she wrote! Simply stick the above code into your CSS, and use <strong>.clearfix</strong>
+on any box that has to contain a sizable float. Ain't that cool? Just watch out for previous external floats
+triggering the <a href="articles/float-bugs-1.html">IE&nbsp;Float&nbsp;Model</a>, as mentioned earlier.
+</p>
+
+<p>
+Kudos to <a href="http://www.fu2k.org/alex/css/cssjunk/FloatInlineBlock.html">Alex&nbsp;Robinson</a>
+for finding that inline-block is superior to the older inline-table fix for IE/Mac.
+</p>
+
+<h2>A Word Of Warning (this is important!)</h2>
+
+<p>
+The W3C float specification requires that a cleared element shall stay below <em>all previous floats</em>. There are no
+exceptions to this requirement! "Previous" in this case means any float that comes earlier in the source document.
+</p>
+<p>
+Up until November of 2004, Firefox was still incorrectly clearing only the floats that were vertically above the clearing element, rather
+than all previous floats. This meant that in those earlier Gecko browsers you could place a floated column down one side of the
+screen, and inside another column (possibly another floated column) you could clear a smaller interior float, <em>without that cleared
+element dropping below the previous floated column</em>.
+Since only Gecko had this problem, it was obvious that something was wrong every time this happened to a page. Normally Gecko is
+the good browser, but in this one case it was the culprit. See, IE is not <em>always</em> the bad guy!
+</p>
+
+<p>
+However, this easy clearing method has muddled the issue quite a bit, since now Explorer is not actually being cleared at all,
+while Gecko browsers have finally been corrected so they do clear all previous floats.
+</p>
+<br />
+<p>
+...<em><strong>Oh no!</strong></em> Do you see what will now happen
+in our hypothetical float page? IE, seeing no real clearing elements, will look great. Meanwhile, in newer
+Gecko browsers and Opera 7, the CSS generated clearing element in the first easycleared box will drag the height of that box
+waaaay down the page, until that invisible clearer is vertically below the bottom of the previous float column (assuming there
+<em>is</em> a bottom!). This can "generate" a huge empty space inside that once-small easycleared box, depending on the actual
+height of the neighboring  float column.
+</p>
+
+<p>
+Of course Opera 7 has always correctly implimented the clearing specs just like IE does (aside from bugs), and the Mac browsers
+are not involved either. If you are wondering how this issue can be fixed, well, it can't. Gecko and Opera are now both following
+the float clearing specs correctly, and IE only fails because of the faked "clearing" we are forcing upon it.
+</p>
+
+<h3>Preventing External Clearing</h3>
+
+<p>
+If you have the above described problem, one way to prevent the clearer from clearing the
+adjacent float column is to make the container a float itself. Of course once you float the
+container you no longer need easyclearing, sigh...
+</p>
+
+<p>
+Note that when all the main elements in a column setup are floats, the worst IE
+float bugs simply do not happen. Thus using an all-float approach to column design
+can actually be easier to accomplish, at least within a rigid-width layout.
+</p>
+
+<h2>Them That Done It</h2>
+
+<p>
+<strong>Thanks</strong> to <strong>Tony Aslett</strong> for showing us the way.
+His site, <a href="http://www.csscreator.com/"><strong>csscreator.com</strong></a>
+is a killer CSS forum where newbies and gurus alike hang out and exchange CSS know-how. Tony's original
+demo page for this method can be found <a href="http://www.csscreator.com/attributes/containedfloat.php">here</a>,
+and the relevant forum thread is
+<a href="http://www.csscreator.com/node/1667">here</a>.
+</p>
+
+<p>
+Kudos also to <a href="http://dougsdvds.info/"><strong>Doug</strong></a> for pointing out the "period problem"
+in FireFox, and to <a href="http://www.nolocation.com/"><strong>Mark&nbsp;Hadley</strong></a>
+for that elegant IE/Mac fix, and to
+<a href="http://www.loungepenguin.co.uk/indexno.htm"><strong>Matt&nbsp;Keogh</strong></a>
+for showing how "inline-table" also fixes IE/Mac while using an already-approved
+CSS property. Once more the CSS community comes thru for us all! :-)</p>
+
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 2, 2008<br />
+Created May 14, 2004
+</p>
+
+</div>
+
+</body>
+
+
+</html>

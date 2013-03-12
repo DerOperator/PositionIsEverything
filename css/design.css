@@ -1,0 +1,120 @@
+html {margin: 20px 0 0 0; padding: 0; border: 0;}
+
+body {
+margin: 30px 20px 30px 60px;
+max-width: 50em;
+padding: 0 0 0 4em;
+font: 90% verdana, sans-serif;
+background-color: #fec;
+line-height: 1.35;
+}
+
+* html body {
+width: 50em; /* IE6 fix */
+}
+
+h1, h2, h3 {
+position: relative;
+margin: 1.3em 0 .3em -1em;
+}
+
+h1 {
+font-size: 1.5em;
+}
+
+h2 {
+font-size: 1.2em;
+}
+
+p {
+margin: 0 0 .4em;
+}
+
+a {
+color: #000;
+}
+
+ul, li {
+margin: 1em 0 0 0;
+padding: 0;
+}
+
+ul {
+float: left;
+width: 90%;
+margin: 1em 3em 2em 1em;
+}
+
+li {
+float: left;
+width: 100%;
+list-style: none;
+color: #005;
+font-family: georgia, serif;
+font-size: 1.2em;
+line-height: 1.35;
+text-align: justify;
+}
+
+li p {
+margin: 0 0 .3em;
+padding: 1px;
+}
+
+li a {
+float: left;
+width: 100%;
+color: #005;
+padding: 10px 25px;
+text-decoration: none;
+background: #e8d7b5;
+background: #e8e8e3;
+border: 2px solid #d8d8d3
+}
+
+li a:hover {
+color: #ddd;
+background: #988755;
+}
+
+li a:hover .client {
+color: #fff;
+background: #988755;
+text-decoration: underline;
+}
+
+.client {
+color: #500;
+margin-left: 1em;
+}
+
+.contactbutton {
+margin: 20px 0;
+}
+
+.contactbutton a {
+font-size: 1.1em;
+padding: 4px 10px 5px;
+background: #f0dfbd;
+border: 1px solid #444;
+text-decoration: none;
+}
+
+.contactbutton a:hover {
+background: none;
+}
+
+.biopic {
+float: right;
+margin: 1em;
+}
+
+.clientshot p {
+margin-left: 150px;
+}
+
+.clientshot img {
+float: left;
+margin: 0 10px 4px 0;
+border: 2px solid #d8d8d3
+}

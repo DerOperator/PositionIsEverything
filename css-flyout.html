@@ -1,0 +1,690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>A demonstration of Pure CSS Flyouts in action</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="description" content="Make a pure CSS flyout nav." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta http-equiv="Content-Language" content="en-us" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+<meta name="revisit-after" content="30 Days" />
+<meta name="doc-class" content="Living Document" />
+
+<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+sfFocus = function() {
+	var sfEls = document.getElementsByTagName("A");
+	for (var i=0; i<sfEls.length; i++) {
+		sfEls[i].onfocus=function() {
+			this.className+=" sffocus";
+		}
+		sfEls[i].onblur=function() {
+			this.className=this.className.replace(new RegExp(" sffocus\\b"), "");
+		}
+	}
+}
+if (window.attachEvent) window.attachEvent("onload", sfFocus);
+
+//--><!]]></script>
+<!-- The above script came from "Son of Suckerfish", and enhances tabbing on the expanded nav when that occurs. -->
+
+<script type="text/javascript" src="sidepages/auto-enableAddClassOnKey.js"></script>
+
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+//		window.document.onkeypress = bv_addClassKeyListener;
+//--><!]]></script>
+
+	<style type="text/css">
+
+html, body, ul, li {margin: 0; padding: 0; border: 0;}
+
+body {
+  color: #000;
+  margin: 30px;
+  background: #eee;
+	font-size: 100.01%;
+  font-family: verdana, sans-serif;
+ 	}
+
+.alignright {margin: 0 30px 30px 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+.back {text-align: right; padding: 3px 10px 0 0;}
+
+.back a {text-align: right; font-size: .8em; color: #000;}
+
+.textbox {
+border: 1px solid #252;
+margin: 20px 10%;
+padding: 0 10px;
+background: #fff8f8;
+}
+
+img {border: 0;}
+
+h1 {text-align: center; font-family: tahoma, arial, sans-serif; color: #484;}
+
+h1:active {background: red;}
+
+h2 {font-size: 1em; font-family: verdana, sans-serif; margin: 10px;}
+
+p {color: #000; font-size: .9em;}
+
+ul { /* needs the Holly hack to avoid IE bugs */
+	border-top: 1px solid #000;
+	}
+
+li {
+  list-style: none; /* kills the list item "bullet" markers */
+  border-bottom: 1px solid #000; /* Makes side borders on flyouts */
+  position: relative;
+	text-align: center;
+	vertical-align: bottom; /* for IE5/win */
+	font-weight: bold;
+	font-family: arial, sans-serif;
+	}
+
+.nav a {
+  display: block;
+  vertical-align: bottom; /* needed for IE5/win */
+	color: #552;
+	text-decoration: none;
+	padding: 5px 10px;
+	border: 1px solid #000;
+	border-width: 0 1px; /* Makes side borders on flyouts */
+	}
+
+.nav a:hover {color: #c44; text-decoration: underline;}
+
+.nav a:focus, .nav a.sffocus { /* enhances the focus styling for keyboard tabbing */
+	background-color: #00c !important;
+	color: white;
+	}
+
+.float-holder-left {
+  width: 150px;
+	float: left;
+	margin: 40px 20px 0 0;
+	}
+
+.float-holder-right {
+  width: 150px;
+	float: right;
+	margin: 40px 0 0 20px;
+	}
+
+.nav div {
+  width: 150px;
+  position: absolute;
+	left: -3000px;
+	}
+
+/* \*/
+.nav div {
+  width: 220px;
+  wid\th: 150px;
+	}
+/* Box model fix for IE5.x Win */
+
+
+.float-holder-left div {
+  padding: 30px 60px 30px 10px;
+	}
+
+.float-holder-right div {
+  padding: 30px 10px 30px 60px;
+	}
+
+.float-holder-left div.leftbox,
+.float-holder-right div.leftbox {
+  padding: 30px 10px 30px 60px;
+	}
+
+.float-holder-left div.rightbox,
+.float-holder-right div.rightbox {
+  padding: 30px 60px 30px 10px;
+	}
+
+
+.float-holder-left .nav div.zone,
+.float-holder-right .nav div.zone {
+  padding: 0;
+  width: 150px;
+	height: 10px;
+	left: -3000px;
+	top: auto;
+	bottom: -10px;
+  font-size: 1px;
+	}
+
+.float-holder-left .nav li:hover div.zone,
+.float-holder-right .nav li:hover div.zone {
+	left: 0;
+	}
+
+.float-holder-left li:hover div div,
+.float-holder-left div li:hover div div,
+.float-holder-right li:hover div div,
+.float-holder-right div li:hover div div {
+	left: -3000px;
+	}
+
+
+
+.float-holder-left li:hover div,
+.float-holder-left div li:hover div,
+.float-holder-left div div li:hover div.rightbox,
+.float-holder-right div div li:hover div.rightbox {
+  left: 126px;
+  top: -28px;
+  }
+
+.float-holder-left div div li:hover div.leftbox,
+.float-holder-right li:hover div,
+.float-holder-right div li:hover div,
+.float-holder-right div div li:hover div.leftbox {
+  left: auto;
+  right: 126px;
+  top: -28px;
+  }
+
+
+.main {z-index: 5; background: #ecc;}
+
+.main li {background-color: #dbb;}
+
+.sales {z-index: 4; background: #fcd}
+
+.sales li {background-color: #ebc;}
+
+.products {z-index: 3; background: #ddf;}
+
+.products li {background-color: #bbd;}
+
+.products li li {background-color: #99b;}
+
+.products li li li {background-color: #fff;}
+
+.advertising {z-index: 2; background: #dfd;}
+
+.advertising li {background-color: #bdb;}
+
+
+.nav ul a {color: #fff;}
+
+.nav li li li li a {
+color: #000;
+}
+
+.float-holder-left .arrow {
+background: url(images/arrow-right.gif) no-repeat 100% 50%;
+}
+
+.float-holder-right .arrow {
+background: url(images/arrow-left.gif) no-repeat 0 50%;
+}
+
+.arrow-double {
+background: url(images/arrow-double.gif) no-repeat 0 50%;
+}
+
+.in-arrow-right {
+background: url(images/arrow-right-lite.gif) 0 .4em no-repeat;
+}
+
+.in-arrow-left {
+background: url(images/arrow-left-lite.gif) 100% .4em no-repeat;
+}
+
+
+/* \*/ /*/
+
+.nav div, .nav ul ul .leftbox, .nav ul ul .rightbox {
+  position: relative;
+	left: 5px;
+	padding: 0;
+	}
+
+.nav .arrow, .nav .arrow-double {border-bottom: 1px solid #000;}
+
+.zone {display: none;}
+
+/* */
+
+.classW {font-size: .6em !important;}
+
+
+.classW div, .classW ul ul .leftbox, .classW ul ul .rightbox,
+.classW li:hover div, .classW ul li:hover div .leftbox, .classW ul ul .rightbox {
+  position: relative !important;
+	left: 5px !important;
+	top: 0 !important;
+	padding: 0 !important;
+	}
+
+.classW .arrow, .classW .arrow-double, .classW .in-arrow-right, .classW .in-arrow-left {
+border-bottom: 1px solid #000;
+background-image: none  !important;
+}
+
+.classW .zone {display: none;}
+
+</style>
+
+<!--[if IE]>
+  <style type="text/css">
+		body {behavior: url(sidepages/csshover.htc);}
+
+		.nav a, ul {height: 1%;}
+
+
+li {
+height: 1%;
+margin-left: -16px;
+mar\gin-left: 0;
+}
+
+  </style>
+
+	<noscript>
+<style type="text/css">
+
+.nav div, .nav ul ul .leftbox, .nav ul ul .rightbox {
+  position: relative;
+	left: 5px;
+	padding: 0;
+	}
+
+.nav .arrow, .nav .arrow-double {border-bottom: 1px solid #000;}
+
+.zone {display: none;}
+
+</style>
+	</noscript>
+<![endif]-->
+<!-- The above block calls the special .htc script that forces compliance in IE/win. -->
+
+
+</head>
+
+<body>
+
+<div class="float-holder-left">
+
+<ul class="nav bvAssignKey-w-classW">
+
+  <li class="main"><a class="arrow" href="#">Main Pages</a>
+
+			<div class="zone"></div>
+
+			<div>
+          <ul>
+    					<li class="in-arrow-right"><a href="#">Table Of Contents</a></li>
+    					<li><a href="#">Site Map</a></li>
+    					<li><a href="#">Guestbook</a></li>
+    			</ul>
+			</div>
+
+  </li>
+
+  <li class="sales"><a class="arrow" href="#">Sales Pages</a>
+
+			<div class="zone"></div>
+
+			<div>
+          <ul>
+    					<li class="in-arrow-right"><a href="#">Inventory</a></li>
+    					<li><a href="#">Orders</a></li>
+    					<li><a href="#">Back Orders</a></li>
+    					<li><a href="#">Delivery Schedules</a></li>
+    			</ul>
+			</div>
+
+  </li>
+
+  <li class="products"><a class="arrow" href="#">Products</a>
+
+      <div class="zone"></div>
+
+      <div>
+          <ul>
+    					<li class="in-arrow-right" style="z-index: 4;"><a href="#">Full Listing</a></li>
+
+    					<li style="z-index: 3;"><a class="arrow" href="#">Departments</a>
+
+           				<div class="zone"></div>
+
+            			<div>
+            					<ul>
+                      	<li class="in-arrow-right"><a href="#">Hardware</a></li>
+                      	<li><a href="#">Software</a></li>
+                      	<li><a href="#">Replacement parts</a></li>
+                      </ul>
+            			</div>
+
+     					</li>
+
+    					<li style="z-index: 2;"><a href="#">Support</a></li>
+
+     					<li style="z-index: 1;"><a class="arrow" href="#">Legal</a>
+
+    							<div class="zone"></div>
+
+            			<div>
+          					  <ul>
+          							<li class="in-arrow-right"><a href="#">Disclaimers</a></li>
+          							<li><a href="#">Privacy Policy</a></li>
+          							<li><a class="arrow-double" href="#">Inquiries</a>
+
+        		    						<div class="zone"></div>
+
+                						<div class="leftbox">
+                								<ul>
+                    							<li class="in-arrow-left"><a href="#">Company Policies</a>
+                    							<li><a href="#">Related Documents</a>
+                 								</ul>
+                						</div>
+
+    												<div class="rightbox">
+            										<ul>
+                                  <li class="in-arrow-right"><a href="#">Arbitration</a>
+                                  <li><a href="#">Case Histories</a>
+                 								</ul>
+    												</div>
+
+                   			</li>
+                      </ul>
+      						</div>
+
+							</li>
+			 		</ul>
+			</div>
+
+  </li>
+
+  <li class="advertising"><a class="arrow" href="#">Advertising</a>
+
+			<div class="zone"></div>
+
+      <div>
+            <ul>
+      					<li class="in-arrow-right"><a href="#">Endorsements</a></li>
+      					<li><a href="#">Print</a></li>
+      					<li><a href="#">Audio</a></li>
+      					<li><a href="#">Video</a></li>
+      			</ul>
+      </div>
+
+	</li></ul>
+<!-- The above two tags cannot have any white space between them,
+or some browsers may show spurious code "ghosts" on the screen -->
+
+</div><!-- end .float-holder-left -->
+
+
+<div class="float-holder-right">
+
+<ul class="nav bvAssignKey-w-classW">
+
+  <li class="main"><a class="arrow" href="#">Main Pages</a>
+
+			<div class="zone"></div>
+
+			<div>
+          <ul>
+    					<li class="in-arrow-left"><a href="#">Table Of Contents</a></li>
+    					<li><a href="#">Site Map</a></li>
+    					<li><a href="#">Guestbook</a></li>
+    			</ul>
+			</div>
+
+  </li>
+
+  <li class="sales"><a class="arrow" href="#">Sales Pages</a>
+
+			<div class="zone"></div>
+
+			<div>
+          <ul>
+    					<li class="in-arrow-left"><a href="#">Inventory</a></li>
+    					<li><a href="#">Orders</a></li>
+    					<li><a href="#">Back Orders</a></li>
+    					<li><a href="#">Delivery Schedules</a></li>
+    			</ul>
+			</div>
+
+  </li>
+
+  <li class="products"><a class="arrow" href="#">Products</a>
+
+      <div class="zone"></div>
+
+      <div>
+          <ul>
+    					<li class="in-arrow-left" style="z-index: 4;"><a href="#">Full Listing</a></li>
+
+    					<li style="z-index: 3;"><a class="arrow" href="#">Departments</a>
+
+           				<div class="zone"></div>
+
+            			<div>
+            					<ul>
+                      	<li class="in-arrow-left"><a href="#">Hardware</a></li>
+                      	<li><a href="#">Software</a></li>
+                      	<li><a href="#">Replacement parts</a></li>
+                      </ul>
+            			</div>
+
+     					</li>
+
+    					<li style="z-index: 2;"><a href="#">Support</a></li>
+
+     					<li style="z-index: 1;"><a class="arrow" href="#">Legal</a>
+
+    							<div class="zone"></div>
+
+            			<div>
+          					  <ul>
+          							<li class="in-arrow-left"><a href="#">Disclaimers</a></li>
+          							<li><a href="#">Privacy Policy</a></li>
+          							<li><a class="arrow-double" href="#">Inquiries</a>
+
+        		    						<div class="zone"></div>
+
+                						<div class="leftbox">
+                								<ul>
+                    							<li class="in-arrow-left"><a href="#">Company Policies</a>
+                    							<li><a href="#">Related Documents</a>
+                 								</ul>
+                						</div>
+
+    												<div class="rightbox">
+            										<ul>
+                                  <li class="in-arrow-right"><a href="#">Arbitration</a>
+                                  <li><a href="#">Case Histories</a>
+                 								</ul>
+    												</div>
+
+                   			</li>
+                      </ul>
+      						</div>
+
+							</li>
+			 		</ul>
+			</div>
+
+  </li>
+
+  <li class="advertising"><a class="arrow" href="#">Advertising</a>
+
+			<div class="zone"></div>
+
+      <div>
+            <ul>
+      					<li class="in-arrow-left"><a href="#">Endorsements</a></li>
+      					<li><a href="#">Print</a></li>
+      					<li><a href="#">Audio</a></li>
+      					<li><a href="#">Video</a></li>
+      			</ul>
+      </div>
+
+	</li></ul>
+<!-- The above two tags cannot have any white space between them,
+or some browsers may show spurious code "ghosts" on the screen -->
+
+</div><!-- end .float-holder-right -->
+
+<h1>All-CSS Flyout Nav</h1>
+
+<p style="margin-bottom: 0; text-align: center;">
+<!-- If this bottom margin is present, IE repeats it under the cleared nav floats. -->
+These two navs have identical HTML, other than classes for the brown arrows, and they
+are driven entirely via CSS rules.
+Scripting is not required, other than to make IE/win obey <strong>:hover</strong>
+when applied to non-links. The navs are floated opposite, sometimes touching the
+clearing element below.
+</p>
+
+<div style="clear: both; background: #484; text-align: center; color: #fff;">Cleared element</div>
+
+<div class="textbox">
+
+<div class="back">
+<a href="index-2.html"><strong>Return to PIE</strong></a>
+</div>
+
+<p>
+The elements above are floated and cleared in a way designed to expose any IE float bugs
+that could occur, but they are all suppressed in this method. However, if the nav is at the
+bottom of the screen content, IE6 does not enjoy having the flyouts go below the bottom
+of the body element and will let the flyouts vanish when those low flyouts are hovered below
+the flowed content. A large bottom padding on the body element would satisfy IE
+in that rare case.
+</p>
+
+<p>
+IE/Mac does not support this method, but it has been hack-fed a set of dumbed down
+rules to make the nav fully expand for accessibility. Additionally, there is a
+<strong>&lt;noscript></strong> block that holds similar code for IE/Win when Javascript
+is disabled, and the &lt;noscript> block is inside a Conditional Comment, along
+with the MS proprietary Jscript behavior call that makes it all work.
+</p>
+
+<p>
+The <a href="sidepages/csshover.htc">Jscript</a> is the work of
+<a href="http://www.xs4all.nl/~peterned/csshover.html"><strong>Peter Nederlof</strong></a>,
+and fine work it is, too. This script not only makes IE support all hovering, but
+all <strong>:active</strong> events as well. Try clicking on the H1 element in IE/win
+for a shocker!
+</p>
+
+<div style="background: #e4e4e9; border: 1px solid #666; padding: 0 10px 10px; margin: 15px 10px;">
+<h2>Suckerfish Alternative</h2>
+
+<p>
+A simpler script method for handling IE6 does exist, the
+<a href="http://htmldog.com/articles/suckerfish/hover/">Suckerfish&nbsp;script</a>.
+Basically the script watches the links to be hovered,
+and when the mouseover event is triggered on a link it gets a class name applied, but
+<em>only</em> during the mouseover event. Then you write duplicate selectors for the
+hover rules, but referencing the JS-applied class name. The resulting IE6 faux-hovering
+is effective and doesn't need a specical served mime type (simple JS file), but at the cost
+of having to modify the CSS hover rules just a bit.
+</p>
+
+<p>
+In this page we've added a small JS file from
+<a href="http://www.htmldog.com/articles/suckerfish/focus/">Son of Suckerfish</a>
+to enhance keyboard focussing.
+</p>
+
+
+<h2>Important point about the .htc file</h2>
+
+<p>
+When <strong>Service Pack 2</strong> is installed on Windows, the proprietary
+<a href="sidepages/csshover.htc">.htc file</a>
+will only work in IE6 when correctly served with the mime type
+<strong>text/x-component</strong>. Mime types are defined by the server
+administrator, so if your server is incorrectly set, IE6 will fail to
+show the popups. That's just the way it is, folks. Hmmm, that Suckerfish is
+looking better and better...
+</p>
+
+</div>
+
+<p>
+<strong>Update (Feb 26, 2005):</strong> It now appears that setting IE6's image
+cache away from "Automatically"
+is the cause of both the arrow calls (known effect) and also the border bleed-thru
+effect. It appears that the BG images themselves have something to do with the border
+bug, so avoiding the arrows or rearranging the CSS might prevent this border bug.
+However, very few users ever mess with the cache settings, and a server-side fix
+exists <a href="http://dean.edwards.name/my/flicker.html">here</a>.
+</p>
+
+<p>
+<strong>Update (Feb 27, 2005):</strong> The method has been enhanced by the addition
+of divs into the
+nested list structure. The divs provide <strong>hoverable padding areas</strong>
+around the flyouts,
+which are more forgiving of shaky-handed users who may stray off the flyouts. The
+flyout functioning is exactly the same, and the divs are semantically null so they
+do not alter the list structure for screen readers and search engines.
+</p>
+
+<p>
+Structural classes have been eliminated, but reverse z-indexing is required and
+cannot be applied via the stylesheet without the use of sibling selectors, which
+IE/Win does not support. However, if the arrows are omitted and a database can
+apply descending z-index styling to the list items as they are outputted, then
+a dynamically generated navigation could be achieved with this method.
+</p>
+
+<p>
+Currently the demo is set to a pixel width, but we plan to try it out with an
+EM width and are very confident it will work just as well that way. At least we hope so...
+</p>
+
+<p>
+<strong>Update (April 6, 2005):</strong>This method has been demoed as a combo dropdown
+and flyout "flat" menu. Go to the
+<a href="css-dropdowns.html"><strong>Deluxe&nbsp;CSS&nbsp;Dropdowns&nbsp;and&nbsp;Flyouts</strong></a>
+page, to get a load of what CSS can <em>really</em> do.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 2, 2008<br />
+Created February 25, 2005
+</p>
+
+</div>
+
+</body>
+
+
+</html>
+

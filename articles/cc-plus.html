@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>Targeting IE Using Conditional Comments</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A discussion of the theory of CSS floating." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+<style type="text/css">
+
+/* style rules for the article */
+code em {color : #00d; font-style : normal;}
+
+code .ie6only {color : #090;}
+
+code em.ie5-5only {color : purple;}
+
+code em.ie5-01only {color : red;}
+
+code {white-space: pre;}
+
+
+/*** Rules for the new CC method ***/
+
+#IE,
+#notIE {
+    background : #FFB700;
+    padding : 10px;
+	text-align: center;
+	margin: 10px;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #999999;
+    width : 30%;
+	float: left;
+	}
+
+#IE { /* IE indicator box is dimmed-out for most browsers */
+	background: #af8700;
+	color: #997711;
+	}
+
+#notIE { /* Non-IE indicator box is brightened as the default */
+	background: #ffcc66;
+	border: 1px solid #000000;
+	color: #000000;
+	}
+
+
+
+/* The following rules are obeyed only by IE/Win browsers. These rules
+   will override the earlier rules and apply different styles for IE */
+
+	#IEroot #IE { /* IE brightens the IE indicator box */
+		background: #ffcc66;
+		border: 1px solid #000000;
+		color: #000000;
+		}
+
+	#IEroot #notIE { /* IE dims-out the non-IE indicator box */
+		background: #af8700;
+		border: none;
+		color: #997711;
+		}
+
+</style>
+</head>
+
+<body>
+
+<!--[if IE]><div id="IEroot"><![endif]-->
+
+<h1>#IEroot &mdash; Targeting IE Using Conditional Comments and Just One Stylesheet</h1>
+
+<div class="wrapper">
+
+<p class="alignright">
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a><br />
+<a href="../articles.html"><strong>Return to Articles</strong></a>
+
+</p>
+
+<p style="text-align: right; font-style: italic;">
+A Guest Article by <strong><a href="http://www.brainstormbrand.com/about/key_personnel/chalfant.html" title="Hiroki Chalfant's Page">Hiroki Chalfant</a></strong>
+</p>
+
+<div id="mastercontainer">
+
+<p>The <a href="../poll/star-html.html" title="Wither the Star-HTML Hack?"><strong>Star-HTML hack</strong></a>
+was a very elegant way to easily target style rules at IE and apply fixes.
+<strong>Internet&nbsp;Explorer&nbsp;7</strong> has
+<a href="ie7-dehacker.html" title="CSS Hacks and IE 7">fixed&nbsp;the&nbsp;Star-HTML&nbsp;hack</a>,
+taking away the elegance. This article introduces a simple method for targeting
+CSS rules at IE that uses only <u>one</u> stylesheet and works for all versions
+of IE. It will require some minimal markup using Internet Explorer's
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp" title="Conditional Comment reference on MSDN">conditional&nbsp;comments</a>
+and CSS <a href="http://www.w3.org/TR/REC-CSS2/selector.html#descendant-selectors" title="W3C's description of descendant selectors">descendant&nbsp;selectors</a>.</p>
+
+<p>Here is a quick example. The css-controlled boxes below have detected whether your browser is IE/Win or not, using only conditional comments and a single CSS
+file. That file uses only clean rules with no strange complications in the selectors:</p>
+
+<div style="margin: 0 0 0 20%;">
+<p id="IE">This browser is<br /> IE/Win</p>
+<p id="notIE">This browser is<br /> not IE/Win</p>
+</div>
+
+<h3 style="clear: both; padding-top: 1.6em;">#IEroot: The New Star</h3>
+
+<p>
+A wrapper may be made to enclose the content of a page, and then you can write
+descendant CSS rules that mention that wrapper's ID or class name in the selector.
+But what if <em>only IE</em> thought that wrapper existed? Then those rules would only work for IE,
+<em>while other browsers would ignore the rules completely</em>.
+</p>
+
+<p>
+This is more or less how it was with the Star-HTML hack, where a mysterious
+wrapper seemed to be surrounding the HTML element in IE browsers. This made
+possible a very clean and easy selector construction: <strong>*&nbsp;html&nbsp;#myelement&nbsp;{}</strong>.
+Now this trick is different because IE7 has lost the mystery wrapper and will not
+read that selector as IE6 does. What we need is a way to make a new wrapper
+to use that only IE can see. But how can this be done?
+It so happens that you can use Conditional&nbsp;Comments
+to make IE think there is a wrapper between the body and the entire page contents.
+IE's view of the page element hierarchy will become different from all non-IE browsers,
+letting us write CSS to take advantage of the difference. The code is not very difficult, but the
+syntax is a bit different and must be correct for the method to work.
+</p>
+
+<p class="tip">
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp" title="Conditional Comment reference on MSDN">Conditional Comments</a>
+behave just like simple HTML comments, but they have a specific syntax that IE/Win
+browsers can recognize. When that syntax is exactly correct, IE/Win browsers
+will look inside the comment and parse whatever is inside.
+</p>
+
+<p>The starting tag for the new wrapper will go directly after the body start tag,
+and the wrapper's end tag is placed directly preceding the body's end tag.
+Each of these div tags will be wrapped in a conditional comment, allowing only
+IE/Win browsers to parse those div tags.</p>
+
+<code>&lt;!DOCTYPE your favorite doc type&gt;
+&lt;html&gt;
+
+&lt;head&gt;...&lt;/head&gt;
+
+	&lt;body&gt;
+
+		&lt;!--[if IE]&gt;
+		<em>&lt;div id="IEroot"&gt;</em>
+		&lt;![endif]--&gt;
+
+			&lt;p id="IE"&gt;This browser is IE.&lt;/p&gt;
+
+			&lt;p id="notIE"&gt;This browser is not IE.&lt;/p&gt;
+
+		&lt;!--[if IE]&gt;
+		<em>&lt;/div&gt;</em>
+		&lt;![endif]--&gt;
+
+	&lt;/body&gt;
+
+&lt;/html&gt;
+</code>
+
+<p>The first block of code after the body tag has a starting div tag with an ID
+of <strong>#IEroot</strong> inside a conditional comment; remember,
+<em>only</em> IE sees this div.</p>
+
+<p>The last block of code before the closing body tag is a closing div tag
+inside another conditional comment; this closing div tag will
+match the starting div tag in the first block of code. Again, only IE will see
+this closing tag.</p>
+
+<p>Between the opening and closing of the #IEroot div is where all of the normal
+page markup will go. In this example it is just a box with some content, but the idea
+is for the #IEroot div to be the ancestor of all page content.</p>
+
+<p>Using CSS, style the page as usual for non-IE browsers. Then in the same stylesheet,
+use <strong>#IEroot</strong> as a prefix in descendant selectors to target specific rules at IE. The
+example below styles the div called #anyelement to have a red border in non-IE browsers, and a blue border in IE.</p>
+
+<code>	/* all browsers make border red */
+#anyelement {
+    border : 2px solid red;
+	}
+
+	/* all browsers see this, but only IE thinks #IEroot exists
+		as an element and makes border blue */
+<em>#IEroot</em> #anyelement {
+    border-color : blue;
+	}
+</code>
+
+<p>The first rule is a simple rule to apply a red border to #anyelement; this rule is seen by all browsers, even IE.</p>
+
+<p>The second rule changes the color of #anyelement's border to blue, but the selector is a little different than the first rule.
+The second rule's selector is a descendant selector; it's interpreted as: the element with the ID of "anyelement" that is a descendant
+of the element with the ID of "IEroot" should have the following rules applied.</p>
+
+<p>Since #IEroot was created using conditional comments
+and only IE can see the contents of conditional comments, then in IE, #anyelement is a descendant of #IEroot and the descendant selector
+matches. Therefore, this rule will apply to IE, making the border of #anyelement blue for all IE browsers, versions 5 through 7. And
+because #IEroot is the first div and wraps the entire page, it can be used throughout the stylesheet to target rules at IE. This is used
+just like the star-HTML hack was used, except that you cannot target the body tag with this method because the body element is not and cannot
+be a descendant of #IEroot.</p>
+
+<p>Here is a <a href="sidepages/example.html" title="Example of IEroot">live demo page</a>. Be sure to view in both IE and non-IE browsers.</p>
+
+<p>Using this technique you can target part of a stylesheet at IE with confidence that this method won't
+be affected by future browser releases.</p>
+
+<h3>The Anti-IEroot Rule</h3>
+
+<p>
+Normally the CSS code will be clean, and the #IEroot rules will simply override key rules in the main styles
+to make IE behave correctly. Some coders will want the option to write a rule that all non-IE browsers will
+read, but that IE will not. A Child combinator can be used in a certain way:
+</p>
+
+<code>body>#wrapper #anyelement {
+    styles for non-IE only...
+	}
+</code>
+
+<p>
+Just add a prefix to any selector for a page element (#anyelement) with <strong>body>#wrapper</strong>.
+Of course, you will need to have a #wrapper element in the page, or some other major element that is a direct
+child of the body. The clean HTML should have #wrapper directly inside the body element so that the selector above
+will work.
+</p>
+
+<p class="tip">
+The Child combinator (>) selects the element on the right only if it is a direct child of
+the element on the left.
+</p>
+
+<h4>Hiding From IE</h4>
+
+<p>
+IE6 and below won't read the rule, for the simple reason that those browsers don't support the child selector itself.
+IE7 <em>does</em> support it, but IE7 also happens to think there is an element called #IEroot! For IE7, a selector like
+<strong>body>#IEroot>#wrapper</strong> would work, but the selector we described above does not include #IEroot.
+IE7 thinks #IEroot is in the HTML, so IE7 ignores the rule. Thus all IE/Win versions are blocked from seeing this
+type of selector.
+</p>
+
+<h3>More on Conditional Comments</h3>
+
+<p>Conditional comments allow special syntax constructions for checking the IE version and are proprietary to Internet Explorer for Windows.
+A conditional comment is an HTML element that, in IE may conditionally be read, but, to all other browsers looks like an HTML comment and is ignored.
+Here is an example of some markup with conditional comments:</p>
+
+<code><em>&lt;!--[if IE]&gt;</em>
+&lt;p&gt;Only IE shows this paragraph.&lt;/p&gt;
+<em>&lt;![endif]--&gt;</em>
+
+&lt;p&gt;A paragraph that all browsers display&lt;/p&gt;
+
+</code>
+
+<p>In the above example, the first block of code has a paragraph of text inside a
+conditional comment. Internet Explorer has been designed to examine all HTML comments for
+certain syntaxes, and when it finds such syntax IE will simply read and parse whatever is inside
+the conditional comment. Because conditional comments are hidden inside syntactically
+correct HTML comments, all other browsers just see a comment and do not display the paragraph
+contained within it.</p>
+
+<p>The next paragraph is outside the conditional comment and displays normally.</p>
+
+<p>If you want to test your conditional comments in different versions of IE, one simple method is to have multiple versions of IE installed
+as standalones. But there is a problem with standalones: they don't support conditional comments correctly.
+<a href="multiIE.html" title="Taming Your Multiple IE Standalones">This&nbsp;article</a> will help you fix conditional comments
+and many other things in your standalone IE's.</p>
+
+<p>If you haven't installed multiple IE's yet, go
+<a href="http://tredosoft.com/Multiple_IE">here</a> to download a fast, easy, and complete multiple IE installer
+with all the tweaks done for you.</p>
+
+
+<h3>Deeper with Version Numbers</h3>
+
+<p>Conditional comments support targeting of specific browser versions, which means divs can
+be created that will be used in CSS selectors to target not just IE in general, but <em>specific</em> versions of IE.
+Here is an example of  how this might be done:</p>
+
+<code><em>&lt;!--[if gte IE 7]&gt;</em>
+&lt;div id="ie7andup"&gt;
+&lt;![endif]--&gt;
+
+	<em class="ie6only">&lt;!--[if IE 6]&gt;</em>
+	&lt;div id="ie6only"&gt;
+	&lt;![endif]--&gt;
+
+		<em class="ie5-5only">&lt;!--[if IE 5.5000]&gt;</em>
+		&lt;div id="ie5-5only"&gt;
+		&lt;![endif]--&gt;
+
+			<em class="ie5-01only">&lt;!--[if lt IE 5.5000]&gt;</em>
+			&lt;div id="ie5-01only"&gt;
+			&lt;![endif]--&gt;
+
+&lt;div id="anyelement"&gt;a box with some content&lt;/div&gt;
+
+[... more page content ...]
+
+
+	&lt;!--[if IE]&gt;
+	&lt;/div&gt;
+	&lt;![endif]--&gt;
+
+</code>
+
+<p>Only one of the four conditional divs will be created in IE, depending on the version of the
+viewing browser, and none of them will be created in other browsers. Note that only one generic
+all-IE div end tag is required, so no need to have multiple CC's for this task.</p>
+
+<p>The first div, <strong>#ie7andup</strong>, will be created in IE&nbsp;version&nbsp;7 and up. The "gte" means "Greater&nbsp;Than&nbsp;or&nbsp;Equal&nbsp;to."</p>
+
+<p>The second div, <strong>#ie6only</strong>, will be created in IE&nbsp;version&nbsp;6 alone.</p>
+
+<p>The third div, <strong>#ie5-5only</strong>, will be created in IE&nbsp;version&nbsp;5.5. </p>
+
+<p>The fourth div, <strong>#ie5-01only</strong>, will be created in IE&nbsp;version&nbsp;5.01. The "lt" means "Less&nbsp;Than." IE4 is not included,
+since conditional comments were not introduced into IE until version&nbsp;5.</p>
+
+<p class="tip">
+When targeting IE5.5 you must add the zeros to the 5.5 or the browser may ignore the
+conditional comment. <strong>&lt;!--[if&nbsp;lt&nbsp;IE&nbsp;5.5]&gt;</strong> is not good enough,
+it must be <strong>&lt;!--[if&nbsp;lt&nbsp;IE&nbsp;5.5000]&gt;</strong>. There is no good reason for this,
+that's just how it works.
+<strong>gte&nbsp;IE&nbsp;7</strong> stands for &quot;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;IE7,&quot;
+while <strong>lt&nbsp;IE&nbsp;5.5000</strong> stands for &quot;less&nbsp;than&nbsp;IE5.5.&quot; When writing these CC's, exact
+conformance to the syntax is required. Any error will cause the CC to become a normal HTML comment.
+</p>
+
+<p>The corresponding CSS looks like this:</p>
+
+<code>  <span class="spanbox">/*** All browsers ***/</span>
+
+#anyelement {
+    border : 2px solid black;
+}
+
+  <span class="spanbox">/*** For IE 7 and up ***/</span>
+
+<em>#ie7andup</em> #anyelement {
+    border-color : blue;
+}
+
+  <span class="spanbox">/*** For IE 6 ***/</span>
+
+<em class="ie6only">#ie6only</em> #anyelement {
+    border-color : green;
+}
+
+  <span class="spanbox">/*** For IE 5.5 ***/</span>
+
+<em class="ie5-5only">#ie5-5only</em> #anyelement {
+    border-color : purple;
+}
+
+  <span class="spanbox">/*** For IE 5.01 ***/</span>
+
+<em class="ie5-01only">#ie5-01only</em> #anyelement {
+    border-color : red;
+}
+
+</code>
+
+<p>See a <a href="sidepages/example2.html" title="Demo of muli-version variation">live demo</a> of the method. You will need multiple versions of IE to view all the variants.</p>
+
+<p>Not only is IE styled differently, but different versions of IE are styled differently. For example, this method makes it easy to fix the
+<a href="http://www.communitymx.com/content/article.cfm?cid=E0989953B6F20B41" title="The Box Model Problem">box&nbsp;model&nbsp;problem</a>
+in IE&nbsp;5.x
+while not affecting IE&nbsp;6 or 7. Each new #IEroot ID is customized to indicate what IE versions are targeted,
+in effect &quot;labeling&quot; each special IE rule by version number. This helps when later doing site maintenance,
+and team environments benefit as well from the reduced potiential for confusion.</p>
+
+<p style="margin-top: 2em; margin-bottom: 6em;">
+This Guest Article is authored by <strong><a href="http://www.brainstormbrand.com/about/key_personnel/chalfant.html" title="Hiroki Chalfant's Page">Hiroki Chalfant</a></strong>
+
+</p>
+
+
+
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+
+Last updated: Febuary 2, 2007<br />
+Created Febuary 2, 2007
+</p>
+
+<!--[if IE]></div><![endif]-->
+
+</div>
+
+</body>
+
+
+</html>

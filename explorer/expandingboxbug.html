@@ -1,0 +1,632 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+<title>IE6 Expanding Box</title>
+
+<meta name="description" content="Explains and demonstrates how Internet Explorer will incorrectly expand a dimensioned element due to oversized content." />
+<meta name="keywords" content="Internet Explorer, bug, expand, element, oversized" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+		font-family: Helvetica, Arial, sans-serif;
+		background: #d8dCdC;
+		font-size: 100.01%;
+		text-align: center;
+		line-height: 1.4em;
+		}
+
+	#wrap {
+		text-align: left;
+		margin: 15px auto;
+		padding: 20px 20px 0;
+		border: 1px solid #993300;
+		width: 650px;
+		font-size: .9em;
+		background: #f4f8f8;
+		position: relative;
+		}
+
+	.samplecode {
+		color: #993300;
+		background-color: #f8f8f8;
+		border: 1px dotted #993300;
+		font-family: "lucida console", "courier new", monospace;
+		display: block;
+		margin: 10px;
+		padding: 3px 5px;
+		line-height: 1.3;
+	}
+
+/* This hacks larger dots for IEwin because it can't handle 1px border dots. (sigh) \*/
+* html .samplecode {border: 2px dotted #993300;}
+/* */
+
+	.hilite {
+	background: #FFFF99;
+	}
+
+	a {
+		font-weight: bold;
+		color: #006699;
+	}
+	a:hover {
+		color: #0099CC;
+	}
+
+	.alignright {margin: 0 20px 30px 0; text-align: right; list-style: none;}
+
+	.alignright a {color: #000;}
+
+	.small {font-size: .9em;}
+
+	h1 {
+	font-size: 1.5em;
+	margin: 1em 0 .5em;
+	}
+	h2 {
+	font-size: 1.2em;
+	margin: 2.5em 0 1em;
+	color: #993300;
+	}
+	h3 {
+	font-size: 1em;
+	margin: 2.5em 0 1em;
+	}
+	p {
+	margin: 1em;
+	}
+
+	.note {
+		font-size: .8em;
+		font-weight: bold;
+		color: #666666;
+	}
+</style>
+</head>
+<body>
+<div id="wrap">
+
+<ul class="alignright">
+<li><a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a></li>
+<li><a href="../guests.html">Return to Guest Demos</a></li>
+<li><a href="percentages.html"><strong>Next IE demo</strong></a></li>
+</ul>
+
+<h1>Internet Explorer 6 and the Expanding Box Problem </h1>
+
+<p style="position: absolute; top: 0; left: 0;">
+A Guest Demo, courtesy of <a href="http://www.blissfulwebdesign.com/">BlissfulWebDesign</a>
+</p>
+
+<p>
+It's an unfortunate fact that <strong>Internet Explorer 6</strong> will always
+incorrectly expand any dimensionally restricted
+block element so that oversize content is unable to overflow, as the specs
+require that content to do. <strong>IE7</strong> has fixed this issue
+and does not wrongly expand boxes such boxes, instead allowing the overflow property
+to operate as intended by the W3C.
+</p>
+
+<p>
+I will be comparing <strong>IE6's</strong>
+way with the correct behavior as seen in <strong>Firefox</strong>.
+The W3C says a rigidly sized block box should allow oversize
+content to protrude or overflow beyond the edges of the sized box.
+</p>
+
+<p>
+There is no real "fix" for IE6's incorrect behavior, except to work around or avoid it.
+Several possible workarounds will be detailed as I discuss the issue.
+</p>
+
+<h2>Setting Up the Problem </h2>
+
+<p>Have you ever tried to do a two-column float layout like in the graphic below?</p>
+<p><img src="images/pict1.gif" width="401" height="108"></p>
+<p>And after some content changes, it turns out like this when viewed in IE6? </p>
+<p><img src="images/pict2.gif" width="412" height="218"><br>
+  <span class="note">Screen shot in IE6 </span></p>
+<p>It's a "float drop", and it's caused by having oversized content in a
+fixed-width floated div that must fit into a particular spot in the layout.
+In this case, the oversized content is the URL string in the green float.</p>
+<p>To understand what is happening, first consider our HTML structure:</p>
+<p class="samplecode">&lt;div id=&quot;wrap&quot;&gt;<br>
+&nbsp;&nbsp;&lt;div id=&quot;masthead&quot;&gt;My header&lt;/div&gt;<br>
+
+&nbsp;&nbsp;&lt;div id=&quot;leftnav&quot;&gt;Typical Left Nav&lt;/div&gt;<br>
+&nbsp;&nbsp;&lt;div id=&quot;main&quot;&gt;My main text here...&lt;/div&gt;<br>
+&nbsp;&nbsp;&lt;div id=&quot;footer&quot;&gt;My footer&lt;/div&gt;<br>
+&lt;/div&gt; </p>
+
+<p>This is a common  two-column structure, where we have a
+<STRONG>&lt;div&nbsp;id="masthead"&gt;</STRONG> (colored&nbsp;blue), followed by
+two floated columns: <STRONG>&lt;div&nbsp;id="leftnav"&gt;</STRONG>
+(colored&nbsp;green) and <STRONG>&lt;div&nbsp;id="main"&gt;</STRONG>
+(colored&nbsp;red). The two columns are made to sit side-by-side because they
+both get the CSS <strong>float:&nbsp;left;</strong>.
+</p>
+
+<p class="samplecode">
+  #masthead {background-color: #006699;}<br>
+  #leftnav {background-color: #99CC00; <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="hilite">float: left;</strong> <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: 50px; }<br>
+    #main { background-color: #D54500;<br>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="hilite">float: left;</strong><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width: 340px; }<br>
+    #footer {
+    background-color: #CCCCCC;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="hilite">clear: both;</strong>}</p>
+
+<p>Finally we have the <strong>&lt;div&nbsp;id=&quot;footer&quot;&gt;</strong>
+
+(colored dark gray) where we <strong>clear</strong> the float&nbsp;&#8212;&nbsp;forcing the
+footer to clear itself to a position below the earlier floated columns.</p>
+
+<p>All the page elements are enclosed in a wrapper div:
+<strong>&lt;div&nbsp;id=&quot;wrap&quot;&gt;</strong>. This wrapper is set to a width
+of <strong>390px</strong>, enforcing a rigid pixel with on the layout. </p>
+
+<p class="samplecode">#wrap {<br>
+
+&nbsp;&nbsp;<strong class="hilite">width: 390px;</strong><br>
+}
+
+</p>
+
+
+<p>We want our green left column to take up exactly <strong>50px</strong> of the
+available wrapper width, and the main column will occupy the remaining
+<strong>340px</strong>, so we have specifically set these widths
+in the CSS:</p>
+<p class="samplecode">#leftnav {background-color: #99CC00; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float: left; <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="hilite">width: 50px;</strong> }<br>
+#main { background-color: #D54500;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float: left;<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="hilite">width: 340px;</strong> }
+</p>
+
+<p>And if you look at the code in both Firefox and IE6, things looks as expected. </p>
+<p><a href="sidepages/demo1.htm">view live code</a> </p>
+
+<p><img src="images/pict1.gif" width="401" height="108"><br>
+  <span class="note">Screen shot in Firefox and IE6 </span></p>
+
+<p>
+So far so good, but real web pages are messy, and sometimes they receive content
+that the designer did not test in advance. When that happens, suprising things can
+happen.
+</p>
+
+<h2>The Cause Of The Problem </h2>
+
+<p>One common cause of box expansion in IE6 is when you have oversized content
+such as a long "unbreakable" URL, with no spaces where word wrapping may take place.
+What if our <strong>&lt;div&nbsp;id=&quot;leftnav&quot;&gt;</strong> consists of this content:</p>
+
+<p class="samplecode">&lt;div id=&quot;leftnav&quot;><br>
+  &nbsp;&nbsp;<strong class="hilite">http://AnUnbreakableURL.com</strong><br>
+  &nbsp;&nbsp;Left Nav<br>
+  &lt;/div&gt;
+</p>
+
+<p><a href="sidepages/demo2.htm">view live code</a>  <br>
+
+  <span class="note">View live demo in IE6 to see incorrect behavior.
+	View in Firefox for correct behavior.</span></p>
+
+<p>The graphic below shows what you will see if you view it in IE6:</p>
+
+<p><img src="images/pict2.gif" width="412" height="218"><br>
+  <span class="note">Screen shot in IE</span></p>
+
+<p>Note how IE6 has expanded the width of <EM><STRONG>div#leftnav</STRONG></EM>
+(green&nbsp;box) to accommodate the unbreakable URL string. <EM><STRONG>div#leftnav</STRONG></EM>
+
+is no longer 50px wide, as specified by its given CSS width value. After this expansion,
+<em><strong>div#main</strong></em> (red box) does not have room to fit
+inside our fixed-width layout next to <EM><STRONG>div#leftnav</STRONG></EM>,
+and is forced to go below. Since we did not specify an
+<A href="http://www.w3.org/TR/CSS2/visufx.html#overflow">overflow</A>
+property value for <EM><STRONG>div#leftnav</STRONG></EM>, its overflow property
+value defaults to <STRONG>visible</STRONG>. The expansion of
+<em><strong>div#leftnav</strong></em> is a clear violation of the
+<a href="http://www.w3.org/TR/CSS2/visufx.html#overflow">W3C&nbsp;specification</a>
+
+for the <strong>overflow</strong> property, which covers the default value
+"visible" this way:
+</p>
+
+<blockquote>
+<strong>Visible</strong> (the default or "initial" value for the
+<a href="http://www.w3.org/TR/CSS21/visufx.html#propdef-overflow">overflow&nbsp;property</a>
+)<br />
+"This value indicates that content is not clipped, i.e.,<br />
+
+it may be rendered outside the block box".
+</blockquote>
+
+<p>
+Note that it does <em>not</em> say that the box should be enlarged when content is too big to fit.
+IE6 should respect the assigned width, and should <EM>not expand the div</EM>.
+The URL should be allowed to overflow outside the green box.</p>
+
+<p>
+Notice how the text "Left" and "Nav" are on separate lines? Why don't they just
+appear on one single line, since the green box is clearly wide enough to hold them?
+That is because IE6 seems to <em>not know when it has expanded a box!</em>
+</p>
+
+<p>I will demonstrate with an oversized image followed by a paragraph, both inside
+the green #leftnav box:</p>
+
+<p class="samplecode"> &lt;div id=&quot;masthead&quot;&gt;My header&lt;/div&gt;<br>
+&lt;div id=&quot;leftnav&quot;&gt;<br>
+  <strong class="hilite">&lt;img src=&quot;masthead.jpg&quot; width=&quot;267&quot; height=&quot;50&quot;&gt;<br>
+
+  &lt;p>An image followed by a paragraph of text&lt;/p&gt;</strong><br>
+&lt;/div&gt;<br>
+&lt;div id=&quot;main&quot;&gt;My main text here. ... &lt;/div&gt;<br>
+&lt;div id=&quot;footer&quot;&gt;My footer&lt;/div&gt; </p>
+
+<p><img src="images/pict15.gif" width="392" height="261"><br>
+  <span class="note">Screen shot in IE6</span></p>
+<p><a href="sidepages/demo10.htm">view live code</a> </p>
+
+<p>The paragraph following the image is colored a darker shade of green so that
+you can see what is going on. </p>
+
+<p>Note how the image has expanded the lighter green <strong>#leftnav</strong> div in IE6.
+However, nested block elements (such as our paragraph) do <em>not</em> expand to fill the
+newly available area in the expanded container div! You would think that the dark green
+paragraph would fill the entire width of its light green container as usual, but it
+doesn't. Apparently the paragraph does not "know" that the light green container
+has been expanded by the large image in the same container, so the paragraph
+below stays the same width and doesn't expand to fill the available space.
+</p>
+
+<p>
+This effect can cause coders to think the problem is in the paragraph, when really
+it's the image and container that are causing the IE6 problem. Suspicious right
+side spaces like this should be a warning that expansion has occured somewhere.
+</p>
+
+<h2>The Way It's Supposed To Be</h2>
+
+<p>Now let's look at that "long URL" layout code in Firefox.</p>
+
+<p><a href="sidepages/demo2.htm">view live code</a> <br>
+  <span class="note">View in Firefox (shown below) to see correct behavior. View in IE6 for incorrect behavior.</span></p>
+
+<p><img src="images/pict3.gif" width="392" height="102"><br>
+  <span class="note">Screen shot in Firefox </span></p>
+
+<p>Firefox respects the specified width on the paragraph, but what has happened
+to the text? Is it clipped,
+in violation of the specs? Not to worry, the text actually does overflow correctly.
+We just cannot see it because the red background on the adjacent red float is covering
+it up. Let's remove the background from <strong>div#main</strong> and see if it's
+hiding back there. </p>
+<p class="samplecode">#main {<br>
+&nbsp;&nbsp;float: left;<br>
+&nbsp;&nbsp;width: 340px;<br>
+&nbsp;/* background removed */<br>
+}</p>
+
+<p><a href="sidepages/demo3.htm">view live code</a> </p>
+
+<p><img src="images/pict4.gif" width="392" height="102"><br>
+  <span class="note">Screen shot in Firefox showing correct overflow</span></p>
+
+<p>Clearly Firefox does exactly what the specification requires, letting the long
+URL go beyond the edge of the surrounding green box.
+This does cause that URL to go behind the text in the red box, but at least the
+floated layout structure is not damaged. Float dropping in such cases is a lot
+more harmful to a web page than text overlapping, in the opinion of most people.</p>
+
+<h2>Some Possible Workarounds </h2>
+
+<p>
+  Let's examine some workarounds that might keep IE6 from wrecking our layout.</p>
+
+<h3>Using "word-wrap: break-word" </h3>
+<p>Try adding the <strong>word-wrap</strong> property with the value <strong>break-word</strong>.</p>
+<p class="samplecode">#leftnav {<br>
+&nbsp;&nbsp;background-color: #99CC00;<br>
+
+&nbsp;&nbsp;float: left;<br>
+&nbsp;&nbsp;width: 50px;<br>
+
+&nbsp;&nbsp;<strong class="hilite">word-wrap: break-word;</strong><br>
+}</p>
+
+<p><a href="sidepages/demo4.htm">view live code</a> </p>
+
+<p><img src="images/pict6.gif" width="392" height="173"><br>
+    <span class="note">Screen shot in IE6 </span></p>
+
+
+<p>Although this has no effect on Firefox, it does force IE6 to break up
+&quot;unbreakable&quot; text so that it no longer expands the width of the box
+containing the text.</p>
+
+<p>
+Be aware that word-wrap is a <strong>proprietary Microsoft CSS rule</strong>.
+It is not part of the W3C specification at this time, and will invalidate the
+page unless that code is hidden inside a
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp">Conditional&nbsp;Comment</a>,
+like this:
+</p>
+
+<p class="samplecode">
+
+&lt;!--[if IE]><br>
+&nbsp;&lt;style type="text/css"><br>
+&nbsp;&nbsp;body {word-wrap: break-word;}<br>
+&nbsp;&lt;/style><br>
+&lt;![endif]--><br>
+</p>
+
+<p>
+That style block is contained in the CC, which can go in the head section of the web
+page. Only IE6 will look inside the CC, while all other browsers and the W3C validator see
+only an ordinary HTML comment, and ignore everything inside. It's not a pure solution, but it does
+work safely on potientially damaging long text strings, and does validate too.
+Notice that <strong>this rule inherits to
+all page elements from the body element</strong>, providing page-wide protection.
+</p>
+
+<h3>Using overflow: hidden</h3>
+<p>According to the <a href="http://www.w3.org/TR/CSS2/visufx.html#overflow">spec</a>,
+another possible value for the overflow property is <strong>hidden</strong>.
+Let's see what happens when we apply it.
+</p>
+
+<p class="samplecode">#leftnav {<br>
+&nbsp;&nbsp;background-color: #99CC00;<br>
+&nbsp;&nbsp;float: left;<br>
+
+&nbsp;&nbsp;width: 50px;<br>
+&nbsp;&nbsp;<strong class="hilite">overflow: hidden;</strong><br>
+}</p>
+<p><a href="sidepages/demo5.htm">view live code</a> </p>
+<p><img src="images/pict5.gif" width="392" height="102"><br>
+    <span class="note">Screen shot in Firefox and IE6 </span></p>
+
+<p>The overflowed text is hidden, or clipped.  By doing so, IE6 no longer "needs"
+to expand the column width. That's good, but some content can never be seen now, and some
+browsers have been known to show odd bugs when overflow is changed from the
+default value "visible" for complex CSS layouts, so this fix is less than ideal.</p>
+
+<p>
+Another drawback of the "hidden" method is that IE6 demands that the boxes
+having this overflow fix <em>must have widths applied to them</em>. So for example,
+consider a nested paragraph in one of those floated columns above. The floats do have
+widths but the nested paragraph will normally be left widthless. If the
+<strong>overflow:&nbsp;hidden;</strong> trick is used on the paragraph, it will
+fail in IE6. But, if it's used on the surrounding float it will then work properly,
+because <em>the element with the overflow rule also has a width applied to it</em>.
+</p>
+
+<h2>More Oversized Content</h2>
+
+<p>Keep in mind that oversized content does not only mean very long URLs. You might
+also have an image that is too big for the width allowed for it in the container.
+Below is a demo graphic
+showing an image that's just a bit too wide to let the red box fit next to it:</p>
+
+<p><img src="images/pict7.gif" width="392" height="172"></p>
+
+<p>Or a user might enlarge the browser text size, making a normal word too wide to
+fit, just like the long URL:</p>
+
+<p><img src="images/pict8.gif" width="392" height="209"></p>
+
+<p>
+<strong>Word-wrap</strong> only works on text, not on images, but both these
+problems can be handled by <strong>overflow: hidden</strong> as you can see here. </p>
+
+<p><img src="images/pict9.gif" width="392" height="115"></p>
+
+<p><img src="images/pict10.gif" width="392" height="140"> </p>
+
+<p>
+So <strong>overflow: hidden</strong> can protect against oversize text, images,
+and even oversize tables, but may clip off some content. Using <strong>word-wrap</strong>
+preserves the text but doesn't affect oversize images or tables. As always, web
+design means making hard choices.
+</p>
+
+<h2>Expansion in the Vertical Direction </h2>
+
+<p>Just as IE6 can incorrectly expand an element's width, it can also incorrectly expand an element's height.
+Take the following example where we have <STRONG>&lt;div&nbsp;id="cornerbox"&gt;</STRONG>
+inside <STRONG>&lt;div&nbsp;id="masthead"&gt;</STRONG>. </p>
+
+<a href="sidepages/demo7.htm">view live code</a>
+</p>
+<p>
+<span class="note">HTML:</span></p>
+
+<p class="samplecode">
+&lt;div id=&quot;masthead&quot;&gt;<br>
+&nbsp;&nbsp;&lt;div id=&quot;cornerbox&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Lorem ipsum dolor ...<br>
+&nbsp;&nbsp;&lt;/div&gt;<br>
+&lt;/div&gt;</p>
+
+<p>
+<span class="note">CSS:</span></p>
+
+<p class="samplecode">#cornerbox {<br>
+&nbsp;&nbsp;width: 150px;<br>
+&nbsp;&nbsp;<strong class="hilite">height: 50px;</strong><br>
+&nbsp;&nbsp;background-color: #99CC00;<br>
+}</p>
+
+<p>We now specify the height of the green <strong>div#cornerbox</strong> to be 50px.
+Since our text is too tall to be accomodated within this height, the text should
+overflow the green box. The correct behavior looks like the following graphic,
+as shown in <STRONG>Firefox</STRONG>. Similarly, all other modern non-IE6 browsers such as
+
+<STRONG>Opera</STRONG> and <STRONG>Safari</STRONG> will behave in the same manner.</p>
+
+<p><img src="images/pict11.gif" width="504" height="181"></p>
+
+<p>However, when we take a look at this same code in IE6, it looks like the following: </p>
+
+<p><img src="images/pict12.gif" width="472" height="220"></p>
+
+<p>
+IE6 has incorrectly expanded the height of the green div#cornerbox to accommodate
+the excess text, and that in turn has expanded the height of the blue div#masthead!
+Neither div remains at the 50px height specified on #cornerbox after IE6 gets
+a look at that tall text. Both expansions are incorrect behavior, and are violations of the
+overflow specification.</p>
+
+<p>
+Unlike <strong>IE6</strong>, the <strong>IE/mac</strong> browser will <EM>not</EM>
+expand the green corner div (good), but it <EM>will</EM> for
+some reason incorrectly expand the blue masthead anyway! (not good)
+</p>
+
+<p>
+This kind of inconsistency can play havoc with height controlled layouts.
+Suppose that you have a background image attached to your masthead and the image
+is only 50px high. After expansion you won't have enough image to fill the expanded
+masthead.</p>
+
+<p><img src="images/pict13.gif" width="414" height="180"></p>
+
+<p>Non-IE6 browsers will overlap some content, yes, but having two
+different apparent problems is very hard on newbies when trying to debug a design
+across browsers.
+</p>
+
+<p>
+<a href="sidepages/demo8.htm">view live code</a>&nbsp;
+<span class="note"><br>
+View in IE6 (shown above) to see incorrect behavior.  View in Firefox for correct behavior.</span>
+</p>
+<p><span class="note">HTML:</span></p>
+<p class="samplecode">&lt;div id=&quot;masthead&quot;&gt;<br>
+
+&nbsp;&nbsp;&lt;div id=&quot;cornerbox&quot;&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Lorem ipsum dolor ... <br>
+
+&nbsp;&nbsp;&lt;/div&gt;<br>
+&lt;/div&gt;<br>
+  <strong class="hilite">
+&lt;div id=&quot;bodytext&quot;&gt;<br>
+&nbsp;&nbsp;This is the main content of my web page.<br>
+
+&lt;/div&gt;</strong></p>
+
+<p><span class="note">CSS:</span></p>
+  <p class="samplecode">body { margin: 0; padding: 0; }<br>
+
+#masthead {<br>
+&nbsp;&nbsp;background-color: #006699;<br>
+<strong class="hilite">
+&nbsp;&nbsp;background-image: url(masthead.jpg);<br>
+&nbsp;&nbsp;background-position: 150px 0px;<br>
+
+&nbsp;&nbsp;background-repeat: no-repeat;<br>
+</strong>
+    }<br>
+    #cornerbox {<br>
+
+&nbsp;&nbsp;width: 150px;<br>
+&nbsp;&nbsp;height: 50px;<br>
+&nbsp;&nbsp;background-color: #99CC00;<br>
+  }</p>
+
+<p>Using <strong>word-wrap: break-word</strong> won't help us here. However, we
+can set the overflow property to <strong>hidden</strong> to put our
+layout back in place. </p>
+
+<p class="samplecode">#cornerbox {<br>
+&nbsp;&nbsp;width: 150px;<br>
+
+&nbsp;&nbsp;height: 50px;<br>
+&nbsp;&nbsp;background-color: #99CC00;<br>
+&nbsp;&nbsp;<strong class="hilite">overflow: hidden;</strong><br>
+}</p>
+
+<p><a href="sidepages/demo9.htm">view live code</a> </p>
+<p><img src="images/pict14.gif" width="408" height="89"><br>
+
+  <span class="note">Screen shot in IE6 and Firefox </span></p>
+
+<p>Now IE6 no longer expands the element. And best of all, it behaves
+consistently between both IE6 and Firefox.
+</p>
+
+<p>
+Clearly there are options available, but the best and most common option employed
+for web pages is to <em>not use height at all</em>. Letting height be the default <strong>auto</strong>
+will let content determine the height and avoid the IE box expansion problem. Unless
+the content's displayed height can be rigidly controlled, applying a height to the container
+box will only cause trouble.
+</p>
+
+<h2>Summary </h2>
+
+<p>In summary, both <strong>word-wrap: break-word</strong> and
+<strong>overflow: hidden</strong> are possible workarounds that will make
+Internet Explorer respect our specified dimensions. The method of
+<strong>overflow: hidden</strong> works in more situations -- such as oversized
+images and vertical expansions, but at the cost of possibly clipped content.
+The <strong>word-wrap:&nbsp;break-word;</strong> method won't clip content,
+but is useless on anything but text. Now that you have seen the effects of both,
+their possible employment will depend on specific situations and preferences.</p>
+
+<hr />
+
+<p>Article courtesy of <strong>artcoder</strong> at
+<a href="http://www.blissfulwebdesign.com/">BlissfulWebDesign</a> with big help from
+  <a href="../design/index.html">Big John</a> at
+	<a href="../index.html">PositionIsEverything.net</a></p>
+
+<p style="margin: 2em 3em; color: #792300;">
+<strong>artcoder says: </strong> "I call myself artcoder because I like turning
+art into code.  Trained
+with a master's degree in computer science, I started out my career as a
+programmer working for large corporations, small companies, and
+dot-com's.  After years of manipulating lines and lines of abstract
+code, I found beauty in art and web design.  Re-tooling myself in the
+skills of Photoshop, Fireworks, XHTML, CSS, and color theory, I make my
+attempts at web design.  Now I would like to say that I lead a balanced
+life with one foot in the world of art and another foot in the world of
+code."
+</p>
+
+
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 7, 2008<br />
+Created June 25, 2007
+</p>
+
+</div>
+</body>
+
+
+</html>

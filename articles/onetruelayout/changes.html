@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Change Log - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1>Change Log</h1>
+
+<h2>25 April 2006</h2>
+<h4>Added</h4>
+<ul>
+<li>New appendix page, <a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a>, explaining what problems have been found, suggesting some ideas to counter them and providing a bit of background. Of course, this should actually have been added back in mid-November for which I can only apologise.</li>
+<li>Brief notes on the conclusion page and in the results tables as to how the methods and examples hold up in IE7 beta 2 (just fine it would seem).</li>
+<li>Support for <code>direction:rtl</code> (hat tip to Rob Cochrane).</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>Moved <code>#footer { clear: both; }</code> to the main inline CSS since that's where it should have been all along.</li>
+<li>Validation errors on the <a href="../example/tucows.html">Tucows example</a></li>
+</ul>
+
+<h2>3 November 2005</h2>
+<h4>Added</h4>
+<ul>
+<li>News about the <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=312777#c47">fix</a> for Gecko 1.8 / Firefox 1.5.</li>
+<li>Comments on the limitations of the percentage-based examples.</li>
+<li>Ids for all the headings.</li>
+<li>Remarks for people who know little about humour and sarcasm.</li>
+</ul>
+
+<h4>Fixed</h4>
+<ul>
+<li><a href="example/basic.html">Basic Any Order example</a> now actually works in IE6 (reported by Andrey Petrov).</li>
+<li><a href="http://archivist.incutio.com/viewlist/css-discuss/64904">Text select scolling problem in Firefox 1.0</a> on the <a href="example/rounded.html">Nested Rounded Corners</a> example. The same issue on the <a href="example/bbc.html">BBC homepage</a> example has not been fixed because I am lazy.</li>
+<li>Validation issues with the article pages themselves.</li>
+</ul>
+
+<h2>24 October 2005</h2>
+<h4>Added</h4>
+<ul>
+<li>Breaking news about Opera 9 beta.</li>
+<li>Two "real world" makeover examples - <a href="example/bbc.html">BBC homepage</a> and <a href="example/tucows.html">Tucows fragment</a>.</li>
+<li>Results for iCab 3.</li>
+</ul>
+<h4>Fixed</h4>
+<ul>
+<li>All examples relying on the vertical grid method updated to work in both Opera 8 and 9.</li>
+<li>Example pages did not have Safari hack applied to the CSS and HTML output blocks, rendering them unselectable/unclickable.</li>
+</ul>
+
+
+<h2>21 October 2005</h2>
+<p>First published.</p>
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006</dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

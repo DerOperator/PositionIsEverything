@@ -1,0 +1,452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Browser results for the methods - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix B</small>Browser results for the methods</h1>
+
+<p><em>For browsers which exist for different platforms, the results are the same unless expliclty mentioned.</em></p>
+
+<table id="agent_results">
+<caption>Overview of browser behaviour</caption>
+<colgroup>
+<col width="20%" />
+</colgroup>
+<colgroup span="4" width="20%" />
+<thead>
+<tr>
+<th scope="col">Browser</th>
+<th scope="col"><a href="../example/anyorder.html">Any Order</a></th>
+<th scope="col"><a href="../example/equalheight.html">Equal Heights</a></th>
+<th scope="col"><a href="../example/verticalgrid.html">Vertical Grid</a></th>
+<th scope="col"><a href="../example/combined.html">Combined</a></th>
+</tr>
+</thead>
+<tbody>
+<tr class="important">
+<th scope="row">IE Win 7 beta 2</th>
+<td>pass</td>
+<td>pass</td>
+<td>fail (mild) <a href="#IE7b2_vertical">[note]</a></td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 6</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.01</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Mac 5.2</th>
+<td>pass</td>
+<td>fail (mild) <a href="#IEMac5_equal">[note]</a></td>
+<td>fail (mild) <a href="#IEMac5_vertical">[note]</a></td>
+<td>fail (mild) <a href="#IEMac5_combined">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.0</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass <a href="#FF1_combined">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">Netscape 8.0</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.2, 7.1, 7.0</th>
+<td>pass <a href="#N7.2_anyorder">[note]</a></td>
+<td>pass</td>
+<td>fail (mild) <a href="#N7.2_vertical">[note]</a></td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.2, 6.1</th>
+<td>pass <a href="#N6.2_anyorder">[note]</a></td>
+<td>pass <a href="#N6.2_equal">[note]</a></td>
+<td>fail (severe) <a href="#N6.2_vertical">[note]</a></td>
+<td>fail (severe) <a href="#N6.2_combined">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.0</th>
+<td>fail (total) <a href="#N6.0_anyorder">[note]</a></td>
+<td>untested</td>
+<td>untested</td>
+<td>untested</td>
+</tr>
+<tr>
+<th scope="row">Netscape 4.7</th>
+<td>fail (fixable) <a href="#N4.7_anyorder">[note]</a></td>
+<td>untested</td>
+<td>untested</td>
+<td>untested</td>
+</tr>
+<tr>
+<th scope="row">Opera 9.0 (beta)</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass<a href="#Op9_vertical">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 8.0, 8.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 7.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 7.2, 7.1, 7.0</th>
+<td>pass</td>
+<td>fail (severe) <a href="#Op7.2_equal">[note]</a></td>
+<td>pass</td>
+<td>fail (severe) <a href="#Op7.2_combined">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 6</th>
+<td>fail (fixable) <a href="#Op6_anyorder">[note]</a></td>
+<td>fail <a href="#Op6_equal">[note]</a></td>
+<td>fail <a href="#Op6_vertical">[note]</a></td>
+<td>fail <a href="#Op6_combined">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 5</th>
+<td>fail (total) <a href="#Op5_anyorder">[note]</a></td>
+<td>untested</td>
+<td>untested</td>
+<td>untested</td>
+</tr>
+<tr class="important">
+<th scope="row">Safari 2.0, 1.3, 1.2, 1.03</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">OmniWeb 5.0.1</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">iCab 3.02beta</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">iCab 3.01beta</th>
+<td>pass</td>
+<td>pass</td>
+<td>fail (total) <a href="#iCab3_vertical">[note]</a></td>
+<td>fail (total) <a href="#iCab3_combined">[note]</a></td>
+</tr>
+</tbody>
+</table>
+<table id="agent_notes">
+<caption>Notes on individual browser behaviour</caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody>
+<tr>
+<th id="IE7b2" colspan="2">IE Win 7 beta 2</th>
+</tr>
+<tr>
+<th id="IE7b2_vertical">Vertical Grid</th>
+<td headers="IE7b2 IE7b2_vertical">
+<p>Example as it stands fails</p>
+<p>Solution is to force get <code>hasLayout</code> applied to #wrapper, eg using something like <code>zoom: 1</code>.</p></td>
+</tr>
+<tr>
+<th id="IEMac5" colspan="2">IE Mac 5.2</th>
+</tr>
+<tr>
+<th id="IEMac5_equal">Equal Heights</th>
+<td headers="IEMac5 IEMac5_equal">
+<p>By not feeding IE Mac the padding- and margin-bottom values that are behind the equal height, we get an acceptable degradation - if IE Mac 5 really must be catered for, then it's nothing faux-columns suitably applied can't handle</p>
+<p>On the other hand, if IE Mac 5 does get to see the padding- and margin-bottom values, the failure is catascrophic as it makes the page that height</p>
+</td>
+</tr>
+<tr>
+<th id="IEMac5_vertical">Vertical Grid</th>
+<td headers="IEMac5 IEMac5_vertical">
+<p>Snaps placed above wrapper div (despite being able to paint wrapper's background to the correct height)</p>
+<p>Solution is to not give IE Mac 5 the absolutely positioning for snap and to just let it take its place in the flow</p>
+</td>
+</tr>
+<tr>
+<th id="IEMac5_combined">Combined</th>
+<td headers="IEMac5 IEMac5_combined">
+<p>Now the snaps vanish entirely</p>
+<p>The fix is the same as the solution for snapped elements without equal columns</p>
+</td>
+</tr>
+<tr>
+<th id="FF1" colspan="2">Firefox 1.0</th>
+</tr>
+<tr>
+<th id="FF1_combined">Combined</th>
+<td headers="FF1 FF1_combined">
+<p>A bug when <code>overflow: hidden</code> and <code>position: relative</code> are declared on the same element causes the unmodified markup to fail severely since the snappers quite simply vanish</p>
+<p>#wrapper's <code>overflow: hidden</code> can't be removed since it's the lynchpin that the equal heights method relies on</p>
+<p>However, by wrapping another div around #wrapper and moving <code>position: relative</code> to it, everything is ok again.</p>
+<p>It's annoying that this has to be done, but so far it's the only known fix</p>
+</td>
+</tr>
+<tr>
+<th id="N7.2" colspan="2">Netscape 7.2, 7.1, 7.0</th>
+</tr>
+<tr>
+<th id="N7.2_anyorder">Any Order</th>
+<td headers="N7.2 N7.2_anyorder">
+<p>See article body for details</p>
+</td>
+</tr>
+<tr>
+<th id="N7.2_vertical">Vertical Grid</th>
+<td headers="N7.2 N7.2_vertical">
+<p>Snaps placed correctly to the bottom of the wrapper div, however 1em additional bottom margin sneaked into the wrapper div and so the snaps are 1em below the bottom of the longest column.</p>
+<p>But check the combined result...</p>
+</td>
+</tr>
+<tr>
+<th id="N6.2" colspan="2">Netscape 6.2, 6.1</th>
+</tr>
+<tr>
+<th id="N6.2_anyorder">Any Order</th>
+<td headers="N6.2 N6.2_anyorder">
+<p>Same caveat as for NS7</p>
+</td>
+</tr>
+<tr>
+<th id="N6.2_equal">Equal Heights</th>
+<td headers="N6.2 N6.2_equal">
+<p>Some elements beneath the wrapper appear not to be able to receive clicks - the footer is ok so there you go</p>
+</td>
+</tr>
+<tr>
+<th id="N6.2_vertical">Vertical Grid</th>
+<td headers="N6.2 N6.2_vertical">
+<p>Snaps vanish</p>
+<p>... and where they gos, nobody knows</p>
+</td>
+</tr>
+<tr>
+<th id="N6.2_combined">Combined</th>
+<td headers="N6.2 N6.2_combined">
+<p>Netscape 6.1</p>
+<p>Since the snaps fail, unsurprisingly  the combination fails too - the equal height stuff still works just fine</p>
+</td>
+</tr><tr>
+<th id="N6.0" colspan="2">Netscape 6.0</th>
+</tr>
+<tr>
+<th id="N6.0_anyorder">Any Order</th>
+<td headers="N6.0 N6.0_anyorder">
+<p>Columns simply stack up on top of each other</p>
+</td>
+</tr>
+<tr>
+<th id="N4.7" colspan="2">Netscape 4.7</th>
+</tr>
+<tr>
+<th id="N4.7_anyorder">Any Order</th>
+<td headers="N4.7 N4.7_anyorder">
+<p>See the appendix that deals with <a href="appendix/olderbrowsers.html">older browsers</a>.</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op9" colspan="2">Opera 9.0 (beta)</th>
+</tr>
+<tr>
+<th id="Op9_vertical">Vertical Grid</th>
+<td headers="Op9 Op9_vertical">
+<p>To get Opera 9 and 8 to play together at the same time requires some mundane if verbally spectacular and verbose hackery. Of course, you could just drop support for Opera 8...</p>
+</td>
+</tr>
+
+<tr>
+<th id="Op7.2" colspan="2">Opera 7.2, 7.1, 7.0</th>
+</tr>
+<tr>
+<th id="Op7.2_equal">Equal Heights</th>
+<td headers="Op7.2 Op7.2_equal">
+<p>Percent works just fine.</p>
+<p>Pixels and ems go haywire and extend the columns.</p>
+</td>
+</tr>
+<tr>
+<th id="Op7.2_combined">Combined</th>
+<td headers="Op7.2 Op7.2_combined">
+<p>Percent also stops working in just the same manner as the equal height failure.</p>
+</td>
+</tr>
+<tr>
+<th id="Op6" colspan="2">Opera 6</th>
+</tr>
+<tr>
+<th id="Op6_anyorder">Any Order</th>
+<td headers="Op6 Op6_anyorder">
+<p>See the appendix that deals with <a href="appendix/olderbrowsers.html">older browsers</a>.</p>
+<p>Additionally, the em version makes the columns too narrow for some reason</p>
+</td>
+</tr>
+<tr>
+<th id="Op6_equal">Equal Heights</th>
+<td headers="Op6 Op6_equal">
+<p>There's a rendering display problem (which is probably the cause for Mark's extra content wrapper div) when the page is left and returned to (clicking back and forward, switching to another app and back again, but not reloading the page), everything is magically ok!</p>
+</td>
+</tr>
+<tr>
+<th id="Op6_vertical">Vertical Grid</th>
+<td headers="Op6 Op6_vertical">
+<p>Horribly messy</p>
+<p>Each Snap extends from the bottom of its column to the bottom of the viewport (nice job on your positioning there Opera 6).</p>
+</td>
+</tr>
+<tr>
+<th id="Op6_combined">Combined</th>
+<td headers="Op6 Op6_combined">
+<p>The messiness of the snap placement, <em>and</em> the equal heights stop working.</p>
+<p>But because of the overflow:hidden, the extended snaps are also subject to the magic of the equal height's "now you see it, now you don't" page revisit born againness</p>
+</td>
+</tr>
+<tr>
+<th id="Op5" colspan="2">Opera 5</th>
+</tr>
+<tr>
+<th id="Op5_anyorder">Any Order</th>
+<td headers="Op5 Op5_anyorder">
+<p>Columns don't even begin to be treated as such - they just stack up vertically, ie. as usual</p>
+</td>
+</tr>
+<tr>
+<th id="iCab3" colspan="2">iCab 3.0 beta</th>
+</tr>
+<tr>
+<th id="iCab3_vertical">Vertical Grid</th>
+<td headers="iCab3 iCab3_vertical">
+<p>The vertically positioned elements don't show up at all.</p>
+<p>Which is very odd since the <a href="exampleresults.html">examples</a> work in iCab just fine.</p>
+</td>
+</tr>
+<tr>
+<th id="iCab3_combined">Combined</th>
+<td headers="iCab3 iCab3_combined">
+<p>Still no sign of the vertically positioned elements.</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li class="current">Browser results for the methods</li>
+<li><a href="exampleresults.html">Browser results for the examples</a></li>
+<li><a href="holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="theory.html">Notes on theory</a></li>
+<li><a href="notes.html">Miscellaneous notes</a></li>
+<li><a href="equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

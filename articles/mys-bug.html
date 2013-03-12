@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+	<title>Mystery Bug</title>
+
+<meta name="Big John" content="September, 2002">
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A method of isolating an unknown CSS bug, by reduction to a 'minimal test case'." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+<style type="text/css">
+
+.consultbox {
+float: left;
+font-size: .75em;
+background: white;
+border: 2px solid #000;
+width: 300px;
+margin: 10px 30px 20px 0;
+padding: 8px 5px;
+text-align: center;
+line-height: 1.5;
+}
+
+.consultbox img {margin-bottom: -4px;}
+
+</style>
+
+</head>
+
+<body id="mb">
+
+<h1>Mystery Bug</h1>
+
+<div class="wrapper">
+
+<div class="consultbox">
+<strong>Are complex CSS issues making your programmers <em>crazy?</em></strong> <br />
+I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Let Big John help you too</a>
+</div>
+
+<p class="alignright">
+<a href="../articles.html"><strong>Return to Articles</strong></a><br />
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+
+<p class="alignright">
+<em>We originally wrote this article for the
+<a href="http://css-discuss.incutio.com/"><strong>css-d&nbsp;wiki</strong></a>,
+the repository of all things CSS that get hashed out on the
+<a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss list</strong></a>.
+</em>
+</p>
+
+<p style="clear: both;">
+<strong>CSS bugs can be obscenely difficult to isolate,</strong> especially when they are located
+amidst a large, complex page with many external style sheets. Compounding
+this is the fact that few coders have enough experience to be sure that what
+they're seeing really IS a bug, and not just incorrect coding.
+</p>
+<p>
+Often people will, when facing the Mystery Bug, just thrash about almost blindly,
+and only by pure luck will the answer be found. This need not be.
+</p>
+<p>
+By following the proceedure below, a clear understanding of the problem may be
+quickly obtained, freeing the coder to find a workaround or avoid the bug altogether.
+</p>
+
+<h3>Step One: Validation</h3>
+
+<p>
+Too often this step is not performed, which is a shame because the majority of Mystery Bugs
+are simply due to typos and basic code errors. Luckily, online validation tools
+(<a href="http://validator.w3.org/">html</a>, <a href="http://jigsaw.w3.org/css-validator/">css</a>)
+are available.
+These engines will expose outright validation errors, and will also give validation warnings
+about code that might possibly cause viewing problems due to conflicts with user stylesheets
+and the like. But beware; they have been known on occasion to throw errors for seemingly
+valid code. This is quite rare, though.
+</p>
+
+<h3>Step Two: Simplify the Cascade</h3>
+
+<p>
+If all the CSS for the page is contained within the source document, or if it is all within a single
+external .css file, go on to the next step. Otherwise, it's best to embed the relevant CSS into a
+single document.
+</p>
+<p>
+<strong>Note:</strong> Make <em>sure</em> you have safe copies of all documents
+before you start, not after it's too late.
+</p>
+<p>
+After cutting each external link, save, and view the page. If a link is removed and the bug
+disappears, paste that .css file in the link location. If the link is cut and the bug stays, move
+on to the next link. In the case of a &lt;link&gt;, the newly embedded CSS must be enclosed with
+&lt;style&gt;&lt;/style&gt; tags. Important: Each external .css file must be placed in the same location
+as the link that called for it.
+</p>
+<p>
+When there are no more external sheets, and the bug is still present, it's time for the real work to begin.
+</p>
+
+<h3>Step Three: Cut and Paste</h3>
+
+<p>
+The object here is to cut large sections of code, save the file, and check to see if the bug is gone
+or not. If the bug is gone, paste that section back in, and cut the next section. Obviously, if the
+bug is still there, do not paste back that section, but move on to the next. This method is applied
+to both the CSS and the HTML. Which one gets done first is up to you.
+</p>
+<p>
+An alternative method is to surround code sections with comment tags. This makes it easier
+to recover if you somehow 'lose' the bug, but the source stays cluttered. It's also not as
+fast as the first method. Still, some people prefer to comment out blocks of code in a source
+to do tests, sources are often shot thru with comments and nesting comments is strictly forbidden!
+If you don't know why, give it a try. However, CSS can be used to achieve the same effect
+<em>without</em> running afoul of the comment nesting problem.
+</p>
+
+<p>
+If you want to temporarily remove a block of content and there happens to be a
+convenient element wrapper for that block, just add <strong>style="display:&nbsp;none;"</strong>
+to the start tag of that element. If there is no such surrounding element to use,
+or if it happens to be a crucial strucural element, you can instead add your own
+DIV that surrounds the content to be removed and use <strong>style="display:&nbsp;none;"</strong>
+on that DIV. In effect such a DIV amounts to a "comment" that may harmlessly
+enclose other real HTML comments without any difficulties.
+</p>
+
+<p>
+The DIV/comment idea is courtesy of
+<a href="http://home.tiscali.nl/developerscorner/"><strong>Francky</strong></a>.
+Thanks Francky!
+</p>
+
+<p>
+Be aware of any CSS that is 'inline' within the HTML, and treat these the same as the
+embedded CSS. If you cut an inline style rule, and the bug is affected, paste it into the
+head within the appropriate rule, and after the other properties in that rule. This should
+prevent any alteration of the cascade. Don't forget to view the page, just to be sure.
+</p>
+<p>
+Remember, the goal here is to keep the bug present, while removing or hiding as much of the code
+as possible. As you go along, the portions that can be removed will get smaller and smaller.
+Switch back and forth between the HTML and CSS, and don't stop until there is <em>not one
+single bit of code</em> that can be removed without losing the bug.
+</p>
+
+<h3>Step Four: Analysis</h3>
+
+<p>
+At this point the bug page is called a 'minimal test case'. You may by now have worked out the
+problem and gone bye bye, but if not, step back and take a good long look at the code, and the
+page. Here's where code knowledge, analytical skills, and keen observation pay off. You could
+'play' with the code, or go to a good knowledge base like the
+<a href="http://www.w3.org/">W3C</a>, or a bit of both. However
+it's done, by the time it IS done you will have learned, guaranteed.
+</p>
+<p>
+As a last resort, there's always the
+<a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss list</strong></a>.
+Any bug that can survive this treatment
+and keep laughing, will draw such as us like sharks to the chum. And not having to paw
+thru a huge set of documents is really nice, take our word for it.
+</p>
+
+<h3>Fast Strategies</h3>
+
+<p>
+Bugs sometimes come along in flurries, and deconstructing each one can be rather
+time consuming. Once you have developed some skill in bug hunting you may
+prefer to try your luck stalking bugs on a full-scale problem page.
+</p>
+
+<p>
+Certain techniques are well known. Putting backgrounds or borders on elements to
+highlight where they are actually located, and zeroing margins and padding
+to reveal the cause of strange gaps. Many issues arise over the incorrect usage of
+heights on elements, and weird width issues can be even trickier
+to detect.
+</p>
+
+<p>
+We can't explain such advanced methods in detail because every situation is
+different. Just approach each bug with an open mind and don't assume that the most
+obvious suspect is necessarily the cause of the bug. Very often your problem will
+be the result of obscure parts of the code, working together behind the scenes to
+throw up a nasty bug that seems to come from nowhere. These are the toughest bugs to
+defeat, and the only possible way you can do so is to be smarter than they are.
+As a last resort you may always resort to the minimal test case method, which
+will usually expose even the worst deep-cover bugs with ease.
+</p>
+
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: December 20, 2006<br />
+Created Groundhog Day (Feb 2nd), 2003
+</p>
+
+</div>
+
+</body>
+
+
+</html>
+
+

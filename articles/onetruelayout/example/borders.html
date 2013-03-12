@@ -1,0 +1,498 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Example - In search of the One True Layout - Borders with Backgrounds</title>
+<style type="text/css">
+/* <![CDATA[ */
+#block_1
+	{
+	float: left;
+	width: 50%;
+	margin-left: 25%;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 25%;
+	margin-left: -75%;
+	}
+#block_3
+	{
+	float: left;
+	width: 24.9%;
+	}
+#block_1, #block_2, #block_3
+	{
+	background-image: url(../images/backgrounds/sunken_tr.gif);
+	background-position: 100% 0;
+	background-repeat: no-repeat;
+	}
+.box_copy
+	{
+	border-top: solid 4px #ffffff;
+	background-image: url(../images/backgrounds/sunken_tl.gif);
+	overflow: hidden;
+	}
+.box_copy h2
+	{
+	padding: 12px 18px 10000px 18px;
+	padding: 12px 18px 3px 18px;
+	margin-bottom: -9997px;
+	margin-bottom: 0;
+	background-image: url(../images/backgrounds/sunken_tr.gif);
+	background-position: 100% 0px;
+	background-repeat: no-repeat;
+	}
+/* Don't understand why, but IEs of all hues require this shifting */
+* html .box_copy h2
+	{
+	background-position: 100% -4px;
+	}
+.box_copy p
+	{
+	padding: 6px 18px 0 18px;
+	}
+.verticalalign
+	{
+	background-image: url(../images/backgrounds/sunken_bl.gif);
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	}
+.verticalalign p
+	{
+	text-align: right;
+	padding-bottom: 18px;
+	background-image: url(../images/backgrounds/sunken_br.gif);
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+	}
+.last
+	{
+	/* p-b + m-b hacks for IE 5.01 */
+	padding-bottom/**/: 100em !important;
+	margin-bottom/**/: -97.5em !important; 
+	}
+div#block_1, div#block_2, div#block_3
+	{
+	/* p-b + m-b hacks for IE 5.01 */
+	padding-bottom/**/: 30000px !important;
+	margin-bottom/**/: -30000px !important;
+	}
+@media all and (min-width: 0px) {
+body #block_1, body #block_2, body #block_3
+	{
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+	}
+#block_1:before, #block_2:before, #block_3:before
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]';
+	display: block;
+	background: inherit;
+	margin-top: -5px;
+	padding-top: 32000px !important;
+	margin-bottom: -32000px !important;
+	height: 0;
+	}
+}
+.last .verticalalign
+	{
+	/* p-b + m-b hacks for IE 5.01 */
+	position/**/: absolute;
+	bottom/**/: 0;
+	}
+#block_1 .last .verticalalign
+	{
+	width: 50%;
+	}
+#block_2 .last .verticalalign
+	{
+	width: 25%;
+	}
+#block_3 .last .verticalalign
+	{
+	width: 24.9%;
+	}
+/* hack for Operas */
+@media all and (min-width: 0px){
+#wrapper .last div.verticalalign
+	{
+	width: 100%; /* Opera 7.5 and 8 */
+	}
+div[id^="wrapper"] #block_1 .last div.verticalalign
+	{
+	width: 50%;
+	}
+div[id^="wrapper"] #block_2 .last div.verticalalign
+	{
+	width: 25%;
+	}
+div[id^="wrapper"] #block_3 .last div.verticalalign
+	{
+	width: 24.9%;
+	}
+}
+/* hack for IEs of all hues */
+* html .verticalalign
+	{
+	width: 100% !important;
+	}
+#wrapper_extra
+	{
+	position: relative;
+	}
+* html #wrapper
+	{
+	position: relative;
+	}
+#wrapper
+	{
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	display: block; /* this time Operas 7 + 8 need block, not inline-block */
+	}
+/* but that makes IE go crazy */
+* html #wrapper
+	{
+	display: inline-block;
+	}
+/* easy clearing */
+#wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	overflow: hidden;
+	}
+/* end easy clearing */
+h2, p
+	{
+	margin: 0;
+	padding: 0;
+	}
+/* ]]> */
+</style>
+<style type="text/css">
+@import url(onetruelayoutbasic.css);
+</style>
+</head>
+<body>
+<div id="header">
+<h1>One True Layout™ - Borders with Backgrounds</h1>
+</div>
+<div id="wrapper_extra">
+<div id="wrapper">
+<div id="block_1">
+<div class="box_copy last">
+<h2>Block 1</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 1</p></div>
+</div>
+</div>
+<div id="block_2">
+<div class="box_copy">
+<h2>Block 2a</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 2a</p></div>
+</div>
+<div class="box_copy">
+<h2>Block 2b</h2>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 2b</p></div>
+</div>
+<div class="box_copy last">
+<h2>Block 2c</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 2c</p></div>
+</div>
+</div>
+<div id="block_3">
+<div class="box_copy">
+<h2>Block 3a</h2>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 3a</p></div>
+</div>
+<div class="box_copy">
+<h2>Block 3b</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 3b</p></div>
+</div>
+<div class="box_copy">
+<h2>Block 3c</h2>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 3c</p></div>
+</div>
+<div class="box_copy last">
+<h2>Block 3d</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 3d</p></div>
+</div>
+</div>
+</div><!-- close div#wrapper -->
+</div><!-- close div#wrapper_extra -->
+<div id="footer">
+<p>Footer text</p>
+</div>
+<p id="article_location">This example forms part of the <em>Position is Everything</em> article, <a href="../index.html">In Search of the One True Layout</a>.</p>
+<div class="output">
+<h2>HTML Output</h2>
+<pre>
+&lt;div id="wrapper_extra"&gt;
+&lt;div id="wrapper"&gt;
+&lt;div id="block_1"&gt;
+&lt;div class="box_copy last"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy last"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy last"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="output">
+<h2>CSS Rules</h2>
+<pre>
+#block_1
+	{
+	float: left;
+	width: 50%;
+	margin-left: 25%;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 25%;
+	margin-left: -75%;
+	}
+#block_3
+	{
+	float: left;
+	width: 24.9%;
+	}
+#block_1, #block_2, #block_3
+	{
+	background-image: url(../images/backgrounds/sunken_tr.gif);
+	background-position: 100% 0;
+	background-repeat: no-repeat;
+	}
+.box_copy
+	{
+	border-top: solid 4px #ffffff;
+	background-image: url(../images/backgrounds/sunken_tl.gif);
+	overflow: hidden;
+	}
+.box_copy h2
+	{
+	padding: 12px 18px 10000px 18px;
+	padding: 12px 18px 3px 18px;
+	margin-bottom: -9997px;
+	margin-bottom: 0;
+	background-image: url(../images/backgrounds/sunken_tr.gif);
+	background-position: 100% 0px;
+	background-repeat: no-repeat;
+	}
+/* Don't understand why, but IEs of all hues require this shifting */
+* html .box_copy h2
+	{
+	background-position: 100% -4px;
+	}
+.box_copy p
+	{
+	padding: 6px 18px 0 18px;
+	}
+.verticalalign
+	{
+	background-image: url(../images/backgrounds/sunken_bl.gif);
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	}
+.verticalalign p
+	{
+	text-align: right;
+	padding-bottom: 18px;
+	background-image: url(../images/backgrounds/sunken_br.gif);
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+	}
+.last
+	{
+	/* p-b + m-b hacks for IE 5.01 */
+	padding-bottom/**/: 100em !important;
+	margin-bottom/**/: -97.5em !important; 
+	}
+div#block_1, div#block_2, div#block_3
+	{
+	/* p-b + m-b hacks for IE 5.01 */
+	padding-bottom/**/: 30000px !important;
+	margin-bottom/**/: -30000px !important;
+	}
+@media all and (min-width: 0px) {
+body #block_1, body #block_2, body #block_3
+	{
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+	}
+#block_1:before, #block_2:before, #block_3:before
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]';
+	display: block;
+	background: inherit;
+	margin-top: -5px;
+	padding-top: 32000px !important;
+	margin-bottom: -32000px !important;
+	height: 0;
+	}
+}
+.last .verticalalign
+	{
+	/* p-b + m-b hacks for IE 5.01 */
+	position/**/: absolute;
+	bottom/**/: 0;
+	}
+#block_1 .last .verticalalign
+	{
+	width: 50%;
+	}
+#block_2 .last .verticalalign
+	{
+	width: 25%;
+	}
+#block_3 .last .verticalalign
+	{
+	width: 24.9%;
+	}
+/* hack for Operas */
+@media all and (min-width: 0px){
+#wrapper .last div.verticalalign
+	{
+	width: 100%; /* Opera 7.5 and 8 */
+	}
+div[id^="wrapper"] #block_1 .last div.verticalalign
+	{
+	width: 50%;
+	}
+div[id^="wrapper"] #block_2 .last div.verticalalign
+	{
+	width: 25%;
+	}
+div[id^="wrapper"] #block_3 .last div.verticalalign
+	{
+	width: 24.9%;
+	}
+}
+/* hack for IEs of all hues */
+* html .verticalalign
+	{
+	width: 100% !important;
+	}
+#wrapper_extra
+	{
+	position: relative;
+	}
+* html #wrapper
+	{
+	position: relative;
+	}
+#wrapper
+	{
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	display: block; /* this time Operas 7 + 8 need block, not inline-block */
+	}
+/* but that makes IE go crazy */
+* html #wrapper
+	{
+	display: inline-block;
+	}
+/* easy clearing */
+#wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	overflow: hidden;
+	}
+/* end easy clearing */
+h2, p
+	{
+	margin: 0;
+	padding: 0;
+	}
+</pre>
+</div>
+</body>
+
+
+</html>

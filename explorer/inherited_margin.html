@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<title>IE/Win Inherited Margins on Form Elements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="In IE/Win, certain form elements contained within a box having hasLayout inherit the margins of their containing boxes.">
+<meta name="keywords" content="internet explorer, margin, form, input, element, hasLayout, layout">
+
+<style type="text/css">
+
+/**********************************************************************
+ CSS classes involved in the demo
+ **********************************************************************/
+
+.has-margins {
+  background-color: gray;
+  margin-left: 5em;
+  padding: 1em;
+}
+.has-layout {
+  background-color: tan;
+  width: 30em; /* a fixed width granted hasLayout in IE */
+}
+
+/**********************************************************************
+ CSS for page display only
+ **********************************************************************/
+
+body {
+  color: #000;
+  font-family: Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 90%;
+}
+
+div#content {
+  border: 1px solid #ccc;
+  margin: 5px auto;
+  padding: 0 25px;
+  width: 750px;
+  text-align: left;
+}
+
+div#credit {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-size: 85%;
+	padding: 10px 25px;
+}
+
+p#author {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+p#document-info {
+	margin: 0 0 0 305px;
+	text-align: right;
+}
+
+code {
+  display: block;
+  white-space: pre;
+  border: 1px solid #98be10;
+  background-color: #dde3dd;
+  padding: 0.5em;
+  font-size: 100%;
+  margin: 1ex 0;
+}
+
+/* The IE peek-a-boo bug strikes with no floats!  Sigh. \*/
+code {zoom: 1;}
+
+.ignored { margin: 0; }
+
+.alignright {margin: 0 30px 30px 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+</style>
+</head>
+<body>
+
+<div id="content">
+
+<h1>IE inherited margin bug: form elements and hasLayout</h1>
+
+  <div id="credit">
+    <p id="author">
+      A guest P.I.E. demo by <strong><a href="http://jaspan.com/">Barry Jaspan</a></strong><br>
+      Discuss this demo at <a href="http://jaspan.com/ie-inherited-margin-bug-form-elements-and-haslayout">its original location</a>
+    </p>
+    <p id="document-info">
+      <a href="../explorer.html">Explorer demos</a><br />
+      <a href="../guests.html">Guest demos</a><br />
+      <a href="expandingboxbug.html">Next Explorer Demo</a>
+    </p>
+  </div>
+
+<p>Internet Explorer on Windows has a wide variety of rendering bugs.
+Many of these bugs can be worked around by giving affected elements
+the IE-specific "hasLayout" property and an <a rel="external"
+href="http://www.satzansatz.de/cssd/onhavinglayout.html">extensive
+analysis of how and when this works</a> is available.  This article
+describes the opposite situation: an IE rendering bug that is
+triggered by elements having layout for which the workaround is to
+remove the hasLayout property.</p>
+
+<p>The bug is that certain form input elements whose containing box
+has layout inherit the sum of the margins of all of their containing
+boxes.  Unlike the the well known <a rel="external"
+href="doubled-margin.html">IE
+doubled float-margin bug</a>, this one does not involve floats.  There
+is a workaround but, so far, no magic-bullet CSS-only
+solution.</p>
+
+<h2>The Problem</h2>
+
+<p>Consider this sample code:</p>
+
+<code>.has-margins {
+  background-color: gray;
+  margin-left: 5em;
+  padding: 1em;
+}
+.has-layout {
+  background-color: tan;
+  width: 30em;
+}
+
+&lt;form action="ignore"&gt;
+&lt;div class="has-margins"&gt;
+  &lt;div class="has-layout"&gt;
+    INPUT tag, type=text:&lt;br&gt;
+    &lt;input type="text"&gt;&lt;br&gt;
+    INPUT tag, type=checkbox:&lt;br&gt;
+    &lt;input type="checkbox"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+</code>
+
+<p>The outer has-margins box is gray and the full width of the page
+except for a left margin of 5em.  The inner has-layout box is tan,
+30ems wide, and contains four lines of content: two of text and two
+form elements.  All four lines of content should be flush against the
+left edge of the tan box.</p>
+
+<p>Here is how it actually displays:</p>
+
+<form action="http://www.positioniseverything.net/explorer/ignore">
+<div class="has-margins">
+  <div class="has-layout">
+    INPUT tag, type=text:<br>
+    <input type="text"><br>
+    INPUT tag, type=checkbox:<br>
+    <input type="checkbox">
+  </div>
+</div>
+</form>
+
+<p>
+For all CSS-enabled versions of IE/Win, including IE7, the
+left edge of the text input field (the second line) is pushed
+to the left. It incorrectly inherits the left margin of its
+parent box because the parent has a width value, giving it
+hasLayout.</p>
+
+<p>Consider another example which wraps a second has-margins box
+around the inner has-layout box:</p>
+
+<code>&lt;form action="ignore"&gt;
+&lt;div class="has-margins"&gt;
+  &lt;div class="has-margins"&gt;
+    &lt;div class="has-layout"&gt;
+      INPUT tag, type=text:&lt;br&gt;
+      &lt;input type="text"&gt;&lt;br&gt;
+      INPUT tag, type=checkbox:&lt;br&gt;
+      &lt;input type="checkbox"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+</code>
+
+<form action="http://www.positioniseverything.net/explorer/ignore">
+<div class="has-margins">
+  <div class="has-margins">
+    <div class="has-layout">
+      INPUT tag, type=text:<br>
+      <input type="text"><br>
+      INPUT tag, type=checkbox:<br>
+      <input type="checkbox">
+    </div>
+  </div>
+</div>
+</form>
+
+<p>The left edge of the has-layout box is correctly pushed twice as
+far to the left (since both enclosing has-margins boxes have a left
+margin).  However, the affected input is now also pushed twice as far
+to the left; compare its location to the text field in the previous
+example.  The form element actually inherits the the <em>sum</em> of
+the left margins of all of its ancestors.  Interestingly, it does not
+inherit the top or bottom margins.</p>
+
+<p>The bug seems to occur for all INPUT types except checkbox, radio,
+and image as well as TEXTAREA elements but not for SELECT
+elements.</p>
+
+<h2>Workarounds</h2>
+
+<p>The problem only seems to occur when the direct parent of the INPUT
+element has hasLayout and any ancestor has margins.  This leads to
+several possible workarounds:</p>
+
+<ul>
+<li>Set a negative margin on the INPUT element equal to the sum of all
+of its parents' margins.  This is fine for static sites but if you are
+using a CMS it is probably not possible without scripting.  Keep in
+mind that only some INPUT element types are affected; assigning
+negative margins to checkbox, radio, or image inputs will break your
+layout.</li>
+
+<li>Remove the margins from all ancestor elements.  This is not
+particularly realistic.</li>
+
+<li>Remove the hasLayout-granting style from the containing DIV.
+Since you presumably put that style there for a reason, this is also
+not particularly realistic.</li>
+
+<li>Put inline text, a LABEL, or possibly any inline element at all
+immediately before the INPUT element.  The fact that this solves the
+problem is probably why some people have not noticed it.  Example:
+
+<code>&lt;form action="ignore"&gt;
+&lt;div class="has-margins"&gt;
+  &lt;div class="has-layout"&gt;
+    INPUT tag, type=text, preceeded by inline text:&lt;br&gt;
+    Text: &lt;input type="text"&gt;&lt;br&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+</code>
+
+<form action="http://www.positioniseverything.net/explorer/ignore">
+<div class="has-margins">
+  <div class="has-layout">
+    INPUT tag, type=text, preceeded by inline text:<br>
+    Text: <input type="text"><br>
+  </div>
+</div>
+</form>
+</li>
+
+<li>Wrap the INPUT element in an unstyled SPAN, LABEL, or, in fact,
+any container element without a hasLayout-granting style.  Example:
+<code>&lt;form action="ignore"&gt;
+&lt;div class="has-margins"&gt;
+  &lt;div class="has-layout"&gt;
+    INPUT tag, type=text, wrapped in an unstyled SPAN:&lt;br&gt;
+    &lt;span&gt;&lt;input type="text"&gt;&lt;/span&gt;&lt;br&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+</code>
+
+<form action="http://www.positioniseverything.net/explorer/ignore">
+<div class="has-margins">
+  <div class="has-layout">
+    INPUT tag, type=text, wrapped in an unstyled SPAN:<br>
+    <span><input type="text"></span><br>
+  </div>
+</div>
+</form>
+</li>
+
+</ul>
+
+<p>If anyone knows a better solution, or other situations under which
+the bug occurs, please <a href="http://jaspan.com/contact">let me
+know</a>.</p>
+
+
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: September 9th, 2008<br />
+Created December 11, 2006
+</p>
+
+</div><!--content-->
+
+<p><!-- IE sucks -->&nbsp;</p>
+
+</body>
+
+
+</html>

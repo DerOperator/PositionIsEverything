@@ -1,0 +1,597 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>Taming Your Multiple IE Standalones</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A discussion of the theory of CSS floating." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+<style type="text/css">
+span.true { background: #cee0f5; }
+span.false { background: #f0a8a0; }
+.float-p, .float-p-r { clear: both; }
+img { border: thin solid black; }
+p.tip span { background: #ffd; }
+ol li p.code{
+   margin-left: 0em;
+   margin-right: 0em;
+}
+</style>
+</head>
+
+<body id="standalone">
+
+<h1>Taming Your Multiple IE Standalones</h1>
+
+<div class="wrapper">
+
+<p class="alignright">
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a><br />
+</p>
+
+<p style="text-align: right; font-style: italic;">
+A Guest Article by <strong>Manfred Staudinger</strong>
+</p>
+
+<p class="tip">
+Most of the improvements in conditional comments talked about in this article
+have now been incorporated into an easy-to-install set of IE standalone versions
+available at
+<a href="http://tredosoft.com/Multiple_IE">Tredosoft.com</a>. We recommend
+this install very highly, so enjoy!
+</p>
+
+<p>
+Multiple versions of Explorer for Windows on a single computer have revolutionized
+CSS bug testing for websites, but sadly the different IE browser windows appear
+identical to the eye, potentially leading to confusion and testing mistakes. Also,
+Microsoft's proprietary <strong>Conditional&nbsp;Comments</strong>
+don't operate properly on these standalones, making advanced usage of CC's a guessing game.
+These problems have now been resolved! But first, a little background regarding the standalones.
+</p>
+
+<h2>What Are These Standalones?</h2>
+
+<p>
+When <strong>Joe Maddalone</strong> first came up with
+<a href="http://archivist.incutio.com/viewlist/css-discuss/33150">
+Multiple Version of IE in Windows XP Pro</a> in November 2003, this was a great
+relief for web developers. Technically speaking, it was made possible by using a
+system feature which may be functionally described as a <strong>process specific
+subroutine library</strong>, for otherwise system wide shared .dll and .com modules. It is
+supported by the system scheduler from Win98 SE onwards and is triggered by an
+empty file with the name <strong>process.exe.local</strong>.
+</p>
+
+<p>
+For Windows to allow several Explorer versions running side by side on one machine,
+this process specific subroutine library, in short
+<span class="inlineimp">&nbsp;process library&nbsp;</span>,
+must contain the <strong>starting module</strong>
+for the process (iexplore.exe), the <strong>trigger</strong> (iexplore.exe.local),
+and any required process specific dll's. For more details, see Joe Maddalone's
+consolidated info: <a href="http://labs.insert-title.com/labs/?ID=795">Multiple
+IEs in Windows</a>.
+</p>
+
+<p>
+Get the conveniently prepared standalones themselves
+<a href="http://browsers.evolt.org/?ie/32bit/standalone">here</a>.
+</p>
+
+<p class="tip">
+<strong>Multiple Standalone Installer Now Availible!</strong> (Oct '06) &nbsp;
+We no longer must manually install and modify the IE Standalones, because
+<strong>Yousif&nbsp;Al&nbsp;Saif</strong> of <a href="http://tredosoft.com/">tredosoft.com</a>
+has compiled IE3 thru IE6, along with all title markers and registry fixes, into
+a single easy installer package. It even comes with special files to keep PNG
+scripts working in IE6 for proper testing. Wow. Install IE7 from MS first, then go
+<a href="http://tredosoft.com/Multiple_IE">here</a> for instructions.
+Way to go, Yousif!</p>
+
+<h3>What took so long?</h3>
+
+<p>
+One question bothers me: If Win98 SE (and the feature in question) was available
+as early as April 1999, why did the feature I refer to as the
+<span class="inlineimp">&nbsp;process library&nbsp;</span>
+took more than 4 years to surface? In my opinion, it's partially because the Windows OS
+is lacking any concise description, and also because Microsoft seems to have obscured it
+by using at least three different names to designate this feature:
+<a href="http://msdn.microsoft.com/library/en-us/msi/setup/isolated_components.asp">
+Isolated Components</a>,
+<a href="http://msdn.microsoft.com/library/en-us/sbscs/setup/dll_com_redirection_on_windows.asp">
+DLL/COM Redirection</a>, and
+<a href="http://msdn.microsoft.com/library/en-us/dnsetup/html/dlldanger1.asp">
+Side-by-side approach for implementing private DLLs</a>.
+</p>
+
+<p>
+The last one is to be found in <em>The End of DLL Hell</em> (<strong>Rick Anderson</strong>,
+Microsoft, January 2000). Anderson also mentions "using a unique version number" for
+implementing private DLLs, a different approach which was called later on
+<a href="http://msdn.microsoft.com/library/en-us/dnsetup/html/sidebyside.asp">
+Side-by-side Component Sharing</a>, contributing still further to the confusion!
+</p>
+
+<p>
+Anyway, we now have standalones for each version of Explorer back to version 4, and that's
+great, but they can be made even better.
+</p>
+
+<h2>Perfecting The Standalones</h2>
+
+<p>
+To enhance the usability of multiple IE's further, I would like to demonstrate 3 changes
+for versions IE 5.01, IE 5.5, and IE 6:
+</p>
+
+<ol>
+<li><em>Enable processing Cookies with your IE Standalones</em></li>
+<li><em>Add the IE version number to the title bar of the Standalone browser window
+(also for IE 4.01)</em></li>
+<li><em>Finally get Conditional Comments working in the IE Standalones</em></li>
+</ol>
+
+<h3>Cookies</h3>
+
+<p>
+Although this is the simplest of the three modifications here, it took a long time to surface.
+To the best of my knowledge it was <strong>M. Cain</strong>, who in May 2005 proposed
+it for the first time and it was brought to my attention by <strong>David Wilson</strong>
+only recently. It is done by adding a backlevel module to each
+<span class="inlineimp">&nbsp;process library&nbsp;</span>.
+</p>
+
+<p>
+First download the file 3725.exe from Microsoft. You will find the page easily by searching
+for its FamilyID which is "6DEE32AB-B618-4FB3-9A45-CDD08162E167". The file
+description denotes it as "Win32 Cabinet Self-Extractor", but it should not (and will not apply
+anyway) be applied to your system.
+</p>
+
+<p>
+Instead use WinZip (or an equivalent tool) and it will show you 7 files which are contained in
+3725.exe. From these choose Wininet.dll to be extracted and put it into the folders of your IE
+standalones. This very same Wininet.dll (version 5.0.2614.3400, date April 14, 1999) applies
+to all of the standalones.
+</p>
+
+<p>
+That's it - enjoy testing with cookies!
+</p>
+
+<h3>Version Labels</h3>
+
+<p>
+To achieve Modification #2 two things have to be done:<br />
+1. checking and possibly changing a registry string, and<br />
+2. adding a modified module to each <span class="inlineimp">&nbsp;process library&nbsp;</span>
+</p>
+
+<p>
+If the registry string in question, <strong>Window Title</strong>, exists in your registry,
+it will cause <strong>all</strong> your different Internet Explorer versions to display
+the same character string on the title bar. This character string comes from the
+<strong>Window Title</strong> string and its default value is, you guessed it,
+"Microsoft Internet Explorer". For some background information you may want to read
+<a href="http://support.microsoft.com/kb/176497/EN-US/">
+How to Change the Internet Explorer Window Title</a> on the Microsoft site.
+</p>
+
+<p>
+In order to check for the <strong>Window Title</strong> string's existence, click the
+<strong>Start</strong> button, click <strong>Run</strong>, and type in "regedit.exe".
+This launches the registry editor, where you may then navigate to the <strong>Main</strong>
+key. It will be found under <strong>HKCU\Software\Microsoft\Internet Explorer\</strong>
+where "HKCU" may be read as "HKEY_CURRENT_USER".
+</p>
+
+<p>
+Once in <strong>Main</strong>, look carefully for a string called <strong>Window
+Title</strong>, and if there is one, right click it, and rename it to <strong>zWindow
+Title</strong>.
+</p>
+
+<p>
+To enable the Version Labels for your <strong>IE 4.01</strong> Standalone (for the
+hint I wish to thank Derek Ahmedzai), the procedure is very similar. This time you start with
+<strong>"HKLM"</strong>, which means "HKEY_LOCAL_MACHINE", go for
+<strong>HKLM\Software\Microsoft\Internet Explorer\Main</strong> and again look for
+the <strong>Window Title</strong> string.
+</p>
+
+<p>
+If there is none,  right click <strong>Main</strong>, select "New", choose "String Value"
+for the data type, and rename the resulting "New Value #1" to <strong>Window Title</strong>.
+</p>
+
+<p>
+Now you have a <strong>Window Title</strong> string anyway, right click it, and select
+"Modify". When the "Edit String" menue pops up, you can set the value data to "IE 4.01
+(Microsoft Internet Explorer)" and click "OK". That's all you need for IE 4.01 !
+</p>
+
+<p class="tip">
+Follow these instructions exactly to the letter, as for sure, the Registry Database is not
+designed for the "trial and error" approach. If you would like to change something on your
+own, you should at least have read and understood the
+<a href="http://support.microsoft.com/kb/256986/EN-US/">
+Description of the Microsoft Windows registry</a> beforehand.
+</p>
+
+<p>
+To finally enable the Version Labels for your <strong>IE 5.01</strong>, <strong>IE 5.5</strong>, and <strong>IE 6.0</strong>
+Standalone, it is also necessary to add a specially modified module (BROWSELC.DLL) to the
+<span class="inlineimp">&nbsp;process library&nbsp;</span>. The modification consists
+in replacing the string "Microsoft Internet Explorer" (which appears in the title bar) by "IE 5.01
+(Microsoft Internet Explorer)", "IE 5.5 (Microsoft Internet Explorer)" and "IE 6.0 (Microsoft
+Internet Explorer)" respectively. Once those .DLL's are in place, the browser window top bar
+will proudly announce what IE version it is, dispelling all confusion.
+</p>
+
+<p class="tip">
+The discussion assumes you have IE 7 as your primary or native browser and IE 6 is a
+Standalone version. Should you have IE 6 as the primary Explorer browser, leave it
+untouched, the lack of a version label in the title bar will indicate that it is IE 6 anyway.
+</p>
+
+<p>
+To download the .DLL's, right click the links below, select "Save target as", and save into the folder
+that contains the <strong>IEXPLORE.EXE</strong> file for each of the standalones.
+In other words, those .DLL's are each specific to either IE 5.01, IE 5.5 or IE 6.0, and each must
+share the same folder with the primary .EXE file for each standalone browser version. All three
+DLL's have the <em>same name</em> (BROWSELC.DLL), so don't put them in the same
+folder at any time!
+</p>
+
+<ul>
+<li><a href="sidepages/ie5/BROWSELC.DLL">Explorer 5.01</a></li>
+<li><a href="sidepages/ie55/BROWSELC.DLL">Explorer 5.5</a></li>
+<li><a href="sidepages/ie6/BROWSELC.DLL">Explorer 6.0</a></li>
+</ul>
+
+<h3>Repairing Conditional Comments</h3>
+
+<p>
+For details on the subject, go straight to the source and read
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp">About
+Conditional Comments</a> on the Microsoft site. Some say that using this proprietary feature is
+a bad practice because CC's are non-standard, but basically it's just code that has been stuffed
+within an HTML comment, a comment internally labeled so that various IE versions may reach into
+that comment and pull out parsable code.  If all browsers had something similar, bug fixing would
+be a whole lot more feasable in Opera and Mozilla.
+</p>
+
+<p>
+Further, CC's do validate because to the validator and non-IE/Win browsers, a CC looks like a
+normal HTML comment and thus is ignored.
+</p>
+
+<p>
+Most of the conditional comment behaviors may be restored to the standalones by performing
+a simple one time edit to your registry. It consists only of renaming a particular key,
+which currently says <strong>IE</strong>, so that it says <strong>zIE</strong>.
+</p>
+
+<p>
+To do this, click the <strong>Start</strong> button, click <strong>Run</strong>, and
+type in "regedit.exe". This launches the registry editor, where you may then navigate to
+the desired registry key. The target key, called <strong>IE</strong>, may be found under
+<strong>HKLM\Software\Microsoft\Internet Explorer\Version Vector\</strong>.
+In some Windows versions the "HKLM" may appear as "HKEY_LOCAL_MACHINE"
+</p>
+
+<p>
+Once in <strong>Version Vector</strong>, look for the key called <strong>IE</strong>,
+right click it, and rename it to <strong>zIE</strong>.
+</p>
+
+<p>
+(If you are running a 64-bit version of Windows, I would like to get in touch with you,
+to figure out the correct procedure for changing the key. A "registry reflector" copies
+values forth and back between the above mentioned key and
+<strong>HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Version Vector\</strong>,
+which is used for 32-bit applications running on a 64-bit machine).
+</p>
+
+<p>
+The next time Internet Explorer is started, the missing <strong>IE</strong> key will
+cause it to fetch needed information from other modules, where at least 4 slightly different
+character strings (containing version, subversion, build etc.) are available. The information
+found there will enable the standalones to function almost perfectly when presented with
+Conditional Comments. If you want to restore your OS to the previous registry state and
+browser behavior, simply rename the <strong>zIE</strong> key back to <strong>IE</strong>
+and restart Internet Explorer.
+</p>
+
+<p class="tip">
+If you have never altered your registry before, be assured it is not dangerous, <em>provided you
+follow these instructions exactly to the letter!</em>. But, should you allow temptation to take
+control, and you rashly make other edits, Neither I nor Position Is Everything are responsible for
+what might happen!
+</p>
+
+<h3>Verifying the Regained CC Functionality</h3>
+
+<p>
+With the four different Internet Explorers (IE 5.01, IE 5.5, IE 6 and IE 7.0) we have a total of 27
+different expressions (plus 22 negations) that may be used within a Conditional Comment, all of
+which will work reliably after the registry modification. These "expressions" within the Conditional
+Comments normally determine which Explorer versions will look inside the CC for parsable code.
+It is this functionality you have just restored.
+</p>
+
+<p>
+To test your registry edit for correct behavior, <a href="sidepages/cond_1.html">run a test</a> using
+the Internet Explorer of your choice, and you will get either true or false for each of the 27 CC
+expressions. The <span class="true">true</span>/<span class="false">false</span> patterns from
+these tests (simplified screenshots) are what you will see on the live test page.
+</p>
+
+<p class="float-p">
+<img id="70b" src="images/ie70.png" alt="Expected screenshot from testing CC's with IE 7.0" />
+If you install IE 7, this is the pattern what you should see for it and also for all your
+IE Standalone browsers if you haven't applied the registry change. Thus to be able to
+tailor unique styles <em>for all your IE versions</em>, you have to make the registry
+change.
+</p>
+
+<p class="float-p-r">
+<img src="images/ie60.png" alt="Screenshot from testing CC's with IE 6" /> This
+shows the pattern from the test with IE 6: if you have installed IE 7, you will get
+this only after the registry change. - But in case you don't have IE 7, this will be the picture
+for all your IE versions, and again it is vital to edit the registry for applying unique styles
+to them.
+</p>
+
+<p class="float-p">
+<img src="images/ie55.png" alt="Screenshot from testing CC's with IE 5.5" />
+All of the results from the IE 5.5 Standalone are now correct, thanks to a valuable hint
+from Thierry Koblentz at <a href="http://www.tjkdesign.com/">TJKDesign</a>:
+simply replace "IE 5.5" by "IE 5.5000" in the expressions and it works!
+</p>
+
+<p class="float-p-r">
+<img src="images/ie50.png" alt="Screenshot from testing CC's with IE 5.01" />
+The registry change restores the correct results from IE 5.01.
+</p>
+
+<h3 style="padding-top: 20px;" class="clear">A technical Discussion About CC's</h3>
+
+<p>
+When you start up an Internet Explorer 5+, it goes to the registry and reads all of the
+<strong>Version Vector</strong> into an array to keep it in memory. This is done
+only once at the time of initialisation. If IE later on encounters the characters
+"<span class="inlineimp">&nbsp;&lt;!--[if&nbsp;</span>" while processing a
+web-page, it recognizes a so-called <strong>downlevel-hidden CC</strong> (the
+term "downlevel" was coined by MS in the times of the "browser wars" and denotes any
+non-MS browser as well as IE 4 and earlier). It will take the character string
+<strong>IE</strong> (or whatever you wrote instead) from the CC and search the
+Version Vector array for a match (not case sensitive). For example, if you code:
+</p>
+
+<p class="code">
+&lt;!--[if zIE]> ... &lt;![endif]--><br />
+&lt;!--[if zIE 6.0]> ... &lt;![endif]--><br />
+</p>
+
+<p>
+the result will be "true" in both cases, independent from the version of IE you
+run, if you followed the procedure above to the letter, "false" otherwise. But you
+could easily have substituted your name rather than <strong>zIE</strong> to create a
+personalized Conditional Comment!
+</p>
+
+<p>
+The point of changing the registry key IE to zIE is simply that if the Internet Explorer does
+<em>not</em> find the <strong>IE</strong> key in the <strong>Version Vector</strong>,
+then it creates such an entry in the version vector array by using version information from the
+modules as a substitute, such enabling the use of CC's.
+</p>
+
+<h3 class="clear">More on CC's: the Ugly ones</h3>
+
+<p>
+Apart from the dowlevel-hidden CC's, which many people find awful anyway, MS also
+invented the <strong>downlevel-revealed Conditional Comment</strong>:
+<span class="inlineimp">&nbsp;&lt;![if IE]>&nbsp;</span> ...
+<span class="inlineimp">&nbsp;&lt;![endif]>&nbsp;</span>. It does not only
+look ugly, it doesn't even validate! I would not have mentioned it here, if not
+<a href="http://www.emological.com/">John Lascurettes</a> came up with a solution,
+where he used a downlevel-revealed CC <em>inside</em> a downlevel-hidden one.
+</p>
+
+<p>
+This construct <strong>validates</strong> and enables us, to select certain combinations
+of IE's for which there is no solution with a single downlevel-hidden CC (see "Selecting IE's"
+below). But the solution is much more powerful, when considered in detail. Most importantly,
+you can hide html from any or from a selection of IE's. For example
+</p>
+<p class="code">&lt;!--[if IE]>&lt;![if gt IE 6]>&lt;![endif]--><br />
+<span class="inlineimp">&nbsp;html&nbsp;</span><br />
+&lt;!--[if IE]>&lt;![endif]>&lt;![endif]--></p>
+<p>
+The <span class="inlineimp">&nbsp;html&nbsp;</span> here will be selected by any
+browser <em>except</em> IE 6, IE 5.5 and IE 5.01. In this group you will find all
+browsers (including IE 7 and IE 5.2) which are capable of processing advanced css selectors.
+Furthermore, even the <span class="inlineimp">&nbsp;html&nbsp;</span> is inside a
+downlevel-revealed CC, it is truly html (so it may contain comments) and not just a funny
+looking comment. In other words, the non-standard area is restricted to contain only the
+selection mechanism for IE, but no html.
+</p>
+
+<p>
+For a working webpage we would like to complement the above by a more familiar
+looking downlevel-hidden CC, selecting IE 6, IE 5.5 and IE 5.01
+</p>
+<p class="code">&lt;!--[if lte IE 6]><span class="inlineimp">&nbsp;html&nbsp;</span>&lt;![endif]--></p>
+
+<h3 class="clear">Producing CC's with XSLT</h3>
+
+<p>
+If you want to apply a <span class="inlineimp">&nbsp;browser-side&nbsp;</span>
+transformation to insert CC's into your <span class="inlineimp">&nbsp;html&nbsp;</span>,
+then the first part of the example given above can be directly translated into XSLT:
+<p class="code">&lt;xsl:comment>&lt;![CDATA[[if IE]>&lt;![if gt IE 6]>&lt;![endif]]]>&lt;/xsl:comment><br />
+<span class="inlineimp">&nbsp;html&nbsp;</span><br />
+&lt;xsl:comment>&lt;![CDATA[[if IE]>&lt;![endif]>&lt;![endif]]]>&lt;/xsl:comment></p>
+</p>
+
+<p>
+Here <span class="inlineimp">&nbsp;html&nbsp;</span> may be any valid
+XSLT including literal result elements and even comments! Now the second part
+can be constructed along the same lines, because XSLT supports the
+<span class="inlineimp">&nbsp;system-property&nbsp;</span> function. So we again
+use a downlevel-revealed inside a downlevel-hidden CC, wrapped in a XSLT
+<span class="inlineimp">&nbsp;if-clause&nbsp;</span>.
+<p class="code">&lt;xsl:if test="system-property('xsl:vendor') = 'Microsoft'"><br />
+&lt;xsl:comment>&lt;![CDATA[[if IE]>&lt;![if lte IE 6]>&lt;![endif]]]>&lt;/xsl:comment><br />
+<span class="inlineimp">&nbsp;html&nbsp;</span><br />
+&lt;xsl:comment>&lt;![CDATA[[if IE]>&lt;![endif]>&lt;![endif]]]>&lt;/xsl:comment><br />
+&lt;/xsl:if></p>
+</p>
+
+<p>
+In case the CC's are inserted with <span class="inlineimp">&nbsp;server-side&nbsp;</span>
+XSLT, the first part remains unchanged. But the second part changes, because in
+absence of the <span class="inlineimp">&nbsp;system-property&nbsp;</span> function
+we have to accept a html look alike or pseudo-html:
+<p class="code">&lt;xsl:comment>&lt;![CDATA[[if lte IE 6]><br />
+<span class="inlineimp">&nbsp;pseudo-html&nbsp;</span><br />
+&lt;![endif]]]>&lt;/xsl:comment></p>
+</p>
+
+<h3 class="clear">Selecting IE's</h3>
+
+<p>
+Finaly we can select any of the 16 different combinations of the four Internet Explorers,
+ranging from none to all. Some of the expressions are called <strong>less specific</strong>
+here, because they will also select future browsers with versions greater than 7.0.
+</p>
+
+<p>
+The following terms are defined as:
+</p>
+
+<ul>
+<li>gt = selects greater than</li>
+<li>lt = selects less than</li>
+<li>gte = selects greater than or equal to</li>
+<li>lte = selects less than or equal to</li>
+<li>! = selects everything <em>except</em> what directly follows the "!"
+   (the "!" character must be placed directly before the beginning of
+   the CC term value, and is not obeyed if it appears elswhere in the term.)</li>
+</ul>
+
+<p>
+To specify which versions will read the CC, the following arrangements may be employed:
+</p>
+
+<ol>
+<li>To select exclusivly for any <span class="inlineimp">&nbsp;non IE&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;IE&nbsp; &amp; !IE&nbsp;</span>"
+   for a downlevel-revealed within a downlevel-hidden CC
+   <p class="code">&lt;!--[if IE]>&lt;![if !IE]>&lt;![endif]--> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;!--[if IE]>&lt;![endif]>&lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 only&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;IE 5.0&nbsp;</span>" or
+   "lte IE 5.0" or "!gt IE 5.0" or "lt IE 5.5000" or "!gte IE 5.5000"
+   <p class="code">&lt;!--[if IE 5.0]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.5 or 6 or 7.0&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;!IE 5.0&nbsp;</span>" or
+   "!lte IE 5.0" or "gt IE 5.0" or "!lt IE 5.5000" or "gte IE 5.5000" (all less specific)
+   <p class="code">&lt;!--[if !IE 5.0]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.5 only&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;IE 5.5000&nbsp;</span>"
+   <p class="code">&lt;!--[if IE 5.5000]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 or 6 or 7.0&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;!IE 5.5000&nbsp;</span>" (less specific)
+   <p class="code">&lt;!--[if !IE 5.5000]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 6 only&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;IE 6&nbsp;</span>"
+   <p class="code">&lt;!--[if IE 6]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 or 5.5 or 7.0&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;!IE 6&nbsp;</span>" (less specific)
+   <p class="code">&lt;!--[if !IE 6]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 7.0 only&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;IE 7.0&nbsp;</span>"; or less specific
+   "!lte IE 6" or "gt IE 6" or "!lt IE 7.0" or "gte IE 7.0" or "!lt IE 7" or "IE 7" or "gte IE 7"
+   <p class="code">&lt;!--[if IE 7.0]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 or 5.5 or 6&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;lte IE 6&nbsp;</span>" or
+   "!gt IE 6" or "lt IE 7.0" or "!gte IE 7.0" or "lt IE 7" or "!gte IE 7"; or less specific "!IE 7.0" or "!IE 7"
+   <p class="code">&lt;!--[if lte IE 6]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 or 5.5&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;IE 5&nbsp;</span>" or
+   "lte IE 5" or "!gt IE 5" or "lte IE 5.5000" or "!gt IE 5.5000" or "lt IE 6" or "!gte IE 6"
+   <p class="code">&lt;!--[if IE 5]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 6 or 7.0&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;!IE 5&nbsp;</span>" or
+   "!lte IE 5" or "gt IE 5" or "!lte IE 5.5000" or "gt IE 5.5000" or "!lt IE 6" or "gte IE 6" (all less specific)
+   <p class="code">&lt;!--[if !IE 5]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 or 6&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;lte IE 6&nbsp; &amp; !IE 5.5000&nbsp;</span>"
+   or, more general, any of 3 pairs
+   ({"lt IE 7", "!IE 7", "lte IE 6"},{"!IE 5.5000"})
+   for a downlevel-revealed within a downlevel-hidden CC
+   <p class="code">&lt;!--[if lte IE 6]>&lt;![if !IE 5.5000]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]>&lt;![endif]--></p></li></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 or 7.0&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;!IE 6&nbsp; &amp; !IE 5.5000&nbsp;</span>"
+   (less specific) for a downlevel-revealed within a downlevel-hidden CC
+   <p class="code">&lt;!--[if !IE 6]>&lt;![if !IE 5.5000]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]>&lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.5 or 6&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;lte IE 6&nbsp; &amp; gte IE 5.5000&nbsp;</span>"
+   or, more general, any of 9 pairs
+   ({"lt IE 7", "!IE 7", "lte IE 6"},{"gt IE 5.0", "!IE 5.0", "gte IE 5.5000"})
+   for a downlevel-revealed within a downlevel-hidden CC
+   <p class="code">&lt;!--[if lte IE 6]>&lt;![if gte IE 5.5000]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]>&lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.5 or 7.0&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;!IE 6&nbsp; &amp; gt IE 5.0&nbsp;</span>"
+   or, more general, any of 3 less specific pairs
+   ({"!IE 6"},{"gt IE 5.0", "!IE 5.0", "gte IE 5.5000"})
+   for a downlevel-revealed within a downlevel-hidden CC
+   <p class="code">&lt;!--[if !IE 6]>&lt;![if gt IE 5.0]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]>&lt;![endif]--></p></li>
+<li>To select for <span class="inlineimp">&nbsp;IE 5.01 or 5.5 or 6 or 7.0&nbsp;</span>
+   - use "<span class="inlineimp">&nbsp;lte IE 7.0&nbsp;</span>";
+   or less specific "gte IE 5" or "gte IE 5.0" or "lte IE 7" or "IE";
+   it seems not feasible to use any negations for this selection.
+   <p class="code">&lt;!--[if lte IE 7.0]> <span class="inlineimp">&nbsp;html&nbsp;</span> &lt;![endif]--></p></li>
+</ol>
+
+<p>
+You may have noticed the symmetry between (2) and (3), and also between (6) and (7):
+The expressions for the former are negated for the later. Even more redundancy can
+be seen, because "gt xx" converts directly to "!lte xx", and "lt xx" converts directly
+to "!gte xx".
+</p>
+
+<p class="small alignright">
+<a href="http://free.pages.at/staudinger/" title=" Webdesign, Systemsprogramming, History of Biology, Ornithology ">
+<strong>Manfred Staudinger</strong></a><br />
+e-mail: Manfred.Staudinger@gmail.com<br />
+Last updated: July 4, 2008<br />
+Created Febuary 4, 2005
+</p>
+
+</div>
+
+</body>
+
+
+</html>

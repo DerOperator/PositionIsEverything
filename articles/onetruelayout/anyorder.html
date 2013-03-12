@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Any Order Columns - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1>Any Order Columns</h1>
+
+<h2 id="what">What?</h2>
+<p>A method for keeping columns (or more precisely, blocks of elements <a href="#accessibility_elements" title="What's an element, daddy?">[note]</a>) logically ordered in the source while still providing the designer the ability to display them in any order whatsoever without the need for any additional non-semantic markup.</p>
+
+
+<div class="screenshot"><img src="images/screenshots/anyorder.gif" alt="animated screenshot of possible orderings of a 3 column layout" /></div> 
+
+<h2 id="why">Why?</h2>
+<h3 id="why-accessibility">It's good for the users</h3>
+<p>Browsers that do not make use of the CSS positioning information will present the content in the order that it is marked up. Consequently the ordering of content in the source code is important as far as accessibilty <a href="#source_order_bad">[note]</a> and assistive technologies are concerned.&nbsp;<a href="#accessibility_heuristics" title="Where I do a mini-rant on pure CSS layouts that use non-semantic markup">[note]</a></p>
+<h3 id="why-semantics">It's good for you</h3>
+<p>The overriding rationale behind CSS is the separation of content and style - the removal of non-semantic cruft and complete ordering flexibility theoretically allows for repurposing of content without the need for tweaking html.</p>
+<p>Although this might be less useful for an individual's site where markup can be altered to accomodate design changes, this is a huge win for systems based on templates where changing the html is either impossible or undesirable.</p>
+<p>Furthermore it promises even greater customisability of a site for individual users. For instance, side columns could be swapped over or even placed on the the same side (though whether this would be a good idea or not is debatable).</p>
+<h3 id="why-search-engines">It's good for you <em>and</em> the users</h3>
+<p>Search engine spiders/robots read web pages like this - they start at the top left, read across, and then move down. Consequently the ordering of content on a page is important as far as search engine algorithms are concerned. <a href="#search_heuristics" title="So how do those search engine johnnies go about things?">[note]</a></p>
+
+<h2 id="how">How?</h2>
+<p>Through the magic of floats and (when necessary) negative margins. Each block is floated in the following way:</p>
+<ol>
+<li>Work out the rightmost point of any of the floated blocks that precede it in the source</li>
+<li>Work out the desired leftmost point of the block</li>
+<li>Subtract the rightmost point's value from the leftmost point's to give the block's <code>margin-left</code></li>
+</ol>
+
+<p>If we want the column blocks of our layout to be the same width and ordered 2-1-3, the maths work out like this:</p>
+
+<table>
+<caption>Calculations for simple 2-1-3 ordering with respective widths, 33%, 34% and 33%</caption>
+<colgroup span="4" width="1*" />
+<tbody>
+<tr>
+<th class="empty"></th>
+<th scope="col">leftmost point</th>
+<th scope="col">rightmost point</th>
+<th scope="col">margin-left</th>
+</tr>
+<tr>
+<th scope="row">Block 1</th>
+<td>33%</td>
+<td>N/A</td>
+<td>33 - 0 = 33%</td>
+</tr>
+<tr>
+<th scope="row">Block 2</th>
+<td>0%</td>
+<td>67% (Block 1)</td>
+<td>0 - 67 = -67%</td>
+</tr>
+<tr>
+<th scope="row">Block 3</th>
+<td>67%</td>
+<td>67% (Block 1)</td>
+<td>67 - 67 = 0%</td>
+</tr>
+</tbody>
+</table>
+
+<p id="html_base">So given this HTML markup...</p>
+<pre><ins>&lt;div id="block_1"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+	...
+&lt;/div&gt;</ins></pre>
+
+<p>... we apply the following CSS:</p>
+<pre><ins>#block_1
+	{
+	float: left;
+	width: 34%;
+	margin-left: 33%;
+	}
+#block_2
+	{
+	float: left;
+	width: 33%;
+	margin-left: -67%;
+	}
+#block_3
+	{
+	float: left;
+	width: 33%;
+	}</ins></pre>
+
+<p>Units can be percentages if the layout is liquid, ems or pixels if fixed width. <a href="#mixing_units" title="But I want to mix my units">[note]</a> <a href="#reverse_order" title="Float direction shouldn't matter">[note]</a></p>
+
+<h3 id="how-simple">Is it really that simple?</h3>
+<p>Of course not. It never is, is it? This method runs head first into a peculiarity in the layout engine of IE Win (5 and 6) - if block 1 is not the first column, it requires its margin-left to be divided by 2.</p>
+<p>Investigating further, we find that the bug is triggered for any block <em>n</em> (where <em>n</em> is the position of the block within the source code) if:</p>
+
+<ol>
+<li>column positions 1 to <em>n</em>-1 are occupied by blocks 1 to <em>n</em>-1 (in any order)</li>
+<li>block <em>n</em> occupies column position 2<em>n</em> or greater</li>
+</ol>
+<p>Under such circumstances element <em>n</em> will require its margin-left to be reduced - the overall number of columns appears to be irrelevant.</p>
+<p>Keen readers will have noticed and been chomping at the bit to point out that this is the dreaded <a href="../../explorer/doubled-margin.html">IE Doubled Float-Margin Bug</a>. Well spotted. The good news is that the usual fix works just fine.</p>
+<p>All that is required is <code>display: inline</code> targeted at IE for the element in question. It's only the first such block in the source ordering that needs this "hand holding" and once the fix is in, it magically sorts out any following elements which would otherwise need the fix.</p>
+<p>So in the code example, block 1 is to appear as column 2 and triggers the bug, since its column position is equal to 2 times its source position <a href="#missing_position" title="Where I explain that the explanation is, like the theory of gravity, a convenient sham">[note]</a>. Consequently we need to add the following CSS:</p>
+<pre><ins>* html #block_1
+	{
+	display: inline;
+	}</ins></pre>
+<p class="example"><a href="example/basic.html">Example of the basic Any Order technique (2-1-3 ordering)</a> <a href="#not_so_basic" title="Not quite so basic...">[note]</a></p>
+<p>So it's very nearly that simple. Or rather it <em>is</em> that simple. It's actually possible to simply set all the column elements to <code>display: inline</code> (as far as IE is concerned) without any unfortunate side effects and without any need to work out whether any of the column blocks need the hand-holding or not. <a href="#reductio_ad_simplicitatem" title="Yet more overly-complicated explanation of just how simple things are">[note]</a></p>
+
+<h3 id="how-wrapping-things-up">Wrapping things up</h3>
+<p>As things stand in the example, there's no wrapper/container element holding the columns together. More often than not, you're  going to want or probably even need one. Most likely, if you want to apply a faux-columns style background to the columns (or utilise the techniques developed later in this article), there's the not-so trivial matter of making sure that the container expands to fully contain the columns. And so the simple method sketched out so far becomes a little messier again.</p>
+<p>Over the years, <a href="http://css-discuss.incutio.com/?page=ClearingSpace">several non-cruft-introducing methods</a> have been invented to deal with this. Unfortunately though, the <code><a href="http://mezzoblue.com/archives/2005/03/03/clearance/">overflow: hidden</a></code> method causes everything to just blow up. And a bug in Firefox/Mozilla means that you can't use the <a href="http://orderedlist.com/articles/clearing-floats-fne/" title="or Float (Nearly) Everything, as this author calls it">simple floated container</a> method, if, but only if, the longest column has actually been negatively shifted. That's a pretty big if, though. Using <code>display:table</code> works fine for a pure any order solution, but I've not used it here because it runs into trouble later on.</p>
+<p>Fortunately, the original (and still the best ;) <a href="../../easyclearing.html">EasyClearing<sup>TM</sup></a> works just fine, if somewhat more verbosely than the alternatives.</p>
+<p class="example"><a href="example/anyorder.html">Example of the Any Order technique with containing element (2-1-3 ordering)</a></p>
+<p>The method even holds up if you want to use <code>direction: rtl</code>. In that case you just switch right for left in the column float and margin declarations.</p>
+<p class="example"><a href="example/rtl.html">Example of the Any Order technique as a right-to-left layout</a></p>
+<h3 id="how-caveats">Danger, er, Alex Robinson!</h3>
+<p>This method is, being a float-based method, prone to the usual float method problems. Because IE (both Win and Mac) violates the specs and expands elements to be at least the width of the largest nested element, things can get funky. This means that unexpectedly wide images or long unbroken strings of text will cause havoc with the layout.</p>
+<p>NB. these problems are intrinsic to any float techniques in IE, and are not caused by the use of negativity itself, but because elements are being negatively shifted, an unexpected float wrap could cause some of those elements to be placed beyond the left edge of the viewport. Consequently, particular care should be taken with the following issues:</p>
+<ul>
+<li><a href="../../explorer/italicbug-ie.html">italics</a></li>
+<li><a href="../../explorer/expandingboxbug.html">the expanding box problem</a></li>
+<li><a href="../../round-error.html">rounding errors when using ems or percentages</a></li>
+<li><a href="../../explorer/percentages.html">quirky percentages in IE6's visual formatting mode</a></li>
+</ul>
+<p>Other likely IE problems can be found at Position Is Everything's <a href="../../explorer.html">Explorer exposed!</a> and <a href="../../ie-primer.html">Windows Explorer vs. the Standards</a>. See also <a href="http://www.satzansatz.de/cssd/onhavinglayout.html">On having layout</a>, the extremely thorough dissection of IE's layout engine quirks.</p>
+
+
+<h2 id="where">Where?</h2>
+
+<h3 id="where-success">Works fully in</h3>
+<p>IE Win 7 beta 2, IE Win 6, IE Win 5.5, IE Win 5.01, IE Mac 5, Operas 7, 8 and 9, Firefox 1.5 <a href="#gecko_regression">[note]</a> and 1.0, Netscape 8, Safari 1.03 (and up), OmniWeb 5</p>
+
+<h3 id="where-failure">Doesn't work fully in</h3>
+
+<h4 id="where-netscape7">Netscapes 6 and 7</h4>
+<p>If the longest block has been negatively shifted under any circumstances (either directly or indirectly, so that it displays before any block that precedes it in the source order), its height is ignored. Instead Netscape treats as longest the longest block that has not been negatively shifted. This can cause any following elements to not be cleared correctly. Apart from that massive stumbling block, it works just great.</p>
+<h4 id="where-other-browsers">Other Browsers</h4>
+<p>This technique does not work in Opera 6 or Netscape 4. As is. That's right, it's possible to even make it work in those browsers if you really want to. That's so insane though, that I'm putting the details of how in this <a href="appendix/olderbrowsers.html">appendix</a>.</p>
+<p>Opera 5 is another matter - the blocks never become columns, stretching to fill the width of the container and stacking up on top of each other just as if they were regular unfloated blocks. Except that the column background colours don't show up. Well, if you <em>must</em> support Opera 5...</p>
+<p>IE 4? I've got no idea. I can't get it to run on any of the Windows machines I've got access to. I don't imagine that it will behave very well though. Or in IEs 2 or 3. <em>Or</em> Netscape 2 or 3.</p>
+
+<h2 id="when">When?</h2>
+<p>The method is both robust and generic. It allows for proper logical source ordering with the flexibility to layout in pretty much any manner. <a href="#any_order_vertical" title="But what pray, of the vertical dimension?">[note]</a></p>
+<h3 id="when-alternative-methods">Alternative methods</h3>
+<p>However, it is certainly true that the columns can shift a pixel or two when percentages are used. If you can guarantee the longest column, the <a href="http://www.fu2k.org/alex/css/layouts/3Col_OrderedAbsolute.mhtml">Ordered Absolute method</a> gives more precision for percent-specified layouts.</p>
+<p>And if you can bear a bit of javascript, <a href="http://www.shauninman.com/plete/2004/07/absolutely-positive">Absolutely Positive</a>, Shaun Inman's routine for "clearing" absolutely positioned elements, offers a potentially much more powerful method for achieving all this and more.</p>
+<p>Tom Wright's <a href="http://www.severnsolutions.co.uk/twblog/archive/2004/07/01/cssnegativemarginsalgebra">CSS Negative Margins Algebra</a> is another CSS-plus-negatively- margined-float approach that's more than worth a look. While perhaps not being as generic as this method, it does allow you to completely remove any interdependence between the positional CSS and the underlying semantics.</p>
+<h3 id="when-existing-methods">Existing methods</h3>
+<p>The <a href="../../ordered-floats.html" title="Big John's original essay on 'Source Ordered Columns'">original Source Ordered Columns</a> <a href="#previous_examples">[note]</a> goes a long way towards satisfying the same issues that the Any Order technique does, but it requires a semantically unnecessary inner wrapping tag to group some of the columns together. This reliance on an inner wrapping tag also limits the number of possible column orderings. Removing the need for the inner wrapper allows all possible orderings to be achieved (though the inner wrapper can serve <a href="http://www.fu2k.org/alex/css/test/EightColumns.mhtml">other purposes</a>. See <a href="appendix/theory.html" title="possible orderings">Appendix H</a> for the theory of possible orderings.</p>
+<h3 id="when-related-methods">Related methods</h3>
+<p>It would be criminal not to mention Ryan Brill's <a href="http://alistapart.com/articles/negativemargins/">Creating Liquid Layouts with Negative Margins</a>, Thierry Koblentz's neat riff on Ryan's original <a href="http://www.tjkdesign.com/articles/3cols.asp">3 columns fluid layout</a>, Doug Livingstone's <a href="http://www.redmelon.net/tstme/3cols2/">CSS Columns</a> and Position is Everything's <a href="../../piefecta-rigid-2.html">Piefecta</a></p>
+<p>All these methods provide a way for mixing pixel widths in liquid layouts. A variation on the basic Any Order technique which can achieve the same results can be found <a href="appendix/holygrail.html">here</a>.</p>
+<h3 id="when-new-methods">Newer methods</h3>
+<p><em>Because the web never sleeps...</em></p>
+<p>Eric Meyer had a brainwave in the middle of a workshop and came up with <a href="http://meyerweb.com/eric/thoughts/2005/11/09/multi-unit-any-order-columns/">Multi-Unit Any-Order Columns</a> which does exactly what it says on the tin.</p>
+<p>Matthew Levine went questing for a better way to mix pixel widths into liquid layouts in <a href="http://www.alistapart.com/articles/holygrail">In Search of the Holy Grail</a>.</p>
+
+
+<h2 id="continuation">Liberté, Egalité...</h2>
+<p>Now that we have the freedom to put our columns in any old order, let's move on to that perennial CSS favourite, how to make them the <a href="equalheight.html">same height</a>.</p>
+
+
+
+
+<ul id="paging">
+<li id="next"><a href="equalheight.html">Next (Equal Height Columns - revisited)</a></li>
+<li id="previous"><a href="index.html">Previous (Introduction)</a></li>
+</ul>
+
+<div id="footnotes">
+<h2>Footnotes</h2>
+<ol>
+<li id="source_order_bad">Tragically, the parlous state of web design and screen readers may already have hardcoded users' expectations. See <a href="http://www.usability.com.au/resources/source-order.cfm" title="Presentation by Roger Hudson, Russ Weakley and Lisa Miller at OZeWAI Conference, 9 December 2005 ">Source Order, Skip links and Structural labels</a> for details.</li>
+<li id="accessibility_elements">What do I mean by an element? Or by a tag? See <a href="http://www.456bereastreet.com/archive/200508/html_tags_vs_elements_vs_attributes/">Roger Johansson</a> for enlightenment</li>
+<li id="accessibility_heuristics">In my opinion, a CSS-based layout that orders its content just to achieve a particular design is no better than an old skool table-based one. In fact a table-based design <em>might</em> (under some circumstances) be more accessible since current browsers can use well-established rules to intelligently change the display order, eg. <a href="http://www.opera.com/products/mobile/smallscreen/">Opera's Small-Screen Rendering</a> for mobiles and PDAs.</li>
+<li id="search_heuristics">Though obviously this is no magic bullet substitute for actually having relevant content in the first place. For a more thorough explanation, read the section entitled "Position Your Keywords" in this <a href="http://searchenginewatch.com/webmasters/article.php/2168021">Search Engine Watch article</a>. Some go so far as to claim that <a href="http://www.456bereastreet.com/archive/200502/basics_of_search_engine_optimisation/">high quality markup will help boost your rankings</a>.</li>
+<li id="mixing_units">If you need to mix units, head on over to the reimagining of the <a href="appendix/holygrail.html">Holy Grail</a> for a solution after yet more browser pantsdom.</li>
+<li id="reverse_order">The same principle can be worked from right to left, using <code>float: right</code> instead (simply switch right and left in the previous instructions). Moreover, left and right floats could be combined. This would have the advantage of ensuring that the left and rightmost floated elements line up with the edge of the wrapper div and also potentially reduce the number of elements requiring negative margins (depending, of course, on just how many columns are required and how they need to be ordered).</li>
+<li id="missing_position">Ultra keen readers will be wondering what happened to <q>column positions 1 to <em>n</em>-1 are occupied by blocks 1 to <em>n</em>-1 (in any order)</q>. The answer is that actually the "real" formula is <code>column positions 0 to <em>n</em>-1 are occupied by blocks 0 to <em>n</em>-1 (in any order)</code> where ghost block 0 always fills ghost column slot 0. But that's a little confusing, isn't it?</li>
+<li id="not_so_basic">Andrey Petrov wrote in to point out that this was bust in IE6 - the cause? Because it's in standards mode, IE6 works out the percentages based on the entire body width, rather than the available space within in it. The cure for this, which after all is just a demo, is to zap the body's margin and padding. And to set <code>position: relative</code> on <code>#footer</code> to prevent wayward painting of its background colour.</li>
+<li id="reductio_ad_simplicitatem">Not that things are that complex in any case. In three column layouts only the first block will ever need adjusting, and only if it's not to be the first column. The same holds true for four column layouts with the single exception that the second block would need adjusting instead of the first block if the first block was the first column and the second block was the fourth, ie. last column. However, as mentioned above, there's no harm in just applying <code>display: inline</code> to all the blocks and not having to bother thinking about any of this.</li>
+<li id="gecko_regression">Except for the betas and release candidate 1 of Firefox 1.5. See <a href="http://www.fu2k.org/alex/css/bugs/gecko1.8b2+_negativefloats">here</a> for details. The same problem affects Camino 1.0a1.</li>
+<li id="any_order_vertical">Blocks don't just have to be displayed as columns - they can be stacked on each other or removed from the flow entirely. I ruminate more about this in the <a href="appendix/theory.html">appendix on theory</a>. And there's no need for headers not to follow the main content either if they're not the actual content - <a href="appendix/anyverticalorder.html">Any Vertical Order</a>.</li>
+<li id="previous_examples">For examples of the original source-ordered technique, see <a href="http://www.fu2k.org/alex/css/layouts/fiveeasypieces">Five Easy Companion Pieces</a>, several layouts that were published simultaneously with Big John's essay. Sharp eyes will notice faux columns (and liquid ones at that) lurking amongst them.</li>
+</ol>
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li class="current">Any Order Columns</li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

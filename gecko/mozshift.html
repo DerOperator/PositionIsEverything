@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+	<title>Gecko Shifting Gaps 'n overlaps</title> 
+
+<meta name="Big John" content="June 15, 2003" />
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html," />
+<meta name="description" content="Spurious vertical spaces between block elements in Mozilla" />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+
+<style type="text/css">
+<!--
+
+body {
+margin: 0; 
+padding: 0 385px; 
+background-color: #eff; 
+font-family: verdana,sans-serif; 
+font-size: 100.01%; 
+text-align: center;
+}
+	
+#sizer {
+  margin: 0 auto; /* centers #sizer in standard browsers */
+  padding: 0;
+  width: 60%; /* this value controls liquidity; 0% = full rigid, 100% = full liquid */
+	max-width: 200px;
+}
+
+#expander { /* Any % height here causes IE to lose the neg right margin */
+	margin: 0 -385px 0 -380px; /* neg side margin values should be < or = to side body padding */
+	min-width: 765px; /* This prevents Safari from losing the negative margins in narrow windows */ 
+	position: relative; /* makes #expander visible outside #sizer in IEwin */
+} 
+
+/*\*/
+* html #expander,
+* html #wrapper 
+{height: 0;} 
+/* #expander must have "height: 0" in IEwin bug fixing */
+
+#wrapper {
+  position: relative;
+  font-size: .9em; /* set global font-size here */ 
+}
+
+h1 {
+font-size: 22px; 
+text-align: center; 
+border-bottom: 3px solid #fff; 
+background-color: #000;
+margin: 0 -385px; /* neg side margin values should be < or = to side body padding */
+color: #fff; 
+padding: 3px;
+}
+
+span {font-weight: bold;}
+
+a {color: #000;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+#shadebox {background-color: #ddb; padding: 5px;}
+
+.brclear { /* Use a break with this class to clear float containers */
+clear:both;
+height:0;
+margin:0;
+font-size: 1px;
+line-height: 0;
+}
+
+/*\*/
+* html #colholder,
+* html #innertextcol
+{height: 1%;}
+/* */
+
+
+#colholder {
+margin-left: 170px;
+padding: 30px 0;
+text-align: left;
+}
+
+#democol {
+float: left;
+width: 170px;
+margin-left: -170px;
+position: relative;
+}
+
+#textcol {
+float: left;
+width: 99%;
+text-align: center;
+}   
+
+#innertextcol {
+border: 1px solid #000;
+padding: 15px;
+background-color: #ffd;
+text-align: left;
+}
+
+
+/********* bug demo rules **********/
+
+div#wrapper1 {
+margin-bottom: 20px;
+text-align: center; 
+width: 150px;
+line-height: 108%;       /***** this interacts with the font-size and padding below in several ways *****/
+}
+
+div#wrapper2 {
+text-align: center; 
+width: 150px;
+line-height: 97%;       /***** this interacts with the font-size and padding below in several ways *****/
+}
+
+#wrapper1 div, #wrapper2 div {
+
+font-size: .8em;         /***** relative units only *****/
+
+padding-top: .5em;       /***** relative units only *****/
+
+background-color: #69c;
+border: 2px solid #000;
+color: #000;
+text-decoration: none;
+}
+
+#wrapper2 div {
+background-color: #6cc;
+border-top: 2px solid #cc0;
+border-bottom: 2px solid #00f;
+border-left: 2px solid #cc0;
+border-right: 2px solid #00f;
+}
+
+-->
+</style>
+
+</head>
+<body>
+
+<h1>
+Gecko Shifting Gaps 'n Overlaps
+</h1>
+
+<div id="sizer">
+<div id="expander">
+<div id="wrapper">
+
+
+  <!-- ********* start of demo ********* -->
+
+<div id="colholder">	
+	
+<div id="democol">	
+	
+<div id="wrapper1">
+
+		<div>one</div>
+		<div>two</div>
+		<div>three</div>
+		<div>four</div>
+		<div>five</div>
+		<div>six</div>
+		<div>seven</div>
+		<div>eight</div>
+		<div>nine</div>
+		<div>ten</div>
+		<div>eleven</div>
+		<div>twelve</div>
+		<div>thirteen</div>
+
+</div>
+
+<div id="wrapper2">
+
+		<div>one</div>
+		<div>two</div>
+		<div>three</div>
+		<div>four</div>
+		<div>five</div>
+		<div>six</div>
+		<div>seven</div>
+		<div>eight</div>
+		<div>nine</div>
+		<div>ten</div>
+		<div>eleven</div>
+		<div>twelve</div>
+		<div>thirteen</div>
+
+</div>
+
+</div><!-- end #democol -->
+
+  <!-- ********* end of demo ********* -->
+
+
+<div id="textcol">
+
+<div id="innertextcol">
+
+<p class="alignright">
+<a href="../gecko.html"><strong>Return to Oopsies</strong></a>
+</p>
+<p>
+<strong>This is a Gecko bug</strong> (Mozilla, Firefox, N7, etc), which occurs 
+when a wrapper div is given a specified 'line-height' value using a 
+<strong>percentage</strong> unit with a value <em>other than 100%</em>. 
+Inside this container are a 
+number of identical block level elements. The 'line-height', 'font-size', and vertical 
+padding on these elements will all affect the bug as well. 
+</p>
+<p>
+<strong>The result,</strong> small gaps (or overlaps) between some of the block elements,
+when viewed <a href="images/mozshift1.gif"><strong>in&nbsp;Mozilla</strong></a>.
+The gap demo is the blue group in the upper left, the overlaps are the green group below.
+</p>
+<p>
+<strong>Here's the cool part:</strong> Try changing the critical values commented in 
+the embedded styles. The gaps/overlaps shift around, and have different
+but still regular patterns. Sometimes they go away entirely. 
+</p>
+<p>
+<strong>Fix:</strong> Avoid using the property "line-height' on boxes that will hold vertically
+stacked block boxes. This includes inheriting 'line-height' from the parent element.  
+</p>
+<p>
+<strong>Incoming:</strong> 
+<a href="http://www.l-c-n.com/"><strong>Philippe&nbsp;Wittenbergh</strong></a> pointed
+out back in early 2002 that this bug has all the markings of a 'rounding error'. 
+We (and others) have since learned a lot more about this interesting css effect.
+Check out PIE's simple  
+<a href="../round-error.html"><strong>rounding&nbsp;error&nbsp;demo</strong></a>
+to see how vulnerable your browser really is, and for a heavy duty treatment of
+this topic, go to <strong>Ingo&nbsp;Chao's</strong>
+<a href="http://www.satzansatz.de/cssd/geckogaps.html"><strong>Overlaps&nbsp;and&nbsp;Gaps</strong></a>
+article.
+</p>
+
+<p>
+<strong style="color: red;">Flash!</strong>
+It now appears (Sep 17, 2005) that the latest builds of <strong>Firefox</strong>
+and <strong>Mozilla</strong> 
+<em>do not have the vertical gaps or overlaps!</em> At all text sizes they are
+rock solid, and we applaud the Gecko volunteers for a job well done. Even tho 
+the rounding error page does still show some gap activity, it is greatly reduced
+and is now comparable to the other browsers. Woohoo!
+</p>
+
+<p>
+Kudos to <strong>Frank Fridlund</strong> for pointing it out. Frank opines that
+perhaps the new SVG support has something to do with it, but who knows? 
+</p>
+
+<p>
+<strong>Gecko can fool you:</strong> 
+Below are some screenshots of the demos, taken in Firefox 1.06, showing the gaps and overlaps.
+If you do not see them, just increase the text size in the browser and you will. The overlaps
+can be particularly easy to overlook so we have supplied a detailed look at one spot where
+a button has overlapped the button above by 1px.
+</p>
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: September 24, 2005<br />
+Created June 15, 2002
+</p>
+
+</div><!-- end #innertextcol -->
+
+<img src="images/mozshift2.gif" alt="" />
+
+</div><!-- end #textcol -->
+
+<br class="brclear" />
+
+</div><!-- end #colholder -->
+
+</div><!-- end #wrapper -->
+</div><!-- end #expander -->
+</div><!-- end #sizer -->
+
+</body>
+
+
+</html>

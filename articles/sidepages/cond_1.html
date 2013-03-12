@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1" />
+
+<title>Test Conditional Comments For IE Standalones</title>
+<link rel="stylesheet" type="text/css" href="../articles.css" />
+
+<style type="text/css">
+   table { margin: .8em 8% .6em 18%; font-size: 86%; font-family: "times new roman"; }
+   p { margin-right: 8%; margin-left: 10%; }
+   span.true { background: #cee0f5; }
+   span.false { background: #f0a8a0; }
+</style>
+</head>
+
+<body>
+
+<h2>Test for CC on IE
+<!--[if IE 7]>7.0<![endif]--><!--[if IE 7.0a]>a<![endif]--><!--[if IE 7.0b]>b<![endif]-->
+<!--[if IE 6]>6<![endif]-->
+<!--[if IE 5.5000]>5.5<![endif]-->
+<!--[if IE 5.0]>5.01<![endif]-->
+</h2>
+
+<p>
+Each of the 27 expressions for Conditional Comments give either
+<!--[if IE]><span class="true">&nbsp;<![endif]-->"true"<!--[if IE]>&nbsp;</span><![endif]-->
+or
+<!--[if IE]><span class="false">&nbsp;<![endif]-->"false"<!--[if IE]>&nbsp;</span><![endif]-->
+(for the latter, to be more precisely, their <strong>negations</strong> give
+<!--[if IE]><span class="false">&nbsp;<![endif]-->"true"<!--[if IE]>&nbsp;</span><![endif]-->):
+</p>
+
+<table>
+<tbody>
+<tr><td></td><td></td><td>
+   <!--[if IE]><span class="true"><![endif]--><!--[if !IE]><span class="false"><![endif]-->&nbsp;IE&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td></td><td>
+   <!--[if lte IE 5]><span class="true"><![endif]--><!--[if !lte IE 5]><span class="false"><![endif]-->&nbsp;lte IE 5&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5]><span class="true"><![endif]--><!--[if !IE 5]><span class="false"><![endif]-->&nbsp;IE 5&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gte IE 5]><span class="true"><![endif]--><!--[if !gte IE 5]><span class="false"><![endif]-->&nbsp;gte IE 5&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gt IE 5]><span class="true"><![endif]--><!--[if !gt IE 5]><span class="false"><![endif]-->&nbsp;gt IE 5&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td></td><td>
+   <!--[if lte IE 5.0]><span class="true"><![endif]--><!--[if !lte IE 5.0]><span class="false"><![endif]-->&nbsp;lte IE 5.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.0]><span class="true"><![endif]--><!--[if !IE 5.0]><span class="false"><![endif]-->&nbsp;IE 5.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gte IE 5.0]><span class="true"><![endif]--><!--[if !gte IE 5.0]><span class="false"><![endif]-->&nbsp;gte IE 5.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gt IE 5.0]><span class="true"><![endif]--><!--[if !gt IE 5.0]><span class="false"><![endif]-->&nbsp;gt IE 5.0&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td>
+   <!--[if lt IE 5.5000]><span class="true"><![endif]--><!--[if !lt IE 5.5000]><span class="false"><![endif]-->&nbsp;lt IE 5.5000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if lte IE 5.5000]><span class="true"><![endif]--><!--[if !lte IE 5.5000]><span class="false"><![endif]-->&nbsp;lte IE 5.5000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.5000]><span class="true"><![endif]--><!--[if !IE 5.5000]><span class="false"><![endif]-->&nbsp;IE 5.5000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gte IE 5.5000]><span class="true"><![endif]--><!--[if !gte IE 5.5000]><span class="false"><![endif]-->&nbsp;gte IE 5.5000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gt IE 5.5000]><span class="true"><![endif]--><!--[if !gt IE 5.5000]><span class="false"><![endif]-->&nbsp;gt IE 5.5000&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td>
+   <!--[if lt IE 6]><span class="true"><![endif]--><!--[if !lt IE 6]><span class="false"><![endif]-->&nbsp;lt IE 6&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if lte IE 6]><span class="true"><![endif]--><!--[if !lte IE 6]><span class="false"><![endif]-->&nbsp;lte IE 6&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 6]><span class="true"><![endif]--><!--[if !IE 6]><span class="false"><![endif]-->&nbsp;IE 6&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gte IE 6]><span class="true"><![endif]--><!--[if !gte IE 6]><span class="false"><![endif]-->&nbsp;gte IE 6&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gt IE 6]><span class="true"><![endif]--><!--[if !gt IE 6]><span class="false"><![endif]-->&nbsp;gt IE 6&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td>
+   <!--[if lt IE 7.0]><span class="true"><![endif]--><!--[if !lt IE 7.0]><span class="false"><![endif]-->&nbsp;lt IE 7.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if lte IE 7.0]><span class="true"><![endif]--><!--[if !lte IE 7.0]><span class="false"><![endif]-->&nbsp;lte IE 7.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 7.0]><span class="true"><![endif]--><!--[if !IE 7.0]><span class="false"><![endif]-->&nbsp;IE 7.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gte IE 7.0]><span class="true"><![endif]--><!--[if !gte IE 7.0]><span class="false"><![endif]-->&nbsp;gte IE 7.0&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td>
+   <!--[if lt IE 7]><span class="true"><![endif]--><!--[if !lt IE 7]><span class="false"><![endif]-->&nbsp;lt IE 7&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if lte IE 7]><span class="true"><![endif]--><!--[if !lte IE 7]><span class="false"><![endif]-->&nbsp;lte IE 7&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 7]><span class="true"><![endif]--><!--[if !IE 7]><span class="false"><![endif]-->&nbsp;IE 7&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if gte IE 7]><span class="true"><![endif]--><!--[if !gte IE 7]><span class="false"><![endif]-->&nbsp;gte IE 7&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+</tbody>
+</table>
+
+<p>
+As you can see, all expressions work correctly. The test below checks for variations on
+version numbers, most of which are supposed to be acceptable syntax according to Microsoft.
+Problems occur in IE 5.5, so this table may give you some reasoning, why to avoid those
+problematic version numbers in your CC's.
+</p>
+
+<table>
+<tbody>
+<tr><td>
+   <!--[if IE 5]><span class="true"><![endif]--><!--[if !IE 5]><span class="false"><![endif]-->&nbsp;IE 5&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.0]><span class="true"><![endif]--><!--[if !IE 5.0]><span class="false"><![endif]-->&nbsp;IE 5.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.00]><span class="true"><![endif]--><!--[if !IE 5.00]><span class="false"><![endif]-->&nbsp;IE 5.00&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.000]><span class="true"><![endif]--><!--[if !IE 5.000]><span class="false"><![endif]-->&nbsp;IE 5.000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.0000]><span class="true"><![endif]--><!--[if !IE 5.0000]><span class="false"><![endif]-->&nbsp;IE 5.0000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.00000]><span class="true"><![endif]--><!--[if !IE 5.00000]><span class="false"><![endif]-->&nbsp;IE 5.00000&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td>
+   <!--[if IE 5]><span class="true"><![endif]--><!--[if !IE 5]><span class="false"><![endif]-->&nbsp;IE 5&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.5]><span class="true"><![endif]--><!--[if !IE 5.5]><span class="false"><![endif]-->&nbsp;IE 5.5&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.50]><span class="true"><![endif]--><!--[if !IE 5.50]><span class="false"><![endif]-->&nbsp;IE 5.50&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.500]><span class="true"><![endif]--><!--[if !IE 5.500]><span class="false"><![endif]-->&nbsp;IE 5.500&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.5000]><span class="true"><![endif]--><!--[if !IE 5.5000]><span class="false"><![endif]-->&nbsp;IE 5.5000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 5.50000]><span class="true"><![endif]--><!--[if !IE 5.50000]><span class="false"><![endif]-->&nbsp;IE 5.50000&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td>
+   <!--[if IE 6]><span class="true"><![endif]--><!--[if !IE 6]><span class="false"><![endif]-->&nbsp;IE 6&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 6.0]><span class="true"><![endif]--><!--[if !IE 6.0]><span class="false"><![endif]-->&nbsp;IE 6.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 6.00]><span class="true"><![endif]--><!--[if !IE 6.00]><span class="false"><![endif]-->&nbsp;IE 6.00&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 6.000]><span class="true"><![endif]--><!--[if !IE 6.000]><span class="false"><![endif]-->&nbsp;IE 6.000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 6.0000]><span class="true"><![endif]--><!--[if !IE 6.0000]><span class="false"><![endif]-->&nbsp;IE 6.0000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 6.00000]><span class="true"><![endif]--><!--[if !IE 6.00000]><span class="false"><![endif]-->&nbsp;IE 6.00000&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+<tr><td>
+   <!--[if IE 7]><span class="true"><![endif]--><!--[if !IE 7]><span class="false"><![endif]-->&nbsp;IE 7&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 7.0]><span class="true"><![endif]--><!--[if !IE 7.0]><span class="false"><![endif]-->&nbsp;IE 7.0&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 7.00]><span class="true"><![endif]--><!--[if !IE 7.00]><span class="false"><![endif]-->&nbsp;IE 7.00&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 7.000]><span class="true"><![endif]--><!--[if !IE 7.000]><span class="false"><![endif]-->&nbsp;IE 7.000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 7.0000]><span class="true"><![endif]--><!--[if !IE 7.0000]><span class="false"><![endif]-->&nbsp;IE 7.0000&nbsp;<!--[if IE)></span><![endif]-->
+</td><td>
+   <!--[if IE 7.00000]><span class="true"><![endif]--><!--[if !IE 7.00000]><span class="false"><![endif]-->&nbsp;IE 7.00000&nbsp;<!--[if IE)></span><![endif]-->
+</td></tr>
+
+</tbody>
+</table>
+
+<br />
+<p class="small alignright">
+<a href="http://free.pages.at/staudinger/" title=" Webdesign, Systemsprogramming, History of Biology, Ornithology ">
+<strong>Manfred Staudinger</strong></a><br />
+e-mail: Manfred.Staudinger@gmail.com<br />
+Last updated: October 27, 2006<br />
+Created Febuary 4, 2005
+</p>
+
+</body>
+
+
+</html>

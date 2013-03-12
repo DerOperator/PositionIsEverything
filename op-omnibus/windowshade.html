@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+
+	<title>The Opera 6 Windowshade Bug</title> 
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content=" A display bug in Opera 6 involving position: fixed, and 'overflow'. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0; border: 0;} 
+/*** IE6 applies a default border on 'html'. Ain't that nice? MS is dressing/messing up everybody's pages! ***/
+
+	body {
+		font-size: 110%;
+		margin: 0; padding: 0;
+		background: #eee;
+	}
+
+	div {
+		padding:10px;
+		border:solid 4px;
+	}
+
+	.fixed {
+		position:fixed;
+		top: 20px;
+		left:50%;
+		right:5%;
+		border-color: #d0d;
+		background:#ece;
+		overflow:hidden;	/*<<<<<< THIS IS THE CULPRIT */
+		}
+
+	.inside {
+		border-color:blue;
+		background:#dff;
+		margin-left:-20px;
+		padding-left:20px;
+		}
+
+	.scrolling {
+		margin: 0 55% 30px 0;
+		border-color:#8a8;
+		background:#ffd;
+		border-width: 0 4px 4px 0;
+		}
+
+	h1, h2 {
+		margin:0px;
+		font-family:sans-serif;
+		}
+
+	pre {
+		font-size:0.8em;
+		margin: .5em;
+		}
+
+	dt {
+		font-weight:bold;
+		}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+h1 {font-size: 1.6em;}
+
+h2 {font-size: 1.4em;}
+
+h2 span {font-size: .6em; font-weight: normal;}
+
+a {color: #000;}
+
+p {margin: .5em;}
+
+#commentbox {background: #ddd; padding: 5px; font-size: .9em;}
+
+.alignright {margin: 0 0 1em 0; text-align: right; font-size: .9em;}
+
+-->
+</style>
+</head>
+<body>
+
+<div class="fixed">
+
+<h2>div.fixed<span>&nbsp; This is a fixed div.</span></h2>
+
+<pre><code>{
+position:fixed;
+overflow:hidden; /* THE CULPRIT */
+}</code></pre>
+
+<div class="inside">
+
+<h2>div.inside</h2>
+
+<p>
+This is a div inside the fixed div. This has a negative margin-left which makes 
+part of it go outside the fixed div. The padding-left is the same positive amount 
+just so you can read this text.
+</p>
+
+<code>{margin-left:-20px; padding-left:20px;}</code>
+
+</div>
+</div>
+
+<div class="scrolling">
+
+<p class="alignright">
+<a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a><br />
+<a href="../guests.html"><strong>Return to Guest Demos</strong></a><br />
+<a href="rev-window-bug.html"><strong>Next Opera demo</strong></a>
+</p>
+
+<h1>The Opera 6 Windowshade bug</h1>
+
+<p>
+This page demonstrates the Opera Windowshade Bug. It occurs with Opera 6 
+(not Opera 7), and is caused by the following combination:
+</p>
+
+<dl>
+<dt>A fixed div</dt>
+	<dd>A block with position:fixed and overflow:hidden</dd>
+<dt>An interior element</dt>
+	<dd>Something inside the fixed div which goes beyond the bounds of its parent. This could be an 
+	image that is wider than the fixed div. This example uses a div with a negative margin.</dd>
+<dt>Some scrolling content</dt>
+	<dd>The bug occurs when the page is scrolled, so the normal content of the 
+	page must be sufficiently long.</dd>
+</dl>
+
+<p>To see the effect, scroll down: the bottom border of the pink block zips up like a window shade!</p>
+
+<p>Note also that Opera does not correctly display the border on the fixed div; 
+	also because of the overflow:hidden property.</p>
+
+<p class="small alignright">
+This demo is the work of
+<strong>Tarquin</strong><br />
+email: tarquin (at) planetunreal.com<br />
+Last updated: April 24, 2003<br />
+Created April 24, 2003
+</p>
+<br />
+<p id="commentbox">
+<strong>Note from Big John:</strong>
+Some may notice that the extended blue-bordered box is 'cut off' in Moz and Op7. 
+This is because that portion of the box 'overflows' the container! See? a good browser
+watches everything. BTW, IE5.5/6/win breaks this demo, perhaps because the fixed div isn't given
+a specified 'width', poor baby. 
+<br />
+<br />
+Notice that Moz cuts of off at the container padding, while Op7 cuts off at the outside border edge!
+However, Op7.1 ends at the padding edge just like Moz. Nice going guys. Notice that Opera
+does not stand still like a certain major browser...
+</p>
+
+<p>
+scrolling<br />content<br />scrolling<br />content<br />scrolling<br />content<br />
+scrolling<br />content<br />scrolling<br />content<br />scrolling<br />content<br />
+scrolling<br />content<br />scrolling<br />content<br />scrolling<br />content<br />
+scrolling<br />content<br />scrolling<br />content<br />scrolling<br />content<br />
+</p>
+
+</div>
+
+</body>
+
+</html>

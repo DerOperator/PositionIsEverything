@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Example - In search of the One True Layout - Boxes</title>
+<style type="text/css">
+/* <![CDATA[ */
+#block_1
+	{
+	float: left;
+	width: 20em;
+	margin-left: 10.5em;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 10em;
+	margin-left: -30.5em;
+	}
+/* weirdness with the IE posse - reload causes the 
+bottom-aligned elements in the non-longest columns to 
+shift upwards as if they were the second longest column 
+was the longest
+this is totally due to the media query.
+And even more weirdly changing the font size makes things 
+"normal" again. Resizing the viewport does not have any effect
+Of course, the media query hack is needed just because
+Opera can't position a crate of ale on a brewery palette 
+*/
+@media all and (min-width: 0px) {
+#block_2
+	{
+	margin-left: -31em;
+	padding-left: 0.5em; 
+	}
+}
+#block_3
+	{
+	float: left;
+	width: 10em;
+	margin-left: 0.5em;
+	}
+.box_copy
+	{
+	border: solid 0.25em #666666;
+	padding: 0.5em;
+	margin-top: 0.5em;
+	background: #889988;
+	}
+#block_1 .box_copy
+	{
+	background: #aabbaa;
+	}
+.snap p
+	{
+	margin: 0;
+	padding: 0;
+	text-align: right;
+	}
+.last .snap p
+	{
+	padding: 0 0.75em 0.5em 0;
+	}
+/* '* html' to filter only IE Win */
+/* Start Mac IE5 filter \*/
+#block_1 .last, #block_2 .last, #block_3 .last
+	{
+	padding-bottom: 1000em !important;
+	margin-bottom: -998em !important; 
+	}
+* body #block_1, * body #block_2, * body #block_3
+	{
+	padding-bottom: 30000px !important;
+	margin-bottom: -30000px !important; 
+	}
+.last .snap
+	{
+	position: absolute;
+	bottom: 0;
+	border-bottom: solid 0.25em #666666;
+	}
+* html .last .snap
+	{
+	bottom: -1px;
+	}
+#block_1 .last .snap
+	{
+	width: 20em;
+	left: 10.5em;
+	}
+#block_2 .last .snap
+	{
+	width: 10em;
+	left: 0;
+	}
+#block_3 .last .snap
+	{
+	width: 10em;
+	left: 31em;
+	}
+/* End Mac IE5 filter */
+#wrapper_extra
+	{
+	position: relative;
+	}
+* html #wrapper
+	{
+	/* bizarrely necessary for IE6 ! */
+	position/**/: relative;
+	}
+#wrapper
+	{
+	width: 41.5em;
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	display: inline-block; /* Fixes nasty Opera7 scrolling bug */
+	}
+/* easy clearing */
+#wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+/* end easy clearing */
+h2, p
+	{
+	margin: 0;
+	padding: 0;
+	}
+/* ]]> */
+</style>
+<style type="text/css">
+@import url(onetruelayoutbasic.css);
+</style>
+</head>
+<body>
+<div id="header">
+<h1>One True Layout™ - Boxes</h1>
+</div>
+<div id="wrapper_extra">
+<div id="wrapper">
+<div id="block_1">
+<div class="box_copy last">
+<h2>Block 1</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="snap"><p>Snap 1</p></div>
+</div>
+</div>
+<div id="block_2">
+<div class="box_copy">
+<h2>Block 2a</h2>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="snap"><p>Snap 2a</p></div>
+</div>
+<div class="box_copy">
+<h2>Block 2b</h2>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="snap"><p>Snap 2b</p></div>
+</div>
+<div class="box_copy last">
+<h2>Block 2c</h2>
+<div class="snap"><p>Snap 2c</p></div>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+</div>
+<div id="block_3">
+<div class="box_copy">
+<h2>Block 3a</h2>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="snap"><p>Snap 3a</p></div>
+</div>
+<div class="box_copy">
+<h2>Block 3b</h2>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="snap"><p>Snap 3b</p></div>
+</div>
+<div class="box_copy">
+<h2>Block 3c</h2>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="snap"><p>Snap 3c</p></div>
+</div>
+<div class="box_copy last">
+<h2>Block 3d</h2>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="snap"><p>Snap 3d</p></div>
+</div>
+</div>
+</div><!-- close div#wrapper -->
+</div><!-- close div#wrapper_extra -->
+<div id="footer">
+<p>Footer text</p>
+</div>
+<p id="article_location">This example forms part of the <em>Position is Everything</em> article, <a href="../index.html">In Search of the One True Layout</a>.</p>
+<div class="output">
+<h2>HTML Output</h2>
+<pre>
+&lt;div id="wrapper_extra"&gt;
+&lt;div id="wrapper"&gt;
+&lt;div id="block_1"&gt;
+&lt;div class="box_copy last"&gt;
+	...
+&lt;div class="snap"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="snap"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="snap"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy last"&gt;
+	...
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="snap"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="snap"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy"&gt;
+	...
+&lt;div class="snap"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="box_copy last"&gt;
+	...
+&lt;div class="snap"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="output">
+<h2>CSS Rules</h2>
+<pre>
+#block_1
+	{
+	float: left;
+	width: 20em;
+	margin-left: 10.5em;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 10em;
+	margin-left: -30.5em;
+	}
+/* weirdness with the IE posse - reload causes the 
+bottom-aligned elements in the non-longest columns to 
+shift upwards as if they were the second longest column 
+was the longest
+this is totally due to the media query.
+And even more weirdly changing the font size makes things 
+"normal" again. Resizing the viewport does not have any effect
+Of course, the media query hack is needed just because
+Opera can't position a crate of ale on a brewery palette 
+*/
+@media all and (min-width: 0px) {
+#block_2
+	{
+	margin-left: -31em;
+	padding-left: 0.5em; 
+	}
+}
+#block_3
+	{
+	float: left;
+	width: 10em;
+	margin-left: 0.5em;
+	}
+.box_copy
+	{
+	border: solid 0.25em #666666;
+	padding: 0.5em;
+	margin-top: 0.5em;
+	background: #889988;
+	}
+#block_1 .box_copy
+	{
+	background: #aabbaa;
+	}
+.snap p
+	{
+	margin: 0;
+	padding: 0;
+	text-align: right;
+	}
+.last .snap p
+	{
+	padding: 0 0.75em 0.5em 0;
+	}
+/* '* html' to filter only IE Win */
+/* Start Mac IE5 filter \*/
+#block_1 .last, #block_2 .last, #block_3 .last
+	{
+	padding-bottom: 1000em !important;
+	margin-bottom: -998em !important; 
+	}
+* body #block_1, * body #block_2, * body #block_3
+	{
+	padding-bottom: 30000px !important;
+	margin-bottom: -30000px !important; 
+	}
+.last .snap
+	{
+	position: absolute;
+	bottom: 0;
+	border-bottom: solid 0.25em #666666;
+	}
+* html .last .snap
+	{
+	bottom: -1px;
+	}
+#block_1 .last .snap
+	{
+	width: 20em;
+	left: 10.5em;
+	}
+#block_2 .last .snap
+	{
+	width: 10em;
+	left: 0;
+	}
+#block_3 .last .snap
+	{
+	width: 10em;
+	left: 31em;
+	}
+/* End Mac IE5 filter */
+#wrapper_extra
+	{
+	position: relative;
+	}
+* html #wrapper
+	{
+	/* bizarrely necessary for IE6 ! */
+	position/**/: relative;
+	}
+#wrapper
+	{
+	width: 41.5em;
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	display: inline-block; /* Fixes nasty Opera7 scrolling bug */
+	}
+/* easy clearing */
+#wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+/* end easy clearing */
+h2, p
+	{
+	margin: 0;
+	padding: 0;
+	}
+</pre>
+</div>
+</body>
+
+
+</html>

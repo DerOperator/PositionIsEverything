@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+	<title>Opera 7 body background bug</title>
+
+<meta name="Big John" content="June 21, 2003" />
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A demo showing a background bug in Opera 7." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html, body {margin: 0; padding: 0; border: 0;}
+
+html {border: 6px solid purple;}
+
+body {
+background:#ff9 url(images/biglogo2.gif) bottom right no-repeat;
+font-family: verdana,sans-serif;
+font-size: 80%;
+}
+
+h1 {
+position: absolute;
+left: 400px; 
+top: 100px;
+}
+
+p {margin: 1em 320px 1em 2%; font-family: verdana, sans-serif;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+.return {position: absolute; width: 16em; right: 20px; top: 20px;}
+
+a {color: #000; text-decoration: underline;}
+
+
+-->
+</style>
+
+</head>
+
+<body>
+<div>
+<img src="images/biglogo2.gif" alt="" />
+</div>
+
+<h1>Opera 7 Bottom<br />Background Bug</h1>
+
+<div class="return">
+<a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a><br />
+<a href="windowshade.html"><strong>Next Opera demo</strong></a>
+</div>
+
+<p>
+This is a page to show a curious background bug in Opera7. It appears that if a background image 
+is placed in the body element, and positioned at the bottom of that element either with 'bottom'
+or '100%', and the body is longer than the viewport, the BG image is pushed below the bottom
+edge of the viewport. This demo page is optimized for a screen at 800x600 pixels, in a 'free'
+version of Op7/win2k. Above is an &lt;img&gt; version of the complete image. The html element
+has a border to show the bug more clearly.
+</p>
+<p>
+Because the content is slightly longer than the viewport (800x600), the red BG image is partially
+below the html element. Were the content longer, the BG image would be far below.
+There is also some partial image repeating evident, apparently caused by scrolling. 
+Reloading cleans the image up, but does not correct the faulty position.
+Op6 does not have this difficulty.
+</p>
+<p>
+This bug can be fixed by wrapping the content in a div, and applying the BG image to that
+div, rather than the body element.
+</p>
+<p>
+<span style="color: #d00;"><strong>Update:</strong></span> 
+Yet another bug that has been fixed in Opera 7.5, calling a for a "Woohoo!".
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: July 3, 2004<br />
+Created June 21, 2003
+</p>
+
+
+</body>
+
+</html>

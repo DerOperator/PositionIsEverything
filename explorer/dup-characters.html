@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+<title>IE6 Duplicate Characters Bug - CSS fixes and workarounds</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="This demo shows a bug in IE where final characters get duplicated following a container." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+
+.consultbox {
+float: left;
+font-size: 80%;
+background: white;
+border: 2px solid #000;
+width: 300px;
+margin: 10px 30px 20px 0;
+padding: 12px 10px 8px 30px;
+line-height: 1.5;
+}
+
+.consultbox img {margin-bottom: -4px;}
+
+.consultbox h2 {
+margin: 0 0 8px -20px;
+padding: 0;
+line-height: 1.2;
+text-align: center;
+}
+
+.consultbox h3 {
+margin: 20px 0 0 -20px !important;
+padding: 0 !important;
+font-size: 130%;
+color: #b00;
+}
+
+.consultbox h4 {
+margin: 4px 0 0 -10px !important;
+padding: 0 !important;
+color: #059 !important;
+}
+
+.consultbox h4 a {
+color: #059 !important;
+}
+
+.consultbox p {
+margin: 2px 0 8px !important;
+}
+
+html {
+margin: 0;
+padding: 0;
+border: 0;
+}
+
+body {
+margin: 0;
+padding: 0 0 20px;
+font-size: 80%;
+background: #ded;
+font-family: verdana,sans-serif;
+}
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h4 {font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+.textbox {margin: 2em 0 3em;}
+
+.textbox p {margin: .6em 18% .6em 18%; padding: 0;}
+
+a:link, a:visited, a:active {color: #000;}
+
+.alignright {margin: 0 30px 30px 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+pre {margin: 30px 16%; padding: 20px 20px 20px 40px; background: #f0ddb8;
+	border: 2px solid #000; font-size: 1.2em; font-family: monospace; font-weight: bold;}
+
+pre span {color: #d00;}
+
+ul {text-align: right; padding-right: 30px; list-style: none;}
+
+.textbox .imageholder {padding: 20px 0 20px;}
+
+.tip {
+background-color: #e0e8f0;
+border: 1px solid #036;
+color: #000;
+padding: 5px !important;
+clear: both;
+}
+
+/*XXXXXXXXXXXXXXXXXXXX Demo rules start here XXXXXXXXXXXXXXXXXXXXXXX*/
+
+
+.outerfloatwrapper {
+float: left;
+display: inline;  /*** Prevents the IE Doubled Margin Bug ***/
+width: 256px;
+margin: 0 15px 20px 15%;
+}
+
+.demobox {
+width: 250px;
+border: 3px solid #4c6f42;
+}
+
+.demobox a:hover {
+background: #dfd;  /*** This hover change triggers buggyness in the links ***/
+}
+
+.firstfloat {
+float: left;
+width: 200px;
+background: #939a90;
+text-align: center;
+color: #fff;
+}
+
+.secondfloat {
+float: left;
+width: 250px;
+margin-bottom: 2px;
+background: #fbdabb;
+}
+
+
+
+
+</style>
+
+	</head>
+
+	<body>
+
+<h1>Explorer 6 Duplicate Characters Bug&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+
+<div class="consultbox">
+<h2>Are complex CSS issues making your programmers <em>crazy?</em></h2>
+<p>I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Hire me to help you too.</a></p>
+
+<h3><a href="http://everyones.com/webinar/bigjohn">Big John's CSS Webinars!</a></h3>
+
+<p>Let Big&nbsp;John (yours&nbsp;truly) <a href="http://everyones.com/webinar/bigjohn">teach&nbsp;you</a> 
+about CSS in a setting where you can
+actually <em>ask questions</em>. Will wonders never cease? Learn about the cascade
+and its arcane mysteries, or dive into the cesspool of IE6 with Big&nbsp;John as your lifeguard.
+</p>
+
+<p>
+Besides upcoming webinar dates, you can also download recorded versions
+of <a href="http://everyones.com/webinar/bigjohn">previous webinars</a> 
+(some free, some for sale). 
+</p>
+
+</div>
+
+<ul>
+<li><a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a></li>
+<li><a href="italicbug-ie.html"><strong>Next IE demo</strong></a></li>
+</ul>
+
+<div class="textbox">
+
+<p class="tip">
+<strong>This bug occurs only in IE6 and has been fixed in IE7</strong>
+</p>
+
+<p>
+Internet Explorer 6 has a puzzling bug involving multiple floated elements; text characters
+from the last of the floated elements are sometimes duplicated below the last float. This bug
+is a real headbanger because there seems to be nothing triggering it. However, by now everyone
+should <em>know</em> that IE needs no excuse to misbehave.
+</p>
+
+<p>
+The direct cause is nothing more than ordinary <strong>HTML&nbsp;comments</strong>, such as,
+<span class="inlineimp"
+style="white-space: nowrap;">&lt;!--&nbsp;end&nbsp;left&nbsp;column&nbsp;--></span>,
+sandwiched between floats that come in sequence. Apparently, the comments are hard for IE to
+digest when they occupy those positions, resulting in a kind of "screen diarrhea".  HTML
+comments inside the floats do not cause the bug, nor do comments before or after the float
+series. Only comments residing between floats cause the bug.
+</p>
+
+<p>
+The effect seen is that some of the last characters from the last floated element of the series
+are repeated outside and below that floated element. The first sandwiched comment does nothing
+unusual, but two comments cause the last two characters in that last float to repeat. Each
+additional comment makes two more characters join the party. It doesn't matter which pair of
+floats straddle the comments. In fact the two <strong>triggering comments</strong> may follow
+different floats as long as they have floats both before and after them.
+</p>
+
+<h4>So Let's See This Bug!</h4>
+
+</div>
+
+<!-- Begin live demo -->
+
+<div class="outerfloatwrapper">
+
+<div class="demobox">
+
+<div class="firstfloat">First float</div>
+
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+<!-- comment --> <!-- comment --> <!-- comment --> <!-- comment --> <!-- comment -->
+
+<div class="secondfloat">
+<p style="padding: 0 0 0 20px; margin-bottom: 2px; margin-top: 0; border: 1px solid #f00;">
+Second float<br /><br />
+
+<span style="background: #f2ab82;">
+In IE6 some of this text is replicated in a "mystery block element" that starts directly below
+the float. This light brown float has a 2px bottom margin which also duplicates into the mystery
+element, getting added to the bottom of the text if it is wrapped in a span as it has been
+here.
+<br />
+<a href="#">Test&nbsp;link</a>
+<img src="images/pinecone3.jpg" alt="" style="border: 1px solid #3c4524;" />
+</span>
+
+</p>
+</div>
+
+<div style="clear: both; background: #b2d4af;">Cleared element</div>
+</div>
+
+</div>
+<!-- end live demo -->
+
+<div class="textbox">
+
+<p>
+<strong>This live demo's construction</strong> starts with a 250px wide container
+(green border), holding first a 200px wide float (gray), and a second (light brown) float, which is
+given a width of 250px, the same as the container's width. Inside that second float is a red bordered
+paragraph containing spanned text, and an image just for fun. The span is not required for the bug to
+occur, but is used here to help illustrate the bug. Finally there is a simple "cleared" block element (green).
+Additionally, there is a 2px bottom margin on the lower float to push the duplicated text down and make
+the demo slightly less confusing.
+</p>
+
+<div>
+<img style="float: right; margin: 30px 15% 10px 25px; display: inline; width: 256px; height: 280px;"
+src="images/commentbug-shot2.gif" alt="" />
+</div>
+
+<p>
+If you look at the source of this page, you will see 50 ordinary HTML comments in between the
+two floats. The first one is "free," but each of the remaining comments will trigger the replication
+of two characters from the last float into the area just below it. The bug considers the image to be
+worth two characters when duplication is occuring. The length of the text in the comment does not
+matter. We know that no one is likely to be putting 50 comments in between floats, but in this case,
+they sure make the demo more dramatic!
+</p>
+
+<p style="clear: both;">
+Below is a simplified version of the code used to make this live demo:
+</p>
+
+<pre>
+&lt;div class="demobox" >
+
+&lt;div class="firstfloat">First float&lt;/div>
+
+&lt;!-- comment --> &lt;!-- comment --> &lt;!-- comment -->
+&lt;!-- comment --> &lt;!-- comment --> &lt;!-- comment -->
+  etc, etc, etc... (50 in all)
+
+&lt;div class="secondfloat">
+&lt;p>
+Second float
+
+&lt;span>
+
+In IE6 some of this text is replicated in a
+"mystery block element" that starts directly
+below the float. This tan colored float has a
+2px bottom margin which also duplicates into
+the mystery element, getting added to the
+bottom of the text if it is wrapped in a span,
+as it has been here.
+
+&lt;a href="#">Test&nbsp;link&lt;/a>
+&lt;img src="images/pinecone3.jpg" alt="" />
+
+&lt;/span>
+&lt;/p>
+&lt;/div> &lt;!-- End of second float -->
+
+&lt;div style="clear: both;">Cleared element&lt;/div>
+
+&lt;/div> &lt;!-- End of .demobox -->
+</pre>
+
+<p>
+<strong style="color: #036;">Important:</strong> These extra comments trigger the bug <em>only</em>
+when the final float fills the container to  the right edge, or to within less than 3px away from it.
+This is because IE6/win seems to have a weird 3px "bumper" margin on the right side of that last left
+float. Since the float in this demo is exactly as wide as the container, the bumper has no empty space
+to occupy, and apparently it is this that completes the bug trigger. The effect also shows
+<strong>symmetry</strong>, working the same way in a mirror version of this coding.
+</p>
+
+<p>
+Note that if the floats were horizontally next to each other and their widths when added together
+equaled the container width, the bug would still be triggered. Also remember that when many floats are
+involved, it doesn't matter which floats the comments fall between, as  long as they are between any
+floats in the set. The comment bug triggers accumulate!
+</p>
+
+<p>
+<strong><span style="color: #c00">Update!</span> July 5, 2004</strong>
+&#8212 It turns out that this duplicating characters bug can be triggered
+by other things than just HTML comments.
+<a href="http://www.wubbleyew.com/blog/"><strong>Phil&nbsp;Baines</strong></a> points out that <em>any</em>
+elements given the style {display:&nbsp;none} will also induce the bug. In fact,
+even hidden inputs can do it, and presumably any other elements that don't actually
+display for some reason. Apparently the act of hiding a source element is the
+critical trigger for this bug.
+</p>
+
+<p>
+Nice catch, Phil!
+</p>
+
+<div>
+<img style="float: right; margin: 30px 15% 10px 25px; display: inline; width: 256px; height: 426px;"
+src="images/commentbug-shot.gif" alt="" />
+</div>
+
+<h4>Even More Weirdness</h4>
+
+<p>
+Notice what happens when the duplicated link is hovered, causing a background change.
+Both the real link and its clone show the hover effect, and hovering makes some of the
+duplicate text show the padding from the donor float's paragraph! Most kinds of hover
+changes on the link will do this, but not all. Every IE bug that involves hover changes
+seem to be triggered by the same style alterations. Changing the font doesn't do it,
+but applying a background on hover does.
+</p>
+
+<p>
+Check out what happens to the image! Oh dear. Say, what about the red border showing up around the
+duplicate text? Is the paragraph itself being cloned as well? Are you getting dizzy yet?
+</p>
+
+<p>
+Another thing to notice is the text in the green clearing element. The text actually says
+"Cleared element", but it is partly lost on the left side! The length of missing text is
+exactly the same as the width of the left padding on the donor float paragraph. Arrrgh! You
+may not want to hear this, but upon hovering either link, the bottom margin on the float is
+replicated below the cleared element...
+</p>
+
+<p>
+Okay, we'll stop now.
+</p>
+
+<h4>Fixes and Workarounds</h4>
+
+<p>
+One easy fix is to put a -3px right margin on the last left float. The
+opposite can be done for layouts with right floats. This seems to be a harmless fix that works
+every time. Another fix is to give the container element 3px of extra width, so that it is 3px
+larger than the last float. Sometimes applying
+<a href="../articles/haslayout.html"><strong>hasLayout</strong></a>
+on the cleared element will stop the text
+duplication, but not the "Reverse padding bug" in the cleared element.
+</p>
+
+<p>
+Or, you could just remove the bug triggering comments, but that would be cheating, wouldn't it?
+</p>
+
+<p>
+<strong><span style="color: #c00">Update!</span> April 25, 2006</strong> One of our
+more deviously-minded readers,
+<a href="http://victorwelling.nl/"><strong>Victor&nbsp;Welling</strong></a>,
+has discovered that
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp">Conditional&nbsp;Comments</a>
+may be used in place of normal HTML comments <em>without triggering this bug!</em>
+It works because CC's allow the use of the naught sign (!), so you can specifically
+tell IE/Win to ignore the CC, while other user agents simply treat the CC as a
+normal comment as usual. Here's an example:
+</p>
+
+<p>
+<strong>&lt;!--[if !IE]>Put your commentary in here...&lt;![endif]--></strong>
+</p>
+
+<p>
+The critical part is that "..if !IE.." bit. That tells IE to <em>not</em> look into the
+CC, as it would otherwise do without the naught sign.
+</p>
+
+<p>
+Okay, this is very weird. Presumably IE sees elements that it is supposed to hide
+such as hidden inputs and normal comments, and when they appear in certain locations
+it somehow triggers the duplication bug. And this CC <em>does</em> make IE hide what is
+inside, just like all other browsers. So what makes IE treat this comment differently than
+normal comments? Don't ask such silly questions! It's <em>IE</em>, remember? Oh
+well, as long as it validates and gets the job done, right?
+</p>
+
+<p>
+This method allows Victor (and you too) the ability of retaining all buggy comments
+right where they are, with no compromise and just a bit more code. Thanks Victor!
+</p>
+
+<p>
+<strong><span style="color: #c00">Update!</span> September 7, 2006</strong>
+<a href="http://home.tampabay.rr.com/bmerkey/"><strong>Brett&nbsp;Merkey</strong></a>
+points out that the
+<a href="doubled-margin.html">Doubled&nbsp;Float&nbsp;Margin&nbsp;Bug&nbsp;Fix</a>
+may be used to stop this duplicate characters bug! Who knew? As always, that fix
+is used on floats and does not affect floats, according to the W3C. However, just
+like the doubling bug it fixes this duplicating bug when it is applied to the float
+that comes before the triggering comments. Thanks Brett!
+</p>
+
+<p>
+The fix itself is simple, just add <strong>display:&nbsp;inline;</strong> to the
+float that preceeds the comments, or you can just globally apply it to <em>all</em>
+floats. So far there have been no apparent side effects when doing this. If all
+floats are given the fix at all times, several known IE bugs will be prevented while
+no other known effects occur. If you do this and ever notice any odd side-effects,
+please contact us, okay?
+</p>
+
+<h4>Conclusion</h4>
+
+<p>
+This problem can appear in different ways, but it usually involves text duplicated out of the
+last float in a float series, and two or more HTML comments between the float elements. 
+</p>
+
+<p>
+For masochists, check out yet <a href="http://v2.easy-designs.net/articles/ieFloatTextRenderBug/">another&nbsp;version</a>
+of the duplication effect, discovered by <a href="http://www.littlechair.com/">Jennifer&nbsp;Niederst</a>. Is there <em>no end</em>...?
+</p>
+
+
+
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: May 12, 2010<br />
+Created February 18, 2004
+</p>
+</div>
+
+</body>
+
+
+</html>
+

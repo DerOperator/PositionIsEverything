@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><title>Jello-piefecta</title>
+
+<link rel="stylesheet" type="text/css" href="remotes/jello-piefecta-clean.css" />
+
+<script language="JavaScript" type="text/javascript" src="remotes/colex.js"></script>
+<!-- Script used only to dynamically lengthen the side columns, for testing purposes. -->
+
+
+<!-- Below is a conditional comment that only IE/Win can read...  -->
+    <!--[if IE]>
+      <style type="text/css">
+      #sizer {
+        width:expression(document.body.clientWidth > 900 ? "120px" : "60%" );
+      /* CSS comments are safe here, but no html comments inside the Conditional Comment! */
+      }
+
+      #expander,
+      #wrapper1,
+      #wrapper2,
+      .outer a,
+      .container-left,
+      .container-right,
+      .outer,
+      h2,
+      .sidenav li a
+      {zoom: 1;}
+      /* The above rule gives hasLayout to some page elements so that IE will not be buggy, oy... */
+
+
+      * html .header {background-position: 10px 3px;}
+      /* IE6 hack needed because the "jello" BG image is on a positioned wrapper and shows
+      variance in this case for some odd reason. IE6 does not support fixed backgrounds on
+      elements other than
+      the body. The "* html " section of the selector above blocks IE7 and above from parsing the
+      rule, because IE7 doesn't have the "mystery wrapper element" that encloses the
+      HTML element in IE6 and below. IE7 does NOT obey the rule above, nor does
+      it need to. */
+
+      </style>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div id="sizer">
+<div id="expander">
+
+<div class="header">
+<h1>The Jello Mold Piefecta</h1>
+</div>
+<!-- The header is before the 1st wrapper so that it is separate from the columns -->
+
+<div id="wrapper1">
+
+<div id="wrapper2">
+<!-- This wrapper is only used for BG tiling on the right column -->
+
+<div class="outer">
+
+<div class="float-wrap">
+
+<div class="center">
+
+<div class="centerbox"> <!-- optional extra styling div -->
+
+<h2>First Column in the Source</h2>
+
+<div class="textpadder">
+<!-- This class is used to pad text content in the cols, so that the cols don't
+need side padding that would then require box model hacking for IE5.x/win -->
+
+<h3>The Features</h3>
+
+<p>
+Grab ahold of the window edge and drag it back and forth. When it's narrowed down,
+the center column shrinks until the wrapper reaches a set minimum width. Going the other
+way, the center widens up to a set width and then locks. Pay special attention to
+the side "margins"
+while this is happening. Notice how the side spaces also grow while the center col
+is widening? This is the Jello Mold effect in action, and you may easily customize
+the ratio between the widening rates of the wrapper and the center col.
+</p>
+
+<p>
+The lower limit is reached when the side body paddings touch each other, in this case
+at 680px window width. This means that no scripting is needed for the inclusion
+of IEwin to the min-width effect! The upper limit is enforced by a max-width
+on #sizer, and IEwin is included via an "expression" hidden in a
+Conditional Comment in the head. While this is a script, the user cannot disable
+this type of CSS expression when disabling JavaScript.
+</p>
+
+<p>
+Both these limits are easily customized, btw. The min-width effect the result only
+of CSS padding, so it is "natural" and works in all modern browsers without problems,
+including IEmac, which does not obey the max-width effect unfortunately.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 4, 2008<br />
+Created July 18, 2005
+</p>
+
+</div> <!-- end .textpadder -->
+
+</div> <!-- end .centerbox -->
+
+</div> <!-- end .center -->
+
+ <div class="left">
+
+<div class="container-left">
+
+<!--XXXXXXXX Begin left column includes XXXXXXXX-->
+
+<h2>Second in Source</h2>
+
+<div class="textpadder">
+
+<p>
+The side columns are exactly 200px wide, but that width can be modified by resetting
+three indicated critical values in the stylesheet. The same goes for the borders between the
+cols, which have their own critical value sets.
+</p>
+
+</div> <!-- end .textpadder -->
+
+<ul class="sidenav">
+<li><a href="jello-piefecta-clean.html" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()" onmouseout="if(this.blur)this.blur()">Jello Piefecta</a></li>
+<li><a href="remotes/jello-piefecta-clean.css" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()" onmouseout="if(this.blur)this.blur()">Jello CSS File</a></li>
+<li><a href="../jello.html" onmousedown="if(this.blur)this.blur()" onclick="if(this.blur)this.blur()" onmouseout="if(this.blur)this.blur()">Main Tutorial</a></li>
+</ul>
+
+<p class="clicker" onclick="leftFill()">Click For Longer Column</p>
+
+<div class="textpadder">
+
+<p id="leftcolfill" class="hide">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
+vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis
+at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+delenit augue duis dolore te feugait nulla facilisi.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
+vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis
+at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+delenit augue duis dolore te feugait nulla facilisi.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
+vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis
+at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+delenit augue duis dolore te feugait nulla facilisi.
+</p>
+
+</div> <!-- end .textpadder -->
+
+
+<!--XXXXXXXX End left column includes XXXXXXXX-->
+
+</div> <!-- end .container-left -->
+</div> <!-- end .left -->
+
+<br class="brclear" />
+
+</div> <!-- end .float-wrap -->
+
+<div class="right">
+<div class="container-right">
+
+<!--XXXXXXXX Begin right column includes XXXXXXXX-->
+
+<h2>Third in Source</h2>
+
+<div class="textpadder">
+
+<p>
+This column has a problem at some window widths when viewed in Gecko browsers,
+due to 1px rounding errors. Observe the links and heading closely while dragging the
+window width in Gecko, and you will see those items jiggling back and forth by 1px.
+</p>
+
+</div> <!-- end .textpadder -->
+
+<p class="clicker" onclick="rightFill()">Click For Longer Column</p>
+
+<div class="textpadder">
+
+<p id="rightcolfill" class="hide">
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
+vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis
+at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+delenit augue duis dolore te feugait nulla facilisi.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
+vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis
+at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+delenit augue duis dolore te feugait nulla facilisi.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad
+minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
+vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis
+at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+delenit augue duis dolore te feugait nulla facilisi.
+</p>
+
+</div> <!-- end .textpadder -->
+
+<!--XXXXXXXX End right column includes XXXXXXXX-->
+
+</div> <!-- end .container-right -->
+</div><!-- end .right -->
+
+<br class="brclear" />
+
+</div><!-- end .outer -->
+
+</div><!-- end #wrapper2 -->
+
+</div><!-- end #wrapper1 -->
+
+<div class="footer">
+<p>Froggy Footer<br /></p>
+<hr />
+<img src="images/frog.gif" alt="" class="froggy" />
+</div>
+
+</div><!-- end #expander -->
+</div><!-- end #sizer -->
+
+</body>
+
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+	<title>IE Unscrollable Content</title>
+<meta name="Author" content="Altieres Rohr" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,content,scroll,absolute,css,html," />
+<meta name="description" content="Another IE bug where absolute positioned boxes will not cause a vertical scrollbar" />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">
+isIE = false;
+
+</script>
+
+<!--[if IE]>
+<script type="text/javascript">
+isIE = true;
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+<!--
+/***********
+THIS JAVASCRIPT UNFIXES IE ON-THE-FLY!!
+It is not needed at all. You just need to apply
+the fixes described in this demo. Ignore this.
+The JS plays no part in actually fixing the IE
+bug, but is used only to illustrate the problem.
+***********/
+alertmsg = "This JavaScript unfixes IE.\nLooks like you aren't using IE, so you cant't unfix anything.";
+function setup()
+	{
+		if(isIE)
+		{
+			fixdiv             = document.getElementById("wrapper");
+			unfixdiv           = document.getElementById("unfixed");
+			content            = fixdiv.innerHTML;
+		}
+	}
+function unfix()
+	{
+		if(isIE)
+			{
+				unfixdiv.innerHTML  = content; // if this is done before, a bug occurs.
+				fixdiv.className    = "none";
+				unfixdiv.className  = "block";
+			}
+		else
+			alert(alertmsg);
+	}
+window.onload = setup; // setup on load
+//-->
+</script>
+<style type="text/css">
+<!--
+a, a:hover
+	{
+	color: black;
+	font-weight: bold;
+	text-decoration: underline;
+	}
+a:hover
+	{
+	border-bottom: 1px solid black;
+	text-decoration: underline;
+	}
+acronym 
+	{
+	border-bottom: 1px solid #888;
+	cursor: help;
+	}
+.none {display: none;}
+.block {display: block;}
+body
+	{
+	margin: 0;
+	padding: 0;
+	background: #FAFAFA;
+	font: small Verdana, Arial, sans-serif !important;
+	font-size: small;
+	}
+h1
+	{
+	padding: 0.4em 0.3em 0.4em 0.7em;
+	margin: 0;
+	background: black;
+	color: white;
+	font: bold 140% Arial, sans-serif;
+	}
+#nav
+	{
+	padding: 11px 0;
+	text-align: center;
+	}
+h2
+	{
+	padding: 10px 1px 2px 3px;
+	margin: 0;
+	font: bold 110% Georgia, Verdana, Arial, sans-serif;
+	}
+code
+	{
+	font-size: 95%;
+	}
+hr
+	{
+	visibility: hidden;
+	clear: right;
+	}
+p.bt
+	{
+	border-top: 1px solid #CCC;
+	}
+p.both
+	{
+	border: 1px solid #CCC;
+	}
+p.bb
+	{
+	border-bottom: 1px solid #CCC;
+	}
+#info
+	{
+	background: #FAFAFA;
+	border: 0;
+	margin: 0;
+	text-align: right;
+	}
+p
+	{
+	margin: 0 5px;
+	padding: 4px 3px 2px 5px;
+	border: 1px solid #CCC;
+	border-top: 0;
+	border-bottom: 0;
+	line-height: 1.5em;
+	background: #EBEBEB;
+	}
+/*************************
+DEMO RULES
+*************************/
+/*
+	A wrapper that holds your absolute box.
+	If it has position set to relative and no
+	dimensions (width or height), the first bug
+	trigger is activated.
+*/
+#wrapper
+	{
+	position: relative;
+	}
+/*
+	The absolute positioned (AP) box. If it haves a top
+	value set, the second bug trigger is activated.
+*/
+#ap-box
+	{
+	position: absolute;
+	top: 0;
+	left: 10%;
+	border: 1px solid gray;
+	width: 80%;
+	background: #FAFAFA;
+	}
+/*************************
+FIX
+*************************/
+/*
+	The fix is already applied by default. If you want to see
+	the bug alive just enable JavaScript (if not already enabled)
+	and click the "unfix" link. The fix is the Holly Hack, detailed
+	in http://www.positioniseverything.net/articles/hollyhack.html
+*/
+
+/* Start hide from IE-Mac \*/
+* html #wrapper
+	{
+	height: 1%;
+	}
+/* End Hide from IE-Mac */
+
+-->
+</style>
+
+</head>
+
+<body>
+	<h1>IE/Win Unscrollable Content Bug</h1>
+	<div id="nav">
+
+		<a href="../explorer.html">Return to Explorer Demos</a> 
+		| <a href="../guests.html">Return to Guest Demos</a> |
+		<a href="dup-characters.html">Next Explorer Demo</a>
+
+	</div>
+	<div class="wrapper" id="wrapper">
+	
+		<div id="ap-box">
+			<h2>What's this about?</h2>
+
+				<p class="both">
+					Another IE bug, where an <acronym title="Absolute Positioned Box">AP-Box</acronym>
+					may not force a scrollbar even if the content is long enough to require one, resulting in
+					hidden content.
+				</p>
+
+			<h2>Description</h2>
+				<p class="bt">
+					The page content is contained within a box that is positioned <strong>relatively</strong> and has <strong>no assigned 
+					dimensions</strong>. Nested in this box are one (or more) <strong>absolutely positioned boxes</strong>.
+					Take a quick look at this graphic showing how it should work.
+				</p>
+
+				<p>
+
+				<img style="margin: -80px 5px 5px 5px; float: right;" src="images/unscrolled.gif" alt="" title="Relative Boxes may not contain absolute boxes" />
+					The Absolute Box should appear to start from inside the relative box, meaning 
+					the top of the AP box
+					is calculated from the top of the relative box, not from the top of the document.
+					But the relative box will not truly "contain" the absolute box because
+					absolute boxes are not "inside" other elements. Instead, the AP box is on a higher z-index level
+					(closer to the viewer), so the AP "child" box is free to become larger than its relative "parent" box.
+					In the graphic to the right, the small red box
+					is the relative box. The Absolute Box (blue) starts from the relative
+					box, but is not "contained" by it. The scrollbar must be shown, so that
+					the user can scroll down to the entire absolute box even though it occupies no 
+					real "space" in other elements.
+				</p>
+				<p>
+					<img style="margin: -15px 5px 5px 5px; float: left;" src="images/ap-bug.gif" alt="" title="IE behaves differently" />
+					<strong>Internet Explorer</strong> <em>does not think so</em>. IE thinks the relative 
+					box really does contain the absolute
+					box.
+				</p>
+
+				<p>
+					IE tries to make the relative "parent" element as big as the AP-Box that is "inside" it. But
+					somehow IE can only make it as tall as the viewport. What happens then
+					is that IE seems to "forget" what goes below the viewport and because of
+					this, <strong>IE will limit the scrollbar</strong>. Sometimes the
+					scrollbar will not appear at all. With the scrollbar limited, the user
+					will be unable to scroll to the bottom of the AP-Box, resulting
+					in hidden content.
+				</p>
+				<p>
+					This bug affects IE5, 5.5 and 6 for Windows. IE6 is buggy even when
+					it is in "Standards Mode". While a dimension on the relative box will prevent the bug,
+					a dimension on the nested absolute box will <em>not</em> fix the bug.
+				</p>
+				<p class="bb">
+
+					Sometimes it's bad for the layout when there is a dimension on the Relative box,
+					but don't panic! We have a quick and working fix for this, that won't hurt the layout at all.
+				</p>
+			<h2>Bug Fixes</h2>
+					<p class="bt">
+						The good (and not so old) <strong>Holly Hack</strong>
+
+						can help you get rid of it. Just apply a <code><strong>height:1%</strong></code> to the
+						"relatively" positioned box and your content will scroll fine, as if nothing was
+						wrong. Read <a href="../articles/hollyhack.html">This&nbsp;article</a>
+
+						for details on the Holly hack.
+					</p>
+					<p>
+						<strong>Here is the code used to fix the bug in this demo:</strong> <br />
+
+						<code>
+						/* Start hide from IE-Mac \*/<br />
+						* html #wrapper <br />
+
+						&nbsp;&nbsp;&nbsp;{<br />
+						&nbsp;&nbsp;&nbsp;height: 1%;<br />
+						&nbsp;&nbsp;&nbsp;}<br />
+
+						/* End Hide from IE-Mac */
+						</code>
+					</p>
+			<h2>See The Bug In Action</h2>
+
+					<p class="bt">
+					If you want to see what happens when the fix is <em>not</em> applied
+					to such a page, you can do it right here. This page is constructed with a "relative" box
+					that encloses an AP box, which then encloses all the other page elements.
+					The relative div#wrapper has been "fixed" as described above, and clicking this
+					<a href="javascript:unfix();">unfix</a>
+
+					button will remove the fix from the page via a simple JavaScript. <strong>To restore
+					the missing content and reapply the fix, 
+					just reload the page</strong>. Remember that JavaScript is used to
+					unfix the page, but it has nothing to do with the bug.
+				</p>
+				<p id="info">
+							May 25 2004, <a href="http://altieresrohr.com.br/en/">Altieres Rohr</a>. <br />
+							Updated 19/April/2010.
+				</p>		
+		</div>
+
+		
+	</div>
+	
+	<div id="unfixed" style="position: relative;">
+	</div>
+	
+	
+</body>
+
+
+
+</html>

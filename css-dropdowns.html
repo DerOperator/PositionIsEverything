@@ -1,0 +1,806 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+    <title>Deluxe CSS Dropdowns and Flyouts</title>
+
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="Make a pure CSS dropdown/flyout combo nav." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+	<meta http-equiv="Content-Language" content="en-us" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+<meta name="revisit-after" content="10 Days" />
+<meta name="doc-class" content="Living Document" />
+
+<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<!--[if gt IE 6]>
+  <style type="text/css">
+
+.button .dropdown li, .nav a {{zoom: 1;}
+
+  </style>
+<![endif]-->
+<!-- This CC feeds a modified Holly hack to IE7 and up. The old star-html hack is
+ignored by IE7, and IE7 correctly obeys the "height: 1%" layout-triggering fix, so
+use a targeted CC and change the fix to "zoom: 1;" to achieve the same layout fix. -->
+
+<style type="text/css">
+
+/*XXXXXXXXXX Generic page styling rules XXXXXXXXXX*/
+
+html, body, ul, li { padding: 0; margin: 0; list-style: none;}
+
+body {
+  margin: 20px 0;
+  text-align: center;
+  font-family: arial, sans-serif;
+  font-size: 100.01%;
+  }
+
+#wrapper {
+  margin: 0 auto;
+  padding: 79px 0 0;
+  width: 760px;
+  border: 1px solid #888;
+  text-align: left;
+  background: #fffaee url(images/flyoutbanner.gif) no-repeat;
+  }
+
+/* Box model hack \*/
+* html #wrapper {
+  width: 762px;
+  w\idth: 760px;
+  }
+/* */
+
+.textbox {
+padding: 1px 1em;
+font-size: .9em;
+}
+
+.textbox a {color: #000;}
+
+.back {text-align: right; padding: 10px 10px 0 0;}
+
+.alignright {margin: 0 30px 20px 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+h1 {position: absolute; left: -3000px;}
+
+h2 {font-size: 1em;}
+
+p {margin: .8em 1em .8em 1.6em;}
+
+
+/*XXXXXXXXXXXX Primary top nav rules XXXXXXXXXXX*/
+
+.nav {
+	position: relative;
+	background: #def;
+	border: 1px solid #888; /* borders the bottom of the top nav */
+	border-width: 1px 0;
+	width: 100%;
+	}
+
+.button {
+	width: 190px;
+	float: left;
+	}
+
+.parent {position: relative;}
+/* this parent div does not provide "sticky hovering", but instead fixes a
+strange bug in Op7. When an element serves as a hovered popup "parent" element,
+that element must not also be floated or all heck breaks loose in Opera 7.
+To prevent this, we have floated the top level list items, while nesting
+hoverable parent divs inside that are then hovered to generate the dropdowns.
+Thus the ugly (but interesting) Op7 bug is defeated. */
+
+.floatfix {margin-right: -3px;}
+/* this fixes the IE 3px bug that is common in this type of float arrangement */
+
+/*XXXXXXXXXXXX Primary dropdown/flyout rules XXXXXXXXXXX*/
+
+.dropdown { /* rules for dropdown div */
+	width: 250px;
+	position: absolute;
+	left: -3000px;
+	top: auto; /* puts dropdowns directly under top nav */
+	text-align: left; /* needed because IE misapplies text centering to boxes */
+	background: url(images/bgfix.gif);
+	}
+
+.dropdown div {
+	width: 220px;
+	position: absolute;
+	left: -3000px;
+	top: 0;
+	background: url(images/bgfix.gif);
+	text-align: left; /* needed because IE misapplies text centering to boxes */
+	}
+
+/* The margins on the UL's replace the div paddings to create "sticky hovering"
+zones,  and the margins should "fill" the divs, making the IE BG fix unnecessary.
+Unfortunately the BG fix is still needed, altho this method does eliminate
+possible box model problems */
+
+.dropdown ul {
+  width: 189px; /* tweaked so that dropdowns appear to "line up" with top links */
+  margin: 0 30px 30px 30px; /* creates "sticky hovering" zones for dropdowns */
+  border: 1px solid #888;
+  border-width: 1px 1px 0;
+  } /* borders sides and top of the dropdowns and flyouts; links provide the bottom border */
+
+.dropdown div ul {margin: 30px 30px 30px 0;} /* creates "sticky hovering" zones for flyouts */
+
+.four .dropdown ul {width: 190px;} /* modifies width for rightmost "visible" dropdown (tweak) */
+
+.four .dropdown div ul {margin: 30px 0 30px 30px; position: relative;} /* rule reversal for "visible" right drop flyouts */
+
+.nav li {text-align: center;}
+
+.nav a {
+  display: block;
+  color: #800;
+	font-weight: bold;
+	font-size: .9em;
+	text-decoration: none;
+	padding: 6px 0 5px;
+	border-right: 1px solid #888;  /* makes the dividers between the top nav links */
+	}
+
+.four a {border-right: 0;} /* kills right border on last top link */
+
+.nav ul ul a {
+  color: #fff;
+  border-right: 0; /* negates right border for dropdowns and flyouts */
+  border-bottom: 1px solid #888;  /* borders the bottoms of the dropdown and flyout links */
+  }
+
+.dropdown li {
+  position: relative;
+  vertical-align: bottom; /* IE5/win bugfix */
+  }
+
+.parent:hover {background-image: url(images/bgfix.gif);}
+/* this hover calls a transparent GIF only to defeat the IE failed hover bug. Any
+background change on hovering div.parent will make IE obey and display the dropdown.
+While the call itself will fix the bug, make sure you actually call a real image
+file so that your site error logs will not fill with failed image calls. */
+
+.parent:hover div.dropdown {left: -31px;} /* hover rule for dropdowns */
+/* extra pixel makes dropdowns "line up" with top links */
+
+.dropdown li:hover div { /* hover rule for flyouts */
+	left: 180px; /* this value controls the amount of flyout "overlap" */
+	top: -26px; /* this value controls the amount of flyout vertical offset */
+	}
+
+.four li:hover div { /* reversed flyout rules for rightmost drop flyouts */
+	left: -210px;
+	top: -26px;
+	}
+
+.nav div.mini-zone { /* special hover zone that covers the "danger corner" */
+  padding: 0;
+  width: 15px;
+	height: 15px;
+	font-size: 1px;
+	left: -3000px;
+	bottom: -15px;
+	top: auto;
+	background: url(images/bgfix.gif);
+	}
+
+.nav .dropdown li:hover div.mini-zone { /* hover rule for mini-zones */
+	left: auto;
+	right: 8px;
+	top: auto;
+	}
+
+.nav .four li:hover div.mini-zone { /* reversed hover rule for rightmost drop mini-zones */
+	left: 8px;
+	}
+
+.dropdown li:hover {background: #235;} /* hover color effect on dropdown links */
+
+.dropdown div li:hover {background: #ff7;} /* hover color effect on flyout links */
+
+
+/*XXXXXXXXXXX Primary dropdown backgrounds XXXXXXXXXX*/
+
+.one ul {background: #d79b00;}
+.two ul {background: #459;}
+.three ul {background: #4a3;}
+.four ul {background: #790000;}
+.dropdown div ul {background: #eda;} /* colors BG of flyouts */
+.dropdown div ul a {color: #400;} /* colors text of  flyouts */
+
+
+/*XXXXXXXXXX z-index rules for top nav XXXXXXXXXXX*/
+
+.one {z-index: 10;}
+.two {z-index: 20;}
+.three {z-index: 30;}
+.four {z-index: 40;}
+.four:hover {z-index: 20;}
+/* this last is a special trick that reverses the stacking order of the rightmost
+top link when it or its children are hovered. This, and the previous rules work
+together so that when a user is on the top link of any flyout, they can move
+vertically to the top link directly above and not have the sticky hoivering zone
+on the flyout get in the way of hovering that top link. */
+
+
+/*XXXXXXXXXXX Special fixes XXXXXXXXXXX*/
+
+/* This is to hide the following from IE/Mac. \*/
+* html .button .dropdown li {
+height: 1%;
+margin-left: -16px;
+mar\gin-left: 0;
+}
+/* */
+
+* html .nav a
+ {height: 1%;}
+
+/* The first 2 rules above fix "bullet region" problems in IE5.x/win,
+and the 2nd is to make all links fully clickable. */
+
+.brclear { /* Use a break with this class to clear float containers */
+clear:both;
+height:0;
+margin:0;
+font-size: 1px;
+line-height: 0;
+}
+
+/*\*/ /*/
+.nav .dropdown, .nav .dropdown div {width: 189px;}
+.nav .button .dropdown ul {margin: 0px;}
+.nav .dropdown, .nav .dropdown div {position: static;}
+.nav .dropdown ul {border: 0;}
+.mini-zone {display: none;}
+/* this rule block "dumbs down" the nav for IEmac */
+
+</style>
+
+
+<!--[if lte IE 6]>
+  <style type="text/css">
+	body {behavior: url(sidepages/csshover.htc);}
+  </style>
+
+  <noscript>
+	<style type="text/css">
+
+.nav .dropdown, .nav .dropdown div {width: 189px;}
+.nav .button .dropdown ul {margin: 0px;}
+.nav .dropdown, .nav .dropdown div {position: static;}
+.nav .dropdown ul {border: 0;}
+.mini-zone {display: none;}
+
+	</style>
+  </noscript>
+<![endif]-->
+<!-- The above block calls the special .htc script that forces compliance in IE6
+and lower, and also "dumbs down" the nav when IE is set not to allow scripting.
+Only IE6 and lower can read this block. -->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+<h1>Deluxe CSS Dropdowns and Flyouts</h1>
+
+<div class="nav">
+
+<ul>
+
+<li class="button"><div class="parent one"><a href="#">First Link</a>
+<div class="dropdown">
+    <ul>
+		<li style="z-index: 10;">
+		<a href="#">Sublink One</a>
+				<div class="mini-zone"></div>
+		<div>
+			    	 <ul>
+				 <li><a href="#">One.One</a></li>
+				 <li><a href="#">One.Two</a></li>
+				 <li><a href="#">One.Three</a></li>
+				 <li><a href="#">One.Four</a></li>
+				 <li><a href="#">One.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 9;">
+		<a href="#">Sublink Two</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Two.One</a></li>
+				 <li><a href="#">Two.Two</a></li>
+				 <li><a href="#">Two.Three</a></li>
+				 <li><a href="#">Two.Four</a></li>
+				 <li><a href="#">Two.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 8;">
+		<a href="#">Sublink Three</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Three.One</a></li>
+				 <li><a href="#">Three.Two</a></li>
+				 <li><a href="#">Three.Three</a></li>
+				 <li><a href="#">Three.Four</a></li>
+				 <li><a href="#">Three.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 7;">
+		<a href="#">Sublink Four</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Four.One</a></li>
+				 <li><a href="#">Four.Two</a></li>
+				 <li><a href="#">Four.Three</a></li>
+				 <li><a href="#">Four.Four</a></li>
+				 <li><a href="#">Four.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 6;">
+		<a href="#">Sublink Five</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Five.One</a></li>
+				 <li><a href="#">Five.Two</a></li>
+				 <li><a href="#">Five.Three</a></li>
+				 <li><a href="#">Five.Four</a></li>
+				 <li><a href="#">Five.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		</ul>
+</div></div>
+</li>
+
+<li class="button"><div class="parent two"><a href="#">Second Link</a>
+<div class="dropdown">
+    <ul>
+		<li style="z-index: 10;">
+		<a href="#">Sublink One</a>
+				<div class="mini-zone"></div>
+		<div>
+			    	 <ul>
+				 <li><a href="#">One.One</a></li>
+				 <li><a href="#">One.Two</a></li>
+				 <li><a href="#">One.Three</a></li>
+				 <li><a href="#">One.Four</a></li>
+				 <li><a href="#">One.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 9;">
+		<a href="#">Sublink Two</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Two.One</a></li>
+				 <li><a href="#">Two.Two</a></li>
+				 <li><a href="#">Two.Three</a></li>
+				 <li><a href="#">Two.Four</a></li>
+				 <li><a href="#">Two.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 8;">
+		<a href="#">Sublink Three</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Three.One</a></li>
+				 <li><a href="#">Three.Two</a></li>
+				 <li><a href="#">Three.Three</a></li>
+				 <li><a href="#">Three.Four</a></li>
+				 <li><a href="#">Three.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 7;">
+		<a href="#">Sublink Four</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Four.One</a></li>
+				 <li><a href="#">Four.Two</a></li>
+				 <li><a href="#">Four.Three</a></li>
+				 <li><a href="#">Four.Four</a></li>
+				 <li><a href="#">Four.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 6;">
+		<a href="#">Sublink Five</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Five.One</a></li>
+				 <li><a href="#">Five.Two</a></li>
+				 <li><a href="#">Five.Three</a></li>
+				 <li><a href="#">Five.Four</a></li>
+				 <li><a href="#">Five.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		</ul>
+</div></div>
+</li>
+
+<li class="button"><div class="parent three"><a href="#">Third Link</a>
+<div class="dropdown">
+    <ul>
+		<li style="z-index: 10;">
+		<a href="#">Sublink One</a>
+				<div class="mini-zone"></div>
+		<div>
+			    	 <ul>
+				 <li><a href="#">One.One</a></li>
+				 <li><a href="#">One.Two</a></li>
+				 <li><a href="#">One.Three</a></li>
+				 <li><a href="#">One.Four</a></li>
+				 <li><a href="#">One.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 9;">
+		<a href="#">Sublink Two</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Two.One</a></li>
+				 <li><a href="#">Two.Two</a></li>
+				 <li><a href="#">Two.Three</a></li>
+				 <li><a href="#">Two.Four</a></li>
+				 <li><a href="#">Two.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 8;">
+		<a href="#">Sublink Three</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Three.One</a></li>
+				 <li><a href="#">Three.Two</a></li>
+				 <li><a href="#">Three.Three</a></li>
+				 <li><a href="#">Three.Four</a></li>
+				 <li><a href="#">Three.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 7;">
+		<a href="#">Sublink Four</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Four.One</a></li>
+				 <li><a href="#">Four.Two</a></li>
+				 <li><a href="#">Four.Three</a></li>
+				 <li><a href="#">Four.Four</a></li>
+				 <li><a href="#">Four.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 6;">
+		<a href="#">Sublink Five</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Five.One</a></li>
+				 <li><a href="#">Five.Two</a></li>
+				 <li><a href="#">Five.Three</a></li>
+				 <li><a href="#">Five.Four</a></li>
+				 <li><a href="#">Five.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		</ul>
+</div></div>
+</li>
+
+<li class="button floatfix"><div class="parent four"><a href="#">Fourth Link</a>
+<div class="dropdown">
+    <ul>
+		<li style="z-index: 10;">
+		<a href="#">Sublink One</a>
+				<div class="mini-zone"></div>
+		<div>
+			    	 <ul>
+				 <li><a href="#">One.One</a></li>
+				 <li><a href="#">One.Two</a></li>
+				 <li><a href="#">One.Three</a></li>
+				 <li><a href="#">One.Four</a></li>
+				 <li><a href="#">One.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 9;">
+		<a href="#">Sublink Two</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Two.One</a></li>
+				 <li><a href="#">Two.Two</a></li>
+				 <li><a href="#">Two.Three</a></li>
+				 <li><a href="#">Two.Four</a></li>
+				 <li><a href="#">Two.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 8;">
+		<a href="#">Sublink Three</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Three.One</a></li>
+				 <li><a href="#">Three.Two</a></li>
+				 <li><a href="#">Three.Three</a></li>
+				 <li><a href="#">Three.Four</a></li>
+				 <li><a href="#">Three.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 7;">
+		<a href="#">Sublink Four</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Four.One</a></li>
+				 <li><a href="#">Four.Two</a></li>
+				 <li><a href="#">Four.Three</a></li>
+				 <li><a href="#">Four.Four</a></li>
+				 <li><a href="#">Four.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		<li style="z-index: 6;">
+		<a href="#">Sublink Five</a>
+				<div class="mini-zone"></div>
+		<div>
+				 <ul>
+				 <li><a href="#">Five.One</a></li>
+				 <li><a href="#">Five.Two</a></li>
+				 <li><a href="#">Five.Three</a></li>
+				 <li><a href="#">Five.Four</a></li>
+				 <li><a href="#">Five.Five</a></li>
+				 </ul>
+		</div>
+		</li>
+		</ul>
+</div></div>
+</li>
+
+        </ul>
+<br class="brclear" />
+
+</div> <!--// close nav -->
+
+<div class="textbox">
+
+<div class="back">
+<a href="index-2.html"><strong>Return to PIE</strong></a>
+</div>
+
+<p>
+In case you haven't done so yet, go ahead and hover those blue links, okay?
+</p>
+
+<p>
+Pretty cool, eh? The same tricks employed for the
+<a href="css-flyout.html"><strong>CSS Flyouts</strong></a> demo are used here,
+but with a lot of obvious modifications. The same Jscript makes IE obey hover on
+any element, and the "sticky hovering" method is applied here as well.
+</p>
+
+<p>
+Go to <a href="css-dropdowns-red.html"><strong>this demo page</strong></a> to see
+the nav with red borders outlining the sticky hover zones.
+</p>
+
+<div style="background: #e4e4e9; border: 1px solid #666; padding: 0 10px 10px; margin: 15px 10px;">
+<h2>Modifications needed due to IE7</h2>
+
+<p>
+<strong>IE7</strong> has arrived, and it does not read the star-html hack. Thus we
+have modified the conditional comment containing the csshover.htc file call so that
+only IE6 and lower will do so. Further we have added a new CC that feeds IE7 and
+above the modern equivalent to the old Holly hack, using the MS proprietary
+<a href="articles/haslayout.html"><strong>zoom&nbsp;property</strong></a>.
+</p>
+
+<p>
+IE7 also obeys dimensions without the old
+<a href="explorer/expandingboxbug.html">Expanding&nbsp;Box&nbsp;effect</a>,
+so the zoom property is used instead to trigger hasLayout in IE7 and up. Since
+zoom is not valid, we hide it inside the CC to let the page validate.
+</p>
+
+<p>
+Finally IE7 obeys hovering on any element, so the CC that contains the .htc file
+call has been re-targeted to IE6 and lower, letting IE7 ignore that unneeded script
+and operate faster.
+</p>
+
+</div>
+
+<h2>Expanded Navigation</h2>
+
+<p>
+This method does not work in <strong>IEmac</strong>, but a hack feeds "dumb down"
+css to that browser so that it shows the entire nav system on screen all at once.
+Nothing is covered, as the expanded nav is made to "flow" at the same time it is
+expanded.
+</p>
+
+<p>
+<strong>IEwin</strong> will also fail if security is set to "High", so to allow
+for such users we have applied those same expansion rules in a
+<strong>&lt;noscript></strong> block, that is itself within the conditional comment
+we used to hide the behavior scripting call. These things are seen only by IEwin,
+taking care of that browser while still allowing the page to validate.
+</p>
+
+<p>
+Go to <a href="css-dropdowns-expanded.html"><strong>this demo page</strong></a>
+to see the fully expanded nav that would be shown in IEmac, and in IEwin with
+scripting turned off.
+</p>
+
+<h2>Pros and Cons</h2>
+
+<p>
+The entire nav is semantically just a set of nested lists, making for reasonable
+accessibility.
+</p>
+
+<p>
+This nav works in IE5, IE5.5, IE6, Op7, Gecko, Konqueror, and Safari.
+IEmac fails to support the hover method used, and so gets the expanded nav
+instead. IEwin with scripting disables also gets the expanded nav. Nav 4 does not
+support this method, or much else for that matter.
+</p>
+
+<p>
+If the sticky hovering zones protrude beyond the right viewport edge when they
+appear, it can cause a momentary horizontal scroll to appear. It will happen
+in this demo page if the window is set to a width of 800px. In a production page
+it would be fairly easy to narrow the wrapper slightly or reduce the right
+hover zone on the elements that are a problem. Just be aware it can happen so
+that you can fix it before the boss notices.
+</p>
+
+<h3>Scripts for IE6 and faux hovering</h3>
+
+<p>
+The <a href="sidepages/csshover.htc">Jscript</a> that we're using to handle IE6 does
+cause a great deal of recursion in the browser, which appears as a noticably lengthened load time
+when viewed in slower systems, and also as actual slow functioning of the nav itself, primarily in
+IE5/win. A less complex nav than the one above will significantly reduce the problem, and using ID
+node names on your :hover
+rules will help a lot too. Specifically <strong>div.parent:hover</strong> is
+better than than <strong>div:hover</strong> or <strong>.parent:hover</strong>,
+and <strong>div#parent:hover</strong> is faster still.
+</p>
+
+<p>
+When <strong>Service Pack 2</strong> is installed on <strong>Windows</strong>, the Jscript in the
+.htc file will only work in IE6 when correctly served with the mime type
+<strong>text/x-component</strong>. Mime types are defined by the server
+administrator, so if your server is incorrectly set, IE6 may fail to
+show the popups. That's just the way it is, folks.
+</p>
+
+<p>
+A <strong>simpler script method</strong> for handling IE6 does exist, the
+<a href="http://htmldog.com/articles/suckerfish/hover/"><strong>Suckerfish&nbsp;script</strong></a>.
+Basically the script watches the links to be hovered,
+and when the mouseover event is triggered on a link it gets a class name applied, but
+<em>only</em> during the mouseover event. Then you write duplicate selectors for the
+hover rules, but referencing the JS-applied class name. The resulting IE6 faux-hovering
+is effective and doesn't need a specical served mime type (simple JS file), but at the cost
+of having to modify the CSS hover rules just a bit.
+</p>
+
+<div style="background: #e4e4e9; border: 1px solid #666; padding: 0 10px 10px; margin: 15px 10px;">
+<h2>Server Related Problems With The Method</h2>
+
+<p>
+<strong>IE6</strong> has a well known background image caching issue, which seems
+to be partially active in this demo. Apparently when the nav is very large (as this
+one is), and the processor is slow, the cursor will show a very short flash of the
+"working in background" cursor as you pass from one link to the next.
+</p>
+
+<p>
+There is a transparent <strong>bgfix.gif</strong> background image on the divs
+(a fix for an IE hover bug), which appears to be the root cause. As we say, with
+a smaller nav the flicker may never actually appear with some navs, but if it
+does it can be corrected <em>only by making changes to the server itself</em>.
+</p>
+
+<p>
+Well, there <em>is</em> always the option of not having sticky hovering, but that seems
+rather extreme for a problem so minor that we overlooked it for several weeks.
+</p>
+
+<p>
+For instructions on fixing an <strong>IIS&nbsp;server</strong> go to this
+<a href="http://www.aspnetresources.com/blog/cache_control_extensions.aspx"><strong>Stop&nbsp;Image&nbsp;Flicker</strong></a>
+tutorial, and for the <strong>Apache&nbsp;server</strong>, go to this
+<a href="http://www.fivesevensix.com/studies/ie6flicker/"><strong>Fivesevensix.com</strong></a>
+tutorial. A hat tip to
+<a href="http://www.royalrodent.com/"><strong>Bryce&nbsp;Fields</strong></a>
+for pointing out the existing fixes for this issue. We keep forgetting this stuff...
+</p>
+
+</div>
+
+<h2>More About The Nav</h2>
+
+<p>
+The source for this demo is fully commented, but we will not be writing a full
+tutorial on the method here. Rather, a complete, in-depth tutorial series is available
+at <a href="http://www.communitymx.com/">CommunityMX.com</a>, (currently in production
+under the series title "CSS Flyouts"), where you may view them after signing up
+for a free ten day <a href="http://www.communitymx.com/joincmx.cfm">trial&nbsp;membership</a>
+(requires proof of ability to pay to receive the free trial).
+</p>
+
+<h3>Translations</h3>
+
+<p>
+This article is now available in <a href="http://pc.de/pages/css-dropdowns-be">Russian</a>,
+thanks to the efforts of <a href="http://pc.de/">Patricia&nbsp;Clausnitzer</a>. <br />Thanks Patricia! :-) 
+</p>
+
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: August 14, 2010<br />
+Created April 6, 2005
+</p>
+
+</div>
+
+</div>
+
+</body>
+
+
+</html>

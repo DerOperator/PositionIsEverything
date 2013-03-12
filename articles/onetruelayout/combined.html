@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Putting it all together - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1>Putting it all together</h1>
+
+<div class="screenshot"><img src="images/screenshots/combined.gif" alt="animated screenshot showing a layout combining all the previous techniques" /></div>
+
+<p>Back in the introduction, I made a rash claim - that I could conjure up a layout that satisfied:</p>
+<ul>
+<li>total layout flexibility</li>
+<li>equal height columns</li>
+<li>vertical placement of elements across grids</li>
+</ul>
+
+<p>Now comes the magic moment. We've seen how to solve each of these problems in isolation. What happens if we just stick them all together?</p>
+
+<p>Well, to cut to the chase, it works in all the browsers that the individual techniques work in. Except... and it almost makes me weep to say it. Except Firefox 1.0.</p>
+
+<p class="example"><a href="example/combined.html">Example of the One True Layout™ (2-1-3 ordering)</a></p>
+
+<h3 id="problem-with-firefox1.0">Firefighting Firefox</h3>
+
+<p>This time we've run into a <a href="http://www.fu2k.org/alex/css/bugs/overflowhiddenpluspositionrelative">delightful bug</a>. If an element has <code>position:relative</code> and <code>overflow:hidden</code> but no explicit <code>height</code>, then nested elements positioned absolutely within it vanish completely in Firefox 1.0. And until this is fixed, there is no CSS workaround for it.</p>
+
+<div class="update">
+<h3>Stop Press!</h3>
+<p>This bug has been fixed in Firefox 1.5. Indeed, it was fixed in the Gecko engine as of version 1.8b2.</p>
+</div>
+
+<p>It's time for another markup fix. We can't dispense with either the <code>position:relative</code> or <code>overflow:hidden</code>, but we can remove the <code>overflow</code> from <code>#wrapper</code> and apply it to another element that we put around it:</p>
+
+<pre><ins>&lt;div id="wrapper_extra"&gt;</ins>
+&lt;div id="wrapper"&gt;
+&lt;div id="element_1"&gt;
+	...
+&lt;div class="verticalalign"&gt;&lt;p&gt;Snap 1&lt;/p&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div id="element_2"&gt;
+	...
+&lt;div class="verticalalign"&gt;&lt;p&gt;Snap 2&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="element_3"&gt;
+	...
+
+&lt;div class="verticalalign"&gt;&lt;p&gt;Snap 3&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+<ins>&lt;/div&gt;</ins></pre>
+
+<pre><ins>#wrapper_extra
+	{
+	position: relative;
+	}</ins>
+#wrapper
+	{
+	overflow: hidden;
+	<del>position: relative;</del>
+	}</pre>
+<p>This placates the mysterious Firefox bug, but causes IE to lose the plot. No matter, that's easy to fix:</p>
+<pre><ins>* html #wrapper
+	{
+	position: relative;
+	}</ins></pre>
+<p class="example"><a href="example/combinedfirefoxfix.html">Example of the One True Layout™ with a fix for Firefox (2-1-3 ordering)</a></p>
+
+<h2 id="where">Where?</h2>
+<p>As previously noted, it works everywhere the individual  techniques do. See <a href="appendix/methodresults.html" title="How the agents handle it - Table of Browser performance">Appendix B</a> for all the gory details.</p>
+
+<h2 id="continuation">Show me the money shot</h2>
+<p>Would sir care to peruse some more involved examples?</p>
+
+<ul id="paging">
+<li id="next"><a href="examples.html">Next (Examples)</a></li>
+<li id="previous"><a href="verticalgrid.html">Previous (Vertical Grids)</a></li>
+</ul>
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li class="current">Putting it all together</li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

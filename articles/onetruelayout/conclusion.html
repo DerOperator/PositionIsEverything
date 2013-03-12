@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Conclusion - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1>Conclusion</h1>
+
+<p>The <em>Any Order</em> and <em>Vertical Grid</em> techniques are fundamentally simple. More importantly, they will carry on working for as long as browsers support CSS2.1. All that will change is the dropping some of the hacks which are only needed to help the current crop of browsers (Safari notwithstanding - and Gecko once they get that regression bug fixed). That is, the techniques will improve over time. Why? <strong>Because these techniques do exactly what the specs say you can do.</strong></p>
+
+<p>On the other hand, the <em>Equal Height</em> technique is a kludge - despite the fact that the basic concept is solid and that any future browsers that are properly conforming will support it <ins datetime="2006-04-11">(<a href="appendix/equalheightproblems.html" title="Problems with the Equal Height Columns method">Or maybe not...</a>)</ins>. But it's only needed because <code>display: table-cell</code> doesn't allow for a) reordering the columns, or in today's mainstream browsers at any rate, b) absolute or relative positioning.</p>
+
+<h3 id="bits-and-bobs">Bits and bobs</h3>
+<p>There was a whole lot of stuff that didn't really fit in the article and has been shunted into appendices. Of these, the most interesting is probably the one on creating <a href="appendix/holygrail.html">any order columns with liquid center and fixed-width sides</a>. Seeing as people like that kind of thing for some reason.</p>
+
+<h3 id="teh-suck">One step forward, two steps backwards...</h3>
+<p>The techniques described in this article were almost completely worked out around Christmas 2004. Unfortunately by the time I got round to actually publish them, the beta of Opera 8 had been released. It's only recently that I was able to spend the time to figure out a fix for that.</p>
+
+<p>And now the latest beta version of the Gecko engine is upon us and causing <a href="http://www.fu2k.org/alex/css/bugs/gecko1.8b2+_negativefloats/">even more havoc</a>. Well tough. This time I'm publishing. I refuse to be bowed once again by a browser's failing - especially where that failing is a reversal of previous <em>correct</em> CSS support.</p>
+
+<h3 id="modern-miracles">and two more steps forwards...</h3>
+<p>Opera 9 was released in beta the day before this article was first published. It fixes all the bugs mentioned throughout this article. And then the Mozilla team fixed the <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=312777">bug</a> that screwed up the <em>Any Order</em> method and incorporated the fix at double quick time on 2 November 2005. All's well that ends well.</p>
+
+<h2 id="conclusion">Famous last words</h2>
+<p>All that's left to say, is "Rock on IE7"! <a href="#spawn_of_redmond">[note]</a></p>
+
+<p>... actually IE7 (as of beta 2) seems to pretty much work, though when zooming, things can go a bit awry if percentages have been used. The only tweaks needed seem to be those instances where <code>* html</code> has been used to hide the forcing of <code>hasLayout</code> on IE and where IE7 still needs it - eg. the plain vanilla vertical grids. </p>
+
+
+
+
+
+<ul id="paging">
+
+<li id="previous"><a href="examples.html">Previous (Examples)</a></li>
+</ul>
+
+<div id="footnotes">
+<h2>Footnotes</h2>
+<ol>
+<li id="spawn_of_redmond">That's sarcasm.</li>
+</ol>
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li class="current">Conclusion</li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

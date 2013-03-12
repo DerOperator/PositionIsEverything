@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Introduction - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+
+
+<h1><small>Introduction</small> In search of the One True Layout</h1>
+
+<p>Pure CSS-based layouts have come a long way but they still have shortcomings <a href="#table_shortcomings">[note]</a> that fail to address certain design goals without compromising the true separation of content and presentation.</p>
+
+<p>In short, the problematic design goals are these:</p>
+
+
+<h3 id="flexibility">Total Layout Flexibility</h3>
+<p>That is, the ability to order columns logically in the source while displaying them in <em>any</em> order desired. For <em>any</em> number of columns.</p>
+
+<h3 id="equal-height">Equal Height Columns</h3>
+<p>Or more accurately, equal height columns without having to rely on faux columns.</p>
+
+<h3 id="vertical-grids">Vertical placement of elements across grids/columns</h3>
+<p>Designers face the choice of relying on elements being a particular height, resorting to tables or simply not bothering.</p>
+
+<h2 id="continuation">Towards a solution</h2>
+<p>This article shows how to achieve each of these goals, and then how to combine them, creating what could be called the <em>One True Layout™</em> <a href="#one_true_origin">[note]</a>.</p>
+
+<div class="update">
+<h3>Problems with the Equal Height Columns method</h3>
+<p>Several problems have been found with the Equal Heights method, detailed in <a href="appendix/equalheightproblems.html" title="Dead? Heavily bruised? Or just slightly dazed? You be the judge...">Appendix J</a>.</p>
+</div>
+
+
+
+
+
+<ul id="paging">
+<li id="next"><a href="anyorder.html">Next (Any Order Columns)</a></li>
+
+</ul>
+
+<div id="footnotes">
+<h2>Footnotes</h2>
+<ol>
+<li id="style_remarks">Miscellaneous remarks on the conventions used in this article can be found in the <a href="appendix/notes.html">final appendix</a>.</li>
+<li id="table_shortcomings">Though obviously, table-based layouts have even greater shortcomings. Arguments about those shortcomings are well known and beyond the scope of this article.</li>
+<li id="one_true_origin">To be ultra clear, there is no one true layout. I am actually referring to the power to organise the underlying structure of your documents in a meaningful way, rather than the visual layout itself. I am not advocating three columns or whatever as the ultimate in design, nor am  I claiming that the particular document structure and naming conventions I've used here represent the final word in information architecture. Rather I'm trying to show that such layouts do not require the kind of kludges in general use that preclude other layouts. When freed from presentational-driven wrappers and non-logical ordering, a document <em>can</em> be styled <a href="http://www.tjkdesign.com/articles/liquid.asp" title="Thierry Koblentz's One clean HTML markup, many layouts... liquid, fluid, elastic, flexible, jello...">any which way you like</a>, be it as columns or <a href="http://www.fu2k.org/alex/css/frames" title="Frames without Frames - my article on how to emulate the visual appearance of frames in CSS">frames</a> or even just one long sausage. And when freed from the tyranny of presentational straitjackets, the structure of the document need only be considered with regard to semantics and accessibility. And from such rich semantics flow the hooks to make applying visual design easier... As for the name, it's a feeble gag referencing the original <a href="http://glish.com/css/7.asp">holy grail for CSS layouts</a> as well as that other timesink for nutters of a different persuasion, the one true cross. Just be thankful that I didn't write the article in full-on messianic millenial fever mode as I thought of doing. Yes, other layout techniques exist and may even be better for your needs - we'll get to those in the course of the article. And any mentions of trademarks are, sigh, <strong>jokes</strong>. All methods described here are released into the <a href="http://creativecommons.org/licenses/publicdomain/">public domain</a>.</li>
+</ol>
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li class="current">Introduction</li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

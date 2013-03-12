@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+
+	<title>Op7-8 Reverse Windowshade Bug</title> 
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content=" A CSS demo showing the &quot;Reverse Windowshade Bug&quot; in Op7.1." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+
+html, body {
+     margin: 0;
+     padding: 0;
+     border: 2px solid #69d;
+}
+
+* html {border: 0;}
+
+body {
+border: 5px solid #d64;
+padding: 20px 150px 20px 150px;
+font-size: 90%;
+font-family: verdana, sans-serif;
+background: #ffe;
+}
+
+h1 {font-size: 1.5em; margin: 0 0 0 -60px;}
+
+h2 {font-size: 1.1em; margin: 2em 0 .5em;}
+
+p {margin: .7em 0 0 2em}
+
+a {color: black; text-decoration: underline;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+.return {position: absolute; top: 20px; right: 150px; list-style: none; width: 18em; text-align: right;}
+
+#ahem {display: none; background: #ee8; border: 2px solid red; margin: 70px 0 30px; padding: 0 10px 20px 0;}
+
+/*XXXXXXXXX Demo Rules XXXXXXXXXXXXXXXX*/
+
+.bugbox {
+     position: fixed; /*** Bug trigger ***/
+     top: 20px;
+     left: 20px;
+     border: 4px solid #69d;
+     width: 40px;
+/*** This element must not have 'z-index', or the bug is prevented. ***/
+}
+
+.two {top: 100px; left: 80px;}
+
+.bugbox div {
+     position: relative;
+     z-index: 1;
+/*** The above properties are bug triggers ***/
+     width: 100%;
+     height: 30px; 
+     margin-bottom: 5px;
+     background-color: #d64;
+}
+
+.bugbox-ap {
+     position: fixed; /*** Bug trigger ***/
+     top: 100px;
+     right: 80px;
+     border: 4px solid #d64;
+     width: 40px;
+     height: 280px;
+/*** This element must not have 'z-index', or the bug is prevented. ***/
+}
+
+.one {top: 20px; right: 20px;}
+
+.bugbox-ap div { position: relative; }
+
+.bugbox-ap div div {
+     position: absolute;
+/*** The above property is a bug trigger ***/
+     width: 100%;
+     height: 30px; 
+     background-color: #69d;
+     top: 0;
+}
+
+.one div {
+     position: absolute;
+/*** The above property is a bug trigger ***/
+     width: 100%;
+     height: 30px; 
+     background-color: #69d;
+     top: 0;
+}
+
+.bugbox-ap div+div {top: 35px;}
+
+.bugbox-ap div+div+div {top: 70px;}
+
+.bugbox-ap div+div+div+div {top: 105px;}
+
+.bugbox-ap div+div+div+div+div {top: 140px;}
+
+.bugbox-ap div+div+div+div+div+div {top: 175px;}
+
+.bugbox-ap div+div+div+div+div+div+div {top: 210px;}
+
+.bugbox-ap div+div+div+div+div+div+div+div {top: 245px;}
+
+/* This comment hack hides the code below from IE5/mac \*/
+* html .bugbox, * html .bugbox-ap {display: none;}
+* html #ahem {display: block}
+/* The purpose of this code block is to prevent IE/win from 
+seeing the 'fixed' demo, which it can't support anyway.
+It is the "Tan hack", invented by Edwardson Tan.  */
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bugbox">
+
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+
+</div>
+
+<div class="bugbox two">
+
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+
+</div>
+
+<div class="bugbox-ap"><div>
+
+<div></div>
+<div></div>
+
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+
+</div></div>
+
+<div class="bugbox-ap one">
+
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+
+<div></div>
+<div></div>
+
+</div>
+
+
+
+<!--XXXXXXX End of demo XXXXXXXXXXXX-->
+
+<div id="ahem">
+<p>
+I am sorry, but this demo uses 'fixed' positioning, and because you are viewing it in Internet Explorer
+for windows, you will be unable to see the demo properly, to put it mildly. In other words, move along folks,
+nothing to see here. To avoid embarassment I have hidden the demo proper from your browser,
+but please come back and view it in a more capable browser, won't you? 
+Again, I apologize for Micro$oft, altho I don't know why...
+</p>
+</div>
+
+<ul class="return">
+<li><a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a></li>
+
+<li><a href="boxbug.html"><strong>Next Opera demo</strong></a></li>
+</ul>
+
+
+<h1>Op7-8 Reverse<br />Windowshade Bug</h1>
+
+<h2>The Effect</h2>
+
+<p>
+The tall boxes to the sides are given 'position: fixed;' to make them stay fixed in 
+relation to the viewport. When the page is scrolled, the colored 
+<strong>positioned divs</strong> nested in the <strong>fixed&nbsp;boxes</strong> 
+<em>blink out</em>, one by one, from the top down. (use keys or scrollbar to see 
+the full effect)
+</p>
+
+<h2>The Bug Triggers</h2>
+
+<p>
+An element is given 'position: fixed', and inside are some block level elements that are positioned, either
+'relative' (brown boxes in left demos), or 'absolute' (blue boxes in right demos). The 'relative' block
+elements have 'z-index' values, <em>but the fixed containers do not</em>. Any z-index number on the 
+inner relative element will trigger the bug, including 'z-index: 0', or even a negative index! 
+The bug is triggered with the absolute block elements regardless of whether z-index is applied to them
+or not. As long as these conditions are met, the bug will occur.
+</p>
+
+<p>
+The two demos on the left are identical except for differing vertical positions. The two demos on the right
+are identical as well, at least as far as the Windowshade Bug is concerned.
+</p>
+
+<h2>Analysis</h2>
+
+<p>
+This long lived (but very obscure) <strong>Opera 7-8 bug</strong> appears to be similar to the 
+<strong>Op6&nbsp;Windowshade&nbsp;Bug</strong> (see in this site), but is in fact 
+quite different. True, that bug involves 'fixed' positioning and scrolling, but is triggered by 
+'overflow: hidden' plus negative margining. In addition, the Op6 Windowshade effect starts on the 
+bottom of the fixed box and goes up, while this Op7 bug prefers to go down. Finally, this bug seems 
+to individually delete boxes nested in the fixed box, while the Op6 bug smoothly zips up the height 
+of the fixed box itself.
+</p>
+
+<p>
+We have placed colored borders on &lt;html> and &lt;body> to show that there's no funny stuff going
+on with those elements. 
+
+</p>
+
+<h2>Extra Credit: The Fixed-AP Vertical Offset Bug</h2>
+
+<p>
+Another odd bug occurs when the inner boxes are 'absolute' (the right side demos).
+In that case, the AP boxes are inititally shown shifted upward, so they appear to 
+protrude out the top of the fixed container, unless that container 
+is kept at the top of &lt;body>. If the fixed container instead gets 'top: (some value)', 
+then its AP children are offset upwards from their correct positions, by double 
+the distance that the top property pushed down the fixed parent container! 
+</p>
+
+<p>
+This offset will <em>not</em> occur if a given AP child element is given 'top: auto' 
+(the default), or if the AP element is nested in an additional 'relative' box
+which is then nested in the fixed container (demo on the inner right). The bug does 
+not seem to happen horizontally under any circumstances.
+</p>
+
+<p>
+However, This offset bug appears to be unrelated to the windowshade effect, because 
+when "z-index' is added to the <strong>fixed&nbsp;boxes</strong> the disappearing 
+act ceases, but the top offset remains. Also, <strong>Op6</strong> has a serious 
+problem with the right hand demo, in that the AP boxes scroll while
+the containing box does not. Good thing no one uses Op6 anymore! (we hope)
+</p>
+
+<p>
+<strong>Special Note:</strong>
+If the 'z-index' is instead removed from that red AP box on the right, the Reverse Windowshade bug 
+is not fixed as it is with the left (relative) boxes, so with a fixed element that contains AP elements, the 
+z-index is not actually required to trigger the bug, but it does require that there <em>not be</em>  
+a z-index on the fixed container.
+</p>
+
+<h2>Fixes</h2>
+
+<p>
+
+For the <strong>Reverse Windowshade</strong>, just avoid the z-index trigger combo when 'relative' 
+child elements are concerned by adding a z-index to the fixed parent, or by not having one on the 
+nested children. When 'absolute' elements are involved, you must set a z-index to the fixed parent. 
+The <strong>Fixed-AP&nbsp;Vertical&nbsp;Offset</strong> currently 
+has <em>no known fix</em>, other than using 'top: auto' or adding an additional 'relative' container.
+</p>
+
+<p>
+<strong>This bug</strong> and its primary triggers were discovered by 
+<strong>Holly&nbsp;Bergevin</strong>, whilst volunteering time to fix bugs on an advanced css page.
+These bugs can't hide if you keep your eyes peeled. :-)
+</p>
+
+<p>
+Kudos to <strong>Thomas</strong> (AKA "Tomcat76" on the Opera Support Forums) 
+for helping to update this demo page. Thanks Thomas!   
+<br />
+</p>
+
+
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: May 7, 2005<br />
+Created June 9, 2003<br />
+</p>
+
+</body>
+
+</html>

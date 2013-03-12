@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>IE Background Positioning Bug - An explaination and a fix</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="This demo shows how different CSS centering methods can become misaligned." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+
+html {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 80%;
+  background: #efe;
+  font-family: verdana,sans-serif;
+  }
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h2 {font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+h3 {font-size: 1.2em; font-weight: bold; margin: 1.5em 0 .5em -2em; color: #640;}
+
+p {
+  margin: 0 3px;
+  padding: 3px 0;
+  line-height: 1.25;
+  }
+
+.textbox {margin: 5px 0;}
+
+.textbox p {margin: .6em 18% .6em 18%; padding: 0;}
+
+a {color: #000;}
+
+.alignright {margin: 0 30px 30px 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+ul {text-align: right; padding-right: 30px; list-style: none;}
+
+.bg-text {
+width: 600px;
+margin: 0 auto;
+color: #dfd;
+padding: 3px 0 4px;
+}
+
+
+/*XXXXXXXXXXXXXXXXXXXX Demo rules start here XXXXXXXXXXXXXXXXXXXXXXX*/
+
+.bg-holder-700 {
+  background: url(images/bg-700-fade.jpg) top center repeat-y;
+  }
+
+.bg-holder-699 {
+  background: url(images/bg-699-fade.jpg) top center repeat-y;
+  }
+
+.bg-holder-700,
+.bg-holder-699 {
+  margin: 15px 0;
+  border: 3px solid green;
+  padding: 10px 0;
+  }
+
+.boxwidth-700 {
+  width: 700px;
+  }
+
+.boxwidth-699 {
+  width: 699px;
+  }
+
+.boxwidth-698 {
+  width: 698px;
+  }
+
+.boxwidth-700,
+.boxwidth-699,
+.boxwidth-698 {
+  margin: 0 auto 0 auto; /* this auto margin centers all the blue test boxes */
+  background: #9bc;
+  text-align: center;
+  }
+
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Background Positioning vs. Centered Elements</h1>
+
+<ul>
+<li><a href="index-2.html"><strong>Return to PIE</strong></a></li>
+</ul>
+
+<div class="textbox">
+
+<p>
+Open this page in each of your installed browsers, and then drag the window widths
+narrower and wider. See those little flickering lines on the end of the blue boxes?
+They are a form of 1px error that may occur in any browser, but the errors manifest
+differently from browser to browser.
+</p>
+
+</div>
+
+<!-- First demo set -->
+<div class="bg-holder-700">
+
+    <div class="boxwidth-700">
+    <p>This blue box has a specified width of <strong>700px</strong> and has side auto margins.</p>
+    </div>
+
+        <p class="bg-text">
+        The grey boxes above and below are contained in a green-bordered DIV with no stated dimensions,
+        and a dark colored <strong>700px&nbsp;background&nbsp;image</strong> is centered via background-positioning
+        inside the red bordered parent DIV. The blue child boxes are
+        given defined widths. The upper box has a width equal to the background image on the parent,
+        while the lower box width is one pixel less. They are both centered within the
+        green bordered parent via <strong>auto side margins</strong>.
+        </p>
+
+    <div class="boxwidth-699">
+    <p>This blue box has a specified width of <strong>699px</strong> and has side auto margins.</p>
+    </div>
+
+</div>
+
+<!-- Second demo set -->
+<div class="bg-holder-699">
+
+    <div class="boxwidth-699">
+    <p>This blue box has a specified width of <strong>699px</strong> and has side auto margins.</p>
+    </div>
+
+        <p class="bg-text">
+        This test has a <strong>699px background image</strong>, one pixel less wide than the 700px
+        background image in the previous test. The two blue test boxes are also reduced by 1px
+        in width from those in the previous test. This is done so that background images
+        of both odd and even widths are tested. The blue boxes also come in two widths to
+        provide odd/even testing for the auto margined block elements.
+        </p>
+
+    <div class="boxwidth-698">
+    <p>This blue box has a specified width of <strong>698px</strong> and has side auto margins.</p>
+    </div>
+
+</div>
+
+
+<div class="textbox">
+
+<h2>Trying to Even the Odds</h2>
+
+<p>
+The above tests are designed to show what can happen in various browsers when an
+element has a centered, vertically repeating background image, and also a nested
+block element within
+that is centered via its own &quot;auto&quot; side margins. You would think that
+centering is just centering, but you would be wrong. If the container (or body
+element perhaps) is as wide as the window, the computed width of the container box
+might be almost any number of pixels. That pixel width will sometimes be odd, and sometimes even.
+</p>
+
+<p>
+So when the browser is told to center a background image within that container, it
+has to decide where the actual center lies. In the case of an odd total pixel width,
+the browser must select one side or the other of the central odd pixel as the
+&quot;center&quot; of the container. Then it has to find the center of the background
+image, also fudging a bit if the BG's width is an odd number.
+</p>
+
+<p>
+Obviously there is already lots of scope for variance between browsers when handling
+this issue, but then suppose there is a width sized block element placed into that
+container. Centering that box involves giving it side margins, both set to <strong>auto</strong>,
+which are supposed to center it within its parent container.
+</p>
+
+<p>
+So we have a background image, centered via the <strong>background-position</strong> property,
+and the overlying box is centered via the <strong>margin</strong> property. In an
+ideal world these two methods would behave the same regardless of the true width
+of the container, but in fact they don't, and the ways they behave will vary in
+each of the modern browsers. Each time you see one of those errors in the demos
+(either as gaps or as box extensions beyond the BG to the left), it indicates that the centering
+methods are not in sync with each other.
+</p>
+
+<h2>Comparing Browsers</h2>
+
+<p>
+A close examination of different browsers will show that each has a unique pattern to
+their combined centering displays as the window width is varied. <strong>IEwin</strong>
+is the one that has the problem when both the blue test box and the background image are the
+same &quot;even&quot; pixel width, but if both are an &quot;odd&quot; width then it
+is Firefox that gets it wrong! Opera only shows errors when the BG and test box are
+opposite, one being even and the other odd.
+</p>
+
+<p>
+There is <em>no</em> combination
+of odd/even widths on background images and test boxes that will behave identically in
+all browsers. If you can discover a combination that does work the same in all browsers,
+we want to know about it.
+</p>
+
+<h2>Why This is a Problem</h2>
+
+<p>
+Typically a coder will have a centered wrapper element holding all the page content, and
+then assign a centered background image to the body showing fades or dropshadows
+that are meant to be aligned behind wrapper. Unfortunately these unsuspecting coders
+don't realize that their paired (but separate and different) centering alignments
+will be <em>misaligned for half of all possible window widths!</em>
+</p>
+
+<p>
+If the cause is not understood, the BG will appear offset by 1px in 50% of all window displays.
+And even if the coder happens to discover that dragging makes their BG do the &quot;Cha-cha,&quot;
+their ever more frantic attempts to achieve cross-browser compliance can easily
+lead to a mental breakdown.
+</p>
+
+<h2>Suppressing the Shimmy</h2>
+
+<p>
+There are two basic ways to solve this issue. One is to design the background image
+so that the BG offset effect looks okay in either position. The other way is to
+create a pair of nested wrappers, with the outer having a BG sized to exactly
+match the width of the wrapper, and the inner wrapper serving as the &quot;content&quot;
+wrapper.
+</p>
+
+<p>
+In this case the outer wrapper would be slightly wider than the content-holding
+inner wrapper, so that the outer wrapper may hold a BG image that will be visible
+around the edges of the inner wrapper.
+</p>
+
+<p>
+The outer wrapper is then itself centered via side auto margins,
+while the inner wrapper is <em>not</em> centered at all. Instead, this
+slightly narrower inner wrapper should be scooted over via a left pixel margin,
+until it &quot;appears&quot; to be centered over the BG on the outer wrapper,
+leaving just a little of that outer BG peeping around the edges of the inner wrapper.
+</p>
+
+<p>
+Since no centering is applied to this inner wrapper or to the BG on the outer wrapper,
+the misalignment cannot occur. Both wrappers act as a unit, and if they jiggle, they
+do so together. Ain't that nice?
+</p>
+
+<p>
+The width difference between the two wrappers is determined by how much background
+image you wish to have show on either side of the inner wrapper.
+</p>
+
+<p>
+Obviously all this applies <em>only</em> to rigidly sized wrappers, since a background image
+cannot be liquid. However, the double wrapper trick can be extended to a third wrapper
+so that left and right side dropshadow BG's could be placed behind the liquid wrapper,
+each in a separate liquid wrapper DIV, but we'll save <em>that</em> for a future tutorial,
+If we ever find time. Anyway, you now know how to avoid getting the dreaded
+&quot;bi-polar page disorder&quot;, and do spread the word, okay?
+</p>
+
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: December 28, 2005<br />
+Created October 31, 2005<br />
+&nbsp;
+</p>
+
+</div>
+
+</body>
+
+
+</html>

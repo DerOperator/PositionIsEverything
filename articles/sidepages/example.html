@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<title>Targeting IE Using Conditional Comments and Just One Stylesheet - example</title>
+<style type="text/css">
+
+body {
+    background : #fff;
+    font-family : Georgia, serif;
+    color : #444;
+    margin : 28px;
+    }
+
+#IE,
+#notIE {
+    background : #FFB700;
+    padding : 10px;
+	text-align: center;
+	margin: 10px;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #999999;
+    width : 30%;
+	float: left;
+	}
+
+#IE { /* IE indicator box is dimmed-out for most browsers */
+	background: #af8700;
+	color: #997711;
+	}
+
+#notIE { /* Non-IE indicator box is brightened as the default */
+	background: #ffcc66;
+	border: 1px solid #000000;
+	color: #000000;
+	}
+
+
+
+/* The following rules are obeyed only by IE/Win browsers. These rules 
+   will override the earlier rules and apply different styles for IE */
+
+	#IEroot #IE { /* IE brightens the IE indicator box */
+		background: #ffcc66;
+		border: 1px solid #000000;
+		color: #000000;
+		}
+	 
+	#IEroot #notIE { /* IE dims-out the non-IE indicator box */
+		background: #af8700;
+		border: none;
+		color: #997711;
+		}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+	<!--[if IE]>
+	<div id="IEroot">
+	<![endif]-->
+
+				<p id="IE">This browser is<br /> IE/Win</p> 
+				<!-- This paragraph is hidden when viewed in other than IE/Win -->
+
+				<p id="notIE">This browser is<br /> not IE/Win</p> 
+				<!-- This paragraph is hidden when viewed in IE/Win -->
+
+	<!--[if IE]>
+	</div>
+	<![endif]-->
+
+</body>
+
+
+</html>

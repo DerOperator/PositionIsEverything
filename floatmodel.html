@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+
+	<title>The Float Model Problem</title> 
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A description of how different browsers treat float/non-float behavior." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style>
+<!--
+
+html {margin: 20px 0 0 0; padding: 0; border: 0;}
+
+body {	margin: 20px 0 0 0; padding: 0; font: 80% verdana, sans-serif; background-color: #fec;}
+
+p {margin: .4em .5em; padding-left: .5em; line-height: 1.2;}
+	
+h1 {background: #080; border: 4px solid #ed6; border-width: 4px 0; margin: 0 0 30px 0;
+	font-size: 1.8em; font-family: georgia, serif; padding: 10px 0 10px 40px; color: #ffa;}
+
+h2 {font-weight: bold; font-size: 1.2em; margin: 1em 0 .5em}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+a {color: #000;}
+
+span {font-weight: bold;}
+
+ul {margin: 0 0 10px 0; padding: 0; list-style: none; text-align: right;}
+
+li {margin: 0; padding: 0;}
+
+li a {margin: 0 5px;}
+
+#textcol {
+position: absolute;
+width: 57%;
+top: 0;
+right: 16px;
+border: 2px solid #333;
+border-width: 0 2px 2px;
+padding: 10px;
+background-color: #edb;
+}
+
+#screenshots {
+padding: 25px 0 0 10px;
+font-size: .9em;
+}
+
+#screenshots img {
+margin: 5px 0 20px;
+}
+
+#float {
+width: 14%; /*** A width is required for any float. ***/
+height: 180px;
+float: left;
+border: 6px solid #3a3;
+color: #060;
+}
+		
+#static {
+width: 16%; /*** This width triggers the non-standard behavior. ***/
+height: 150px;
+border: 4px solid #000;
+color: #fff;
+background-color: #d6d;
+}
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>The<br />Float Model<br />Problem</h1>
+
+<div id="float">&nbsp;</div>
+
+<div id="static">&nbsp;</div>
+
+<div style="clear: both;">&nbsp;</div>
+
+<div id="screenshots">
+<span>Moz/N7 and Opera 6/7.1, Windows</span><br />
+<img src="images/floatmodel-op6-moz.gif" alt="" /><br />
+
+<span>Internet Explorer 5.5, Windows<br />
+(shows box model size difference<br />
+and 3px <a href="explorer/threepxtest.html" 
+title=" IE bug closely related to this one ">bug-space</a>)</span><br />
+<img src="images/floatmodel-IE5.5.gif" alt="" /><br />
+
+<span>Internet Explorer 6, Windows<br />
+(shows 3px bug-space)</span><br />
+<img src="images/floatmodel-IE6.gif" alt="" /><br />
+
+<span>Internet Explorer 5, Mac<br />
+(shows IE5/mac <a href="http://www.l-c-n.com/IE5tests/float/index.shtml" 
+title=" Philippe Wittenbergh's excellent Mac site ">float/div&nbsp;bug</a>)</span><br />
+<img src="images/floatmodel-IE5-mac.gif" alt="" /><br />
+
+<span>Opera 7.0, Windows</span><br />
+<img src="images/floatmodel-op7.gif" alt="" /><br />
+
+</div>
+
+<div id="textcol">
+<ul>
+<li><a href="index-2.html"><strong>Return to p.i.e.</strong></a></li>
+<li><a href="ordered-floats.html#float-model"><strong>Return to Source Ordered Columns</strong></a></li>
+</ul>
+<h2>Float model? What's that?</h2>
+<p>
+Okay, here is a simple test concerning how static elements interact with floats. According to the W3C specifications,
+when a floated element is directly followed by a static element (one that is normally flowed), then first,
+the float will be displayed against the left edge of the containing element (in this case the 'body' element),
+and then the static element will also display against that same edge, and at the same vertical height as 
+the float. 
+</p>
+<p>
+The float should overlay the static element, unless the static element has a left margin that
+moves it out to the right, and out from behind the float. The static element might also be 'cleared' 
+(clear:left or clear:both), which would put it below the level of the float.
+</p>
+<h2>Details of the test</h2>
+<p>
+The green bordered box (div#left) is floated left in the 'body', and is followed by div#static (purple box).
+If div#static had no width, then all modern browsers would display correctly, with the purple box 
+overlaid by the green bordered box.
+</p>
+<p>
+But, because div#static is <span>width defined</span>, browser variance is fully evident. 
+That 'width' declaration makes <span>Internet&nbsp;Explorer</span> put div#static
+alongside the float as tho the float were part of the left body edge.
+<span>Moz/N7</span> and <span>Op6/7.1</span> do it according
+to the specs, with both boxes firmly pinned to the left body edge.
+</p>
+<h2>Why this matters</h2>
+<p>
+Making sophisticated use of float layouts sometimes requires stating the 'widths' on some boxes, but
+doing so to a static box that follows a float makes IE display differently than any browser that dares
+to adhere to the standards. So differently in fact, as to make the situation impossible to ignore. (unless one
+happens to be *you&nbsp;know&nbsp;who*)
+</p>
+<p>
+So the choice is to code only for IE, knowing the minority browsers will break, or avoid using the 'width'
+declaration in many cases, putting many types of layouts 'off&nbsp;limits'. Some choice.
+</p>
+<h2>IE6 is not IE5.5</h2>
+<p>
+The demo you see here is fully pixel defined, but usually a layout has the widths in percentages, at least for the
+elements following the float. When div#static is given a percentage width, IE5.5 looks at the available horizontal space 
+alongside the float and says "That is now defined as 100% of the width". So if div#static gets 'width: 50%;', that div is 
+half as wide as the space next to the float and starts next to the float as mentioned. 
+</p>
+<p>
+However, IE6 is different. Yes IE6 does start the div next to the float, but it does <em>not</em> take the float 
+into consideration when figuring the width of div#static. Rather it uses the entire container as the 100% width
+refrence, just as the specs require. Yet it <em>does</em> start the div alongside the float! So the problem is only
+half-fixed in IE6, creating one more headache for us poor coders. 
+</p>
+<p>
+What does this mean? Well, if the div is given a width of 100%, it is as wide as the body element, and being placed 
+next to the float it forces the right edge of the body element sideways by the width of the float, causing a scrollbar. 
+<em>But only in IE6!</em> As if this mess weren't already bad enough. Oy.
+</p>
+<h2>Close call in Norway</h2>
+<p>
+There was recently a disturbing turn of events. <span>Opera7</span>, (released Jan-2003) 
+was doing just what IE does; 
+putting div#static next to the float, rather than having div#static ignore the
+float and start at the left viewport edge, as was done in Op6.
+</p>
+<p>
+This seemed to be a 'cave-in' on the part of the Opera decision makers, to take the 'easy path', rather
+than stick to the specifications. Microsoft is indeed very influential, and apparently the float
+specifications were fast becoming a dead letter.
+</p>
+<p>
+Happily Opera 7.1 (released April-2003) properly obeys the float specification. Whew! 
+</p>
+<p>
+</p>
+<h2>Last thoughts</h2>
+<p> 
+I am no purist, and could happily live with a specification designed by Microsoft, but to have MS
+publicly support the specs while silently flouting them really burns my toast. Is this how the future is made?
+</p>
+<p>
+It's past time that these issues were aired out. Gentle reader, if you know any way of 'getting to' the
+movers and shakers at Microsoft, won't you please try and shake loose some kind of information 
+regarding future plans? I dread having to tell the next newbie that the simple, straightfoward 
+CSS standards can't simply be used 'as is', because the majority browser maker refuses to 
+conform as it supposedly has agreed to do. This situation has got to end sometime; why can't it be now?
+</p>
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and
+interesting to say about any CSS subject, please contact me. I want to know! ">e-mail</a> 
+&copy;positioniseverything<br />
+Last updated: January 18, 2004<br />
+Created January 28, 2003
+</p>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+<title>Four Sided PNG Drop Shadows [revised and improved]</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A way to put PNG drop shadows on all four sides of an arbitrary box using CSS." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+<style type="text/css">
+
+/*** demo rules start... ***/
+
+.hover-control {
+  width: 568px;
+  height: 400px;
+  padding: 50px 0 0 50px;
+  }
+
+.hover-control img {
+  display: block;
+  width: 518px;
+  }
+
+.hover-control:hover {
+  width: 668px;
+  height: 450px;
+  padding: 0;
+  }
+
+.hover-control:hover img {
+  width: 618px;
+  }
+
+.shadow-one {
+  position: relative;
+  float: left;
+  eft: 50%;
+	padding-top: 100px;
+	padding-left: 100px;
+  }
+
+.corner-a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+	background: url(images/ds2-solid.png) right top no-repeat;
+  }
+
+.corner-b {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+	background: url(images/ds2-solid.png) left bottom no-repeat;
+  }
+
+.shadow-two {
+	background: url(images/ds2-solid.png) right bottom no-repeat;
+	}
+
+.shadow-three {
+  position: relative;
+  left: -100px;
+	top: -100px;
+	background: url(images/ds2-solid.png) left top no-repeat;
+	}
+
+.shadow-four {
+  position: relative;
+	left: 50px;
+	top: 50px;
+	}
+
+</style>
+
+</head>
+
+<body id="dropshadows">
+
+<h1>Four Sided PNG Drop Shadows [revised and improved]</h1>
+
+<div class="wrapper">
+
+<div class="consultbox">
+<h2>Are complex CSS issues making your programmers <em>crazy?</em></h2>
+<p>I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Hire me to help you too.</a></p>
+
+<h3><a href="http://everyones.com/webinar/bigjohn">Big John's CSS Webinars!</a></h3>
+
+<p>Let Big&nbsp;John (yours&nbsp;truly) <a href="http://everyones.com/webinar/bigjohn">teach&nbsp;you</a> 
+about CSS in a setting where you can
+actually <em>ask questions</em>. Will wonders never cease? Learn about the cascade
+and its arcane mysteries, or dive into the cesspool of IE6 with Big&nbsp;John as your lifeguard.
+</p>
+
+<p>
+Besides upcoming webinar dates, you can also download recorded versions
+of <a href="http://everyones.com/webinar/bigjohn">previous webinars</a> 
+(some free, some for sale). 
+</p>
+
+</div>
+
+
+<p class="alignright">
+<a href="../articles.html"><strong>Return to Articles</strong></a><br />
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+
+<p class="tip" style="clear: both;">
+This article has been revised as of <strong>May 2009</strong> to add improvements to the method which
+make it possible to have only a single drop shadow image, rather than the three that
+were required in the original version. The obsolete three-image all-around shadow method
+when discussed in this article will be referred to as the "previous&nbsp;version." <br /><br />
+This new simplified version of the method was inspired by a question from
+<a href="http://antonio.cubic-square.com/">Antonio&nbsp;Vong</a>, who
+asked if it was possible to make it work with only one big shadow image. I had previously
+thought not, but further thought led me to develop the rather obvious revised method
+explained here, oy. Thanks, Antonio! <br /><br />
+<strong>Special Notice:</strong> I've written a
+<a href="dropshadows-gimp1.html"><strong>tutorial for making drop shadows</strong></a>, using the free Gimp
+graphics editor. Enjoy! <br /><br />
+<strong>On the Web:</strong><br /><br />
+Go see how <strong>Scott Schiller</strong> achieved 
+<a href="http://www.schillmania.com/content/projects/even-more-rounded-corners/">this same four-sides PNG effect</a>.
+Nice use of scripting on the demo page too! <br /><br />
+From Paris, <strong>Matthieu Larcher</strong> has a new 
+<a href="http://www.lindicible.com/blog/en/2010/02/16/bouton-customise-a-taille-variable-en-css/"><strong>custom&nbsp;buttons&nbsp;tutorial</strong></a>
+based on the four-sides method. Woohoo!
+<br /><br />
+</p>
+
+<p>
+In the <a href="dropshadows.html">PNG Drop Shadows</a> article we explored a new
+CSS method that uses the PNG image format to apply drop shadows to any arbitrary
+box, producing excellent looking shadows. That's great, but the method limits us to
+having shadows on just two sides of the content box. Clients aren't going to be satisfied
+with that stricture for very long, so we need to pump up our shadows to cover all four
+sides of the box, just in case.
+</p>
+
+<p>
+Okay, normally drop shadows are not used all the way around a box, but some designers want it,
+and what about a 360 degree "glow" effect? Lots of people can go for that, right?
+</p>
+
+<p>
+Before delving into the guts of the new method, check out a separate demo page showing a live example
+of an all-around
+<a href="sidepages/dropshadow2/glowtest1.html"><strong>glow&nbsp;effect</strong></a>
+in all its glory. Note that the demo page uses hovering to modify the background-position property on
+the div group, but this is just a visual extra and isn't needed for the new shadow method to work.
+</p>
+
+<h3>Browser Disclaimer</h3>
+
+<p>
+As with the old two-sided method, <em>the four-sided method does NOT work in IE6/Win</em>,
+due to the lack of support for semi-transparent PNG images.
+That browser needs to be given <a href="haslayout.html">dumbed&nbsp;down</a>
+code via hiding hacks so that it gets just the content object and not any of the shadow trickery.
+If older browsers must display exactly like modern ones, you might want to avoid using this
+method for the time being.
+</p>
+
+<p>
+The basic method described here works flawlessly in IE7+, Firefox, Opera, and Safari.
+</p>
+
+<h3>Alert! Class name changes ahead...</h3>
+
+<p>
+In <a href="dropshadows.html">PNG&nbsp;Drop&nbsp;Shadows</a> the DIV classes were named <strong>.outerpair1</strong>,
+<strong>.shadowbox</strong>, and so forth. This time we'll dispense with descriptive names and go with a simple
+numerical system, using the classes <strong>.shadow-one</strong>, <strong>.shadow-two</strong>,
+on up to <strong>.shadow-four</strong>, along with two new empty divs (<strong>.corner-a</strong> and <strong>.corner-b</strong>)
+that are placed inside .shadow-one, but before the .shadow-two div starts. Since the group of six div
+tags will never need altering, it's simpler and more intuitive to use a number-based class system.
+This arrangement makes it almost impossible to accidentally mix-up the order of the div group.
+</p>
+
+<p>
+While it's true that this method uses two more divs than the old method,
+it can still be used to handle the old method by updating the old CSS to reflect
+the new class nomenclature and by keeping the two new empty divs unstyled.
+Without any styling applied, those divs will have no visible effect on the old method.
+</p>
+
+<p>
+This way you can use the new html generically across a site, applying either method with ease and
+complete safety. Cool!
+</p>
+
+<h2>The Basic Code</h2>
+
+<p>
+The following HTML is all you need:
+</p>
+
+<code>&lt;div class="shadow-one">
+&nbsp;&nbsp;&lt;div class="corner-a">&lt;/div>
+&nbsp;&nbsp;&lt;div class="corner-b">&lt;/div>
+&nbsp;&nbsp;&lt;div class="shadow-two">
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="shadow-three">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="shadow-four">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content...
+&lt;/div>&lt;/div>&lt;/div>&lt;/div>
+</code>
+
+<p>
+The CSS for the new four-sided method is similar to the two-sided method, but there's a few differences.
+Here's what the new CSS code looks like:
+</p>
+
+<code>.shadow-one {
+    position: absolute;
+    padding-top: 100px;
+    padding-left: 100px;
+    }
+
+.corner-a {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100px;
+    height: 100px;
+    background: url(shadow.png) right top no-repeat;
+    }
+
+.corner-b {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100px;
+    height: 100px;
+    background: url(shadow.png) left bottom no-repeat;
+    }
+
+.shadow-two {
+    background: url(shadow.png) right bottom no-repeat;
+    }
+
+.shadow-three {
+    position: relative;
+    left: -100px;
+    top: -100px;
+    background: url(shadow.png) left top no-repeat;
+    }
+
+.shadow-four {
+    position: relative;
+    left: 50px;
+    top: 50px;
+    }
+</code>
+
+<h3>Making the Images</h3>
+
+<img style="margin-top: 10px;" class="float-left" src="images/ds2-main.png" alt="" />
+
+<p>
+Besides the code above, the method requires a shadow image The graphic to the left
+shows a scaled down example of the full image, which has a semi-transparent shadow
+surrounding  a large transparent rectangular area. The actual PNG image used should
+be as large as needed to cover any desired content box. The images need to be transparent
+(other than the shadow or glow itself) so that body background patterns and the like will
+be visible thru them.
+</p>
+
+<p>
+The center does not really need to be transparent, but if you ever want
+something behind the div group to "show&nbsp;thru" some part of the content area, it will
+have to be transparent for that to happen.
+Just be sure that the distance between the outer image edge
+and the inner shadow edge is precisely the length you intend. In the case of this article I've
+chosen 50px as the width of this shadow zone.
+</p>
+
+<p>
+Making the image is simple if you have access to a good graphics program.
+Check out my <a href="dropshadows-gimp1.html"><strong>tutorial for making drop shadows in Gimp</strong></a>.
+</p>
+
+<p class="tip">
+If you don't want RGB color in your shadows or glows, you may convert the PNG to grayscale, greatly reducing
+the final file size of the images. I used <a href="http://www.gimp.org/"><strong>Gimp&nbsp;2</strong></a>
+to do this and cut about 40% off the weight of the files.
+</p>
+
+<h2>Analysis of the Method</h2>
+
+<p>
+The graphics that follow have colored borders and backgrounds for some areas to better illustrate the method,
+but these borders and background colors would not be used in an actual production page.
+</p>
+
+<div style="padding-left: 225px; position: relative; margin: 2em 0 3em;">
+<img style="position: absolute; left: 0; top: 0;" src="images/ds2/ds2-1.png" alt="" />
+<code style="margin-left: 0;"><span style="line-height: 1.8;"><strong>.shadow-one</strong> {</span>
+  position: absolute;
+  padding-top: 100px;
+  padding-left: 100px;
+  }
+    /* Use <strong>position: relative</strong> when 
+    <em>not</em> using <strong>position: absolute</strong> */</code>
+<p>
+The outer div gets some method (absolute positioning in this case) to make it
+"shrink-to-fit" and collapse all the divs in the group around the content element.
+Floating or a width applied to the div or a surrounding container can also do the
+trick. In most cases the content element should have either an intrinsic or stated width,
+so that the shrink-to-fit behavior on .shadow-one has something rigid to collapse against.
+</p>
+<p class="tip">
+If you want to float this div rather than absolutely position it, make sure you apply
+<strong>position: relative;</strong> so the two small corner divs remain inside and don't fly away to some
+positioned parent further out (the HTML element is the default positioned parent, btw).
+</p>
+<p>
+No background is applied here (unlike previous version) but top and left paddings are applied
+(dotted red lines) to constrain .shadow-two into a smaller area. The .shadow-one div is <em>required to be positioned
+as absolute, relative, or fixed</em>, so that the corner divs will use .shadow-one as a positioned
+base for their own locations. If you want to float this div, use relative positioning.
+</p>
+</div>
+
+<div style="padding-left: 225px; position: relative; margin: 2em 0 3em;">
+<img style="position: absolute; left: 0; top: 0;" src="images/ds2/ds2-1-a.png" alt="" />
+<code style="margin-left: 0;"><span style="line-height: 1.8;"><strong>.corner-a</strong> {</span>
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100px;
+  height: 100px;
+  background: url(shadow.png) right top;
+  } </code>
+<p>
+This div is empty and is positioned to the upper right corner of .shadow-one so that its
+background is showing the upper right corner of shadow.png. Note that the padding on
+.shadow-one has no effect on any absolutely positioned children, which only care about
+the actual edges of their positioned parent.
+</p>
+</div>
+
+<div style="padding-left: 225px; position: relative; margin: 2em 0 3em;">
+<img style="position: absolute; left: 0; top: 0;" src="images/ds2/ds2-1-b.png" alt="" />
+<code style="margin-left: 0;"><span style="line-height: 1.8;"><strong>.corner-b</strong> {</span>
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+  background: url(shadow.png) left bottom;
+  } </code>
+<p>
+This empty div is positioned to the lower left corner of .shadow-one, and its background
+shows shadow.png's lower left corner.
+</p>
+</div>
+
+<div style="padding-left: 225px; position: relative; margin: 2em 0 3em;">
+<img style="position: absolute; left: 0; top: 0;" src="images/ds2/ds2-2.png" alt="" />
+<code style="margin-left: 0;"><span style="line-height: 1.8;"><strong>.shadow-two</strong> {</span>
+  background: url(shadow.png) right bottom;
+  } </code>
+<p>
+This div has only one purpose, to show shadow.png aligned into its lower right
+corner. The padding on .shadow-one is exactly the same size as .corner-a and
+.corner-b, so all three divs adjoin perfectly without overlaps, and so do the shadow
+images they have as backgrounds.
+</p>
+</div>
+
+<div style="padding-left: 225px; position: relative; margin: 2em 0 3em;">
+<img style="position: absolute; left: 0; top: 0;" src="images/ds2/ds2-3.png" alt="" />
+<code style="margin-left: 0;"><span style="line-height: 1.8;"><strong>.shadow-three</strong> {</span>
+  position: relative;
+  left: -100px;
+  top: -100px;
+  background: url(shadow.png) left top;
+  } </code>
+<p>
+Relative positioning is used along with negative <strong>left</strong> and <strong>top</strong>
+values to drag this div up and left by exactly the size of the corner divs. This shift
+automatically places .shadow-three in precisely the spot needed to complete the four-sided drop shadow.
+</p>
+<p>
+Again shadow.png is applied, but this time in the upper left corner of the div.
+Now the four sided shadow is complete, but the current div is in the wrong location
+for the content. Next we'll get that content into the correct spot.
+</p>
+</div>
+
+<div style="padding-left: 225px; position: relative; margin: 2em 0 3em;">
+<img style="position: absolute; left: 0; top: 0;" src="images/ds2/ds2-4.png" alt="" />
+<code style="margin-left: 0;"><span style="line-height: 1.8;"><strong>.shadow-four</strong> {</span>
+  position: relative;
+  left: 50px;
+  top: 50px;
+  } </code>
+<p>
+The innermost div in the group is relatively shifted down and to the right by exactly half of the corner div
+size, placing it directly over the empty region within all those shadow images. Now any content elements within will
+have nice all-around shadows that automatically adjust to any content size, as long as that size does not exceed
+the size of shadow.png.
+</p>
+<p>
+The intrinsic or stated width of the content will control the width of the entire div group as it shrinks
+horizontally and vertically around that content. Note that rendered heights of divs are shrink-to-fit by default,
+and the height of even irregular content like a text block won't be a problem once the width of that block
+is controlled in some way.
+</p>
+</div>
+
+<h3>When you want to shadow an image...</h3>
+
+<p>
+In the event your doctype is "strict," any IMG elements will, by default, show a 3px space
+below the image. This baseline space is meant to allow character descenders
+(like the hook on a lowercase <strong>j</strong>) a space where they can show. To avoid the space,
+just make sure the image is given <strong>display:&nbsp;block;</strong> and 
+no baseline space will be added.
+</p>
+
+<h3>IE6 Comment Bug Discovered, January 2009 </h3>
+
+<p>
+Just when we thought IE6 had no more surprises to reveal, along comes yet another type
+of HTML comment bug to throw on the pile, and it has chosen to attack my baby,
+the PNG&nbsp;Drop&nbsp;Shadow technique.
+</p>
+<p>
+This time it's personal.
+</p>
+
+<img style="float: left; margin: 5px 15px 10px 5px;" src="../images/judebert.gif" width="" height="" alt="" />
+
+<p>
+Discovered by one <a href="http://judebert.com/progress/permalink/IE6-comment-bug.html">Judebert</a>
+(self-portrait to left), the "unpleasantness" has the effect of hashing-up the drop&nbsp;shadows when ordinary
+HTML comments are inserted between certain of the starting div tags in the shadow group. Apparently the
+presence of those comments is affecting or disrupting the relative positioning used in the technique. Nice catch, Judebert!
+</p>
+
+<p class="clear">
+Using hasLayout via the "zoomfix" on the divs will stop the bug, but then the shrink-to-fit
+behavior is disabled, so that's no-go. The proper fix is obvious: Just don't use comments in
+the div group like poor Judebert did and you'll be okay.
+</p>
+
+<h3>About the Live Demo</h3>
+
+<p>
+In a production page it would be useful to separate out the background-image calls
+from the rules for the divs and create a multiple selector rule that would apply the
+background to all those divs at once. The background-position for each div would
+be applied individually. This way you can change the shadow image by editing
+just the path in a single background-image call rather than in four different places.
+The <a href="sidepages/dropshadow2/glowtest1.html"><strong>live&nbsp;demo</strong></a>
+employs that trick.
+</p>
+
+<p>
+Be aware that the live demo
+has the background-position values set to hide all the backgrounds
+off-screen, to be pulled into the divs when the outer div is hovered. That's really cool to look at, but it's not
+required for the method to work. Therefore this discussion deals only with the basic method and doesn't
+detail how to change BG positions during hover. Study the live demo code if you're curious about the way this is handled.
+</p>
+
+<h3>Hybrid Uses</h3>
+
+<p>
+By now you may have realized that this four-sides method is not confined only to shadows and glows.
+Indeed, any reasonably clean frame-like image may be adapted to surround any arbitrary content box.
+The image below has been "framed" via the method, incorporating both a solid visual element and a
+drop shadow into a single displayed frame.
+</p>
+
+<p>
+Go ahead and hover the live demo below to resize the content image and div group, showing how
+the frame/shadow automatically adjusts to fit the content size.
+</p>
+
+<div class="hover-control">
+<div class="shadow-one">
+  <div class="corner-a"></div>
+  <div class="corner-b"></div>
+  <div class="shadow-two">
+    <div class="shadow-three">
+      <div class="shadow-four">
+        <div class="shadow-five">
+          <img src="images/ds2-hikers.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<p class="clear">
+The method clips off the large BG image at some unknown spot that's different for each content dimension,
+so for it to work well you need to stay away from some frame designs. It would not do to have a row of smiley faces,
+only to have one of them get clipped right thru the middle!
+</p>
+
+<h2>Conclusion</h2>
+
+<p>
+So there you are, a nice clean way to frame content that's bulletproof in all modern browsers
+later than IE6, along with the potential to use hovering in a number of interesting ways.
+Next time I'll discuss one of those ways in detail, but until then, enjoy!
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: April 12, 2010<br />
+Created November 4, 2008
+</p>
+
+</div>
+
+</body>
+
+
+</html>

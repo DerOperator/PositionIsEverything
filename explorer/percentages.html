@@ -1,0 +1,1564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<title>Quirky percentages in IE6's visual formatting model</title>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<meta name="author" content="Ingo Chao" />
+<meta name="decription" content="This guest demo describes the IE6 CSS percentages bug on margins and paddings and provides information about the reflow on hover-transitions." />
+<meta name="keywords" content="css, IE6, bug, percentage, margin, padding, hover, transition, reflow, visual formatting model" />
+
+<style type="text/css">
+
+@media screen {
+html { margin: 0; padding: 0; border: 0;}
+
+body {
+    padding:0;
+    margin: 25px 20em 300px 0;
+    background-color:#ddd;
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+.web {
+    width:100%;
+    text-align:center;
+    background-color:#ddd;;
+    border-style:none;
+    }
+
+.page {
+    margin:0 auto;
+    width:80%;
+    max-width: 65em;
+    text-align:left;
+    background-color:white;
+    border: 1px solid #8F8F8F;
+    padding:4em 3em 5em 3em;
+    }
+
+/* -------------------- example sequences */
+
+.sequence {
+    position:relative;
+    display: inline-block;
+    padding: 2em 0 3em 0;
+    margin: 0 0em 1em 1.5em;
+    border-left: 2px solid silver;
+
+    background: #f2f2f2;
+    }
+.sequence:after {    /* P.I.E. clearfix implementation */
+    content: ".";
+    display: block;
+    height: 0;
+    clear: left;
+    visibility: hidden;
+    }
+
+/* Hide from IE5-mac \*/
+* html .sequence {height:1%}
+.sequence {display: block;}
+/* End hiding from IE5-Mac */
+
+#heading.sequence {
+    padding: 2em 0 1em 1.5em;
+    margin: 0 0em 5em 0em;
+}
+.sequence_number {
+    float: left;
+    clear: right;
+    width:1em;
+    margin:0;
+    padding:0;
+    color: gray;
+    }
+
+/* -------------------- code layout */
+ul.csshtml, ol.csshtml {
+    position: relative;
+    float: right;
+    width: 20em;
+    border-left: 3px dotted silver;
+    margin: 0 -21em 1em 0;
+    padding: 0 0.5em;
+    list-style-type: none;
+    left:4em;
+    clear:right;
+    }
+/* \*/
+* html ul.csshtml, * html ol.csshtml { clear: none; left:1em; }
+/* */
+
+
+.csshtml li {
+    margin-top: 1px;
+    background: white;
+    }
+.csshtml code{
+    font: 0.9em serif;
+    color: gray;
+    padding: 0 0.5em 0 0;
+    margin:0;
+    }
+
+.csshtml p  {
+    font: 0.9em serif;
+    color: gray;
+    padding: 0.5em 0.5em 0.5em 0;
+    margin:0;
+    }
+
+.t00 {
+    padding-left: 1em;
+    }
+.t01 {
+    padding-left: 2em;
+    }
+.t02 {
+    padding-left: 3em;
+    }
+.t03 {
+    padding-left: 4em;
+    }
+.t04 {
+    padding-left: 5em;
+    }
+.t06 {
+    padding-left: 6em;
+    }
+
+
+/* -------------------- ancestor */
+.ancestor {
+    position: relative;
+    float: left;
+    margin:0 0 3em 1em;
+    background: gray;
+    border: 2px solid silver;
+    }
+
+
+.square {
+    width:200px;
+    height:200px;
+    }
+.rect {
+    width:400px;
+    height:100px;
+    }
+.rectwide {
+    width:400px;
+    height:200px;
+    }
+
+
+/* -------------------- parent */
+.parent {
+    display: block;
+    margin:49px 0 0 49px;
+    background-color: silver;
+    }
+
+.parent_top10 {
+    display: block;
+    margin:10px 0 0 49px;
+    background-color: silver;
+    }
+
+.parent_ie {
+    display: block;
+    margin:49px 0 0 49px;
+    background-color: inherit;
+    width:100px;
+    height:100px;
+    line-height:10px;
+    font-size:10px;
+    }
+
+.parent_menu {
+    display: block;
+    margin:10px 0 0 100px;
+    background-color: silver;
+    width:200px;
+    height:50px;
+    border: 1px solid black;
+    }
+
+.parentwrapper {
+    display: block;
+    width:100px;
+    height:100px;
+    border: 1px dotted maroon;
+    }
+
+.overdimensioned {
+    width:225px;
+    height:100px;
+    border: 2px dotted black;
+    }
+
+.dimensioned {
+    width:100px;
+    height:100px;
+    border: 1px solid black;
+    }
+
+.intrinsic {
+    border: 1px dashed black;
+    }
+
+.outer_wrap {
+    width: 1px;
+    height:1px;
+    }
+
+.inner_wrap {
+    width:100px;
+    height:1px;
+    }
+
+/* --------------------  child of parent*/
+.child {
+    width: 10px;  /*dimensions for floating*/
+    height: 10px;
+/* to make the focus outline box visible, and to prevent inconsistent vertical alignment in FF whether margin-left is 0 or not.*/
+    font-size:5px;
+    line-height:5px;
+    }
+
+.menulink {
+    position: relative;
+    top:-1px;
+    width:1em;
+    padding: 0 7px;
+    font-size: 8px;
+    text-align: center;
+    vertical-align:top;
+    border-top:none;
+    border-right:1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    text-decoration: none;
+    }
+
+.margin_0 { margin:0; }
+
+.margin_3 { margin:0 0 0 3%; }
+
+.margin_5 { margin:0 0 0 5%; }
+
+.margin_10 { margin:0 0 0 10%; }
+
+.margin_20 { margin:0 0 0 20%; }
+
+.margin_25 { margin:0 0 0 25%; }
+
+.margin_50 { margin:0 0 0 50%; }
+
+.margin_100 { margin:0 0 0 100%; }
+
+.margin_neg { margin:0 0 0 -30%; }
+
+.margin_neg_l { margin:0 auto 0 -10%; }
+
+.margin_neg_r { margin:0 -10% 0 auto; }
+
+.padding_10 { padding:0 0 0 10%; }
+
+.padding_50 { padding:0 0 0 50%; }
+
+/* --------------------  image inside child link*/
+img {
+    width: 10px;
+    height: 10px;
+    border:none;
+    margin:0;
+    padding:0;
+    }
+
+/* -------------------- colors */
+
+.reflowbutton img {background-color: red;}
+
+.no1 img,
+.parent_menu .no1 { background-color: maroon; }
+
+.no2 img,
+.parent_menu .no2,
+.bugbutton img { background-color: green; }
+
+.no3 img,
+.parent_menu .no3 { background-color: olive; }
+
+.no4 img,
+.parent_menu .no4 { background-color: navy; }
+
+.no5 img,
+.parent_menu .no5 { background-color: purple; }
+
+.no6 img,
+.parent_menu .no6 { background-color: teal; }
+
+
+/* -------------------- arteficial IE class subset errors */
+.artefactno1 img, .menulink.artefactno1 { background: maroon; }
+.artefactno2 img, .menulink.artefactno2 { background: green; }
+.artefactno3 img, .menulink.artefactno3 { background: olive; }
+.artefactno4 img, .menulink.artefactno4 { background: navy; }
+.artefactno5 img, .menulink.artefactno5 { background: purple; }
+.artefactno6 img, .menulink.artefactno6 { background: teal; }
+
+/* -------------------- buttons */
+.reflowbutton {
+    position: relative;
+    margin-left:-16px;
+    float: left;
+    width: 10px;
+    height:10px;
+    background: #f2f2f2;
+    padding: 0 0 2px 2px;
+    border-top: 2px solid #f2f2f2;
+    border-right:2px solid #f2f2f2;
+    border-bottom: 2px solid silver;
+    border-left: 2px solid silver;
+    }
+.bugbutton {
+    position: relative;
+    top:-3px;
+    left:-3px;
+    float: left;
+    width: 10px;
+    height:10px;
+    background:#f2f2f2;
+    padding: 0 2px 2px 0;
+    border-top: 2px solid #f2f2f2;
+    border-right:2px solid silver;
+    border-bottom: 2px solid silver;
+    border-left: 2px solid #f2f2f2;
+    }
+
+/* -------------------- links, images */
+.ancestor a {
+    text-decoration:none;
+    color: white;
+    }
+
+.ancestor a:visited {
+    color: white;
+    }
+
+* html a:hover {
+    background-position: 1%;      /* make sure IE6 will apply yellow to [a:hover img]*/
+    }
+
+a:hover img,
+a:hover.menulink,
+a:hover.inlinelink {
+    background-color: yellow;
+    color: black;
+    }
+
+
+/* -------------------- legend */
+.legend {
+    position: absolute;
+    bottom:-2.5em;
+    left:6%;
+    width: 80%;
+    font-size:0.8em;
+    text-indent: -0.5em;
+    padding:5px 5px 5px 10px;
+    background: silver;
+    border-top: 1px solid black;
+    border-right: 1px solid gray;
+    border-bottom: 1px solid black;
+    border-left: 1px solid gray;
+    min-height:3em;
+    }
+
+/* Hide from IE5-mac \*/
+* html .legend { height:3em;}
+/* End hiding from IE5-Mac */
+
+.legend:first-letter {
+        font-weight:bold;
+        }
+
+.bubble {
+    position: absolute;
+    top:-1.5em;
+    height:2em;
+    font-size: 0.7em;
+    }
+
+.topleft {
+    left: 1px;
+    border-right: 1px dotted navy;
+    border-top: 1px dotted navy;
+    }
+
+.topright {
+    right: 3px;
+    border-right: 1px dotted navy;
+    border-top: 1px dotted navy;
+    }
+
+
+/* -------------------- padding  bug example */
+
+.loremipsum { /* dummy text paragraph class*/
+    margin:0;
+    font-size: 9px;
+    color: gray;
+    }
+
+.loremipsum span { /*line box outline*/
+    border: 1px solid gray;
+    display: inline;
+    }
+
+/* -------------------- A side note example */
+a.inlinelink {
+    color: blue !important;
+    text-decoration: underline;
+    }
+
+.mono {
+    font: 15px monospace;
+    }
+
+/* --------------------  modular display, positioning, flow, hasLayout */
+
+.inline { display: inline; }
+
+.inlineblock { display: inline-block; }
+
+.block { display: block; }
+
+.floatflow { float: left; }
+
+.relative { position: relative;}
+
+/*\*/ * html .hollyHack {height:1%;}/* Holly Hack, IE7 is blocked by the "* html " prefix on the selector. */
+
+.hollyHack {zoom: 1;} /* IE7 can see this zoomfix */
+
+/* -------------------- background-images for parent*/
+.floatbgimg {
+    background-image:  url(images/floatflow.gif);
+    background-repeat: repeat;
+    background-position: -15px -25px;
+    }
+
+.layoutbgimg {
+    background-image:  url(images/haslayout.gif);
+    background-repeat: repeat;
+    }
+
+.bugbgimg {
+    padding:80% 100% 0 0;
+    margin-left: 150px;
+    background: url(images/strain.gif) no-repeat;
+    }
+
+
+/* -------------------- intro example */
+
+.somepadding {
+    padding: 0.5em 0 0 0.5em;
+    }
+#nav {
+    float: left;
+    width:20%;
+    }
+#nav a {
+    text-decoration: underline;
+    color: blue;
+    }
+#nav a:hover {
+    background-color: #ff0;
+    }
+#main {
+    float: left;
+    width: 40%;
+    margin-left: 2%;
+    }
+
+/* -------------------- screenshot */
+.screenshot {
+    float: left;
+    width: 206px;
+    height: 206px;
+    margin:0 0 3em 1em;
+    }
+.screenshot label {
+    position: relative;
+    top:-50px;
+    color: yellow;
+    border-left: 0.75em solid yellow;
+    padding-left: 0.25em;
+    font: 0.9em Arial, Helvetica, sans-serif;
+    }
+.screenshot img {
+    border: 2px solid yellow;
+    width: 202px;
+    height: 202px;
+    display:block;
+    }
+
+
+
+/* -------------------- text section layout */
+
+.text { display: block;
+    margin: 1.5em 0 1.5em 0;
+    }
+.text p {
+    font: 1em/1.25em Arial, Helvetica, sans-serif;
+    margin: 0.5em 0 0 0;
+    text-align: justify;
+    }
+.text h2 {
+    color: gray;
+    margin-top:2em;
+    }
+p.bio {
+    margin-top:3em;
+    font-size:0.9em;
+    text-align: left;
+    }
+.text dt {
+    font: italic 1em/1.25  Arial, Helvetica, sans-serif;
+    margin-top: 1em;
+    }
+.text li, .text dd {
+    font: 1em/1.25  Arial, Helvetica, sans-serif;
+    margin-top: 0.5em;
+    }
+
+.csshtml a, .text a {text-decoration: none;}
+.csshtml a:hover, .text a:hover {text-decoration: underline;}
+
+q { quotes:"\201C" "\201D" "\2018" "\2019";}
+q:before { content:open-quote;}
+q:after { content:close-quote;}
+
+/* Hide from IE5-mac \*/
+* html q { font-style: italic; color: gray; }
+/* End hiding from IE5-Mac */
+
+code {font-size:100%;}
+
+h1 {
+    padding:0;
+    margin: 0 0 0 1em;
+    }
+
+ }
+
+
+@media print {
+body {
+font: 12pt "Times New Roman", "TimesNR", Times, serif;
+}
+.reflowbutton,
+.bugbutton,
+.parent,
+.parent_top10,
+.parent_ie,
+.parent_menu,
+.bubble {
+    display: none;
+    }
+.sequence_number:before {
+    content: "Sequence: ";
+    }
+.legend:before {
+    content: "Example ";
+    }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="web"><div class="page">
+
+
+
+
+<ul class="csshtml">
+    <li class="t00"><a href="../explorer.html">Return to Explorer Demos</a></li>
+    <li class="t00"><a href="../guests.html">Return to Guest Demos</a></li>
+    <li class="t00"><a href="lineheightbug.html">Next Explorer Demo</a></li>
+    <li class="t00">&nbsp;</li>
+    <li class="t00">Created by <strong>Ingo Chao</strong></li>
+    <li class="t00"><code>/* Written for PIE in Dec 2004 */</code></li>
+    <li class="t00"><code>/* Updated: Feb 2005 */</code></li>
+</ul>
+<div class="sequence" id="heading">
+<h1>Quirky Percentages in IE6's Visual Formatting Model</h1>
+</div>
+
+
+<div class="text">
+
+<p style="border: 1px solid black; padding: 3px;">
+As of 2008, IE7 shows some improvement for the problems described below, but many inconsistencies still remain.
+</p>
+
+<h2>The :hover-experience</h2>
+
+
+<p>In August 2004, Roger Johansson sent a test case to the <em>css-discuss</em> mailing list, stating that he could not find any mention of this odd IE/Win problem.</p>
+</div>
+
+
+<h3 class="sequence_number">A</h3>
+<ol class="csshtml">
+    <li class="t00"><code>&lt;!--simplified markup--&gt;</code></li>
+    <li class="t00"><code>&lt;body&gt;</code></li>
+
+    <li class="t01"><code>&lt;div id="container"&gt;</code></li>
+    <li class="t02"><code>&lt;div id="nav"&gt;</code></li>
+    <li class="t03"><code>&lt;a href="#link">The link&lt;/a&gt;</code></li>
+    <li class="t02"><code>&lt;/div&gt;</code></li>
+    <li class="t02"><code>&lt;div id="main"&gt;</code></li>
+    <li class="t03"><code>The text ...</code></li>
+
+    <li class="t02"><code>&lt;/div&gt;</code></li>
+    <li class="t01"><code>&lt;/div&gt;</code></li>
+    <li class="t00"><code>&lt;/body&gt;</code></li>
+
+    <li class="t01"><code>&nbsp;</code></li>
+    <li class="t00"><code>#nav{ /* link */</code></li>
+    <li class="t01"><code>float: left;</code></li>
+
+    <li class="t01"><code>width: 20%;</code></li>
+    <li class="t01"><code>}</code></li>
+    <li class="t00"><code>#nav a:hover{</code></li>
+    <li class="t01"><code>background-color: #ff0;</code></li>
+    <li class="t01"><code>}</code></li>
+    <li class="t00"><code>#main{ /* text */</code></li>
+
+    <li class="t01"><code>float: left;</code></li>
+    <li class="t01"><code>width: 40%;</code></li>
+    <li class="t01"><code>margin-left: 2%;</code></li>
+    <li class="t01"><code>}</code></li>
+    <li class="t00"><code>#container{</code></li>
+    <li class="t01"><code>width: 400px;</code></li>
+
+    <li class="t01"><code>}</code></li>
+</ol>
+<div class="sequence">
+<div class="ancestor rect">
+    <div class="somepadding"
+         ><div id="nav"><a href="#link">The link</a></div
+         ><div id="main">The text. This will jump to the left when the link is hovered over.</div
+        ></div
+    ><div class="legend">1: The IE jump on hover.</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+</div>
+
+<div class="text">
+<p>Although I couldn't understand the reason for this jump on hover, I posted some more test cases on the discussion thread. It was Bruno Fassino who had the idea that the wrongly computed margins are obtained by applying the percentage not to the container width, but to the body width. At first I thought (as is usual, you need to be careful when dealing with floats in IE) the problem should have been already known and therefore easy solution, such as giving it a "hasLayout"-dimension, should resolve it. Far from it.</p>
+
+</div>
+<h3 class="sequence_number">B</h3>
+<ul class="csshtml">
+    <li class="t00"><p>The code lines provide information about the relevant structure and allow to build an example skeleton (XHTML strict) step by step.  Sequences B and H are showing bits and pieces with percentage paddings, margins, and nested dimensioned wrappers and are of course not seriously meant. As of this writing, Opera suffers from floating problems and Geckos may have some rounding errors.</p></li>
+
+</ul>
+
+
+<div class="sequence">
+
+    <div class="ancestor rect"
+        ><div class="outer_wrap"
+            ><div class="inner_wrap "
+                 ><div class="bugbgimg"></div
+                 ><a href="#link" class="child margin_50 bugbutton"><img src="images/block10px10px.gif" alt="percentage bug" title="percentage bug" /></a
+            ></div></div><div class="legend">Remark: <br />The following material might be a strain on sensible CSS designers who have to code for IE6.</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif"  alt="reflow" title="reflow" /></a>
+
+</div>
+
+<div class="text">
+
+
+<h2>The expanding visual formatting model of IE6</h2>
+
+
+<p>A page's rendering has a time dimension. Position and measurements of elements are computed in the page flow.</p>
+<p>In IE6, a length will be expanded on demand, this does not correspond to the specification of <code>min-height</code> or <code>height</code>, neither <code>min-width</code> nor <code>width</code>. Regarding siblings, the first will cause the offset for the second. Two siblings at block-level side by side, where the lengths exceed the overall width of the parent: IE will just expand the parent (compare C7 in a standards compliant browser). Measurements of an element are not known until after all child elements have been processed, since at runtime it is still not determined as to whether it has to be expanded or not. They are computed out of themselves, <code>height</code> and <code>width</code> refer to 'intrinsic height' and 'intrinsic width', and these are indetermined during page flow.</p>
+
+<h2>Percentages challenge IE's formatting model</h2>
+
+<p><q cite="http://www.w3.org/TR/CSS21/visudet.html#the-width-property">The percentage is calculated with respect to the width of the generated box's containing block. ...</q>(<cite><a href="http://www.w3.org/TR/CSS21/visudet.html#the-width-property" title="See W3C specification of the width property">CSS2.1: 10.2</a></cite>). An example: a margin of an element shall come to 5% of it's parent's width. So, this is simple ... but no, IE does not know at render time about the final width of it's containing block. So what now?</p>
+<p>It is impossible to compute a percentage from the unknown (and how easy it would be just to take the width specified by the designer, but alas no). We can see and worry about the logical flaw in IE6's formatting model that is revealed by percentages.</p>
+<p><q cite="http://www.w3.org/TR/CSS21/visudet.html#the-width-property">... If the containing block's width depends on this element's width, then the resulting layout is undefined in CSS 2.1</q> &ndash; this would read clearly: <em>The resulting layout using percentage values is undefined in IE6</em>.</p>
+
+</div>
+
+<h3 class="sequence_number">C</h3>
+<ol class="csshtml">
+    <li class="t00"><code>&lt;div class="ancestor square"&gt;</code></li>
+    <li class="t01"><code> &lt;div class="parent dimensioned"&gt;</code></li>
+    <li class="t02"><code>&lt;a href="#link" class="child margin_5 no1"&gt;</code></li>
+    <li class="t03"><code>&lt;img src="images/block10px10px.gif" alt="no1: maroon" /&gt;</code></li>
+
+    <li class="t02"><code>&lt;/a&gt;</code></li>
+    <li class="t02"><code>&lt;!--etc...--&gt;</code></li>
+    <li class="t01"><code>&lt;/div&gt;</code></li>
+    <li class="t00"><code>&lt;/div&gt; </code></li>
+    <li class="t00">&nbsp;</li>
+    <li class="t00"><code>&lt;!--reflowbutton and ancestor are siblings--&gt;</code></li>
+
+    <li class="t00"><code>&lt;a href="#link" class="child reflowbutton"&gt;</code></li>
+    <li class="t01"><code>&lt;img src="images/block10px10px.gif" alt="reflow" /&gt;</code></li>
+    <li class="t00"><code>&lt;/a&gt;</code></li>
+
+    <li class="t00">&nbsp;</li>
+
+    <li class="t00"><code>.ancestor{</code></li>
+    <li class="t01"><code>position: relative;</code></li>
+
+    <li class="t01"><code>float: left; </code></li>
+    <li class="t01"><code>margin:0 0 3em 1em;</code></li>
+    <li class="t01"><code>background: gray;</code></li>
+    <li class="t01"><code>border: 2px solid silver;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.square{</code></li>
+
+    <li class="t01"><code>width:200px;</code></li>
+    <li class="t01"><code>height:200px;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.parent{</code></li>
+    <li class="t01"><code>display: block;</code></li>
+    <li class="t01"><code>margin:49px 0 0 49px;</code></li>
+
+    <li class="t01"><code>background-color: silver;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.dimensioned{</code></li>
+    <li class="t01"><code>width:100px;</code></li>
+    <li class="t01"><code>height:100px;</code></li>
+    <li class="t01"><code>border: 1px solid black;</code></li>
+
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.child{ </code></li>
+    <li class="t01"><code>width: 10px;</code></li>
+    <li class="t01"><code>height: 10px;</code></li>
+    <li class="t01"><code>font-size:5px;</code></li>
+    <li class="t01"><code>line-height:5px; </code></li>
+
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.margin_5{</code></li>
+    <li class="t01"><code>margin:0 0 0 5%;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>a:hover img{</code></li>
+
+    <li class="t01"><code>background-color: yellow;</code></li>
+    <li class="t01"><code>color: black;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>* html a:hover{</code></li>
+    <li class="t01"><code>/* to insist on a redraw */</code></li>
+    <li class="t01"><code>background-position: 1%;</code></li>
+
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.no1 img{</code></li>
+    <li class="t01"><code>background-color: maroon;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.reflowbutton img{</code></li>
+
+    <li class="t01"><code>background-color: red;</code></li>
+    <li class="t01"><code>}</code></li>
+
+
+
+    <li class="t00"><code>img{ </code></li>
+    <li class="t01"><code>width: 10px;</code></li>
+    <li class="t01"><code>height: 10px;</code></li>
+
+    <li class="t01"><code>border:none;</code></li>
+    <li class="t01"><code>margin:0;</code></li>
+    <li class="t01"><code>padding:0; </code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.reflowbutton{</code></li>
+    <li class="t01"><code>position: relative;</code></li>
+
+    <li class="t01"><code>margin-left:-16px;</code></li>
+    <li class="t01"><code>float: left;</code></li>
+    <li class="t01"><code>width: 10px;</code></li>
+    <li class="t01"><code>height:10px;</code></li>
+    <li class="t01"><code>background: #f2f2f2;</code></li>
+    <li class="t01"><code>padding: 0 0 2px 2px;</code></li>
+
+    <li class="t01"><code>border-top: 2px solid #f2f2f2;</code></li>
+    <li class="t01"><code>border-right:2px solid #f2f2f2;</code></li>
+    <li class="t01"><code>border-bottom: 2px solid silver;</code></li>
+    <li class="t01"><code>border-left: 2px solid silver;</code></li>
+    <li class="t01"><code>}</code></li>
+</ol>
+<div class="sequence">
+
+<div class="ancestor square">
+     <div class="parent dimensioned relative"
+        ><div class="bubble topright ">parent&nbsp;</div><a href="#link" class="child margin_0 no1 "><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_0 no2 "><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_0 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_0 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_0 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div><div class="bubble topleft ">ancestor&nbsp;</div><div class="bubble topright">re-flow&nbsp;</div>
+<div class="legend">1: playground: defined lenghts of ancestor and parent, introducing the bug crew.</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square">
+<div class="parent dimensioned"
+        ><a href="#link" class="child margin_5 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_5 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_5 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_5 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_5 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_5 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+        <div class="legend">2: normal flow, margin-left:5%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square">
+     <div class="parent dimensioned"
+        ><a href="#link" class="child margin_10 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_10 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_10 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_10 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_10 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_10 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+        <div class="legend">3: normal flow, margin-left:10%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square"><div class="parent dimensioned"
+        ><a href="#link" class="child margin_25 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_25 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_25 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_25 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_25 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_25 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div><div class="legend">4: normal flow, margin-left:25%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square"><div class="parent dimensioned"
+        ><a href="#link" class="child margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_50 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_50 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_50 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_50 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_50 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div><div class="legend">5a: normal flow, margin-left:50%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="screenshot"><img id="c5shot" src="images/c5.png" width="202" height="202" alt="c5" /><label for="c5shot">Screenshot of C5a</label></div>
+
+<div class="ancestor square"><div class="parent dimensioned"
+        ><div class="parentwrapper"
+        ><a href="#link" class="child margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_50 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_50 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_50 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_50 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_50 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div></div><div class="legend">5b: normal flow, margin-left:50%, doubled-wrapper</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square">
+     <div class="parent dimensioned floatbgimg"
+        ><a href="#link" class="child floatflow margin_5 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_5 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child floatflow margin_5 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child floatflow margin_5 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child floatflow margin_5 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child floatflow margin_5 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+
+        <div class="legend">6: float flow, margin-left:5%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square">
+     <div class="parent overdimensioned"
+        ><a href="#link" class="child margin_10 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_10 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_10 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_10 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_10 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_10 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+        <div class="legend">7: normal flow, parent&gt;ancestor,  margin-left:10%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square">
+     <div class="parent overdimensioned"
+        ><a href="#link" class="child margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_50 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_50 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_50 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_50 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_50 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+        <div class="legend">8: normal flow, parent&gt;ancestor,  margin-left:50%</div>
+
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+</div>
+
+<div class="text">
+<p>At first sight, IE6 seems to take the width of the containing block (silver 'parent') as indetermined. Well, regarding the CSS specification, this relative value should be calculated referring to the width of the nearest dimensioned ancestor element (grey 'ancestor')&ndash; as if there wasn't any dimensions set for the parent. I wonder why this ancestor value suddenly becomes a 'determined' one and not an 'indetermined' for IE, due to the fact it could balloon too, but then this would make any percentage completely useless in the cascade.</p>
+<p><em>While page flow, percentages on margins skip one generation in IE.</em>
+Children respect their grandparents.</p>
+</div>
+
+
+<h3 class="sequence_number">D</h3>
+
+<ol class="csshtml">
+    <li class="t00"><code>&lt;div class="ancestor square"&gt;</code></li>
+    <li class="t01"><code> &lt;div class="parent intrinsic"&gt;</code></li>
+    <li class="t02"><code>&lt;a href="#link" class="child margin_5 no1"&gt;</code></li>
+    <li class="t03"><code>&lt;img src="images/block10px10px.gif" alt="no1: maroon" /&gt;</code></li>
+    <li class="t02"><code>&lt;/a&gt;</code></li>
+
+    <li class="t02"><code>&lt;!--etc...--&gt;</code></li>
+    <li class="t01"><code>&lt;/div&gt;</code></li>
+    <li class="t00"><code>&lt;/div&gt;</code></li>
+    <li class="t00">&nbsp;</li>
+
+    <li class="t00"><code>&lt;a href="#link" class="child reflowbutton"&gt;</code></li>
+    <li class="t01"><code>&lt;img src="images/block10px10px.gif" alt="reflow" /&gt;</code></li>
+
+    <li class="t00"><code>&lt;/a&gt;</code></li>
+
+    <li class="t00">&nbsp;</li>
+    <li class="t00"><code>.intrinsic{</code></li>
+    <li class="t01"><code>/* without dimensions */</code></li>
+    <li class="t01"><code>border: 1px dashed black;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><p>In this sequence, the percentages refer to the partly liquid white sheet of this page ("parent" has no dimension, "ancestor" has, but is skipped due to the bug in question, the sequence "D"-element is undimensioned, so, at least, the white sheet is the "next dimensioned ancestor"). The initial miscalculation changes with the size of the viewport.</p></li>
+
+</ol>
+<div class="sequence">
+<div class="ancestor square">
+<div class="parent intrinsic"></div>
+<div class="legend">1: playground: defined lenghts of ancestor, intrinsic dimensions of parent</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square"><div class="parent intrinsic"
+        ><a href="#link" class="child margin_0 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_0 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_0 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_0 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_0 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+<div class="legend">2: normal flow, margin-left:0</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square"><div class="parent intrinsic"
+        ><a href="#link" class="child margin_5 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_5 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_5 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_5 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_5 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_5 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+        <div class="legend">3: normal flow, margin-left:5%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square"><div class="parent intrinsic"
+        ><a href="#link" class="child margin_10 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_10 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_10 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_10 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_10 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_10 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+        <div class="legend">4: normal flow, margin-left:10%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square"><div class="parent intrinsic"
+        ><a href="#link" class="child margin_20 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_20 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_20 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_20 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_20 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_20 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+ <div class="legend">5: normal flow, margin-left:20%</div>
+
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square"><div class="parent intrinsic floatbgimg"
+        ><a href="#link" class="child floatflow margin_5 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_5 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child floatflow margin_5 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child floatflow margin_5 no4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child floatflow margin_5 no5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child floatflow margin_5 no6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a></div><div class="legend">6: float flow, margin-left:5%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+
+
+</div>
+
+<div class="text">
+<p>To make it worse, this is not static. As said above, page flow follows a time dimension. In time, intrinsic lengths become determined when the containing block is rendered.</p>
+
+
+<h2>The reflow</h2>
+
+
+<p>Assume the page flow is done, all the elements are processed. If a part of the construct has to be redrawn &ndash; this is necessary in a hover-transition with a background's change &ndash; with this at least a determined length is used. Now (now!), a percentage calculation follows the specification: <q>... with respect to the width of the generated box's containing block</q>, <em>but not until the page rendering is complete</em>. There is a state pre- and post-page-flow.</p>
+
+<p>Compare this situation with an element relatively positioned: <q cite="http://www.w3.org/TR/CSS21/visuren.html#choose-position">The box's position is calculated according to the normal flow ... Then the box is offset relative to its normal position</q> (<cite><a href="http://www.w3.org/TR/CSS21/visuren.html#choose-position"  title="See W3C specification of positioning schemes">CSS2.1: 9.3.1</a></cite>).  <em>Then</em> -- the normal flow is processed, therefore, percentages for relative offsets are correct, as are margins in hover-transitions.</p>
+
+<p>Hovering induces a reflow in the neighborhood of an element. Combined with percentages, it is just too awful for words.  <q cite="http://www.w3.org/TR/CSS21/selector.html#dynamic-pseudo-classes">User agents are not required to reflow a currently displayed document due to pseudo-class transitions</q> (<cite><a href="http://www.w3.org/TR/CSS21/selector.html#dynamic-pseudo-classes" title="See W3C specification of dynamic pseudo classes">CSS2.1: 5.11.3</a></cite>). Yes, but please, they shouldn't really do this unless they know what they are doing.</p>
+
+<p>What exactly is happening while a reflow occurs? I do not really know. At the moment, I think the nearest ancestor block which has a dimension is dissolved. Its dimensions, though known, are set to indetermined. All descendants are redrawn, as are all following siblings. For inline-level-elements, only the preceding line-box is redrawn with the element, that absurdly results in a last lines' indent, even if it's in the preceding paragraph (F1).</p>
+
+<p>That's all the magic in the flip-flop circuit of the red reflowbutton in the example sequences: Though the absolute lengths are all known &ndash; the page is currently displayed &ndash; the sequence is reflowed, making the same old wrong assumptions about indetermined dimensions as discussed again: back to start.</p>
+
+<p>It is the consequence of this 'quirky' model: the hover-transition could have forced an element to blow up, so the neighborhood is affected and so loses its 'determined dimensions state'.</p>
+
+
+<h2>The nature and character of the bug</h2>
+
+
+<p>Both IE6 in quirks mode and IE5 do not have such problems with percentages. Is it the miserable failure in implementation of a standards compliant box model in IE6? So, they corrected IE's <a href="../articles/box-model.html" title="See the PIE in-depth article about IEs box-model bugs and fixes">box model problem</a> in IE6, but was it the right time?</p>
+
+<p>Besides the wrong positioning, and the consecutive jumping on hover, the percentage sequences offer various awful unintended effects:</p>
+
+<ul>
+    <li>multiple phantom background boxes (H)</li>
+    <li>disappearing or split backgrounds (E2)</li>
+    <li>duplicated characters (G) and spurious content (uncollapsing in D6)</li>
+    <li>misplaced or wrapped focus outline boxes and clickable regions (C, D)</li>
+</ul>
+
+<p>The last point is unmasking: when you focus a link with the tab key, the grey dotted box (aka selection rectangle, focusing ring) outlines the content area and the left margin area of inline-level elements. This outline width area of the left margin is correct (!), but there is an offset to the content area (tab to C4/5 &ndash; see screenshot C5a &ndash; and watch the outline's position while the bugs are jumping and what happens on reflow, or gently move the pointer between the outline and the content from above and from below).</p>
+
+<p>The bug is the incorrect relation during page flow, whereas the jump and the other aspects are consequences.</p>
+
+
+<h2>Approaching the real world &ndash; why this ain't funny</h2>
+
+
+<p>The client calls saying your on-deadlines' work doesn't work, and you can't reproduce it on your environment: when it provides some obvious jumping in the menu (E1, E2), you are lucky, but mostly this bug will show only a rat's tail: perhaps in the form of a little gap due to a wrapping of a misplaced selection-box, maybe in form of some volatile additional content.</p>
+</div>
+
+
+<h3 class="sequence_number">E</h3>
+
+<ol class="csshtml">
+    <li class="t00"><code>&lt;!--E1--&gt;</code></li>
+    <li class="t00"><code>&lt;div class="ancestor rect"&gt;</code></li>
+    <li class="t01"><code>&lt;div class="parent_menu" &gt;</code></li>
+    <li class="t02"><code>&lt;a href="#link" class="menulink block floatflow margin_3 no1"&gt;</code></li>
+    <li class="t03"><code>A</code></li>
+    <li class="t02"><code>&lt;/a&gt;</code></li>
+
+    <li class="t02"><code>&lt;!--etc.--&gt;</code></li>
+    <li class="t01"><code>&lt;/div&gt;</code></li>
+    <li class="t00"><code>&lt;/div&gt;</code></li>
+    <li class="t00"><code>&nbsp;</code></li>
+
+    <li class="t00"><code>&lt;a href="#link" class="child reflowbutton"&gt;</code></li>
+    <li class="t01"><code>&lt;img src="images/block10px10px.gif" alt="reflow" /&gt;</code></li>
+
+    <li class="t00"><code>&lt;/a&gt;</code></li>
+
+    <li class="t00">&nbsp;</li>
+
+    <li class="t00"><code>&lt;!--E2--&gt;</code></li>
+    <li class="t02"><code>&lt;!--&lt;a href="#link" class="menulink margin_3 no1"&gt;--&gt;</code></li>
+    <li class="t01"><code>&nbsp;</code></li>
+
+    <li class="t00"><code>.rect{</code></li>
+    <li class="t01"><code>width:400px;</code></li>
+    <li class="t01"><code>height:100px; </code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.parent_menu{ </code></li>
+
+    <li class="t01"><code>display: block;</code></li>
+    <li class="t01"><code>margin:10px 0 0 100px;</code></li>
+    <li class="t01"><code>background-color: silver;</code></li>
+    <li class="t01"><code>width:200px;</code></li>
+    <li class="t01"><code>height:50px; </code></li>
+    <li class="t01"><code>border: 1px solid black;</code></li>
+
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.menulink{</code></li>
+    <li class="t01"><code>position: relative;</code></li>
+    <li class="t01"><code>top:-1px;</code></li>
+    <li class="t01"><code>width:1em;</code></li>
+    <li class="t01"><code>padding: 0 7px;</code></li>
+
+    <li class="t01"><code>font-size: 8px;</code></li>
+    <li class="t01"><code>text-align: center;</code></li>
+    <li class="t01"><code>vertical-align:top;</code></li>
+    <li class="t01"><code>color: white;</code></li>
+    <li class="t01"><code>border-top:none;</code></li>
+    <li class="t01"><code>border-right:1px solid black;</code></li>
+
+    <li class="t01"><code>border-bottom: 1px solid black;</code></li>
+    <li class="t01"><code>border-left: 1px solid black;</code></li>
+    <li class="t01"><code>text-decoration: none;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>a:hover.menulink{</code></li>
+    <li class="t01"><code>background-color: yellow;</code></li>
+
+    <li class="t01"><code>color: black;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.block{</code></li>
+    <li class="t01"><code>display: block;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.floatflow{</code></li>
+    <li class="t01"><code>float: left;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.margin_3{</code></li>
+    <li class="t01"><code>margin: 0 0 0 3%;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.parent_menu .no1{</code></li>
+    <li class="t01"><code>background: maroon;</code></li>
+    <li class="t01"><code>}</code></li>
+</ol>
+<div class="sequence">
+
+<div class="ancestor rect">
+<div class="parent_menu floatbgimg" ><a href="#link" class="menulink block floatflow margin_3 no1">A</a
+><a href="#link" class="menulink block floatflow margin_3 no2">B</a
+><a href="#link" class="menulink block floatflow margin_3 no3">C</a
+><a href="#link" class="menulink block floatflow margin_3 no4">D</a
+><a href="#link" class="menulink block floatflow margin_3 no5">E</a
+><a href="#link" class="menulink block floatflow margin_3 no6">F</a
+></div>
+
+<div class="legend">1: float flow, block, relative, margin-left:3%.</div></div>
+<a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor rect">
+
+<div class="parent_menu"><a href="#link" class="menulink margin_3 no1">A</a
+><a href="#link" class="menulink margin_3 no2">B</a
+><a href="#link" class="menulink margin_3 no3">C</a
+><a href="#link" class="menulink margin_3 no4">D</a
+><a href="#link" class="menulink margin_3 no5">E</a
+><a href="#link" class="menulink margin_3 no6">F</a
+></div>
+<div class="legend">2: normal flow, inline, relative, margin-left:3%.</div></div>
+<a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+</div>
+
+<div class="text">
+
+
+
+<h2>The Janus-faced padding</h2>
+
+
+
+<p>The percentage bugs on paddings and on margins are quite similar - on the surface. It depends on whether the element's Microsoft-proprietary <a href="http://msdn.microsoft.com/workshop/browser/mshtml/reference/ifaces/currentstyle2/haslayout.asp" title="See the MSDN page">"hasLayout" property</a> is set to true or false:</p>
+
+<dl>
+    <dt>False (default):</dt>
+    <dd>The percentage skips one generation ("extroversion"). A hover-transition induces a reflow-jump to the expected position.</dd>
+
+    <dt>True (width is set/ height is set/ display: inline-block etc.):</dt>
+    <dd>The percentage is calculated correctly. A hover-transition induces a reflow-jump to a wrong position as the percentage refers to the element itself ("introversion") at this moment.</dd>
+</dl>
+
+</div>
+
+
+ <h3 class="sequence_number">F</h3>
+<ol class="csshtml">
+    <li class="t00"><code>&lt;div class="ancestor square"&gt;</code></li>
+    <li class="t01"><code> &lt;div class="parent dimensioned"&gt;</code></li>
+    <li class="t02"><code>&lt;p class="loremipsum padding_10"&gt;</code></li>
+    <li class="t03"><code>&amp;lt;p&amp;gt;Lorem ipsum ... elit.&amp;lt;/p&amp;gt;</code></li>
+
+    <li class="t02"><code>&lt;/p&gt;</code></li>
+
+
+    <li class="t02"><code>&lt;a href="#link" class="child margin_0 no2"&gt;</code></li>
+    <li class="t03"><code>&lt;img src="images/block10px10px.gif" alt="no2: green" /&gt;</code></li>
+    <li class="t02"><code>&lt;/a&gt;</code></li>
+
+    <li class="t02"><code>&lt;p class="loremipsum padding_10"&gt;</code></li>
+
+    <li class="t03"><code>&amp;lt;p&amp;gt;&lt;span&gt;Lorem ipsum ... amet,</code></li>
+    <li class="t03"><code>&lt;a href="#link" class="child margin_0 no3"&gt;</code></li>
+    <li class="t04"><code>&lt;img src="images/block10px10px.gif" alt="no3: olive" /&gt;</code></li>
+    <li class="t03"><code>&lt;/a&gt;</code></li>
+
+    <li class="t03"><code>... elit.&lt;/span&gt;&amp;lt;/p&amp;gt;</code></li>
+
+    <li class="t02"><code>&lt;/p&gt;</code></li>
+
+    <li class="t01"><code>&lt;/div&gt;</code></li>
+    <li class="t00"><code>&lt;/div&gt;</code></li>
+    <li class="t01"><code>&nbsp;</code></li>
+    <li class="t00"><code>&lt;a href="#link" class="child reflowbutton"&gt;</code></li>
+    <li class="t01"><code>&lt;img src="images/block10px10px.gif" alt="reflow" /&gt;</code></li>
+
+    <li class="t00"><code>&lt;/a&gt;</code></li>
+
+    <li class="t00">&nbsp;</li>
+
+
+    <li class="t00"><code>.loremipsum{</code></li>
+    <li class="t01"><code>margin:0;</code></li>
+    <li class="t01"><code>font-size: 9px;</code></li>
+
+    <li class="t01"><code>color: gray; </code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.loremipsum span{</code></li>
+    <li class="t01"><code>/*line box outline*/</code></li>
+    <li class="t01"><code>border: 1px solid gray;</code></li>
+    <li class="t01"><code>display: inline;</code></li>
+
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.padding_10{</code></li>
+    <li class="t01"><code>padding:0 0 0 10%;</code></li>
+    <li class="t01"><code>}</code></li>
+
+</ol>
+<div class="sequence">
+<div class="ancestor square">
+
+     <div class="parent dimensioned"
+        ><p class="loremipsum padding_10">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing
+elit.&lt;/p&gt;</p><a href="#link" class="child margin_0 no2"><img class="image" src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><p class="loremipsum padding_10">&lt;p&gt;<span>Lorem ipsum dolor sit amet, <a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+elit.</span>&lt;/p&gt;</p></div><div class="legend">1: undimensioned paragraphs, padding-left:10%; green beyond/ olive inside &lt;p&gt;, line boxes</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square">
+     <div class="parent dimensioned layoutbgimg"
+        ><p class="loremipsum padding_10 inlineblock">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing
+elit.&lt;/p&gt;</p><a href="#link" class="child margin_0 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><p class="loremipsum padding_10 inlineblock">&lt;p&gt;<span>Lorem ipsum dolor sit amet, <a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+elit.</span>&lt;/p&gt;</p></div>
+
+<div class="legend">2: &lt;p&gt; with display: inline-block; padding-left:10%;</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square">
+     <div class="parent dimensioned layoutbgimg"
+        ><p class="loremipsum padding_10 hollyHack">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing
+elit.&lt;/p&gt;</p><a href="#link" class="child margin_0 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><p class="loremipsum padding_10 hollyHack">&lt;p&gt;<span>Lorem ipsum dolor sit amet, <a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+elit.</span>&lt;/p&gt;</p></div>
+
+<div class="legend">3: &lt;p&gt; with Holly Hack, padding-left:10%;</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square">
+     <div class="parent dimensioned"
+        ><div class="parentwrapper"
+        ><p class="loremipsum padding_10">&lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing
+elit.&lt;/p&gt;</p><a href="#link" class="child margin_0 no2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><p class="loremipsum padding_10">&lt;p&gt;<span>Lorem ipsum dolor sit amet, <a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+elit.</span>&lt;/p&gt;</p></div></div>
+
+<div class="legend">4: wrapped with dimensions equal to parent</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square">
+    <div class="parent_top10 dimensioned layoutbgimg"
+    ><p class="loremipsum padding_50 hollyHack">&lt;p&gt;<span>Lorem ipsum dolor sit amet,<a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+    elit. </span>&lt;/p&gt;</p></div>
+
+    <div class="parent_top10 dimensioned"
+    ><p class="loremipsum padding_50">&lt;p&gt;<span>Lorem ipsum dolor sit amet, <a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+    elit.</span>&lt;/p&gt;</p></div>
+
+<div class="legend">5: padding-left:50%, with/without "layout"</div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+<div class="ancestor square">
+    <div class="parent_top10 dimensioned layoutbgimg"
+    ><div class="parentwrapper"
+        ><p class="loremipsum padding_50 hollyHack">&lt;p&gt;<span>Lorem ipsum dolor sit amet,<a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+    elit. </span>&lt;/p&gt;</p></div></div>
+
+    <div class="parent_top10 dimensioned"
+    ><div class="parentwrapper"
+        ><p class="loremipsum padding_50">&lt;p&gt;<span>Lorem ipsum dolor sit amet, <a href="#link" class="child margin_0 no3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a> consectetuer adipiscing
+    elit.</span>&lt;/p&gt;</p></div></div>
+
+<div class="legend">6: padding-left:50%, doubled-wrapper, with/without "layout", </div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+</div>
+
+<div class="text">
+
+<p>The dilemma is, that the application of hasLayout via the <a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a> (or any other method) leads to another problem.
+We jump out of the frying pan into the fire (F5). And doubled wrapping, another possible workaround, fails too: A second containing block with the same dimensions
+as the parent is of no use when the element's padding is referring to the element's width (F6). So you'll have to omit hover-transitions when dimensions are set.</p>
+
+<p>Ironically both alternatives of "hasLayout" reveal a relational skip: to the ancestor or to itself, but not to the parent where the reference belongs.</p>
+
+<h2>Are there workarounds?</h2>
+
+
+<p>You knew it, this is the section for bad news.</p>
+<dl>
+    <dt>Doubled-wrapper:</dt>
+    <dd>Given an additional wrapper with the parent's dimensions, a child will calculate its percentages with respect to the wrapper (C5b, F4). This will not cure the introverted hover-jump on paddings (F6).</dd>
+
+    <dt>hasLayout = True:</dt>
+
+    <dd>Use the <a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a> where pure intrinsic lengths produce unforeseeable results,
+    or set <code>display: inline-block</code> where appropriate.
+    Does work on paddings only (F2, F3) and you'll have to omit changing backgrounds on hover.</dd>
+
+    <dt>Abstention from hover-transitions:</dt>
+
+    <dd>Avoids the jumping, but not the offset's miscalculation.</dd>
+
+    <dt>Abstention from relative values: </dt>
+    <dd>This seems to be the current de-facto-workaround (however, in the assumption IE is imprecise).</dd>
+
+    <dt>Quirks mode:</dt>
+    <dd>Well, perhaps, yes perhaps.</dd>
+
+    <dt>Expressions:</dt>
+    <dd><code>margin-left: expression(this.parentNode.offsetWidth / 10 + 'px');</code> is equivalent to <code>margin-left: 10%;</code>. This seems to be a (desperate) cure. The relation is fixed by explicitly referring to the parent.</dd>
+</dl>
+
+
+<h2>A side note</h2>
+
+<p>In all the examples, the links are positioned, some are block level, as image replaced elements, or flowed &ndash; this is in order to make the problem visible and reproducible.  But if you'd simply join two text links side by side, give them a percentage margin, with a :hover-effect, nothing obscure would happen ... really?</p>
+</div>
+
+<h3 class="sequence_number">G</h3>
+
+<ol class="csshtml">
+      <li class="t00"><p>The nonfloatet, nonpositioned, nonreplaced pure normal-flow inline characters example. I hope it is reproducible on your monospaced font settings.</p></li>
+    <li class="t00"><code>&lt;div class="ancestor square"&gt;</code></li>
+
+    <li class="t01"><code> &lt;div class="parent dimensioned mono"</code></li>
+
+    <li class="t02"><code>&gt;&lt;a href="#link" class="inlinelink margin_3"&gt;X&lt;/a</code></li>
+    <li class="t02"><code>&gt;&lt;a href="#link" class="inlinelink margin_3"&gt;X&lt;/a</code></li>
+    <li class="t02"><code>&gt;&lt;a href="#link" class="inlinelink margin_3"&gt;X&lt;/a</code></li>
+
+    <li class="t02"><code>&gt;&lt;a href="#link" class="inlinelink margin_3"&gt;X&lt;/a</code></li>
+    <li class="t02"><code>&gt;&lt;a href="#link" class="inlinelink margin_3"&gt;X&lt;/a&gt;</code></li>
+
+    <li class="t02"><code>a b c d e</code></li>
+    <li class="t01"><code>&lt;/div&gt;</code></li>
+
+    <li class="t00"><code>&lt;/div&gt;</code></li>
+    <li class="t00"><code>&lt;a href="#link" class="child reflowbutton"&gt;</code></li>
+    <li class="t01"><code>&lt;img src="images/block10px10px.gif" alt="reflow" /&gt;</code></li>
+    <li class="t00"><code>&lt;/a&gt;</code></li>
+
+    <li class="t00">&nbsp;</li>
+
+    <li class="t00"><code>a.inlinelink{</code></li>
+
+    <li class="t01"><code>color: blue !important;</code></li>
+    <li class="t01"><code>text-decoration: underline;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.mono{</code></li>
+    <li class="t01"><code>font: 15px monospace;</code></li>
+    <li class="t01"><code>}</code></li>
+
+</ol>
+ <div class="sequence">
+<div class="ancestor square">
+<div class="parent dimensioned mono"
+        ><a href="#link" class="inlinelink margin_3">X</a
+        ><a href="#link" class="inlinelink margin_3">X</a
+        ><a href="#link" class="inlinelink margin_3">X</a
+        ><a href="#link" class="inlinelink margin_3">X</a
+        ><a href="#link" class="inlinelink margin_3">X</a
+        > a b c d e</div>
+        <div class="legend">1:  Five links with margin-left:3% and a string of five chars and whitespaces.</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="ancestor square">
+<div class="parent dimensioned mono"
+        ><a href="#link" class="inlinelink margin_10">X</a
+        ><a href="#link" class="inlinelink margin_10">X</a
+        ><a href="#link" class="inlinelink margin_10">X</a
+        ><a href="#link" class="inlinelink margin_10">X</a
+        ><a href="#link" class="inlinelink margin_10">X</a
+        > a b c d e f g h i j k l m n o p q r s t u v w x y z</div>
+        <div class="legend">2: margin-left:10%</div>
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+
+</div>
+
+<div class="text">
+
+<p>Well, in G1, the links do not jump, but the following string will be affected by duplicating chars in the <em>next line box</em>. Or in G2, which is quite similar, only the margin is a little bit wider, the links are jumping, the parent is ballooning &ndash; but: the alphabet's wrapping in the next line boxes are not affected.  So, the consequences depend on the amount of the percentage error. In G1, the error can not be seen on the links, but indirectly: the actual line box is well, but there was something causing a wrapping of the first line box' content into the second one <em>as if the percentage bug has occurred</em> on the links and hasn't sufficiently covered up its tracks, leaving duplicate characters. </p>
+
+
+<h2>Artefacts</h2>
+
+
+<p>While working on the examples, I often saw something I named "multiple phantom background boxes". I stand corrected, I had used subsets of "class" values, but IE6 doesn't support this well.</p>
+
+<p>The rule was intended to match elements whose "class" attribute has been assigned a list of values that includes "menulink" and "no1" (see sequence E). But in IE, <code>.menulink.no1</code> degrades to <code>.no1</code>, matching any occurance of it. So the background color in C, D was applied to the link <em>and</em> to the transparent image inside of it.</p>
+
+<p>Anyway &ndash; this does not explain <em>why</em> the background boxes are repeated. A domino effect in redrawing the preceding line-box? Let's hope this one does not show up in the real world, but if so, <code>display: inline-block</code> fixes the phantoms (and avoids losing backgrounds), but not the miscalculation.</p>
+
+</div>
+
+<h3 class="sequence_number">H</h3>
+
+<ol class="csshtml">
+    <li class="t00"><code>&lt;a href="#link" class="child margin_10 no1"&gt;</code></li>
+    <li class="t01"><code>&lt;img src="images/block10px10px.gif" alt="no1: maroon" /&gt; </code></li>
+    <li class="t00"><code>&lt;/a&gt;</code></li>
+    <li class="t00"><code>&nbsp;</code></li>
+
+    <li class="t00"><code>.child{</code></li>
+    <li class="t01"><code>width: 10px;</code></li>
+    <li class="t01"><code>height: 10px;</code></li>
+    <li class="t01"><code>font-size: 5px;</code></li>
+    <li class="t01"><code>line-height: 5px;</code></li>
+    <li class="t01"><code> }</code></li>
+
+    <li class="t00"><code>.margin_10{</code></li>
+    <li class="t01"><code>margin: 0 0 0 10%;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>.no1 img,  /* intended effect */</code></li>
+    <li class="t00"><code>.menulink.no1{ /* error in IE: degrades */</code></li>
+
+    <li class="t01"><code>background: maroon;</code></li>
+    <li class="t01"><code>}</code></li>
+
+    <li class="t00"><code>img{</code></li>
+    <li class="t01"><code>width: 10px; </code></li>
+    <li class="t01"><code>height: 10px;</code></li>
+    <li class="t01"><code>border: none; </code></li>
+
+    <li class="t01"><code>margin: 0;</code></li>
+    <li class="t01"><code>padding: 0;</code></li>
+    <li class="t01"><code>}</code></li>
+</ol>
+<div class="sequence">
+<div class="ancestor square"><div class="parent intrinsic"
+        ><a href="#link" class="child margin_10 artefactno1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child margin_10 artefactno2"><img src="images/block10px10px.gif" alt="no2: green" title="no2: green" /></a
+        ><a href="#link" class="child margin_10 artefactno3"><img src="images/block10px10px.gif" alt="no3: olive" title="no3: olive" /></a
+        ><a href="#link" class="child margin_10 artefactno4"><img src="images/block10px10px.gif" alt="no4: navy" title="no4: navy" /></a
+        ><a href="#link" class="child margin_10 artefactno5"><img src="images/block10px10px.gif" alt="no5: purple" title="no5: purple" /></a
+        ><a href="#link" class="child margin_10 artefactno6"><img src="images/block10px10px.gif" alt="no6: teal" title="no6: teal" /></a
+        ></div>
+        <div class="legend">1: Artefact &ndash; start with the last (teal) one.</div>
+
+</div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+<div class="screenshot"><img id="d4shot" src="images/d4.png" width="202" height="202" alt="d4a" /><label for="d4shot">D4a with artefacts</label></div>
+
+</div>
+
+
+<div class="text">
+
+
+<h2>Only some of the remaining questions</h2>
+
+
+<ul>
+    <li>Is a percentage-width computed correctly, and does its element behave as expected?</li>
+
+    <li>What exactly restricts the reflow?</li>
+    <li>What about other relative values (em, ex)?</li>
+</ul>
+<p>I'd love to hear from your experiences and solutions, friends.</p>
+</div>
+
+
+<h3 class="sequence_number">I</h3>
+<ul class="csshtml">
+    <li class="t00"><p>Sometimes I think that there is a self-organizing structure in the complex dynamics of bugs. Every set seems to have its fractal geometry referring to the whole thing.</p></li>
+
+</ul>
+
+<div class="sequence">
+<div class="ancestor square">
+     <div class="parent_ie relative"
+        ><a href="#link" class="child floatflow margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_neg no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_0 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_0 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_neg no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_neg no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_0 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_neg no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_50 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_neg no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_0 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ><a href="#link" class="child floatflow margin_0 no1"><img src="images/block10px10px.gif" alt="no1: maroon" title="no1: maroon" /></a
+        ></div></div><a href="#link" class="child reflowbutton"><img src="images/block10px10px.gif" alt="reflow" title="reflow" /></a>
+
+
+</div>
+
+<div class="text">
+    <p>For their help in reviewing this article, I would like to thank <a href="http://www.brunildo.org/test/index.html" title="See Bruno Fassino's CSS test cases">Bruno Fassino</a>, <a href="http://www.456bereastreet.com/" title="See 456 Berea Street where Roger Johansson writes about topics related to web design and development">Roger Johansson</a>, David Batty, and Big John.</p>
+
+    <p>Ingo Chao</p>
+    <a href="http://www.satzansatz.de/" title="See my personal site about CSS/CMS related topics">www.satzansatz.de</a>
+    <p class="bio">Bio: Ingo Chao, 1967, is a freelance <a href="http://www.sinnverwandt.de/" title="See my personal site (in German)">editor</a> (editing books of medical/psychological/sociological themes), living with his wife in Bremen/Germany.</p>
+</div>
+
+
+
+</div></div>
+
+</body>
+
+
+</html>

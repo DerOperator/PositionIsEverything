@@ -1,0 +1,754 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>PNG Drop Shadows</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A discussion of the theory of CSS floating." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+</head>
+
+<body id="dropshadows">
+
+<h1>PNG Drop Shadows</h1>
+
+<div class="wrapper">
+
+<div class="consultbox">
+<h2>Are complex CSS issues making your programmers <em>crazy?</em></h2>
+<p>I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Hire me to help you too.</a></p>
+
+<h3><a href="http://everyones.com/webinar/bigjohn">Big John's CSS Webinars!</a></h3>
+
+<p>Let Big&nbsp;John (yours&nbsp;truly) <a href="http://everyones.com/webinar/bigjohn">teach&nbsp;you</a> 
+about CSS in a setting where you can
+actually <em>ask questions</em>. Will wonders never cease? Learn about the cascade
+and its arcane mysteries, or dive into the cesspool of IE6 with Big&nbsp;John as your lifeguard.
+</p>
+
+<p>
+Besides upcoming webinar dates, you can also download recorded versions
+of <a href="http://everyones.com/webinar/bigjohn">previous webinars</a> 
+(some free, some for sale). 
+</p>
+
+</div>
+
+<p class="alignright">
+<a href="../articles.html"><strong>Return to Articles.</strong></a><br />
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+
+<p class="tip" style="clear: both;">
+This article is largely obsolete due to an
+<a href="dropshadows2.html">improved&nbsp;method</a> that covers all sides of a box and needs
+only one shadow image to work. However, some may prefer this method or have already implemented
+it, so this article will remain for the time being.
+ <br /><br />
+<strong>Special Notice:</strong> I've written a
+<a href="dropshadows-gimp1.html"><strong>tutorial for making drop shadows</strong></a>, using the free Gimp
+graphics editor. Enjoy!
+</p>
+
+<p>
+This article will describe a modification to existing drop shadow methods, employing
+semi-transparent .png's. Therefore the method is meant for use in in IE7 and
+the other modern browsers, but <em>not</em> in IE6 and below, which do not correctly display
+such .png's. IE/Mac can display .png's correctly but will have trouble with the
+CSS used in the method. We have a
+<a href="sidepages/dropshadow/dropshadow.html">minimal&nbsp;demo&nbsp;page</a>
+available, complete with helpful tips in the source comments.
+</p>
+
+<h2>Browser Support</h2>
+
+<p>
+The PNG Drop Shadow method works in Gecko browsers, Opera, Safari, and IE7. It is made to degrade
+gracefully to a basic box without dropshadows in earlier IE versions, since those
+browsers don't support the partially transparent .png's used in the method.
+<strong>IE/Mac</strong> does <em>not support the method at all</em>, due to the lack of
+widths on some floated or positioned elements, and also because of the relative
+shifting effects used. The
+<a href="http://www.sam-i-am.com/work/sandbox/css/mac_ie5_hack.html">IE&nbsp;Machack</a>
+may be used to dumb down the code in a way similar to the IE6 dumb-down technique.
+</p>
+
+<h2>What Has Gone Before</h2>
+
+<p>
+Say what you want about drop shadows, they are everywhere on the web and in print,
+and for good reason. There's just no other way to get a three-dimensional effect
+without making page elements physically move around. Such shadows might be placed on any
+sides of a box, but the common usage is to have them on the right and bottom edges,
+and we will confine ourselves to that convention.
+</p>
+
+<p>
+There have been a lot of methods developed to display drop shadows, and all the
+early ones made use of tables. These days it's usually considered bad practice to
+use tables for "window-dressing" of this kind, and so
+<a href="http://css-discuss.incutio.com/?page=DropShadows">tableless&nbsp;methods</a>
+have been developed to do the same thing. Unfortunately, all current drop shadow
+methods tend to have undesirable side-effects and/or display weaknesses of one kind
+or another.
+</p>
+
+<p>
+Let's quickly review the existing methods, or you can just
+<a href="#method">skip to the new method</a>.
+</p>
+
+<h3>Pure CSS</h3>
+
+<p>
+It's possible to use nested DIV's and simple background colors to fake the look
+of drop shadows, as long as you just want to <em>suggest</em> a drop shadow.
+<a href="http://phoenity.com/newtedge/drop_shadow/">Phoenity.com</a> offers a method using
+backgrounds on several nested DIV's, along with two trickier methods.
+</p>
+
+<p>
+Essentially the background method starts with some DIV's nested together and being all the same size.
+Then beginning with the outer DIV, each successive child DIV is given a progressively
+darker background, and relative positioning allows them to be shifted up and to
+the left by 1px more for each successive DIV. This creates a content box that is
+backed by other boxes of the same size, each one a bit farther down and to the
+right than the one in front of it, simulating a drop shadow. Very simple indeed.
+</p>
+
+<p>
+Unfortunately, clients are high-maintainance creatures, and they usually require that
+drop shadows be "fuzzy." Oh sure, real shadows usually <em>are</em> fuzzy, but clients
+could be more reasonable, yes? Well, <em>no</em>, clients seem to have <em>all the
+money</em>, and the money is saying "fuzzy" too, so we had better listen to the
+money, yes?
+</p>
+
+<h3>Using Images</h3>
+
+<p>
+The obvious solution is to go with images of some kind, and that's where it starts to
+get complicated. First the fuzzy drop shadow images must be <em>made</em>, requiring graphic
+skills. We can't help you there, but assuming you can get by that hurdle, next
+comes trying to arrange code so the image or images end up looking drop-shadow-like.
+</p>
+
+<p>
+Of course you may always add a customized dropshadow to any existing image using
+a graphics program, and also create one separately for use in a padded DIV that contains
+some content, but this will not work when a site is pulling arbitrary content out
+of a database.
+</p>
+
+<p>
+Thus <strong>Requirement Number One:</strong> <em>The ideal drop shadow method
+must work on any arbitrary element</em>.
+</p>
+
+<p>
+This requirement has been met in the past by using a table, with cells that contain
+the important corner bits of the shadow while the long cells along the right and
+bottom sides are allowed to stretch out the fuzzy image to any needed length.
+However this kind of table trickery is really bad practice, due to major accessibility
+issues and also because of code complexity. We will assume that you don't want to go there.
+</p>
+
+<p>
+CSS doesn't utilize table cells, but it does have <strong>backgrounds</strong>, and these will be our
+primary tools for creating drop shadows. We've already seen how simple background-colored
+DIV's can get the job done, and backgrounds are not limited to colors but may
+also accept <strong>images</strong>. Furthermore, CSS allows backgrounds to be
+<strong>positioned</strong> against any of the four sides
+of a designated box. Cool, that's just what we need for drop shadows!
+</p>
+
+<p class="tip">
+The imaged drop shadow approach does have a serious problem, and that's
+<em>file&nbsp;size</em>. Using pure CSS for a drop shadow may not look great, but
+the server hit is very small. So what exactly <em>is</em> the bandwidth cost of
+using images? Well, the main
+<a href="sidepages/dropshadow/shadow.png"><strong>shadow.png</strong></a>
+image used in our
+<a href="sidepages/dropshadow/dropshadow.html">demo&nbsp;page</a> is
+only 3.5kb, while its dimensions are a quite-large 800x600 pixels. The file weight
+is this small because most of the area in shadow.png consists of <em>simple transparency</em>.
+The two corner .png's used are just 275 bytes each
+(<a href="sidepages/dropshadow/upperrightfade.png"><strong>upperrightfade.png</strong></a> and
+<a href="sidepages/dropshadow/lowerleftfade.png"><strong>lowerleftfade.png</strong></a>),
+so all three images together sum to just <strong>4kb</strong> total. A typical web page .jpg is
+<em>far</em> more than a mere 4kb. Since this drop shadow method re-uses these .png's for every
+instance on a site, that 4kb is a one-time hit and will then be <em>cached</em>, requiring no
+further bandwidth expense.
+</p>
+
+<h4>Earlier Imaged Drop Shadow Methods</h4>
+
+<p>
+Way back in 2003, <strong>Dunstan Orchard</strong> explained his
+<a href="http://www.1976design.com/blog/archive/2003/11/14/shadows/">Easy&nbsp;CSS&nbsp;drop&nbsp;shadows</a>
+method, later reprised and improved at <strong>A&nbsp;List&nbsp;Apart</strong>
+by <strong>Sergio&nbsp;Villarreal</strong> in the
+<a href="http://www.alistapart.com/articles/cssdropshadows/">CSS&nbsp;Drop&nbsp;Shadows</a>
+article. Dunstan's method uses a drop shadow that is very wide and tall (we're
+doing the same thing), and positions that background into the lower right corner
+of a box. Any parts of the background that would display beyond the edges of the
+parent box are automatically clipped off visually. Then an
+inner nested element is shifted up and to the left via negative margins, allowing
+the background on the parent to show.
+</p>
+
+<p>
+Sadly, the place where the background is clipped looks very sharp and not at all
+fuzzy, potientially making a client unhappy. Sergio soon had this pointed out to him,
+so he then went beyond Dunstan with the
+<a href="http://www.alistapart.com/articles/cssdrop2/">CSS&nbsp;Drop&nbsp;Shadows&nbsp;II:&nbsp;Fuzzy&nbsp;Shadows</a>
+article, where Sergio shows a neat method of applying a masking background to the main image
+via one extra nested DIV. It works by having the image start pure white (or the color
+of the page background) along the top and left edges, and that white then quickly
+fades to transparency just a short distance from those edges. Most of this .png
+image is blocked off by the opaque content box, leaving just a bit showing.
+Those two bits that show in the upper right and lower left corners will then
+partially mask the main shadow image where it is cut off, giving the appearance
+of a nice end-fade.
+</p>
+
+<p>
+Because of that opaque white portion of the masking .png,
+the method <em>must</em> be placed in front of a solid white page background, or
+some other color that will serve in place of the white in the masking
+.png image.
+</p>
+
+<p>
+Then along came <strong>Brian Williams'</strong>
+<a href="http://www.alistapart.com/articles/onionskin/">Onion&nbsp;Skinned&nbsp;Drop&nbsp;Shadows</a>,
+which uses two DIV's instead of one to mask the corners, allowing a simpler way to offest
+the content box, and thus allowing a slight lessening of the shadow thickness merely
+by adjusting the CSS rules.
+</p>
+
+<p>
+Those are great methods, but they have one really serious flaw, in that these masking
+backgrounds must overlie the main drop shadow background image. You may be saying,
+"What of it?", and in
+the case of a <strong>.jpg</strong> or <strong>.gif</strong> image, you are right
+to ask. Those image formats work fine with this method. But there is another
+format, <strong>.png</strong>, and it is much more effective for drop shadows than
+either .jpg or .gif can ever be.
+</p>
+
+<h3>Why PNG Is Better</h3>
+
+<p>
+In a <strong>.jpg</strong>, all displayed pixels must be fully opaque, meaning
+you can't see thru them. In the <strong>.gif</strong> format, all pixels may be
+fully opaque or fully transparent, so you may either see thru a pixel completely
+or not at all. That's fine if you know what solid color the shadow will be cast upon,
+because the shadow image may then be faded to that color and it will look great.
+</p>
+
+<p>
+Now think about our ideal drop shadow. It's supposed to be a <em>shadow</em>,
+right? When you see a real shadow caused by one object fall across other objects,
+can't you still see those other objects, even if they are darkened? Sure, and that
+is where the non-png formats fall down. <strong>They don't allow you to look thru the
+shadow</strong>.
+</p>
+
+<p>
+The <strong>.png</strong> format does allow this, because a pixel may be set to
+any transparency from 0% to 100%. So our ideal shadow image may start at the outer
+edge at fully transparent, and gradually become more colored and less transparent
+as it gets closer to the object that is supposedly casting the shadow.
+</p>
+
+<p>
+Thus <strong>Requirement Number Two:</strong> <em>The ideal drop shadow method must use the .png format</em>.
+</p>
+
+<h3>One Little Problem</h3>
+
+<p>
+Okay, you know the drill by now, it's.. (<em>drum&nbsp;roll..</em>)
+<strong>IE6&nbsp;</strong>. <em>Again!</em> (sigh)&nbsp; IE just
+does <em>not</em> support the png format when partial transparency is used. It's
+been a web-scandal for years, given that most all competing browsers started supporting .png
+long ago. Happily <strong>IE7&nbsp;</strong> does support the .png format properly, so when
+that version takes over the user base we may begin employing imaged drop shadows that look
+good even when placed against patterns or objects on the screen.
+</p>
+
+<p class="tip">
+There is one way to make IE6 "support" partially transparent .png's, using a
+Microsoft proprietary feature, the <strong>alphaimageloader&nbsp;filter</strong>.
+Unfortunately, use of this filter means that it is not really a background anymore,
+and so cannot be positioned. Even worse, the filter must be applied to a box that
+has <a href="http://www.satzansatz.de/cssd/onhavinglayout.html">Layout</a>, and
+that would wreck the method in IE6. These and other MS filter problems are covered at
+<a href="http://www.satzansatz.de/cssd/tmp/alphatransparency.html">Ingo&nbsp;Chao's&nbsp;website</a>.
+</p>
+
+<p>
+Okay, we merely need to wait a while, and our beautiful .png drop shadows will work
+in most browsers, yes? Well, <em>yes and no</em>. The fact is, those two imaged drop shadow
+methods we mentioned earlier <em>cannot work with .png images</em>. There's a simple reason,
+and it will become clear if you think about shadows "twice" as hard.
+</p>
+
+<p>
+If you put on sunglasses, the world gets darker, correct? And what happens if you
+put on two pairs of sunglasses at the same time? Darker still. Well, the
+same thing happens to partially transparent .png's when they are overlaid one atop
+another. Basically the alpha transparency of the two .png's are added, making the
+result <em>less</em> transparent, hiding twice as much of what is behind them.
+</p>
+
+<p class="float-p">
+<img class="" width="184px" height="192px" src="images/crossover.png" alt="" />
+That's great for the cases where different shadows are supposed to cross over
+each other, as in the graphic to the left. This image was taken from our
+<a href="sidepages/dropshadow/dropshadow.html">demo&nbsp;page</a>, where the
+kitty's shadow crosses the clock's shadow. The arrow indicates the region where
+the .png shadows cross, and it's easy to see how the pixels are added together and become
+less transparent, producing a darkening effect similar to the way real shadows behave.
+</p>
+
+<p>
+It isn't so pretty if such darkening occurs within a single drop shadow.
+</p>
+
+<p>
+Here's the basic problem. The Onion&nbsp;Skin method works by placing a couple
+of small "masking" .gifs directly in front of the sharp clipped ends
+on the main shadow image. One edge is opaque and the same color as the page background,
+while the other edge of that same masking image matches the main drop shadow image, with a
+gradient between the pure color edge and the complex shadow edge.
+</p>
+
+<p>
+The increasingly white portion of the masking image makes the linear main shadow
+appear to fade toward white, masking the spot where it would appear clipped, so
+you never see that sharp clipped shadow-end. But this means that even if the main
+image is a semi-transparent .png, both ends of the composite drop shadow will be
+completely opaque, necessarily masking off any pattern on the page background,
+and we are using .png to <em>avoid</em> hiding the page background.
+</p>
+
+<p>
+That's no good, so what if we substitute partially transparent .png's
+for both the main and corner background images, what happens then? Remember that they are
+fully <em>overlapping</em> each other. You guessed it, the screen area they both
+occupy becomes <em>twice as dark as desired</em>, again ruining the drop shadow effect.
+</p>
+
+<p>
+<a name="method"></a>
+So this method <em>cannot</em> be used with the .png format, and that will become a big
+problem as IE7 becomes more prevalent and clients get hungry for better drop shadows.
+Obviously we need a new method!
+</p>
+
+<h2>Introducing the PNG Drop Shadow Method</h2>
+
+<p>
+The only way a .png drop shadow can ever work is to avoid any overlaps between the
+different images that make up the drop shadow, meaning that they must <em>exactly
+touch</em> at all times, but <em>must not overlap</em>. The current methods cannot
+do this, so some new tricks must be employed, and CSS is so powerful that it
+gives us just the tools we need do it. Let's begin with the basic HTML structure.
+</p>
+
+<h3>The Good Old Nested DIV's Again</h3>
+
+<p>
+Yes, nested DIV's are again needed, and for the same old reasons, to provide extra
+backgrounds and the ability to shift the content box. Some may say that nested DIV's
+are no better than the table method, but just try and compare the two code constructions
+by eye and you will see a huge difference. The tabled drop shadow approach leaves
+cells scattered willy-nilly around the intended content, while nested DIV's keep
+all their start and end tags in two tight groups.
+</p>
+
+<p>
+Besides that, such non-content table cells are very unpleasant for those vision-impared
+users who use screen readers. If it helps, imagine that our two groups of DIV
+tags are really "supertags," since the start and end tags all occupy the same two spots
+in the source, just like simple tags do. Hey, one string of code <em>could</em>
+be considered as one "tag", right?
+</p>
+
+<p>
+Anyway, Let's start with the HTML needed for this method:
+</p>
+
+<code>&lt;div class="outerpair1">
+&nbsp;&lt;div class="outerpair2">
+&nbsp;&nbsp;&lt;div class="shadowbox">
+&nbsp;&nbsp;&nbsp;&lt;div class="innerbox">
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;img width="400px" height="315px" src="kitty.jpg" alt="" />
+&lt;/div>&lt;/div>&lt;/div>&lt;/div>
+</code>
+
+<p>
+<strong>.outerpair1</strong> and <strong>.outerpair2</strong> are mainly used to
+hold and display two small .png backgrounds for the sharp corners. In addition,
+<strong>.outerpair1</strong> may also receive an optional extra class to provide a width
+or extra styling. The <strong>.outerpair2</strong> DIV gets method-essential padding.
+The <strong>.shadowbox</strong> DIV holds the main .png drop shadow background, and
+<strong>.innerbox</strong> employs relative positioning to shift the content
+so that it does not cover the dropshadow.
+</p>
+
+<p>
+We'll study these elements one at a time along with their related CSS properties.
+</p>
+
+<h3>The .outerpair1 DIV</h3>
+
+<p class="float-p">
+<img class="" width="317px" height="317px" src="images/shadowset1.png" alt="" />
+The <strong>.outerpair1</strong> DIV is the outermost box, and so this element
+interacts with the rest of the page elements outside the drop shadow group. As
+such, this DIV may be floated or made absolute to enable "shrink-to-fit" around
+a sized content element like an image or flash movie, or alternatively .outerpair1
+may be directly sized via a CSS width.
+</p>
+
+<p>
+.outerpair1 is fairly bug free in Explorer, so there is not too much that can go
+wrong regarding any CSS applied to the DIV. Be aware that if the DIV group contains
+flexible content like text, and is placed inside a column element that is already
+width-controlled, there will then be no need set a width on the .outerpair1 DIV.
+The column itself will control the width of the drop shadow DIV group. Still,
+you may apply margining to .outerpair1 if you wish, further constraining its width
+within that width-controlled column element.
+</p>
+
+<p>
+Besides being the "outside&nbsp;face" of the DIV group, .outerpair1 serves to
+display the upper-right-corner background .png that will terminate the right side
+of the drop shadow at the top end.
+</p>
+
+<h3>The .outerpair2 DIV</h3>
+
+<p class="float-p">
+<img class="" width="317px" height="317px" src="images/shadowset2.png" alt="" />
+Next comes <strong>.outerpair2</strong>, which displays another small .png in the
+lower left corner, terminating the bottom drop shadow at the left end. It's a
+shame that both of these background images can't be applied onto just one div,
+but elements are restricted to one background each. It's not possible to predict
+how far apart the corners will be, and background images cannot be scaled, so
+there is no choice but to use two DIV's for this purpose.
+</p>
+
+<p>
+It is <em>technically</em> possible to combine these two DIV's into one, by using
+a method similar to that found in the
+<a href="http://www.alistapart.com/articles/cssdrop2/">CSS&nbsp;Drop&nbsp;Shadows&nbsp;II</a>
+article, but then the resulting drop shadow couldn't be placed over patterns or
+other objects because there would be opaque ends on the drop shadows. If it were
+done with a .png, the end-fades would not be smoothly rounded but would instead be
+oddly squared off.
+</p>
+
+<p>
+<strong>.outerpair2</strong> also supplies a major piece of the method via its
+top and left padding, which is
+sized to match the thickness of the drop shadow. This padding (outside the dotted
+red lines in the graphic) forces any elements nested inside of .outerpair2 to be
+8px smaller both horizontally and vertically, and keeps that element down in
+the lower right corner of .outerpair2. We have thus prepared a nesting spot for
+the next DIV, so let's bring it in.
+</p>
+
+<h3>The .shadowbox DIV</h3>
+
+<p class="float-p-r">
+<img class="" width="359px" height="354px" src="images/shadowset3.png" alt="" />
+<img class="" style="clear: both;" width="317px" height="317px" src="images/shadowset4.png" alt="" />
+As you can see, <strong>.shadowbox</strong> (bordered blue in the graphic) has
+just one function, to display <em>shadow.png</em> as a background image, positioned
+into the lower right corner of the .shadowbox DIV. This DIV occupies the space
+delineated by the padding on .outerpair2. The first graphic to the right
+shows how the shadow.png image is actually much wider than needed, and extends
+beyond the left and top edges of the .shadowbox DIV. That would look terrible
+if it were displayed in a browser that way, but luckily it is not.
+</p>
+
+<p>
+Background images are <em>never</em> allowed to display beyond the edges of their
+parent element, and any that do will get clipped off at the parent box edges,
+as shown in the 2nd  graphic to the right. The blue bordered .shadowbox is the
+parent for this background, so the clipping occurs at the left and top edges of
+.shadowbox, <em>exactly where it touches the two other background images</em>.
+</p>
+
+<p>
+Note that all the colored and black borders in these graphics are for explanatory
+purposes only, and the method itself does not need them.
+</p>
+
+<p>
+So now our shadowed DIV group is nicely falling into place, but we aren't done
+quite yet. There is still a need to place an actual content DIV in there, but
+where? The obvious location would be a box the same size as .shadowbox and stuffed
+into the upper left corner of .outerpair2, but that can't normally happen because any
+further nested DIV's must fall inside .shadowbox!
+</p>
+
+<p>
+Okay, it's true that the .innerbox DIV must go inside the .shadowbox DIV, but it
+need <em>not</em> be displayed there, as we shall see.
+</p>
+
+<h3>The .innerbox DIV</h3>
+
+<p class="float-p">
+<img class="" width="317px" height="317px" src="images/shadowset5.png" alt="" />
+<img class="" style="clear: both;" width="317px" height="317px" src="images/shadowset6.png" alt="" />
+Let's go ahead and plop <strong>.innerbox</strong> inside .shadowbox, and sure
+enough it ends up covering the entire shadow.png background. That's no good,
+so to fix it we make .innerbox "relative" and apply negative <strong>left</strong>
+and <strong>top</strong> values similar to the paddings on .outerpair2.
+</p>
+
+<p>
+When such relative shifting occurs to a box, it's as though the box were lifted
+bodily from the page and shifted sideways in front of the other page content. After
+it comes to rest, it covers up anything that lies behind it. More importantly,
+<em>that shifted box does not change its dimensions</em>. So not only does it
+go where we want it to, but it's the correct size when it gets there. Perfect!
+</p>
+
+<p>
+The two graphics to the left reveal how .innerbox is first placed neatly
+within .shadowbox, and then is shifted up into the desired location. Now the
+drop shadow is starting to look pretty darned good, isn't it?
+</p>
+
+<p>
+Some may wonder why we haven't used negative margining for this operation, but that
+method just doesn't work, for certain complicated CSS reasons. We could try to explain
+it, but it really doesn't matter much. Besides, we aren't sure we understand it
+ourselves! All we really know for sure is that negative margins don't get the job done.
+</p>
+
+<p>
+The last step is perfectly obvious, just drop some kind of content into .innerbox
+and that content will appear to throw a .png shadow onto any patterns or elements
+that are behind it. Woohoo!
+</p>
+
+<h3>Important Points</h3>
+
+<img class="float-right" width="370px" height="359px" src="images/shadowset-slant.png" alt="" />
+<img class="float-right" width="317px" height="317px" src="images/shadowset7.jpg" alt="" />
+
+<p>
+It should be kept in mind that this DIV stack is arranged a bit differently than the
+<a href="http://www.alistapart.com/articles/onionskin/">Onion&nbsp;Skin&nbsp;stack</a>,
+which has the main shadow background at the back, with the corner backgrounds masking
+it off from in front. Our .png method requires that the corner backgrounds be
+<em>behind</em> .shadowbox (enclosing .shadowbox), because those DIV's must be
+larger than the .shadowbox DIV. It isn't really feasible to have larger elements
+inside smaller ones, at least not without great complications.
+</p>
+
+<p>
+Also, by doing it this way it's easy to pad the .outerpair2 DIV so that the smaller
+.shadowbox DIV fits nicely inside, with the three shadow .png's in full contact
+but never overlapping. Works for us.
+</p>
+
+<p>
+It must be made clear that the primary consideration when applying this technique
+is that of <em>width</em>. The height will take care of itself, but width matters a lot.
+If the content placed within the DIV group has an <strong>intrinsic&nbsp;width</strong>
+(as do images, flash movies, Iframes, etc...) or if it's a block element with a
+stated width, <em>and</em> .outerpair1 is either floated or made absolute,
+.outerpair1 will shrink-to-fit. This means that the outermost DIV will want to shrink
+down to the width of that innermost pre-sized content, constraining .outerpair2 and
+.shadowbox down as well in the process.  The result is a nice well-formed shadow group.
+</p>
+
+<p>
+If the content element is widthless, perhaps as a simple paragraph, then the text
+in that paragraph will want to "inflate" the paragraph to fill as wide a space
+as possible. <em>Positioning or floating on .outerpair1 will not
+stop the text from inflating the entire DIV group to the maximum space available.</em>
+For this case it is necessary to apply a width to either that content element,
+the .innerbox DIV, the .outerpair1 DIV, or an external bounding box such as a
+column container.
+</p>
+
+<p>
+Just remember, a block of text always exerts inflationary width pressure, and float or position-induced
+shrink-to-fit behavior loses when it goes head to head with that text inflation pressure. A real assigned
+width is needed somewhere, or else the text will expand into any horizontal space available outside the shadow
+group, widening the entire group as it goes.
+</p>
+
+<h3>Pros and Cons of the Method</h3>
+
+<p>
+Let's take a hard look at the PNG Drop Shadow method.
+</p>
+
+<dl>
+
+<dt><strong>Pros:</strong></dt>
+<dd>
+<ul>
+<li>Looks like a real shadow in all situations</li>
+<li>Works well on any block element, or inline elements with "intrinsic width"</li>
+<li>The DIV tags may be generated via scripting</li>
+<li>The DIV tags form two compact groups</li>
+<li>All tags are DIV's and so don't interfere with semantic parsing of the document</li>
+<li>Fairly low server hit</li>
+<li>Can be made to degrade gracefully</li>
+</ul>
+</dd>
+
+<dt><strong>Cons:</strong></dt>
+<dd>
+<ul>
+<li>Requires image-making skills</li>
+<li>A modified shadow requires new images</li>
+<li>Does not work in IE/Mac or &nbsp;IE6</li>
+<li>Adds to source clutter for a non-essential visual effect</li>
+<li>A very large number of instances on one page may delay processing slightly</li>
+</ul>
+</dd>
+
+</dl>
+
+<h3>Construction Details and Bug Tips</h3>
+
+<p>
+First, it's true that .innerbox could be discarded and its CSS applied to the
+image itself. Usually that works fine, but it won't work in IE7 for all cases,
+and we wanted to make the method as fool-proof as possible (present company excepted).
+</p>
+
+<p>
+Be careful when adding inner elements that have top margins, because these will
+"escape" from .innerbox and then ram against the top padding on .outerpair2,
+forcing a gap in the shadow arrangement. If .innerbox has a width or height,
+IE will trap the margin there and will look okay while Firefox will appear broken.
+Just add a 1px top padding on .innerbox to insure any internal margins are trapped
+there and won't escape to cause damage amongst your shadow group divs.
+</p>
+
+<p>
+Some very weird background bugs can occur in IE7 for reasons that are still not
+entirely clear. One bug seems to double the shadow.png application, causing an
+overlap darkening, but often only within "zones" of 150px in height and only along the
+right side. We have seen these mysterious IE zones before, and now there is a bit
+of <a href="http://css-class.com/test/bugs/ie/renderingbands.htm">light&nbsp;on&nbsp;the&nbsp;subject</a>.
+</p>
+
+<p>
+Another set of bugs may occur if .innerbox is replaced by a non-div element like
+a paragraph. It just goes buggy, that's all, IE doesn't really need a reason.
+By having .innerbox be a DIV, those non-div bugs are avoided.
+</p>
+
+<p>
+The current construction seems to be immune to the weird IE background bug, but
+be warned that tweaking the method could easily resurrect the IE bug. To modify
+the method, open the display in IE7 and make changes one at a time, checking
+carefully each time in IE7. Otherwise
+you could do a lot of beautiful work for Firefox only to be faced with a really
+nasty bug that refuses to die. Don't let this happen to you.
+</p>
+
+<p class="tip">
+A <em>very important point</em> is that <strong>.outerpair2</strong> and
+<strong>.shadowbox</strong> must <em>never</em> receive either a
+<strong>width</strong> or <strong>height</strong>. The reason is that this would trigger
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html">Layout</a>, causing
+any .outerpair1 shrink-to-fit to fail in all IE versions. Just try it and see!
+Further, any other CSS properties that trigger layout are also to be avoided.
+It shouldn't be an issue since those two DIV's are there only to support the
+technique and really ought not be messed around with, but mistakes do happen
+so be careful.
+</p>
+
+<h3>Browser Support</h3>
+
+<p>
+As mentioned, IE7 supports the method as does Firefox, Opera, and Safari. IE6 and
+IE/Mac will need to have most CSS in the technique hidden from them, and IE/Mac
+will have additional trouble in the cases where .outerpair1 is floated or made
+absolute for shrink-to-fit purposes. While IE/Win can easily get CSS that displays
+a simple unstyled set of nested DIV's, IE/Mac will be problematic in the
+shrink-to-fit case without a width on a floated or positioned .outerpair1 DIV.
+</p>
+
+<h3>Dumbing Down for Older IE/Win Browsers</h3>
+
+<p>
+It so happens that IE7 obeys the <strong>child&nbsp;combinator</strong> ">" while
+IE6 and below do not, so any rules you wish to hide from earlier IE/Win versions
+need only have this CSS operator in the selector. IE7 will read the rule and can
+also handle the .png's that go with it, and IE6 will ignore the entire rule, so
+everyone is happy. Examine the source of the
+<a href="sidepages/dropshadow/dropshadow.html">demo&nbsp;page</a> for details on
+this trick. Alternatively you may use
+<a href="haslayout.html">Conditional&nbsp;Comments</a>
+to achieve the same effects. It's not very hard to perform the dumb-down itself,
+so we'll just give the general theory.
+</p>
+
+<p>
+Basically the idea is to hide all styling on .outerpair2, .shadowbox, and .innerbox,
+along with the background on .outerpair1, from the gaze of IE6 and below. Any widths,
+floating, or positioning on .outerpair1 should be shown to all browsers. That's all
+there is to it, and the resulting DIV group will act like a single DIV when rendered in IE6.
+</p>
+
+<h2>Feedback?</h2>
+
+<p>
+This method is very new, and we would be very happy to hear about any problems
+you may encounter when using it. Also we want to link to any coders who demo
+useful modifications to the method on a stable web page.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: June 20, 2009<br />
+Created May 1, 2006
+</p>
+
+</div>
+
+</body>
+
+
+</html>

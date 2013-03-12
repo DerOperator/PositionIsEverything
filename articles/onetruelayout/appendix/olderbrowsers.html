@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Any Order Columns for older browsers - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix G</small>Any Order Columns for older browsers</h1>
+
+<h2 id="netscape4">Netscape 4</h2>
+<p>Rather than position each float relative to the overall rightmost point has been cleared, if any element has a negative margin-left applied to it, NN4 (4.7, for sure) treats all positive <code>margin-left</code>s as starting from 0.</p>
+<p>So we just need to negatively shift one element (by the amount that would be expected from its desired position) and then set <code>margin-left</code> on the other elements <em>as if they were absolutely positioned</em></p>
+<table>
+<caption>Adjusted margin-left values for Netscape 4 - 3-1-4-2 ordering, all widths 25%</caption>
+<colgroup>
+<col width="1*" />
+<col width="1*" />
+<col width="1*" />
+</colgroup>
+<tbody>
+<tr><th class="empty"></th><th scope="col">NN4</th><th scope="col">Normal</th></tr>
+<tr><th scope="row">Block 1</th><td>25</td><td>25</td></tr>
+<tr><th scope="row">Block 2</th><td>75</td><td>25</td></tr>
+<tr><th scope="row">Block 3</th><td>-100</td><td>-100</td></tr>
+<tr><th scope="row">Block 4</th><td>50</td><td>-50</td></tr>
+</tbody>
+</table>
+<p>Of course, NN4 doesn't understand the easy clearing method, so a non-semantic clearing element would need to introduced to force the wrapper element's height.</p>
+<p>Though this would work, NN4's application of colours and background images to floated and absolutely positionned elements is notoriously flaky, so maintaining the layout structure is the most you could seriously hope to achieve.</p>
+
+
+<h2 id="opera6">Opera 6</h2>
+<p>Suffers from something similar but different to NN4.</p>
+<p>Once the overall rightmost point has been cleared, it works from the preceding element's rightmost point.</p>
+<table>
+<caption>Adjusted margin-left values for Opera 6 - 3-1-4-2 ordering, all widths 25%</caption>
+<colgroup>
+<col width="1*" />
+<col width="1*" />
+<col width="1*" />
+</colgroup>
+<tbody>
+<tr><th class="empty"></th><th scope="col">Op 6</th><th scope="col">Normal</th></tr>
+<tr><th scope="row">Block 1</th><td>25</td><td>25</td></tr>
+<tr><th scope="row">Block 2</th><td>25</td><td>25</td></tr>
+<tr><th scope="row">Block 3</th><td>-100</td><td>-100</td></tr>
+<tr><th scope="row">Block 4</th><td>25</td><td>-50</td></tr>
+</tbody>
+</table>
+<p>However, if you are so foolhardy as to try and do something with this information, know this also - Opera 6 has problems when using ems and makes the columns too narrow for some reason.</p>
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li><a href="methodresults.html">Browser results for the methods</a></li>
+<li><a href="exampleresults.html">Browser results for the examples</a></li>
+<li><a href="holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li class="current">Any Order Columns for older browsers</li>
+<li><a href="theory.html">Notes on theory</a></li>
+<li><a href="notes.html">Miscellaneous notes</a></li>
+<li><a href="equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

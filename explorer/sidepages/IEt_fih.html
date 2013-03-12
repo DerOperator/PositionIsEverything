@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>IE and italics problem: example 3b</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="italic,html,css,bug,Internet Explorer,demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A bug report dealing with Explorer's problems with justified and italicized text." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+#side {
+	float: left;
+	width: 160px;
+	background-color: #ccf;
+}
+#main {
+	background-color: #cfc;
+	margin-left: 170px;
+}
+
+* html #main {
+	margin-left: 0;
+	zoom: 1;
+}
+
+* html #side {
+	margin-right: 7px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="side">
+A left floated element, with width:160px.<br/>
+Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+</div>
+<div id="main">
+A div with some italics, and a stated dimension.<br/>
+<em>Lorem ipsum dolor sit amet, adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</em>
+</div>
+<div style="clear:both;">&nbsp;</div>
+
+<div style="float: right; margin: 40px;"><a style="color: #000;" href="../italicbug-ie.html#six">Return to IE And Italics</a></div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+	<title>Rigid-demo</title> 
+
+<meta name="Big John" content="February 3, 2003">
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A rigid, source-ordered 3-col layout." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0;}
+
+body {margin: 0; padding: 0; font-family: verdana,sans-serif; background: #f8eedd; font-size: 80%;}
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h2 a {font-weight: normal; font-size: .8em;}
+
+h4 {font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+.textbox {margin: 2em 0 3em;}
+
+.textbox p {margin: .6em 10% .6em 18%; padding: 0;}
+
+a {color: #000; text-decoration: underline;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+pre {margin: 30px 12%; padding: 20px 20px 20px 50px; background: #f8ddb8;
+	border: 2px dotted #000; font-size: 1.1em;}
+
+html[xmlns] pre {font-size: 1.3em;} /*** This hack sends a fudged value to Mozilla ***/
+
+pre strong {color: #804;}
+
+pre strong.normal {color: black;}
+
+/*XXXXXXXXXXXXX The demo rules start here XXXXXXXXXXXXX*/
+
+.rigid-demo {font-size: 1em; font-family: georgia, serif; background: #393;}
+
+.rigid-demo a:hover {background: black; color: yellow; text-decoration: none;}
+
+p {padding: 10px; margin: 0;} /*** If vertical margin is applied here, browsers may vary. ***/
+
+h2, .clearfooter {
+clear: both;
+margin: 0; 
+padding: 1px 0 3px 2em; 
+font-size: 1.5em; 
+font-weight: bold; 
+font-family: verdana, sans-serif; 
+background: #eb8; 
+border: 1px solid black; 
+border-width: 1px 0; 
+}
+	/*** The vertical (top and bottom) padding is for Op6, to make it show the 
+link underline seperate from the header bottom border. A typical browser text variation. ***/ 
+
+h2 {background: #ddf;} 
+
+.clearfooter span {font-weight: normal;}
+
+.rigid-demo {
+margin: 0 auto; 
+text-align: left; 
+width: 600px; 
+border: 1px solid black; 
+border-width: 0 1px;
+}
+
+.center-hackbox { text-align: center;} /*** This hack forces IE5.x/win to center div.rigid-demo. ***/
+
+/*** The 'auto' side margins center the 'rigid' demo on the page. ***/
+/*** 'text-align: left' cancels the inheritance of the centering hack above. ***/
+
+
+/*XXXXXXXXX Below is a hack to feed IE5.x/win a 'width' of '602px'. XXXXXXXXXXX*/ 
+
+* html .rigid-demo {width: 602px; w\idth: 600px;}
+
+/*** This defeats the faulty IE5.x/win box model, and prevents a float wrap. 
+  It's necessary because of the decorative side borders on div.rigid.
+  See this page for details: http://css-discuss.incutio.com/?page=BoxModelHack ***/
+
+
+.float-wrapper-rigid {float: left; width: 450px;} /*** Must enclose two of the three cols. Must include center col. ***/
+
+.first-float-rigid {float: right; width: 300px;}
+
+.second-float-rigid {float: left; width: 150px;}
+
+.third-float-rigid {float: right; width: 150px;}
+
+
+.first-float-rigid p {background: #6bd;}
+
+.second-float-rigid p {background: #9dc;}
+
+.third-float-rigid p {background: #ecc;}
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>rigid demo</h1>
+
+<div class="center-hackbox">
+
+<div class="rigid-demo">
+
+<h2>Header &lt;h2&gt; 
+<a href="../ordered-floats.html#rigid-demo">Return to Source Ordered Columns</a></h2>
+
+	<div class="float-wrapper-rigid">
+
+<div class="first-float-rigid">
+<p>
+One One One One One One One One One One One One One 
+One One One One One One One One One One One One
+One One One One One One One One One One One One
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div class="second-float-rigid">
+<p>
+Two Two Two Two Two
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+	</div>
+
+<div class="third-float-rigid">
+<p>
+Three Three Three Three Three Three Three Three Three Three 
+Three Three Three Three Three Three Three Three Three Three 
+Three
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div style="line-height: 0px;">&nbsp;</div> <!--*** This is a hack to fix an IE5.5/win background bug. ***-->
+
+<p class="clearfooter">Clearing Footer <span>(p.clearfooter)</span></p>
+
+</div>
+</div>
+
+<!--XXXXXXXXXXXXXXXXX End demo section XXXXXXXXXXXXXXXXXXXX-->
+
+<pre>
+<strong class="normal">Minimal HTML for the 'rigid-all-float' demo above:</strong>
+
+  &lt;div class="<strong>rigid</strong>"&gt;
+
+&lt;h2&gt;Header&lt;/h2&gt;
+
+   &lt;div class="<strong>float-wrapper-rigid</strong>"&gt;
+
+     &lt;div class="<strong>first-float-rigid</strong>"&gt;
+    <strong>&lt;p&gt;</strong>One One One One One One One One One<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+     &lt;div class="<strong>second-float-rigid</strong>"&gt;
+    <strong>&lt;p&gt;</strong>Two Two Two Two Two Two<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+   &lt;/div&gt;
+
+ &lt;div class="<strong>third-float-rigid</strong>"&gt;
+<strong>&lt;p&gt;</strong>Three Three Three Three Three<strong>&lt;/p&gt;</strong>
+ &lt;/div&gt;
+
+<strong>&lt;p class="clearfooter"&gt;</strong>Clearing Footer<strong>&lt;/p&gt;</strong>
+
+  &lt;/div&gt;
+
+
+  <strong class="normal">The CSS:</strong>
+
+<strong>.rigid</strong> {width: 600px; margin: 0 auto;}
+
+<strong>.float-wrapper-rigid</strong> {float: left; width: 450px;}
+     /*** This can be floated left or right ***/
+
+<strong>.first-float-rigid</strong> {float: right; width: 300px;}
+     /*** This must be floated opposite 
+		to .second-float ***/
+
+<strong>.second-float-rigid</strong> {float: left; width: 150px;}
+     /*** This must be floated opposite 
+		to .first-float ***/
+
+<strong>.third-float-rigid</strong> {float: right; width: 150px;}
+     /*** This must be floated opposite 
+		to .float-wrap ***/ 
+
+<strong>.clearfooter</strong> {clear: both;}
+
+ <strong>p</strong> {padding: 10px;}
+</pre>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and
+interesting to say about any CSS subject, please contact me. I want to know! ">e-mail</a> 
+&copy;positioniseverything<br />
+Last updated: Febuary 3, 2003<br />
+Created Groundhog Day (Feb 2nd), 2003
+</p>
+<br />
+</div>
+
+</body>
+
+
+</html>

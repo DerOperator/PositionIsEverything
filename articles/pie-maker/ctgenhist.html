@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>ClevaTreva Designs - CSS Source Ordered 1-3 Columned Page Maker v2.90</title>
+<link rel="stylesheet" href="css/ctdesign.css" type="text/css" />
+</head>
+<body>
+<div id="pagecontainer">
+  <div id="wrapper">
+    <div class="leftbg">
+      <div id="clearheadercenter"></div>
+      <dl id="menu">
+        <dt>Pagemaker Menu for PIE Site</dt>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="../../index.html" title="Position is Everything Home Page"><span class="bb"><span class="aa">P.I.E. Home</span></span></a></div></div></div></div></div></dd>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="../../articles.html" title="Position is Everything Articles Page"><span class="bb"><span class="aa">P.I.E. Articles</span></span></a></div></div></div></div></div></dd>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="pagemaker_2_9_home.html" title="Pagemaker Features"><span class="bb"><span class="aa">Features</span></span></a></div></div></div></div></div></dd>
+          <dd><div class="gg"><div class="ff"><div class="ee"><div class="dd"><div class="cc"><a href="pagemaker_form.html" title="Pagemaker Form v2.90"><span class="bb"><span class="aa">Pagemaker</span></span></a></div></div></div></div></div></dd>
+      </dl>	  
+      <h1>CSS Source Ordered 1-3 Columned Page Maker v2.90</h1>
+      <h3>(released 15 November 2005)<br />Version History and Design Notes</h3>
+      <div id="bodytext">
+        <p>This project started because I had repeated requests to design 2 and 3 column page
+           layouts. I started to think around the basic concepts and found there were only
+           three variations: full page width, left aligned and centered. The most common request
+           was for a centered design that was under 800 pixels wide to allow viewing in 800x600
+           screens.</p>
+        <p>AND, they wanted it to Google well, by making it 'source ordered' (putting the content
+           first) in design. That was my goal, and here is how it came about ...</p>
+		<p>Often I would be refered to an existing site. 'I want it like that, but full height,
+           so the footer is at the bottom of the page if the content is too short,' and 'I want
+           the columns all the same height, it looks odd only having columns as high as the content.'
+		   Hangovers from the printed medium, like brochures, I suppose. However, the more I thought
+           about it, the more I could see the sense in this approach.</p>
+		<p>They are very difficult to get right across browsers, especially when there are many
+           nested inside each other. Given the way the different browsers work margins, padding,
+           etc, this should be no surprise.</p>
+		<p>So, I figured CSS <b>must</b> be the way forward. I quickly found two sites offering
+           designs that partly met my needs (Position is Everything (PIE) and
+           <a href="http://www.pmob.co.uk/" target='_blank'>Paul O'Brien's Site</a>). Paul O'B's
+           design was full width with a fluid width center column (he has since done one centered
+           and under 800 pixels) and the PIEfecta one by Big John didn't give full height, but has
+           the advantage of not using background images in the columns to make it work. Why is this
+           good? Because the next step in my design is to make it 3D using images in the background.</p>
+		<p>And so came v1.0 of this tool. I took the PIE design, ironed out a few width and alignment
+           issues and made it possible to easily create a personalised version of the design without
+           the need to understand the (very) complex CSS code, made so by bugs in IE and the Gecko
+           engine (at the heart of the Mozilla-based browsers). The first version was simple, using
+           a form to enter parameters and lacked validation and error checking. More options were added,
+           together with hundreds of lines of coding to validate and error check. By now it was at v1.3.</p>
+		<p>v2.0 was the first attempt to combine what I had made of PIE's model with Paul O'Brien's.
+           All went quite well, until it came to Mozilla. IE (quite sensibly, I believe) treats the
+           height style as a minimum, and will expand vertically if needed. This means it is possible
+           to define a design as 100% high and IE will fill the page, and expand further down if the
+           content dictates. Mozilla doesn't. It uses the CSS min-height instead. Enter the first set
+           of hacks to get around this. Worse was to come, Mozilla has a another bug. It can't inherit
+           min-height into child containers. And so in Mozilla, the resulting code looked very odd
+           when the content didn't fill the page.</p>
+		<p>I have to say that Mozilla caused no end of problems, especially with the header and footer.
+           It took an age to find a combination of css and positioning within the page code to get IE
+           and Mozilla to render them the same, and a lot of hacks are in the code to achieve this.
+           The final hack to get Mozilla to display a full height page with minimal content involved
+           placing a dummy design behind the main design, and making areas of the main design transparent
+           so that this background could be seen and appear one with the main design. All these hacks
+           are then made invisible to IE with another hack!</p>
+		<p>However, no matter how hard I tried, this design (v2.0) ended up using two images to get
+           it to work reliably. I used the php GD library to make these images on-the-fly. Not ideal
+           to use images, but I had to drop the dummy background code because it caused too many
+           problems.</p>
+		<p>v2.5 used revised code from Big John (his piefecta design) and had tons of screenshot
+           help for the Mac browsers from Allan Smith at Telford Steam Railway (thanks Allan). It
+           was thoroughly tested on loads of browsers (IE Win 5.x/6, Mozilla, Opera, Safari and
+           IE Mac 5.x) and works! Although IE Mac 5.x would not go full height on minimal content
+           - sorry, no can do. It also featured Tooltips for the first time on the generator form.</p>
+		<p>The php GD image generation was revised, quicker and checked if a suitable image already
+           existed. It corrected the http headers bug to give correct filenames in all browsers
+           from the save section of the generator form. Also, one of the images use to hack the
+           borders was no longer needed. Another bug affecting Mozilla was corrected, so that it
+           would automatically open the generator form.</p>
+		<p>Tooltips were available for each form entry field. The cut and paste css now had copious
+           notes to show how it's done. Tons of bugs were fixed, too many to mention.</p>
+		<p>However, the header and footer still couldn't be separated from the body and the left
+           column still couldn't be disabled (meaning that this tool couldn't be used to make a one
+           column layout - like this page). I may re-introduce this option on a later version.
+           Also, there was no option to set the left or top page margins - these are coded to 0.
+           I was sure the user could manually set the body side margins needed, but setting the
+           top or bottom ones would break the design</p>
+		<p>v2.70 was essentially a series of bug fixes:</p>
+		   <ul>
+              <li>Removed the 1px jog upwards hack for Safari - found a better solution to the
+                  <i>screen refresh leaving absolute div's without top or left set</i> bug.</li>
+		      <li>Removed the background image hack needed for Gecko engined browsers (Mozilla
+                  and Opera). Replaced with a simple but effective additional draw of the
+                  background columns.</li>
+		      <li>Added the option of top and bottom margins to the design. These are not made
+                  by using the margin setting in the body style, <b>do not </b> attempt to do
+                  this (change the body style top or bottom margins from 0) as the design will
+                  break.</li>
+			  <li>Added the option of sub-headers and sub-footers. You can see how to add 3D
+                  design content for the backgrounds using these (this page is an example).</li>
+              <li>Fixed numerous bugs with the Tooltips in Mozilla and Opera browsers. They now
+                  look roughly the same in each!</li>
+              <li>Used part of Owen Brigg's css files (www.thenoodleincident.com) to try to offer
+                  common font sizing to all browsers, but chnaged the overall font-size to 100.1%.</li>
+              <li>Incorrect right column placement in Mozilla/Opera fixed.</li>
+              <li>Converted unique divs that were classes to id's.</li>
+              <li>Added a container-center div for safer styling of content in center column.
+                  Note there is no default style for this div, just add your own.</li>
+			  <li>When selecting a HTML 4.01 (Strict or Transitional) doctype the xhtml type
+                  tag endings have been changed to normal HTML ones.</li>
+              <li><strong>I have found a bug in Opera that is still there in recent versions and probably
+                  goes back a long way. If you put tables inside the columns, Opera will
+                  incorrectly calculate the table height when making room for the footer, and
+                  so the footer will not sit at the bottom of the page. There is, as yet, no fix.
+                  IF you must use tables, make sure they have a fixed height, and not have either
+                  'no height' or a percentage.</strong></li>
+		   </ul>
+         <p>And so went version 2.80 and now into v2.90.</p>
+           <ul>
+		        <li>This version (2.90) is ready to take your code to make your own style using
+                    graphics. You can put 3D effect boxes in the header/footer and sidebars. For
+                    v3.00 I will enable the Faux Columns and 3D Boxes options.</li>
+                <li>Sidebar intrusion into the footer and header is also now possible.</li>
+                <li>You can now turn all the useful but unnecessary comments off!</li>
+                <li>The repeating background image can now be made in GIF or PNG format.</li>
+                <li>It is now possible to turn either left or right sidebars off, or both, and the 
+				    unnecesssary code will be removed (much was previously left in when the right 
+					sidebar was turned off, and you couldn't turn off the left sidebar).</li>
+                <li>The automatic loading of the generated form code is now switched off.  Similarly,
+				    the form no longer posts the code back to itself after validation.  Instead, it
+					leaves the generator form as it was when the Show Me button was clicked, even if
+					the choices included any range or invalid entry errors.  Where any such errors are
+					trapped by validation, default values are used.  So, if the form shows a page layout
+					different to that expected, check the values you entered for errors.</li>
+                <li>Bug fixes? You bet! v2.90 is relatively untested, but seems quite stable though.</li>
+            </ul>
+         <p>And for v3.00?</p>
+           <ul>
+                <li>I am planning a choice of 'Faux Columns' templates, to which I hope you can add 
+				    your own if you think them worthy.</li>
+                <li>Other demo's of css tricks will be made, plus useful links.</li>
+                <li>Switch off 'Full Height' hacks for fuller content pages.</li>
+                <li>Maybe a re-design of the code to use Big John's Jello Mold ideas.</li>
+           </ul>
+		<p><b>If</b> you let me know of bugs (or wish list items) that you find, contact me using
+           the details at the foot of this page.</p>
+		<h2>Images Used</h2>
+		<p>If you select a body background pattern, this php-based tool needs to be able to
+           generate images on-the-fly, so I have used the gd library to do this. These have
+           rather long names that decribe them exactly to the php tool. You need to save these
+           files from the display at the foot of the generator form (right mouse-click and
+           'save as'). You will also have to edit the page code if you change the default
+           directory (assumes the same directory as the html).</p>
+		<p>I can't say I'm overfond of fancy background images for pages, but the simple
+           patterned ones can look OK <i>if</i> the page alignment is centered (i.e. <b>not</b>
+           left-aligned). This code generator only allows a repeated image to be placed in the
+           background of the body tag, and only under certain circumstances (check the Tooltips
+           for further guidance). Note, only a few designs have been included, if you want me
+           to add more, contact me with details of where you have seen one you like.
+		<p>Each pattern is made using the background color of the page as a base. The bumps,
+           dents and 3d_crosses (looks like that punched steel plate walkways are made of in
+           factories) require that the page background color isn't too light, if it is the code
+           will darken the chosen color to permit the bumps code to make the pattern. I will
+           write the php code to make your chosen image, if I think it worthy of addition.</p>
+		<h2>Design Notes on this Template</h2>
+		<p>This template comes from a basic demonstration of how to do non-float 3D boxes
+           without large images.</p>
+		<p>The Tooltips on the generator form page are from Dan Allen at Freshmeat, albeit
+           with some mods. Take it from me, Dan's solution is the best freely available!<br /></p>
+		<h2>Contacting ClevaTreva</h2>
+		<p>At this time, I'm not inviting contact via a form or by e-mail, as I am snowed under
+           with work. Instead, you can PM me at any number of forums, on which my username is
+           'ClevaTreva' or 'Cleva Treva'. What forums?<br />
+		   (links open in a new window):</p>
+		   <ul>
+		     <li><a href="http://www.csscreator.com/css-forum/" target="_blank">CSSCreator
+                 Forums</a></li>
+             <li><a href="http://www.sitepoint.com/forums/" target="_blank">SitePoint Community
+                 Forums</a></li>
+		   </ul>
+		<p>To name but a few.</p>
+		<p>There is an old thread about this tool at the SitePoint Community Forums, here:</p>
+		<p><a href="http://www.sitepoint.com/forums/showthread.php?t=163946" target="_blank">
+           Thread about this tool</a></p>
+		<p>There is also another old thread about this tool at the CSSCreator Forums, here:</p>
+		<p><a href="http://www.csscreator.com/css-forum/viewtopic.php?t=2877" target="_blank">
+           Another thread about this tool</a></p>
+      </div>
+      <div id="clearfootercenter"></div>
+    </div>
+    <div id="wrapperleftimg">&nbsp;</div>
+  </div>
+  <div id="header">
+    <div id="topmargin" class="bottomtopmargin">&nbsp;</div>
+    <div id="headerbg1" class="threeDupperleftbg">
+      <div class="threeDupperrightbg">
+        <div class="threeDuppermiddlebg"></div>
+      </div>
+    </div>
+    <div id="subheader1">
+	  <div id="ctlogo">&nbsp;</div>
+    </div>
+    <div id="headerbg2" class="threeDlowerleftbg">
+      <div class="threeDlowerrightbg">
+        <div class="threeDlowermiddlebg"></div>
+      </div>
+    </div>
+    <div id="headerbg3" class="threeDupperleftbg">
+      <div class="threeDupperrightbg">
+        <div class="threeDuppermiddlebg"></div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div id="footerbg3" class="threeDlowerleftbg">
+      <div class="threeDlowerrightbg">
+        <div class="threeDlowermiddlebg"></div>
+      </div>
+    </div>
+    <div id="footerbg2" class="threeDupperleftbg">
+      <div class="threeDupperrightbg">
+        <div class="threeDuppermiddlebg"></div>
+      </div>
+    </div>
+    <div id="subfooter2">
+      <div id="copyright">
+  		<p>Except where owned by others, all content &copy; ClevaTreva Designs 2005.</p>
+      </div>
+    </div>
+    <div id="footerbg1" class="threeDlowerleftbg">
+      <div class="threeDlowerrightbg">
+        <div class="threeDlowermiddlebg"></div>
+      </div>
+    </div>
+  </div>
+  <div id="madewithwebcoder">
+    <a href="http://www.tsware.net/" title="Link to TSWare"><img src="images/webcoder001.gif" alt="Made with WebCoder 2005" /></a>
+  </div>
+</div>
+</body>
+
+
+</html>

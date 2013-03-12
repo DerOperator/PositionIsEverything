@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+<title>Bottomgap Bug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</title>
+
+<meta name="Big John" content="16 October, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,bug,ring,html,what else do you want from me!?" /> <meta name="description" content=" An Opera6 bug involving a wandering margin. " />
+<meta name="description" content=" An Opera6 bug involving a margin transferred to another element. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0; border-bottom: 5px groove red; background: purple;}
+
+body {margin: 0; padding: 0; background: yellow;}
+
+p {font-size: .8em; font-family: verdana, arial, sans-serif; margin: .5em 0; color: #406;}
+
+pre {margin: 0; font-family: currier, monospace; font-size: .8em; color: #800;}
+
+a {color: #000;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .7em;}
+
+.return {position: absolute; top: 15px; right: 20px; text-align: right;}
+
+#textcol1, #textcol2, #textcol3 {position: absolute; top: 110px; width: 29%;}
+
+#textcol1 {left: 4%;}
+
+#textcol2 {left: 36.3%;}
+
+#textcol3 {left: 68.7%;}
+
+#textcol4 {position: absolute; left: 10%; top: 37em; width: 55%;}
+
+#mask {
+background: #eef; 
+height: 53em; 
+border-top: 10px solid #cc6;
+border-right: 10px solid #aa4;
+border-bottom: 10px solid #882;
+border-left: 10px solid #aa4;
+}
+
+#header {
+position: absolute; 
+top: 40px;
+left: 10%; 
+margin-bottom: 100px;  /**** Here is the source of the 'Gap' ****/
+width: 50%;
+padding: 0; 
+text-align: center;
+font-size: 3em; 
+font-weight: bold; 
+font-family: garamond, "times new roman", serif;
+color: #aa5;
+}
+
+#mar2 {position: absolute; margin-bottom: 25px;}
+
+-->
+	</style>
+
+</head>
+<body>
+
+<div id="mask">
+
+<p class="return">
+<a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a><br />
+<a href="penalty.html"><strong>Next Opera demo</strong></a>
+</p>
+
+<!-- Without the AP element above coming first in the code, 
+	the left hand text column (textcol1) would lose the 
+	top margin on its first paragraph, throwing off the 
+	alignment with the other columns. BJ -->
+
+
+<div id="textcol1">
+<p>
+<strong>First,</strong> using <strong>Op6</strong> scroll down and look at the very bottom of the page. 
+(bet you saw <em>that</em> coming)
+</p>
+<br />
+<p>
+<strong>About that purple bar;</strong><br />It is the background color on the <strong>html</strong>
+element.
+The red groove is the bottom border of that same element. 
+This big gold bordered box is 
+<strong>div#mask,</strong> which encloses <em>all</em> of the page contents.
+</p>
+<p>
+<em>However,</em> div#mask has no bottom margin, 
+nor does "html', or even 'body'. (!) 
+</p>
+<p>
+So where exactly is that apparent margin at the bottom of 'html' coming from? Good question.
+</p>
+</div>
+
+<div id="textcol2">
+<p>
+<strong>The answer is:</strong> From the 'Bottomgap Bug' header at the top of the page!
+</p>
+<p>
+Would I lie? <em>Certainly not</em>. At least not in print. 
+</p>
+<p>
+<strong>The setup</strong><br />
+The gold box, <strong>div#mask,</strong> is the only child of 'body'. 
+This div is <strong>static</strong>, and encloses <strong>six absolute elements</strong>.
+The <strong>four columns</strong>, the title <strong>header div</strong>, and 
+the <strong>Omnibus links</strong> in the upper right corner. BTW, that link element, being first, 
+fixes another Op6 margining bug. (see the code for details)
+</p>
+<p>
+<strong>div#mask,</strong> being non-positioned, has no effect on the AP divs. I just placed them within 
+div#mask to reinforce the point of the demo. 
+</p>
+</div>
+
+<div id="textcol3">
+<p>
+<strong>So how does it work?</strong><br />
+This grabby bug likes to steal a bottom margin from the absolutely positioned 
+element having the highest 'z-index', which is the last AP element in the document tree (unless overriden 
+by using 'z-index'),
+and apply it to the bottom of that tree's root element. (html)
+</p>
+<p>
+<em>I kid you not</em>.
+</p>
+<p>
+<strong>But there's more...</strong><br />
+Should the 'highest' AP element contain other elements, even static ones, Opera apparently 
+considers them 'higher' than their AP parent. The bug will then ignore the AP 'wrapper' and go for the
+last child within that wrapper. If that last nested element has it's own children, the bug continues inward,
+looking for that 'highest' element. 
+</p>
+<p>
+<strong>But,</strong> only if the intended victim posesses a bottom margin, will the snatch occur.
+</p>
+<p>
+<strong>div#header,</strong> appears last in the code. (ain't I tricky?)
+</p>
+<p>
+By the way, <strong>Opera 7</strong> does not show this bug. Very nice.
+</p>
+</div>
+
+<div id="textcol4">
+<p>
+<strong>Fixes:</strong> Just be aware of the bug behavior, and withhold any yummy margin
+snacks from the bug's 'preferred victim'. Or place a dummy AP element (no bottom margin)
+and give it the highest z-index on the page.
+</p>
+<br />
+<p>
+That red html bottom border proves 'absolutely' that it is the <em>root element itself</em> that is aquiring
+the wandering margin. Thanks to <strong>John Lewis</strong>
+of the <a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss</strong></a> list,
+who clued me in on this.
+
+</p>
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: February 26, 2003<br />
+Created October 16, 2002
+</p>
+
+</div>
+
+<div id="header"> <!-- This element has a 100px bottom margin, which appears at the page bottom,
+				even tho the element itself appears at the top. -->
+Bottomgap Bug
+</div>
+
+</div>
+
+</body>
+
+
+</html>
+

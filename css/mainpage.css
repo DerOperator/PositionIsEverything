@@ -1,0 +1,141 @@
+html, body {margin: 0; padding: 0; border: 0; height: 100%;}
+
+body {
+	background: #1e2aa2 url(images/index-gradient2.jpg) repeat-x;margin: 160px 0 0;
+	padding: 0 0 20px;
+	font-family: verdana, sans-serif;
+	font-size: 90%;
+	}
+
+.wrapper {
+	position: relative;
+	max-width: 1000px;
+	min-width: 750px;
+	}
+
+.logo {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 580px;
+	height: 170px;
+	background: url(images/chess-pie1.jpg) no-repeat  ;
+	}
+
+.intro {
+	font-size: 1.2em;
+	font-family: georgia, "times new roman", serif;
+	color: #fff8aa;
+	}
+
+
+.announcement {
+	margin: 20px;
+	color: #fff8aa;
+	font-size: 1.1em;
+	line-height: 1.3;
+	}
+
+.announcement ul {
+margin: 10px 0 10px 30px !important;
+}
+
+.announcement li {
+list-style-type: disc;
+margin: 2px 0 !important;
+}
+
+.announcement strong.first {
+	color: #fc6;
+	font-size: 1.3em;
+	}
+
+p {margin: .3em 0;}
+
+h1 {
+	position: absolute;
+	left: -3000px;
+	}
+
+h2 {margin: .5em 0; font-size: 1.4em;}
+
+h3, h4 {margin: 2em 0 .5em; font-size: 1.2em;}
+
+a {color: #000; text-decoration: underline;}
+
+h3 a {text-decoration: none;}
+
+h3 a:hover {text-decoration: underline;}
+
+h3 span {font-size: .8em; padding-left: 1em;}
+
+#leftcol {margin: 0 400px 0 0; padding: .5em .5em .5em 1em; color: #ffa;}
+
+#leftcol a {font-weight: bold; color: #fc6;}
+
+#leftcol h3 a {color: #ffa;}
+
+#leftcol a:hover {color: #fe3;}
+
+#leftcol ul {margin: 5px 0 0 20px; list-style-type: none; padding: 0;}
+
+#leftcol li {margin: 9px 0 0 0;}
+
+#rightwrap {
+	position: absolute;
+	right: 20px;
+	top: 60px;
+	width: 340px;
+	padding-bottom: 20px;
+	}
+
+#rightcol {
+	border: 2px solid #000;
+	padding: 2em 1em 1.5em 1.3em;
+	background: #e6dc9f url(images/rightcol-gradient4.jpg) top left repeat-y;
+	font-family: georgia, "times new roman", serif;
+	}
+
+#rightcol a {font-weight: bold;}
+
+#rightcol a:hover {color: #555cb4;}
+
+#rightcol ul {margin: .5em 0; padding: 0; list-style: none;}
+
+#rightcol li {margin: .5em 0 .5em 1em; padding: 0;}
+
+#rightcol h3 {font-size: 1.1em; position: relative; color: #600;}
+
+#rightcol h3 a {color: #600;}
+
+#rightcol h3 span {color: #000;}
+
+#rightcol p {margin: .3em 0 .3em 1em;}
+
+.alignright {padding-bottom: 10px; margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+#stretch {color: #ffd; line-height: 1px;}
+
+#bugpic {text-align: center; border: 0;}
+
+#bugpic img {margin: 30px 0 0 -20px; border: 0;}
+
+#bugpic a {border: 0;}
+
+#title-img {
+	background: url(images/title-img.gif) 100% 0% no-repeat;
+	position: absolute;
+	width: 400px;
+	height: 200px;
+	right: 0;
+	top: -150px;
+	}
+
+#bevel {position: absolute; top: 0; left: 0;	}
+
+#bevel-lr {float: right; margin: -25px 0 0 0;}
+
+#subbutton {height: 1.5em;}
+

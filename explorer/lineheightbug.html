@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="This demo shows a bug in IE related to the line-height of a line containing an inline, replaced element." />
+<meta name="author" content="Jeroen Mulder" />
+<meta name="robots" content="index,follow" />
+<title>Internet Explorer 6: Line-height / Replaced Element Bug</title>
+<style type="text/css">
+body {
+	color: #000;
+	font-family: Verdana, sans-serif;
+	line-height: 18px;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-size: x-small;
+  	voice-family: "\"}\""; voice-family: inherit;
+  	font-size: small;
+}
+html>body { font-size: small; }
+
+.alignright {margin: 0 0 1em 0; text-align: right;}
+
+/* --------------------
+ * Common Elements
+ * -------------------- */
+h1 {
+	background-color: #000;
+	color: #fff;
+	font: bold 140% Arial, Verdana, sans-serif;
+	margin: 0 0 30px 0;
+	padding: 15px 20px;
+	text-align: left;
+}
+
+h2 {
+	font: bold 120% Arial, Verdana, sans-serif;
+	letter-spacing: -1px;
+	margin: 25px 0 0 0;
+	padding: 0;
+}
+
+p {
+	margin: 5px 0 15px 0;
+}
+
+dl { margin: 5px 0 15px 0; }
+dt { font-weight: bold; }
+dd { color: #666; margin: 5px 0 15px 0; }
+
+ul, li, img { margin: 0; padding: 0; }
+
+ul {
+	list-style: square;
+	margin: 5px 80px 25px 80px;
+}
+
+li {
+	color: #666;
+	margin: 5px 0;
+}
+
+code {
+	color: #666;
+	font-size: 100%;
+	white-space: pre;
+}
+
+/* --------------------
+ * Anchors
+ * -------------------- */
+a {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a:link {
+	border-bottom: 1px solid #000;
+	color: #000;
+}
+
+a:visited {
+	border-bottom: 1px solid #666;
+	color: #666;
+}
+
+a:hover, a:active {
+	border-bottom: none;
+}
+
+/* --------------------
+ * Container
+ * -------------------- */
+div#content {
+	border: 1px solid #ccc;
+	margin: 5px auto;
+	padding: 0 25px;
+	width: 750px;
+	text-align: left;
+}
+
+/* --------------------
+ * Content
+ * -------------------- */
+img.demo-screenshot {
+	border: 1px solid #000;
+	float: right;
+	margin: 0 20px 20px 10px;
+}
+
+p.sample-code, dl.long-definition { margin: 5px 80px 15px 80px; }
+
+div#screenshot-analysis {
+	height: 300px;
+	padding: 20px;
+	text-align: center;
+}
+
+div#screenshot-analysis img {
+	border: 1px solid #333;
+	margin: 0 50px;
+	vertical-align: bottom;
+}
+
+/* --------------------
+ * Footer
+ * -------------------- */
+div#footer {
+	border-top: 1px solid #ccc;
+	color: #666;
+	font-size: 85%;
+	margin: 0 -25px;
+	padding: 25px;
+	width: 750px;
+}
+
+div#footer a { font-weight: normal; }
+
+p#author {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+p#document-info {
+	margin: 0 0 0 305px;
+	text-align: right;
+}
+</style>
+</head>
+
+<body>
+<h1>Microsoft Internet Explorer 6: Line-height / Replaced Element Bug</h1>
+
+<div id="content">
+<p style="text-align: right;">Written by <strong>Jeroen Mulder</strong></p>
+
+<p class="alignright">
+ <a href="../guests.html"><strong>Return to Guest Demos</strong></a> &nbsp;
+ <a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a> &nbsp;
+ <a href="border-chaos.html"><strong>Next IE demo</strong></a>
+ </p>
+
+  <h2>Introduction</h2>
+  <p>IE/Win continues to amaze us. This demo will describe a bug where the line-height
+	is incorrectly rendered if the line contains a replaced element. Very simply, if
+	the default line-height is changed to a larger value, the line spacing above and
+	below any text line that contains a replaced element, such as a small emoticon,
+	will be half of the spacing seen elsewhere in the text.</p>
+
+  <p>
+  <em><strong>Note that IE7 does not show this bug</strong></em>.
+  </p>
+
+<img src="images/msie-lineheight-replaced-element-01.gif" class="demo-screenshot"
+	alt="A replaced element reduces the lineheight spacing above and below that line in all IE/win versions" />
+
+  <dl>
+    <dt>Affected Browsers</dt>
+    <dd>
+      <ul>
+  	    <li>Microsoft Internet Explorer 5.01 / Windows</li>
+
+  	    <li>Microsoft Internet Explorer 5.5 / Windows</li>
+  	    <li>Microsoft Internet Explorer 6</li>
+      </ul>
+    </dd>
+  </dl>
+
+  <h2>Description</h2>
+  <p>
+  The graphic shows Internet Explorer 6&#8217;s inconsistent rendering of the line-height.
+  The line-height is made exceptionally large to exaggerate the effect of the bug,
+	so that the problem is obvious.</p>
+  <p>The HTML needed to trigger this bug is nothing more than plain text, with a
+	normal <strong>inline replaced element</strong>, such as an image, within that text.
+  The 100px line-height value is applied to the body element, which should
+	separate the text lines by almost 100px.</p>
+
+  <p class="sample-code"><code>body {
+	line-height: 100px;
+}</code></p>
+
+  <p><a href="sidepages/msie-lineheight-replaced-element-demo-01.html">View a live demo</a>.</p>
+
+  <p>Strangely enough, this bug is triggered just by the simple presence of any replaced element:
+  <code>IMG</code>, <code>INPUT</code>, <code>TEXTAREA</code>, <code>SELECT</code> and <code>OBJECT</code>.</p>
+
+  <dl class="long-definition">
+
+    <dt><a href="http://www.w3.org/TR/REC-CSS2/conform.html#replaced-element">3.1 Definitions: Replaced Element</a></dt>
+    <dd>&#8220;An element for which the CSS formatter knows only the intrinsic dimensions.
+    In HTML, IMG, INPUT, TEXTAREA, SELECT, and OBJECT elements can be examples of replaced elements.
+    For example, the content of the IMG element is often replaced by the image that the "src" attribute designates.
+    CSS does not define how the intrinsic dimensions are found.&#8221;</dd>
+    <dd><a href="http://www.w3.org/TR/REC-CSS2/conform.html#replaced-element">http://www.w3.org/TR/REC-CSS2/conform.html#replaced-element</a></dd>
+  </dl>
+
+  <h2>Detailed Description</h2>
+  <p>Further investigation shows that IE6 apparently thinks it has a very good reason for this behaviour. It might seem random at first, but it is not.</p>
+
+  <p>As specified by the <a href="http://www.w3.org/TR/CSS21/visudet.html#q26">W3C CSS-2.1 recommendations</a>,
+  the difference between the line-height and font-size is called leading &#8212; half of it is called half-leading.
+  A user agent should add half-leading on the top and bottom.</p>
+  <p>For example, a if a font-size of 12 pixels is defined with a line-height of 20 pixels, then 8 pixels (leading) of space should be added &#8212; 4 pixels (half-leading) on the top and bottom.</p>
+
+  <div id="screenshot-analysis">
+    <img src="images/msie-lineheight-replaced-element-correct-guidelines.gif" alt="Correct Behaviour in Mozilla Firefox, Opera 7, Safari, Konquerer" />
+    <img src="images/msie-lineheight-replaced-element-msie-guidelines.gif" alt="Incorrect Behaviour in Microsoft Internet Explorer 5.0/Win, 5.5/Win, 6" />
+
+  </div>
+
+  <p>When IE6 encounters a line containing a replaced element, it <strong>collapses</strong> the half-leading of that line with the half-leading of the preceding and following line.</p>
+
+  <h2>Is there a fix?</h2>
+  <p>Currently there does not seem to be a proper fix for this IE6 bug. The bug itself is awkward and very straight-forward, to say the least.</p>
+  <p>Once the element is taken out of flow, either by positioning it absolutely or by floating it, the bug does not occur.
+  Considering none of us really has an idea how IE calculates the line height and the fact that the situation can&#8217;t get any more basic,
+  it seems as if the bug cannot be fixed at the source. However, in certain situations you can get it right.</p>
+
+
+  <h2>Hacking Away</h2>
+  <p>By carefully applying a top and bottom margin to the replaced element one can force the line-height to be about the same as intended.
+  Unfortunately, this solution isn&#8217;t very universal and relies on a couple of simple requirements:</p>
+  <ul>
+    <li>The height of the replaced element needs to be known at all times.</li>
+    <li>The height of all the replaced elements of the same type needs to be almost equal if you want to make use of the same CSS classes.</li>
+  </ul>
+
+  <p>By applying the following CSS on our demo page we get this new
+	<a href="sidepages/msie-lineheight-replaced-element-demo-01-hack.html">demo</a>,
+	which puts everything back into place.</p>
+  <p class="sample-code"><code>/* Holly Hack: Hide From IE5/Mac \*/
+* html img {
+  	margin: 45px 0;
+  	vertical-align: middle;
+}
+
+* html input {
+	margin: 39px 0;
+	vertical-align: middle;
+}
+/* Holly Hack: End Hide From IE5/Mac */</code></p>
+  <p>The top and bottom margin simulate the needed half-leading for IE/Win. Their values are calculated by subtracting the element&#8217;s height from the line-height and dividing it by two.
+  The <code>vertical-align</code> property is needed to position it correctly.</p>
+  <p>Finally, we use the hiding hack from the Holly Hack to prevent IE/Mac from applying it as well.</p>
+
+<p style="border: 1px solid red; padding: 3px;">
+<strong>Notice:</strong> As of 2008, newer methods are now <a href="../articles/haslayout.html"><strong>available</strong></a> to achieve the same results.
+</p>
+
+  <h2>Several Notes</h2>
+  <p>Use of such a ridiculously large line-height can be rare. However, this bug is still noticeable&#8212;albeit less&#8212;when using a more common font-size, line-height and small inline, replaced elements (emoticons, for example).</p>
+  <p>Throughout the demo pixels are used to define font-size and line-height and measure the distances for the sake of simplicity. It does not matter what type of unit is used to define the line-height. Nor does it matter if a font-size is defined.</p>
+
+  <h2>Conclusion</h2>
+  <p>Another bug and a strange one at that. Thankfully, the bug doesn&#8217;t affect the layout in a terrible way&#8212;it&#8217;s just annoying if you are a perfectionist.
+  I would have loved to conclude this demo with a real fix. Perhaps some day&#8212;until then it remains an issue.</p>
+
+
+  <div id="footer">
+    <p id="author">
+      <strong>Jeroen Mulder</strong><br />
+      e: me (at) jeroenmulder (dot) com<br />
+      w: <a href="http://www.jeroenmulder.com/">http://www.jeroenmulder.com</a>
+    </p>
+    <p id="document-info">
+
+      Written for P.I.E.<br />
+      Created: February 5, 2005<br />
+      Last Updated: September 9th, 2008
+    </p>
+  </div>
+</div>
+</body>
+
+
+</html>

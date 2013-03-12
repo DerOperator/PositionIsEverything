@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>PNG Drop shadows - Demo Page</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+
+<style type="text/css">
+
+html, body {
+border: 0;
+margin: 0;
+padding: 0;
+}
+
+body {
+background: url(brownlattice2.gif);
+}
+
+p {margin: .5em;}
+
+/*XXXXXXXXXXXXXXXXXX Dropshadow elements XXXXXXXXXXXXXXX*/
+
+html>body .outerpair1 {
+background: url(upperrightfade.png) right top no-repeat;
+}
+/* .outerpair1 must be given a width contraint, via either a width,
+or by floating or absolute positioning. In this demo these are
+applied from the second class name on the .outerpair1 DIV's.
+This box also has one of the corner .png's. */
+
+
+html>body .outerpair2 {
+background: url(lowerleftfade.png) left bottom no-repeat;
+padding-top: 8px;
+padding-left: 8px;
+}
+/* .outerpair2 has padding equal to the shadow
+thickness, and also has one of the corner .png's */
+
+
+html>body .shadowbox {
+background: url(shadow.png) bottom right;
+}
+/* .shadowbox holds the main shadow .png */
+
+
+html>body .innerbox {
+position: relative;
+left: -8px;
+top: -8px;
+}
+/* .innerbox is made "relative" and is "pulled" up and to
+the left, by a distance equal to the thickness of the shadow.
+Because this is a relative-based shift, the box retains its
+exact dimensions without change. */
+
+
+.shadowbox img {
+border: 10px solid #fff;
+vertical-align: bottom;
+}
+/* Shadowed images should not be made "block" for eliminating the baseline
+space under the images, because this may trigger IE background bugs.
+Instead, use "vertical-align: bottom;" for this purpose. */
+
+
+/*XXXXXXXXXXXXXXXXXX Custom width constraints and extra styling XXXXXXXXXXXXXXX*/
+
+.floatimage {
+float: left; /* Floating causes this box to shrinkwrap around sized content elements. */
+margin: 130px 0 0 450px;
+display: inline; /* IE doubled margin bug is defeated via this fixer rule. */
+}
+
+.flashbox { /* Absolute positioning also causes the shrinkwrap behavior. */
+position: absolute;
+left: 377px;
+top: 30px;
+}
+
+.flashbox .innerbox {
+background: #eed;
+border: 1px solid #ccb;
+}
+
+.absoluteimage { /* Again, absolute positioning causes shrinkwrapping. */
+position: absolute;
+left: 40px;
+top: 200px;
+}
+
+.textbox {
+position: absolute; /* AP once more... */
+left: 20px;
+top: 1.8em;
+}
+
+.textbox .innerbox {
+border: 1px solid #ccc;
+background: #e8e8e8;
+width: 330px;
+height: 210px;
+overflow: auto;
+}
+/* Unlike the other items, the .textbox content is just text without a natural
+width, and so shrinkwrapping fails, unless .innerbox is given a specific width.
+All shadowed text elements will need a width of some kind to avoid a full-width
+shadowed box, unless that is the desired effect. The width may be appied to
+div.inner, div.outerpair1, or an external wrapper element. */
+
+.linkbox {
+position: absolute; /* AP once more... */
+left: 10px;
+top: 6px;
+}
+
+.linkbox .innerbox {
+display: block;
+background: #fff;
+border: 1px solid #ccc;
+padding: 3px 5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="outerpair1 floatimage">
+<div class="outerpair2">
+<div class="shadowbox">
+<div class="innerbox">
+
+		<img width="314px" height="354px" src="doggies.jpg" alt="" />
+
+</div></div></div></div>
+
+
+<div class="outerpair1 flashbox">
+<div class="outerpair2">
+<div class="shadowbox">
+<div class="innerbox">
+
+    <object type="application/x-shockwave-flash"  data="200604232011510.clk.swf" width="200" height="200">
+      <param name="allowScriptAccess" value="sameDomain"  />
+      <param name="movie" value="200604232011510.clk.swf"  />
+      <param name="quality" value="high"  />
+      <param name="bgcolor" value="#fefefe"  />
+      <param name="wmode" value="transparent"  />This content can be seen only via the
+    	 <a href="http://www.macromedia.com/go/getflashplayer" title="Get MM Flash Player" >
+			 Flash Player
+			 </a>.
+		</object>
+
+</div></div></div></div>
+
+
+<div class="outerpair1 absoluteimage">
+<div class="outerpair2">
+<div class="shadowbox">
+<div class="innerbox">
+
+			<img width="400px" height="315px" src="kitty.jpg" alt="" />
+
+</div></div></div></div>
+
+
+<div class="outerpair1 textbox">
+<div class="outerpair2">
+<div class="shadowbox">
+<div class="innerbox">
+
+    <p>
+    Pretty slick, eh? All of these elements use the same three .png's and
+		have the same DIV tag sets enclosing
+    them, along with specialized classes on <strong>div.outerpair1</strong>
+		for positioning and extra styling. Notice how the .png shadows allow the
+		pattern and the other elements to show thru, and how when the shadows cross
+		over each other the shadow deepens, just as would be the case with real shadows.
+    </p>
+
+    <p>
+		This shadow trick even works on <em>scrolling text boxes</em>, assuming that they have
+		been given specific heights on <strong>div.innerbox</strong>.
+    </p>
+
+		<p>
+		IE6 and below cannot read the nested DIV rules because they contain "child"
+		combinators, and so browsers &lt;IE7 see a plain set of unstyled nested DIV's.
+		Thus the appearance is the same except for the lack of the shadow backgrounds.
+		</p>
+
+</div></div></div></div>
+
+
+<div class="outerpair1 linkbox">
+<div class="outerpair2">
+<div class="shadowbox">
+<div class="innerbox">
+
+<a href="../../dropshadows.html">Return to PNG Drop Shadows article</a>
+
+</div></div></div></div>
+
+
+</body>
+
+</html>

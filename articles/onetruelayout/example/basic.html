@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Example - In search of the One True Layout - Any Order Columns - Minimal Setup</title>
+<style type="text/css">
+/* <![CDATA[ */
+#block_1
+	{
+	float: left;
+	width: 34%;
+	margin-left: 33%;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 33%;
+	margin-left: -67%;
+	}
+#block_3
+	{
+	float: left;
+	width: 33%;
+	}
+#footer
+	{
+	clear: both;
+	}
+* html body
+	{
+	margin: 0;
+	padding: 0;
+	}
+* html #footer
+	{
+	position: relative;
+	}
+/* ]]> */
+</style>
+<style type="text/css">
+@import url(onetruelayout3.css);
+</style>
+</head>
+<body>
+<div id="header">
+<h1>Any Order Columns - Minimal Setup</h1>
+</div>
+<div id="block_1">
+<h2>Block 1</h2>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+<div id="block_2">
+<h2>Block 2</h2>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+<div id="block_3">
+<h2>Block 3</h2>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+<div id="footer">
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Footer text</a></p>
+</div>
+<div id="legend">
+<p id="article_location">This example forms part of the <em>Position is Everything</em> article, <a href="../index.html">In Search of the One True Layout</a>.</p>
+<p>Block 3 not showing up in the right place? Please read <a href="../appendix/notes.html#rounding-error">this</a> first before sending a report.</p>
+</div>
+<div class="output">
+<h2>HTML Output</h2>
+<pre>
+&lt;div id="block_1"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+	...
+&lt;/div&gt;
+</pre>
+</div>
+<div class="output">
+<h2>CSS Rules</h2>
+<pre>
+#block_1
+	{
+	float: left;
+	width: 34%;
+	margin-left: 33%;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 33%;
+	margin-left: -67%;
+	}
+#block_3
+	{
+	float: left;
+	width: 33%;
+	}
+#footer
+	{
+	clear: both;
+	}
+* html body
+	{
+	margin: 0;
+	padding: 0;
+	}
+* html #footer
+	{
+	position: relative;
+	}
+</pre>
+</div>
+</body>
+
+
+</html>

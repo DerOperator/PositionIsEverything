@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+<title>Absolutely Buggy II&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</title>
+
+<meta name="Big John" content="25 May, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" A demo revealing what can go wrong with absolute boxes inside relative boxes " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+html {	margin: 0; padding: 0;}
+
+body {	margin: 0; padding: 0; font-family: verdana, sans-serif; font-size: 80%; background-color: #eff;}
+
+.alignright {margin: 0 7% 1em 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+p a, a.alignright, a.small  {border: 0; color: #000;}
+
+h1 {font-size: 22px; text-align: center; border-bottom: 3px solid #fff; background-color: #000;
+	margin: 0; color: #fff;padding: 3px;}
+
+h2 {font-size: 1.1em; text-align: center; border-top: 5px solid #fff; border-bottom: 5px solid #fff;
+	background-color: #966; margin: .2em 0; color: #ffa; padding: 3px;}
+
+h3 {font-size: 1.2em; font-weight: bold; margin: 1.5em 0 .5em -2em; color: #640;}
+
+p, ul {margin: 5px 17%; padding: 0;}
+
+.boxtext {margin: 0; padding: 5px 9%; font-family: 'times new roman', serif; font-size: 1.2em;}
+
+pre {margin: 1em 0 20px 15%; color: #800;}
+
+pre.codebox {padding: 20px 20px 20px 50px; background: #eeeef8; width: 25em;
+	border: 1px solid #000; font-size: 1.2em; font-family: monospace; color: #000;}
+
+pre.codebox span {color: red;}
+
+.update {
+background-color: #fff;
+border: 1px solid #036;
+color: #000;
+font: 0.9em Verdana, Geneva, Arial, Helvetica, sans-serif;
+margin: 1.5em 20% 1.5em 18%;
+padding: 5px;
+}
+
+/************** rules for demo ******************/
+
+div#container1 { /***** first demo *****/
+position: relative;
+border: 6px solid #090;
+background-color: #ff8;
+margin: 5px 7%;
+}
+
+
+div#container2 { /***** second demo *****/
+position: relative;
+border: 6px solid #090;
+background-color: #ff8;
+margin: 5px 7%;
+}
+
+div#container2 {zoom: 1;} /***** This rule will not validate; to validate, hide rule in conditional comment *****/
+
+div.upperleft, div.upperright, div.lowerleft, div.lowerright { /***** absolute boxes *****/
+position: absolute;
+width: 30px;
+height: 30px;
+}
+
+/******************* positioning values for absolute boxes ******************/
+
+div.upperleft {
+left: 0;
+top: 0;
+border: 6px solid #f00;
+}
+
+div.upperright {
+right: 0;
+top: 0;
+border: 6px solid #f00;
+}
+
+div.lowerleft {
+left: 0;
+bottom: 0;
+border: 6px solid #00f;
+}
+
+div.lowerright {
+right: 0;
+bottom: 0;
+border: 6px solid #00f;
+}
+
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>
+&nbsp;&nbsp;Absolutely Buggy II&nbsp;&nbsp;&nbsp;
+</h1>
+
+<h2>
+&nbsp;&nbsp;Absolute boxes inside relative boxes&nbsp;&nbsp;&nbsp;
+</h2>
+
+<p class="alignright">
+<a href="index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+<br />
+<p>
+<strong>The set-up:</strong> So you want to have a static container box in the normal flow,
+and in it you want to place an absolutely positioned element. It's understood that this
+element will calculate its position based on its
+<a href="http://www.w3.org/TR/REC-CSS2/visuren.html#q29">nearest positioned ancestor</a>,
+thus the container is given 'position: relative' to keep it in the flow, yet serve as a positioned holder
+for the absolutely positioned contents.
+</p>
+<br />
+<p>
+<strong>The demo:</strong>
+</p>
+
+<div id="container1">	<!--************* start of demo1 ******************-->
+
+<div class="upperleft"></div>
+
+<div class="upperright"></div>
+
+<div class="lowerleft"></div>
+
+<div class="lowerright"></div>
+
+<p class="boxtext">
+This box (".container1", green border) has been given 'position: relative', making it a
+positioned container for the
+absolute boxes. (red and blue borders) It is dimensioned horizontally by margins and
+vertically by content. It does <em>not have</em> 'width' and 'height'.
+The corner boxes are given 'position: absolute',
+and placed in the corners by using the value '0' on 'top', 'bottom', 'left', and 'right', as needed
+for each element. Example:
+</p>
+<pre >
+div.lowerleft {
+   left: 0;
+   bottom: 0;
+   border: 6px solid #00f;
+}
+</pre>
+
+</div>
+
+<br />
+
+<ul>
+<h3>Screenshots:</h3>
+<li><a href="images/Mozabs_pos.gif">Mozilla/Opera7/Win2k/Konq3.3</a> &nbsp; Represents the ideal.</li>
+<li><a href="images/IEabs_pos.gif">IE 5.5/Win2k</a> &nbsp; Dropped boxes. At least it's fixable.</li>
+<li><a href="images/IE6abs_rel.jpg">IE6/Win2k</a> &nbsp; Dropped boxes, but more 'fun' than IE5.5</li>
+<li><a href="images/Op6abs_pos.gif">Opera6/Win2k</a> &nbsp; Bad, but fixed in Op7.</li>
+<li><a href="images/IE5.14mac_os9.2.2.gif">IE5.x/Mac/9.2.2/OS X</a> &nbsp; A real head scratcher.</li>
+<li><a href="images/Op5OSX_abs_pos.gif">Op5/OS X</a> &nbsp; Dropped boxes; all boxes shifted left as a group?</li>
+<li><a href="images/IE4.5_OS9.2.2.gif">IE4.5/Mac/9.2.2</a> &nbsp; Similar to last one.</li>
+<li><a href="images/icab2.8.gif">icab2.8/Mac/OSX</a> &nbsp; My favorite!</li>
+<li><a href="images/NN4.0.8.gif">Navagator4.0.8/Mac/OSX</a> &nbsp; It's what you'd expect from NN4.</li>
+<li><a href="images/NN4.79.gif">Navagator4.79/Mac/OSX</a> &nbsp; It had to get better, and it did.</li>
+</ul>
+<br />
+<p>
+<strong>Behaviors:</strong>
+Current IE and Opera 6 have some weird problems. <br />
+(so what else is new?) Most older browsers are scary as heck.
+</p>
+<br />
+<p>
+<strong>Moz/Gecko:</strong> Appears flawless. Open Source rocks!
+</p>
+<p>
+<strong>Opera 7:</strong> Also flawless. Mozilla has a real competitor.
+</p>
+<p>
+<strong>Konqueror 3.3:</strong> Another browser gets it right.
+</p>
+<p>
+<strong>IE5.5/Win:</strong>
+The upper left box (red) correctly touches the left green border, but overlaps the upper green border.
+the upper right box is the same vertically; however, it completely ignores the right green border, moving
+to the right viewport edge. The lower right box also moves all the way to the right, and both lower boxes
+(blue) ignore the bottom green border. You will find them way down, alongside this text.
+</p>
+<p>
+<strong>IE6/Win:</strong>
+The blue boxes are strangely missing. But, as Lon Kraemer
+points out, they can be located way down the page if the page is reloaded after the browser
+cache is emptied. The exact vertical position depends on the 'text size' setting (boxes are lower
+with larger settings), and window size, which is even more variant.  (this is a better browser?)
+</p>
+<p>
+<strong>IE5.x/Mac:</strong>
+The blue boxes end up sitting <em>on top of the red boxes!</em> <br />
+It appears this browser thinks that the green bordered container box has a height of 0px,
+as far as positioning is concerned.
+At least that would explain the placement of the red and blue boxes.
+</p>
+<p>
+<strong>Op6/Win:</strong>
+Like IE, Op6 ignores the bottom green border, but does honor the right border. In addition,
+that browser displays a positioning bug unique to Op6, which is detailed in
+<a href="posbugs.html">Going Absolutely Buggy</a>.
+</p>
+<p>
+<strong>Various others:</strong>
+You have to see it to believe it.
+</p>
+<br />
+<p>
+<strong>Quick quiz:</strong> Can you guess why IE and Op6 (Windows) place the blue
+boxes where they are, vertically? See below for answer. (I've always wanted to do this)
+</p>
+<br />
+<p>
+<strong>Fixes:</strong>
+The IE/Win bug may be squelched by defining any width or height (any units) for the container box.
+Note: A width will also cure the 1px rounding error gaps seen (at some screen sizes)
+between the small boxes and the right/bottom green borders. See a similar
+<a href="gecko/mozshift.html">Mozilla bug</a>.
+</p>
+
+<p class="update">
+<strong>Update July 2, 2008:</strong>
+The width/height fix actually confers "hasLayout" on boxes in IE, but now there's a
+<a href="articles/haslayout.html"><strong>better&nbsp;way</strong></a> to do it.
+</p>
+
+<p>
+The IE/Mac bug needs a height applied to the relative container or it treats the container as 0px high
+when placing the lower boxes. Thanks, <a href="http://www.l-c-n.com/IE5tests/right_pos/bottom.shtml">Philippe!</a>
+</p>
+<p>
+To fix Op6/Win, a height value must be applied to the container. A width will not cure this Opera bug.
+As for other browsers, <em>you're on your own</em>.
+</p>
+
+<div id="container2">	<!--************** start of demo2 ****************-->
+
+<div class="upperleft"></div>
+
+<div class="upperright"></div>
+
+<div class="lowerleft"></div>
+
+<div class="lowerright"></div>
+
+<p>
+<strong>Live demo, with Zoom Fix applied:</strong>
+</p>
+
+<p class="boxtext">
+<strong>Answer to quiz:</strong>
+when vertically positioning those lower blue boxes, IE5.5 and Op6 treat the container as if it
+had a 'height' value of '100%'. In those browsers this is equal to the height of the viewport.
+To prove it, scroll until the top green border just touches the top viewport edge, and yes indeed,
+the blue boxes just touch the bottom of the viewport!
+</p>
+</div>
+
+<p>
+You may notice 1px gaps between the corner boxes and the border of the container. These are
+instances of the <a href="round-error.html"><strong>1px Rounding Error</strong></a>, which
+is found in all browsers under certain circumstances.
+</p>
+<br />
+<br />
+<p>
+<strong>Screenshots</strong> thanks to <strong>Rob&nbsp;Stevenson</strong>,
+<strong>Lon&nbsp;Kraemer</strong>, <strong>Jeroen&nbsp;Van&nbsp;Gorkum</strong>,
+<a href="http://www.l-c-n.com/"><strong>Philippe Wittenbergh</strong></a>,
+<a href="http://www.l-c-n.com/"><strong>Casper&nbsp;Gielen</strong></a>,
+and <strong>Damelon&nbsp;Kimbrough</strong> of the
+<a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss</strong></a> list.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 2, 2008<br />
+Created July 1, 2002
+</p>
+&nbsp;
+</body>
+
+
+
+</html>

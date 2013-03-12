@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Example - In search of the One True Layout - Nested Rounded Corners (Future Perfect)</title>
+<style type="text/css">
+/* <![CDATA[ */
+#wrapper
+	{
+	width: 790px;
+	}
+#block_1
+	{
+	float: left;
+	width: 150px;
+	margin-left: 160px;
+	background-color: #ff0000;
+	}
+#block_2
+	{
+	float: left;
+	width: 150px;
+	margin-left: -310px;
+	background-color: #00ff00;
+	}
+#block_3
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #0000ff;
+	}
+#block_4
+	{
+	float: left;
+	width: 230px;
+	margin-left: 240px;
+	background-color: #999900;
+	}
+#block_5
+	{
+	float: left;
+	width: 230px;
+	margin-left: -470px;
+	background-color: #009999;
+	}
+#block_6
+	{
+	float: left;
+	width: 150px;
+	margin-left: -630px;
+	background-color: #990099;
+	}
+#block_7
+	{
+	float: left;
+	width: 310px;
+	margin-left: 320px;
+	background-color: #ffcc00;
+	}
+#block_8
+	{
+	float: left;
+	width: 310px;
+	margin-left: -630px;
+	background-color: #ff6600;
+	}
+#block_9
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #660066;
+	}
+#group_4-5, #group_7-8
+	{
+	margin-top: 10px;
+	}
+#group_1-8
+	{
+	float: left;
+	width: 630px;
+	}
+#group_1-5
+	{
+	float: left;
+	width: 470px;
+	margin-left: 160px;
+	}
+#wrapper, #group_1-3, #group_4-5, #group_1-5, #group_1-6, #group_7-8, #group_1-8
+	{
+	overflow: hidden;
+	position: relative;
+	}
+#block_1, #block_2, #block_3, #block_4, #block_5, #block_6, #block_7, #block_8, #block_9
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px;
+	background-image: url(../images/backgrounds/rounded_TL.gif);
+	background-repeat: no-repeat;
+	}
+.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	width: 150px;
+	height: 20px;
+	background-image: url(../images/backgrounds/rounded_BL.gif);
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	}
+#group_4-5 .verticalalign
+	{
+	width: 230px;
+	}
+#group_7-8 .verticalalign
+	{
+	width: 310px;
+	}
+.verticalalign p
+	{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	background-image: url(../images/backgrounds/rounded_BR.gif);
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+	}
+#wrapper h2
+	{
+	margin: 0;
+	padding: 10px;
+	background-image: url(../images/backgrounds/rounded_TR.gif);
+	background-position: 100% 0;
+	background-repeat: no-repeat;
+	}
+#wrapper p
+	{
+	margin: 0;
+	padding: 0 10px 10px 10px;
+	}
+#footer
+	{
+	clear: both;
+	margin-top: 1em;
+	}
+/* ]]> */
+</style>
+<style type="text/css">
+@import url(onetruelayoutbasic.css);
+</style>
+</head>
+<body>
+<div id="header">
+<h1>One True Layout™ - Nested Rounded Corners (Future Perfect)</h1>
+</div>
+<div id="wrapper">
+<div id="group_1-8">
+<div id="group_1-6">
+<div id="group_1-5">
+<div id="group_1-3">
+<div id="block_1">
+<h2>Block 1</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 1</p></div>
+</div>
+<div id="block_2">
+<h2>Block 2</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 2</p></div>
+</div>
+<div id="block_3">
+<h2>Block 3</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 3</p></div>
+</div>
+</div><!-- close div#group_1-3 -->
+<div id="group_4-5">
+<div id="block_4">
+<h2>Block 4</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 4</p></div>
+</div>
+<div id="block_5">
+<h2>Block 5</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 5</p></div>
+</div>
+</div><!-- close div#group_4-5 -->
+</div><!-- close div#group_1-5 -->
+<div id="block_6">
+<h2>Block 6</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 6</p></div>
+</div>
+</div><!-- close div#group_1-6 -->
+<div id="group_7-8">
+<div id="block_7">
+<h2>Block 7</h2>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 7</p></div>
+</div>
+<div id="block_8">
+<h2>Block 8</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 8</p></div>
+</div>
+</div><!-- close div#group_7-8 -->
+</div><!-- close div#group_1-8 -->
+<div id="block_9">
+<h2>Block 9</h2>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p>filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+<div class="verticalalign"><p>Snap 9</p></div>
+</div>
+</div><!-- close div#wrapper -->
+<div id="footer">
+<p>Footer text</p>
+</div>
+<p id="article_location">This example forms part of the <em>Position is Everything</em> article, <a href="../index.html">In Search of the One True Layout</a>.</p>
+<div class="output">
+<h2>HTML Output</h2>
+<pre>
+&lt;div id="wrapper"&gt;
+&lt;div id="group_1-8"&gt;
+&lt;div id="group_1-6"&gt;
+&lt;div id="group_1-5"&gt;
+&lt;div id="group_1-3"&gt;
+&lt;div id="block_1"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div#group_1-3 --&gt;
+&lt;div id="group_4-5"&gt;
+&lt;div id="block_4"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_5"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div#group_4-5 --&gt;
+&lt;/div&gt;&lt;!-- close div#group_1-5 --&gt;
+&lt;div id="block_6"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div#group_1-6 --&gt;
+&lt;div id="group_7-8"&gt;
+&lt;div id="block_7"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="block_8"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div#group_7-8 --&gt;
+&lt;/div&gt;&lt;!-- close div#group_1-8 --&gt;
+&lt;div id="block_9"&gt;
+	...
+&lt;div class="verticalalign"&gt; ... &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- close div#wrapper --&gt;
+</pre>
+</div>
+<div class="output">
+<h2>CSS Rules</h2>
+<pre>
+#wrapper
+	{
+	width: 790px;
+	}
+#block_1
+	{
+	float: left;
+	width: 150px;
+	margin-left: 160px;
+	background-color: #ff0000;
+	}
+#block_2
+	{
+	float: left;
+	width: 150px;
+	margin-left: -310px;
+	background-color: #00ff00;
+	}
+#block_3
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #0000ff;
+	}
+#block_4
+	{
+	float: left;
+	width: 230px;
+	margin-left: 240px;
+	background-color: #999900;
+	}
+#block_5
+	{
+	float: left;
+	width: 230px;
+	margin-left: -470px;
+	background-color: #009999;
+	}
+#block_6
+	{
+	float: left;
+	width: 150px;
+	margin-left: -630px;
+	background-color: #990099;
+	}
+#block_7
+	{
+	float: left;
+	width: 310px;
+	margin-left: 320px;
+	background-color: #ffcc00;
+	}
+#block_8
+	{
+	float: left;
+	width: 310px;
+	margin-left: -630px;
+	background-color: #ff6600;
+	}
+#block_9
+	{
+	float: left;
+	width: 150px;
+	margin-left: 10px;
+	background-color: #660066;
+	}
+#group_4-5,
+ #group_7-8
+	{
+	margin-top: 10px;
+	}
+#group_1-8
+	{
+	float: left;
+	width: 630px;
+	}
+#group_1-5
+	{
+	float: left;
+	width: 470px;
+	margin-left: 160px;
+	}
+#wrapper, #group_1-3, #group_4-5, #group_1-5, #group_1-6, #group_7-8, #group_1-8
+	{
+	overflow: hidden;
+	position: relative;
+	}
+#block_1, #block_2, #block_3, #block_4, #block_5, #block_6,
+ #block_7, #block_8, #block_9
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px;
+	background-image: url(../images/backgrounds/rounded_TL.gif);
+	background-repeat: no-repeat;
+	}
+.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	width: 150px;
+	height: 20px;
+	background-image: url(../images/backgrounds/rounded_BL.gif);
+	background-position: 0 100%;
+	background-repeat: no-repeat;
+	}
+#group_4-5 .verticalalign
+	{
+	width: 230px;
+	}
+#group_7-8 .verticalalign
+	{
+	width: 310px;
+	}
+.verticalalign p
+	{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	background-image: url(../images/backgrounds/rounded_BR.gif);
+	background-position: 100% 100%;
+	background-repeat: no-repeat;
+	}
+#wrapper h2
+	{
+	margin: 0;
+	padding: 10px;
+	background-image: url(../images/backgrounds/rounded_TR.gif);
+	background-position: 100% 0;
+	background-repeat: no-repeat;
+	}
+#wrapper p
+	{
+	margin: 0;
+	padding: 0 10px 10px 10px;
+	}
+#footer
+	{
+	clear: both;
+	margin-top: 1em;
+	}
+</pre>
+</div>
+</body>
+
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+
+<title>Peek-a-boo IE6 Bug</title>
+
+<meta name="Big John" content="25 May, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" A demo explaining fixes for disappearing text in IE6. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+html {margin: 0; padding: 0; width: 100%; height: 100%;}
+
+body {margin: 0; padding: 0; font-family: verdana, sans-serif; font-size: 90%; background: #eff; text-align: center;}
+
+.wrapper {width: 90%; min-width: 750px; max-width: 1100px; text-align: left; margin: 0 auto;}
+
+.alignright {margin: 0 7% 1em 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+a {border: 0; color: #000;}
+
+h1 {font-size: 22px; text-align: center; border-bottom: 3px solid #fff;
+	background: #000; margin: 0; color: #fff;padding: 3px;}
+
+h4 {font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+p {margin: 0 5% .8em 4em;}
+
+ol {margin: 20px 20%;}
+
+h2 {font-size: 1.2em;}
+
+h2 span {font-size: .8em;}
+
+
+
+/************** Demo rules ******************/
+
+div#floatholder a:hover{
+background: #f99;     /* An a:hover mouseover change anywhere within #content
+                                                  will uncover missing content, but if 'color' and 'border' are toggled on hover
+                                                 rather than the background, the peekaboo bug is only partially corrected. */
+}
+
+#clear {
+clear: both;                           /* Bug trigger. This div must touch the float to trigger bug. */
+border: 3px solid #f0f;
+text-align: center;
+}
+
+#floatholder {
+background: #fed;          /* Bug trigger. I suspect the peekaboo content is hidden behind this BG. */
+border: 3px dotted #000;
+margin: 1em 15% 1em 13%;
+font-size: 1.1em;
+}
+
+     /************************************************************************
+     * If both #floatholder and #float are given 'position: relative', the bug is prevented *
+     *************************************************************************/
+
+#float {           /* Bug is triggered by either left or right float */
+float : left;
+border: 6px solid #844;
+padding : 5px;
+width : 200px;
+height: 200px;
+font-size: 2em;
+text-align: center;
+}
+
+#float span {
+background: #9c9;
+color: white;
+}
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>
+&nbsp;&nbsp;IE6 Peekaboo Bug&nbsp;&nbsp;&nbsp;
+</h1>
+
+<div class="wrapper">
+
+<p class="alignright">
+ <a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a><br />
+ <a href="inherited_margin.html"><strong>Next IE demo</strong></a>
+</p>
+
+<br />
+<h2>The setup:</h2>
+<p>
+A liquid box has a float inside, and content that appears along side that float.
+All is well, until it's viewed in IE6. "Wah? Where's my content?!" You reload
+the page, and nothing. When you scroll down, or perhaps switch to another window,
+upon returning to the 'scene of the crime' there it all is, fat 'n sassy!
+</p>
+<p>
+<strong>Note:</strong> <em>This long standing bug has been suppressed</em> in <strong>IE7</strong>
+(released in late 2006), so the Peekaboo Bug is finally on the way out. IE6 will still
+exist however, and as long as it does we'll need to fix it.
+</p>
+<h2>The demo:</h2>
+<p>
+div#floatholder (dotted border) is dimensioned horizontally by margins, and vertically
+by content. div#float (thick brown border) is floated left, and contains a test link.
+Following that are several lines of bare text, alternating with divs containing more text,
+plus test links. Next is a cleared div (purple border), then another div for good measure.
+</p>
+
+
+<!--********** Start of demo ***********-->
+
+<div id="floatholder">
+
+<div id="float">
+<br />
+<span>&nbsp;Float&nbsp;
+<br /><br />
+<a href="#">&nbsp;test link&nbsp;</a>
+</span>
+</div>
+
+This is bare text. <a href="#">Test link</a>
+<div style="border: 3px solid #f00; background: #dde;">This is text inside a div.
+<a href="#">Test link</a></div>
+This is bare text. <a href="#">Test link</a>
+<div style="border: 3px solid #0c0; background: #dde;">This is text inside a div.
+<a href="#">Test link</a></div>
+This is bare text. <a href="#">Test link</a>
+<div style="border: 3px solid #00f; background: #dde;">This is text inside a div.
+<a href="#">Test link</a></div>
+This is bare text. <a href="#">Test link</a>
+
+<div id="clear">Clearing div</div>  <!--******* Note: a cleared <br> will not prevent bug *******-->
+
+<div style="border: 3px solid #00f; background: #dde;">This div is after the cleared div. (purple box) If cleared div
+does not touch float, bug is not triggered. <a href="#">Test link</a></div>
+</div>
+
+<!--********** End of demo ***********-->
+
+<p>
+To reset bug, reload page.
+<a href="images/peekaboo1.gif">Screenshot</a>
+&nbsp;<br />
+</p>
+<h2>The bugs:</h2>
+<p>
+This effect may turn up in a number of different contexts. We would try to list them here,
+but the page would become very long, and make our heads hurt.
+</p>
+<h2>Fun with links:</h2>
+<p>
+Try clicking the links. This will reveal the missing content, same as scrolling.
+If the float is a linked image, same deal. But only links within div#floatholder,
+and before the clearing div will expose the missing content.<br />
+But check out the last link in the content area. Weird!
+</p>
+<h2>Special notes:</h2>
+<p>
+Multiple repetitions of the content div containing the triggers can behave very strangely.
+As argued on css-d, it appears to be triggered by the clearing div. When it is forced to
+clear a float, the previous content after the float gets covered somehow, perhaps by the
+ background on div#floatholder. (dotted border)
+</p>
+<h2>The fixes:</h2>
+<p>
+Finally, this bug will be triggered even if div#float preceeds div#floatholder, provided that
+this external float actually touches the clearing div within div#floatholder!<br />
+</p>
+<p>
+There are three ways we know to prevent this bug.
+</p>
+<ol>
+<li>Keep the clearing div from touching the float, or avoid using a background on div#floatholder.
+Not exactly ideal.</li>
+<li>Give both div#floatholder and div#float 'position: relative'. Be sure to fully test this method.</li>
+<li>Give div#floatholder <a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a> (now the preferred method)</li>
+</ol>
+
+<p>
+We suggest using a conditional comment to feed a hasLayout fix to IE6 and below only.
+Further details helpful to this method may be found in the <a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a> page.
+</p>
+
+<p>
+Thanks to
+<a href="http://simonwillison.net/"><strong>Simon Willison</strong></a>
+for the timely screenshot.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: September 9th, 2008<br />
+Created July 7, 2002
+</p>
+&nbsp;
+
+</div>
+
+</body>
+
+</html>

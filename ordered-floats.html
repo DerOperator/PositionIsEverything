@@ -1,0 +1,925 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+	<title>Source Ordered Columns</title>
+
+<meta name="Big John" content="February 3, 2003" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A method to separately control both the source and screen orders of a 3-col layout." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0;}
+
+body {margin: 0; padding: 0; font-family: verdana,sans-serif; background: #f8eedd; font-size: 80%;}
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h4 {font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+.textbox {margin: 2em 0 3em;}
+
+.textbox p {margin: .6em 10% .6em 18%; padding: 0;}
+
+a:link, a:visited, a:active {color: #000;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+pre {margin: 30px 12%; padding: 20px 20px 20px 50px; background: #f8ddb8;
+	border: 2px dotted #000; font-size: 1.1em;}
+
+html[xmlns] pre {font-size: 1.3em;} /*** This hack sends a fudged value to Mozilla ***/
+
+pre strong {color: #804;}
+
+pre strong.normal {color: black;}
+
+/*XXXXXXXXXXXXX The demo rules start here XXXXXXXXXXXXX*/
+
+.demo, .demo-213, .demo-allfloat, .rigid-demo, {font-size: 1em; font-family: georgia, serif; }
+
+ .demo, .demo-213, .demo-allfloat, .rigid-demo {background: #393; }
+
+.demo-allfloat {margin: 0 10px; border: 2px solid black; border-width: 0 1px;}
+
+	/*** .demo and .demo-213 cannot have side margins or borders or IE6 is buggy.
+		body margins may be used without causing the IE6 bug. ***/
+
+* html .demo-allfloat {width: 100%; w\idth: auto;}
+
+	/*** This feeds a hacked width of '100%' to only IE5.x/win, to make that browser behave correctly. ***/
+
+.demo a:hover, .demo-213 a:hover , .demo-allfloat a:hover , .rigid-demo a:hover {
+	background: black; color: yellow; text-decoration: none;}
+
+p {padding: 10px; margin: 0;} /*** If vertical margin is applied here, browsers may vary. ***/
+
+h2, h3, .clearfooter {margin: 0; padding: 0 0 0 2em; font-size: 1.5em;
+		background: #eb8; border: 1px solid black; border-width: 1px 0;
+		font-weight: bold; clear: both; font-family: verdana, sans-serif;}
+
+	 /*** The above cleared elements keep the .demo column groups separate. ***/
+
+h2 {background: #ddf; padding: 1px 0 3px 2em;}
+
+	/*** The vertical (top and bottom) padding is for Op6, to make it show the
+	link underline separate from the header bottom border. A typical text variation. ***/
+
+h2 a {font-weight: normal; font-size: .8em;}
+
+h3 {background: #ed8;}
+
+.clearfooter span {font-weight: normal;}
+
+/***XXXXXXXXXXX demo, and demo-213 rules XXXXXXXXXX***/
+
+.float-wrapper {float: left; width: 66%;}
+
+	/*** Must enclose two of the three cols. Must include center col. ***/
+
+.first-col {float: left; width: 50%;}
+
+.second-col {margin-left: 50%;}
+
+.third-col {margin-left: 66%;}
+
+/*** Playing with the above three values may eliminate the
+	1px Moz rounding error gap, but may cause overlapping cols on Opera7. ***/
+
+.float-right {float: right;}
+
+.margin-right {margin: 0 50% 0 0;}
+
+.demo h2, .demo h3, .demo .third-col p, .demo-213 h2, .demo-allfloat {position: relative;}
+
+	/*** When combined with properly placed <br>s in the html, the 'position: relative'
+		applied to these elements prevents buggy behaviors in IE and Moz, when
+		backgrounds are used on all but the rigid demo. ***/
+
+
+/***XXXXXXXXXXXXX All-floats demo rules XXXXXXXXXXXXXXX***/
+
+/*** In this version, 'position: relative' is needed on the demo container,
+	the floated wrapper, and the third floated col, to prevent bugs in IE6. ***/
+
+.first-float {float: right; width: 49%;}
+
+.second-float {float: left; width: 49%;}
+
+.third-float {float: right; width: 33%; position: relative;}
+
+.demo-allfloat .float-wrapper {position: relative;}
+
+/*** This 'position: relative' must not be used on the wrappers
+	in the previous demos, or buggyness may result. ***/
+
+
+/***XXXXXXXXXXXXX Rigid demo rules XXXXXXXXXXXXX***/
+
+.rigid-demo {margin: 0 auto; text-align: left; width: 600px;
+	border: 1px solid black; border-width: 0 1px;}
+
+.center-hackbox { text-align: center;} /*** This hack forces IE5.x/win to center div.rigid-demo. ***/
+
+/*** The 'auto' side margins center the 'rigid' demo on the page. ***/
+/*** 'text-align: left' cancels the inheritance of the centering hack above. ***/
+
+
+/*XXXXXXXXX Below is a hack to feed IE5.x/win a 'width' of '602px'. XXXXXXXXXXX*/
+
+* html .rigid-demo {width: 602px; w\idth: 600px;}
+
+/*** This defeats the faulty IE5.x/win box model, and prevents a float wrap.
+  It's necessary because of the decorative side borders on div.rigid.
+  See this page for details: http://css-discuss.incutio.com/?page=BoxModelHack ***/
+
+
+.float-wrapper-rigid {float: left; width: 450px;} /*** Must enclose two of the three cols. Must include center col. ***/
+
+.first-float-rigid {float: right; width: 300px;}
+
+.second-float-rigid {float: left; width: 150px;}
+
+.third-float-rigid {float: right; width: 150px;}
+
+
+.first-col p, .first-float p, .first-float-rigid p {background: #6bd;}
+
+.second-col p, .second-float p, .second-float-rigid p {background: #9dc;}
+
+.third-col p, .third-float p, .third-float-rigid p {background: #ecc;}
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>Source Ordered Columns</h1>
+
+<div class="textbox">
+<p class="alignright">
+<a href="index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+<br />
+
+<p style="border: 1px solid #900; background: white; padding: 15px;">
+<strong>Important new information as of July 2008: </strong>
+IE bugs discussed in this obsolete document have been found to be associated with
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>.
+Knowledge of this MS concept is essential if you want to make IE behave well
+with advanced CSS using floats.
+Also see this <a href="articles/haslayout.html"><strong>basic method</strong></a> for specific ways to
+combat the IE bugs on your pages.
+</p>
+
+<p>
+<strong>So you want a three column layout</strong>, and the footer must stay
+below the cols no matter which one is longest. Not too tuff, just have a static col,
+and two cols floated left and right, then 'clear' the footer. The longest col will always
+keep the footer pinned to its bottom edge.
+</p>
+<p>
+However, since the floated cols must precede the static col, <em>the middle static col is always last
+in the source code</em>. This is undesirable because if the css is not used (text browsers, etc.), then
+the cols don't appear in the correct order. A more accessible way would be to place the cols in the
+preferred source order, and then force them into the desired screen order. But how?
+</p>
+<p>
+It turns out that with a small amount of extra float trickery we can do just that.<br />
+<strong>See those colored columns below?</strong>
+</p>
+</div>
+
+<!--XXXXXXXXXXX Start first demo section, 1st group begins XXXXXXXXXXXXXXXXXXXX-->
+
+<div class="demo">
+
+<h2>Header &lt;h2&gt;</h2>
+
+	<div class="float-wrapper">
+
+<!-- This wrapper comes first, and is floated left. It contains the number one (left-floated) col,
+	and the non-floated number two col. The number three col is non-floated, and
+	comes last following the wrapper float. -->
+
+<div class="first-col">
+<p>
+One One One One One One One One One One One One One One One One One One One
+One One One One One One One One One
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div class="second-col">
+<p>
+Two Two Two Two Two Two Two
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+	</div>
+
+<div class="third-col">
+<p>
+Three Three Three Three Three Three Three Three Three Three Three
+<br />
+<a href="#">Test link</a>
+</p>
+
+</div>
+
+<br /> <!--*** This <br /> is necessary if you want the background to display with no bugs. ***-->
+
+<h3>Clearing Header &lt;h3&gt;</h3>
+
+<!--XXXXXXXXXXXXXXXXXXX 2nd group begins XXXXXXXXXXXXXXXXXXXX-->
+
+	<div class="float-wrapper">
+
+<div class="first-col">
+<p>
+One One One One One One One One One One
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div class="second-col">
+<p>
+Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two
+Two Two Two Two Two Two Two Two Two Two Two
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+	</div>
+
+<div class="third-col">
+<p>
+Three Three Three Three Three Three Three Three Three Three Three
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<br /> <!--*** This <br /> is necessary if you want the background to display with no bugs. ***-->
+
+<h3>Clearing Header &lt;h3&gt;</h3>
+
+<!--XXXXXXXXXXXXXXXXX 3rd group begins XXXXXXXXXXXXXXXXXXXX-->
+
+	<div class="float-wrapper">
+
+<div class="first-col">
+<p>
+One One One One One One One One
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div class="second-col">
+<p>
+Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+	</div>
+
+<div class="third-col">
+<p>
+Three Three Three Three Three Three Three Three Three Three Three Three Three Three
+Three Three Three Three Three Three Three Three Three Three Three Three Three Three
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<!--*** IE does NOT need a <br /> here in order to display the background properly. ***-->
+
+<p class="clearfooter">Clearing Footer <span>(p.clearfooter)</span></p>
+
+</div>
+
+<!--XXXXXXXXXXXXXXXXX End first demo section XXXXXXXXXXXXXXXXXXXX-->
+
+<div class="textbox">
+<p>
+If you sneak a peek at the source, you will see that the cols are in the same order as they are on screen.
+That is, the left col is first and the right col is last. The three column-groups are identical except
+for differing amounts of text. Observe how the footers always stay pegged on the bottom of the
+longest col.
+</p>
+<h4>The Method</h4>
+<p>
+The ordering is achieved by wrapping a left-floated box around the first and second cols in the source.
+(blue and green),  and left-floating the first col (blue) within that invisible floating wrapper.
+</p>
+<p>
+Get it? The wrapper is floated, so in the source it comes first, (as a float must),
+and inside it the floated first col
+also comes first, becoming the first col to appear in the source. The other col in the wrapper
+(green center col) is next, and the right col (red) following the wrapper, comes last.
+</p>
+<h4>Something more to consider</h4>
+<p>
+There's no reason the first col must be floated left, or the wrapper for that matter.
+By making the float direction on the first col 'right' instead of 'left' (along with its associated margin value
+on .second-col),
+we can put .first-col into the center position, with .second-col on its left and .third-col on the right,
+something highly desirable I'm told.
+</p>
+<a name="demo-213" />
+</div>
+
+<!--XXXXXXXXXXXXXXXXX Start second demo section XXXXXXXXXXXXXXXXXXXX-->
+
+<div class="demo-213">
+
+<h2>Header &lt;h2&gt; <a href="sidepages/demo-213.html">see demo in isolation</a></h2>
+
+	<div class="float-wrapper">
+
+<div class="first-col float-right"> <!--**** This float has its direction reversed. ****-->
+<p>
+One One One One One One One One One One One One One One One One One One One One <br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div class="second-col margin-right"> <!--**** This div has its col-sized margin on the right, not left. ****-->
+<p>
+Two Two Two Two Two Two Two<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+	</div>
+
+<div class="third-col">
+<p>
+Three Three Three Three Three Three<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<br /> <!--*** This <br /> is necessary if you want the background to display with no bugs. ***-->
+
+<p class="clearfooter">Clearing Footer <span>(p.clearfooter)</span></p>
+
+</div>
+
+<!--XXXXXXXXXXXXXXXXX End second demo section XXXXXXXXXXXXXXXXXXXX-->
+
+<pre>
+  <strong class="normal">Minimal HTML for the '2 1 3' demo above:</strong>
+
+&lt;h2&gt;Header&lt;/h2&gt;
+
+   &lt;div class="<strong>float-wrapper</strong>"&gt;
+
+     &lt;div class="<strong>first-col</strong>"&gt;
+    <strong>&lt;p&gt;</strong>One One One One One One One One One<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+     &lt;div class="<strong>second-col</strong>"&gt;
+    <strong>&lt;p&gt;</strong>Two Two Two Two Two Two<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+   &lt;/div&gt;
+
+ &lt;div class="<strong>third-col</strong>"&gt;
+<strong>&lt;p&gt;</strong>Three Three Three Three Three<strong>&lt;/p&gt;</strong>
+ &lt;/div&gt;
+
+<strong>&lt;p class="clearfooter"&gt;</strong>Clearing Footer<strong>&lt;/p&gt;</strong>
+
+
+  <strong class="normal">The CSS:</strong>
+
+<strong>.float-wrapper</strong> {float: left; width: 66%;}
+     /*** This can be floated left or right ***/
+
+<strong>.first-col</strong> {float: right; width: 50%;}
+     /*** This can be floated left or right ***/
+
+<strong>.second-col</strong> {margin-right: 50%;}
+     /*** This gets margined the same direction
+        as div.first-col gets floated ***/
+
+<strong>.third-col</strong> {margin-left: 66%;}
+     /*** This gets margined the same direction
+       as div.float-wrapper gets floated ***/
+
+<strong>.clearfooter</strong> {clear: both;}
+
+ <strong>p</strong> {padding: 10px;}
+</pre>
+
+<div class="textbox">
+<h4>What you need to know</h4>
+<p>
+By selecting the direction to float .first-col, you can choose either the first or second
+column to place in the center screen position. Further, if .float-wrapper is reversed as well,
+the column screen order can be 3, 2, 1, or 3, 1, 2.
+</p>
+<p>
+If you want to vary the 'widths'
+of the cols, remember that the non-floated 2nd and 3rd cols get margins with a length equal
+to the width on the associated float. (see code above)
+</p>
+<p>
+The paragraphs are not there just to be accessible. It's also because using margin, borders, or padding
+on the column elements themselves is 'difficult'. Don't let me stop you tho, knock yerself out.
+<em>But</em>, know that doing so will lead into a morass of browser variances, bugs, and to top it all,
+the IE box model.
+I'm talking Hack City, folks. Go there only with eyes wide open. Otherwise, use nested
+&lt;p&gt;'s (or whatever) to hold and style the col contents.
+</p>
+<p>
+Padding, borders, and horizontal margins may be safely placed on the &lt;p&gt;'s, but vertical
+margins will show some variance
+between browsers, and will require hacking in order to be (semi)consistent. Op6 is the only major
+Windows browser that gets these vertical margins completely correct. Op7/beta does not.
+</p>
+<p>
+IE6 will display very buggily if these demos are given backgrounds (green BG's), unless
+'position: relative' is applied to certain elements. See the source for details on these hacks.
+Also, Mozilla and N6/7 will sometimes show a 1px gap between the 2nd and 3rd cols in the
+first two demos, due to 'rounding errors'. The width/margin values on these cols have been tweaked
+to eliminate the gaps at the main resolutions, but will still show at intermediate screen widths.
+For more detail, check out <a href="round-error.html"><strong>this demo</strong></a>.
+</p>
+<h4>Danger, Will Robinson! Danger danger...</h4>
+<a name="three-px" />
+<p>
+This layout involves floats, and oversize floats will 'wrap' underneath, shattering the layout.
+Should there be content in a col that is too wide to fit, the results are 'unpleasant', to say the least.
+Opera, and 'Gecko' based browsers (N6/7, etc.) will just make the wide content overlap whatever
+is to the right. Not so in IE. (It figures)
+</p>
+<a name="float-model" />
+<p>
+IE/win has the unhappy habit of 'enlarging' any container that has such oversize content. Normally
+that behavior is just irritating, but in this case, enlarging the cols can result in float wrapping,
+wreaking havoc on what used to be a 3-col layout. IE5/mac also breaks, in a different yet strangely
+similar manner. Be <em>very careful</em> about including
+content other than text. Long web addresses often cause this sort of problem, because they
+don't have spaces that allow text wrapping.
+</p>
+<h4>The IE 3px text jog rears its ugly head</h4>
+<p>
+If you implement this layout, you may notice (in IE) a strange little flaw in the left-justification
+of text in one or two spots. As the left edge of the text block runs down the col, it will suddenly
+'jog' to the left slightly, producing an unsightly "disturbance in the font". I have a demo prepared that
+explains this in <a href="explorer/threepxtest.html"><strong>more&nbsp;detail</strong></a>.
+In essence, a non-floated element following a float may show the jog.
+</p>
+<p>
+This jog may be easily squelched by applying 'width: 100%' to the 2nd and 3rd cols (but with no margins).
+IE makes these static cols fill the available space next to their respective floats, but without
+the jog.
+</p>
+<p>
+Unfortunately,
+this behavior <em>totally violates</em> the W3C specifications concerning float behavior, so using this method
+will totally break any other browser that tries to parse it. I have yet <em>another</em> demo
+explaining said <a href="floatmodel.html"><strong>IE&nbsp;misbehavior</strong></a>.
+<br />(This IE stuff is getting really tiresome)
+</p>
+<h4>So is that it? Internet Explorer staggers triumphant?</h4>
+<p>
+Heck no!
+Luckily there is a way to prevent these proprietary IE behaviors. Simply make all the cols into floats.
+Boy, <em>that was easy!</em> Okay okay, so it isn't that easy, but it is doable.
+</p>
+<h4>The all-float three-ordered-cols method</h4>
+<p>
+Since floats induce the 3px jog, but don't themselves show the jog, an all-float column layout avoids
+the whole problem. The idea is to float the 1st and 2nd cols opposite each other, keeping them
+ in the floated wrapper, and also floating the 3rd col opposite the wrapper. If all the elements
+are floated, there are no 'static' cols that must come last, so any col may appear in any screen
+position. <em>Total control</em>.
+</p>
+<p>
+This control comes at a price, however. Floats must have 'widths', unlike the static cols.
+If the elements are all given percentage widths, as in the
+demos above, some browsers may wrap anyway, even tho they shouldn't.
+The above mentioned <a href="round-error.html"><strong>rendering&nbsp;error</strong></a>
+associated with percentages (and EM's), may make an element 1px too wide, causing a wrap.
+</p>
+<a name="all-float-demo" />
+<p>
+So the col widths must be fudged downwards (to prevent wrapping), which causes smallish gaps
+between the cols. If the cols have no backgrounds, the gaps won't be noticable and the 3px jog will
+be gone. Could be a keeper.
+</p>
+<p>
+<strong>Note: </strong> I also added side borders and margins to this demo (.demo-allfloat),
+just because I could (but see note below for IE5.5 caution with borders and margins).
+</p>
+</div>
+
+<!--XXXXXXXXXXXXXXXXX Start 'all-floats' demo section XXXXXXXXXXXXXXXXXXXX-->
+
+<div class="demo-allfloat">
+
+<h2>Header &lt;h2&gt; <a href="sidepages/all-float.html">see demo in isolation</a></h2>
+
+	<div class="float-wrapper">
+
+<div class="first-float">
+<p>
+One One One One One One One One One One
+One One One One One One One One One One One One One One<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div class="second-float">
+<p>
+Two Two Two Two Two Two<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+	</div>
+
+<div class="third-float">
+<p>
+Three Three Three Three Three<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<p class="clearfooter">Clearing Footer <span>(p.clearfooter)</span></p>
+
+</div>
+
+<!--*** IE does NOT need a <br /> before the footer in order to display the background properly.
+	In fact, if even this comment were there, it would cause IE6 bugs further down the page.***-->
+
+<!--XXXXXXXXXXXXXXXXX End 'all-floats' demo section XXXXXXXXXXXXXXXXXXXX-->
+
+<pre>
+  <strong class="normal">Minimal HTML for the 'all-float' demo above:</strong>
+
+&lt;h2&gt;Header&lt;/h2&gt;
+
+   &lt;div class="<strong>float-wrapper</strong>"&gt;
+
+     &lt;div class="<strong>first-float</strong>"&gt;
+    <strong>&lt;p&gt;</strong>One One One One One One One One One<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+     &lt;div class="<strong>second-float</strong>"&gt;
+    <strong>&lt;p&gt;</strong>Two Two Two Two Two Two<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+   &lt;/div&gt;
+
+ &lt;div class="<strong>third-float</strong>"&gt;
+<strong>&lt;p&gt;</strong>Three Three Three Three Three<strong>&lt;/p&gt;</strong>
+ &lt;/div&gt;
+
+<strong>&lt;p class="clearfooter"&gt;</strong>Clearing Footer<strong>&lt;/p&gt;</strong>
+
+
+  <strong class="normal">The CSS:</strong>
+
+<strong>.float-wrapper</strong> {float: left; width: 66%;}
+     /*** This can be floated left or right ***/
+
+<strong>.first-float</strong> {float: right; width: 49%;}
+     /*** This must be floated opposite
+		to .second-float ***/
+
+<strong>.second-float</strong> {float: left; width: 49%;}
+     /*** This must be floated opposite
+		to .first-float ***/
+
+<strong>.third-float</strong> {float: right; width: 33%;}
+     /*** This must be floated opposite
+		to .float-wrap ***/
+
+<strong>.clearfooter</strong> {clear: both;}
+
+ <strong>p</strong> {padding: 10px;}
+</pre>
+
+<div class="textbox">
+<h4>What you need to know</h4>
+<p>
+If you happen to want the 3rd col in the center screen position, just make the wrapper enclose
+the 2nd and 3rd cols, rather than the 1st and 2nd. Then the proper float directions will
+easily center the 3rd col.
+</p>
+<p>
+This all-float layout requires two bug fixes to cater for IE. First, in order not to be buggy,
+IE6/win needs 'position:&nbsp;relative' applied to the demo. This induces more buggyness
+that must be fixed by giving 'position:&nbsp;relative'
+to both the wrapper, and to the third floated col as well. (see source)
+</p>
+<p>
+The second is that IE5.x/win will break, due to its
+habit of considering a default width of 'auto' to mean "the viewport width". It is fixed by applying
+'width: 100%' to the demo, but beware! IE6 will break upon seeing this, so the '100%' must only
+be seen by IE5.x/win. This is done by use of a hack (see source). If the side borders and margins
+are avoided, then this hack is not needed.
+</p>
+<a name="rigid-demo" />
+<p>
+Since the layout uses bi-directional nested floats, caution should be taken when adding further
+floats or positioned elements, lest you summon up some hideous &#220;berbug. Test, test, and test again.
+</p>
+<h4>You say you want a 'pixel sized' layout?</h4>
+<p>
+Well alright then! The fact is that making this layout 'rigid' eliminates the small gaps seen in the
+last example. Also, I have altered the column 'width' values in the layout, again just because I could.
+Take a look.
+</p>
+</div>
+
+<!--XXXXXXXXXXXXXXXXX Begin 'rigid' demo section XXXXXXXXXXXXXXXXXXXX-->
+
+<div class="center-hackbox">
+
+<div class="rigid-demo">
+
+<h2>Header &lt;h2&gt; <a href="sidepages/rigid-demo.html">see demo in isolation</a></h2>
+
+	<div class="float-wrapper-rigid">
+
+<div class="first-float-rigid">
+<p>
+One One One One One One One One One One One One One
+One One One One One One One One One One One One
+One One One One One One One One One One One One
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div class="second-float-rigid">
+<p>
+Two Two Two Two Two
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+	</div>
+
+<div class="third-float-rigid">
+<p>
+Three Three Three Three Three Three Three Three Three Three
+Three Three Three Three Three Three Three Three Three Three
+Three
+<br />
+<a href="#">Test link</a>
+</p>
+</div>
+
+<div style="line-height: 0px;">&nbsp;</div>
+
+	<!--*** This is a hack to fix an IE5.5/6win background bug. ***-->
+
+<p class="clearfooter">Clearing Footer <span>(p.clearfooter)</span></p>
+
+</div>
+</div>
+
+<pre>
+<strong class="normal">Minimal HTML for the 'rigid-all-float' demo above:</strong>
+
+  &lt;div class="<strong>rigid</strong>"&gt;
+
+&lt;h2&gt;Header&lt;/h2&gt;
+
+   &lt;div class="<strong>float-wrapper-rigid</strong>"&gt;
+
+     &lt;div class="<strong>first-float-rigid</strong>"&gt;
+    <strong>&lt;p&gt;</strong>One One One One One One One One One<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+     &lt;div class="<strong>second-float-rigid</strong>"&gt;
+    <strong>&lt;p&gt;</strong>Two Two Two Two Two Two<strong>&lt;/p&gt;</strong>
+     &lt;/div&gt;
+
+   &lt;/div&gt;
+
+ &lt;div class="<strong>third-float-rigid</strong>"&gt;
+<strong>&lt;p&gt;</strong>Three Three Three Three Three<strong>&lt;/p&gt;</strong>
+ &lt;/div&gt;
+
+<strong>&lt;p class="clearfooter&gt;</strong>Clearing Footer<strong>&lt;/p&gt;</strong>
+
+  &lt;/div&gt;
+
+
+  <strong class="normal">The CSS:</strong>
+
+<strong>.rigid</strong> {width: 600px; margin: 0 auto;}
+
+<strong>.float-wrapper-rigid</strong> {float: left; width: 450px;}
+     /*** This can be floated left or right ***/
+
+<strong>.first-float-rigid</strong> {float: right; width: 300px;}
+     /*** This must be floated opposite
+		to .second-float ***/
+
+<strong>.second-float-rigid</strong> {float: left; width: 150px;}
+     /*** This must be floated opposite
+		to .first-float ***/
+
+<strong>.third-float-rigid</strong> {float: right; width: 150px;}
+     /*** This must be floated opposite
+		to .float-wrap ***/
+
+<strong>.clearfooter</strong> {clear: both;}
+
+ <strong>p</strong> {padding: 10px;}
+</pre>
+
+<div class="textbox">
+<h4>What you need to know</h4>
+<p>
+IE5.5 and IE6 can be buggy with the above 'width-defined' layout, if the cleared footer is given
+a background. Even 'transparent' or 'inherit' applied to the cleared element background will induce this bug.
+It's fixed by providing a 'line box' after the 3rd col and just before the clearing div. A &lt;p&gt;
+will do this, as will a div containing at least one inline element.
+</p>
+<p>
+However, this rigid layout does NOT suffer from the IE 'demo background' bug mentioned before,
+so you can have a BG on this layout without hacking for IE6, thanks to the 'width' on the demo.
+</p>
+<p>
+The 'auto' side margins on div.rigid will center the demo in 'standards compliant' browsers,
+but IE5.x/win does not obey these, so I have employed a 'text-align' hack to force that
+browser to center the demo. That same browser has the infamous 'box model problem',
+so the decorative side borders I placed on the demo would have caused a col-wrap (in IE5.x/win),
+were in not for the box model hack I used to prevent this. <br />
+(see the source for details on these hacks)
+</p>
+<p>
+<a name="nav4" />
+Are you getting as tired of 'that browser' as I am? It's the new 'Nav4', people.
+</p>
+<h4>Speaking of Nav4...</h4>
+<p>
+I suppose some will wonder if these 3-col methods will work in Nav4. The answer
+is 'more&nbsp;or&nbsp;less'. I have prepared a
+<a href="sidepages/ordered-floats-N4-per.html"><strong>separate&nbsp;demo</strong></a>
+that does work in
+Nav4, as long as one doesn't expect too much.
+</p>
+<p>
+I tried hard to make Nav4 work acceptably, but failed. A percentage sized layout will indeed 'work',
+but there are puzzling horizontal openings between the cols that appear at semi-random screen sizes.
+I believe Nav4 can only render the 'width' of percentage based floats in large 'steps'. That is, when the screen size is
+incrementally reduced, the gap(s) get smaller and smaller, 'til contact triggers a jump to the next smaller
+box size. More than one box is involved, so both inter-col areas can show gaps.
+</p>
+<p>
+Naturally, attempting to size cols under these conditions is dicey at best. The cols are indeed in the correct
+order, and at roughly the same height, but the 'gaps' can only be eliminated at a selected screen size,
+or two if you're lucky.
+</p>
+<p>
+A pixel sized layout has its own re-sizing problems, because when the screen is reduced, a scrollbar
+is <em>not</em> created; rather it's the third col that is 'squeezed' until it's down to one 'word' wide, when finally
+a horizontal scrollbar makes its appearance, a little too late.
+</p>
+<a name="mys-bug" />
+<p>
+If you must cater to Nav4, use the percentage method, and live with the variable gaps. Remember
+that the values that work in Nav4 will not work in other browsers, and will require hacking to
+achieve similar results.
+</p>
+<h4>What This Method Cannot Do</h4>
+<p>
+Many site designers would like to have three source ordered columns, and have the two side cols
+be of a fixed width while allowing the center col to fluidly fill the remaining screen space. Sadly,
+this just isn't possible.
+</p>
+<p>
+The problem is that the center col must be a float (as well as the float wrapper), and floats must
+have a stated "width". The only length unit that is not fixed is "percentage", but if the center col is
+given a certain percentage width,  then whatever space is left in that float's container must also be a
+percentage. It's currently impossible to mix two boxes with percentage and fixed widths in a single container.
+At least it's not if you need to fill the screen cleanly at all resolutions.
+</p>
+<p>
+Perhaps someday it will be possible to give a float a width that is 100% of its container, minus a
+fixed amount, but today is not that day. If you must have these fixed side cols and fluid center col,
+you must stick with simple left and right floated side cols and live with the lack of an ordered source.
+</p>
+<h4>Research &amp; Development</h4>
+<p>
+This demo has the honor of moving into obsolescence even before being released! (I'm&nbsp;so&nbsp;proud)<br />
+There are <em>already</em> some code variations on the ordered cols theme over at
+<a href="http://www.fu2k.org/alex/css/"><strong>Alex&nbsp;Robinson's&nbsp;Site</strong></a>.
+Now go over there, and try to poke holes in his layouts. Alex would want you to. (I'm on my way...)
+</p>
+<p>
+If you write a cool new version of this layout concept (like Alex), and feel it should also be linked here,
+please contact me, okay? :-)
+</p>
+<h4>Conclusion</h4>
+<p>
+Please be aware that the layouts detailed on this page are fairly new, and have not been extensively
+tested with the many variations that could be applied within them. I'm quite certain that
+problems will arise when this happens, and would caution a 'go&nbsp;slow' approach. Start with
+the basic layout and add stuff to it, watching for bugs as you go.
+</p>
+<p>
+Don't be suprised if you just take
+an existing 3-col layout, transfer it to this one, and get hit with a
+<a href="articles/mys-bug.html"><strong>Mystery Bug</strong></a>.<br />
+(notice I didn't say ".. an IE Mystery Bug", 'cause I<em> just can't be sure</em>...)
+</p>
+<p>
+The Ordered Cols method may be extended to more than three columns,
+by adding a second floated wrapper, and wrapping the 3rd and 4th cols inside it.
+So it would appear thus:&nbsp;[{1&nbsp;2}&nbsp;{3&nbsp;4}],
+or some similar arrangement. Have fun!
+</p>
+<p>
+The source ordered three column techniques detailed here seem to be robust in standards
+compliant browsers, and as soon
+as lesser browsers are consigned to the porcelain bowl of history I expect these methods to be
+widely adopted across the Web.
+</p>
+<h4>Contributors</h4>
+<p>
+I know what you're thinking: "That Big John is sooo talented!" Well, that is true, but this page
+is largely the hard work (freely given) of many other people from the
+<a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss list</strong></a>,
+including (but not limited to)
+<a href="http://scott.sauyet.name/"><strong>Scott&nbsp;Sauyet</strong></a>,
+<a href="http://www.neuance.net/"><strong>Douglas&nbsp;Livingstone</strong></a>,
+<strong>Victor&nbsp;Caston</strong>,
+<a href="http://www.fu2k.org/alex/css/index.mhtml"><strong>Alex&nbsp;Robinson</strong></a>,
+<a href="http://www.masadelante.com/"><strong>Mike&nbsp;Papageorge</strong></a>,
+and <strong>Holly&nbsp;Bergevin</strong>. There's some wicked synergy in that e-list.
+</p>
+<p>
+<strong>Special thanks</strong> to
+<strong>Holly&nbsp;Bergevin</strong>,
+who convinced me to take time to create this demo, collaborated mightly on it, and displays a
+talent for bug squashing, too.&nbsp; : )<br />
+</p>
+
+<p style="border: 1px solid #900; background: white; padding: 15px;">
+<strong>Important new information as of July 2008: </strong>
+IE bugs discussed in this obsolete document have been found to be associated with
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>.
+Knowledge of this MS concept is essential if you want to make IE behave well
+with advanced CSS using floats.
+Also see this <a href="articles/haslayout.html"><strong>basic method</strong></a> for specific ways to
+combat the IE bugs on your pages.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 3, 2008<br />
+Created Groundhog Day (Feb 2nd), 2003
+</p>
+<br />
+</div>
+
+</body>
+
+
+</html>

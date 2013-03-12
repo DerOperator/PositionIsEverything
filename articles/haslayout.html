@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>Using Conditional Comments and Zoom to Fix IE/Win</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A discussion of the theory of CSS floating." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+<style type="text/css">
+
+
+</style>
+</head>
+
+<body id="ie7">
+
+<h1>Using Conditional Comments and Zoom to Fix IE/Win</h1>
+
+<div class="wrapper">
+
+<p class="alignright">
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a><br />
+<a href="../articles.html"><strong>Return to Articles</strong></a>
+</p>
+
+<p>
+This page explains how to feed specially prepared CSS to Internet Explorer, primarily
+to supply the "zoom&nbsp;fix" and confer
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>
+on an element. Making Internet&nbsp;Explorer think a certain box "has&nbsp;layout" can correct
+most of the float-induced or list-related bugs found in that browser. This fix cannot be used globally
+on all elements without causing major difficulties, but proper application of the fix is <em>vital</em>
+if you want to do any really advanced CSS layouts, particularly if floats are used.
+</p>
+
+<p>
+Primarily we need to apply such fixes just so we can use floats and list elements without
+major bug problems. Finding the elements that need the fix is a matter of trial and error
+for the most part. Simply move the fix to different suspect elements until the bug goes away
+(if you're lucky!). There is a method to IE's madness, but the details are invoved and ultimately
+useless. Experimenting with the zoom fix is fast and usually effective. After using the fix on a few
+pages you'll get a feel for the kind of elements that might benefit from hasLayout.
+</p>
+
+<p>
+Besides doing hasLayout fixes, we might also need to feed special
+scripts to IE6 and lower for PNG support or any-element hovering, and possibly for modified
+width or height values on some boxes for the benefit of IE5.5 and lower only, due to the different
+way those old IE browsers handle CSS boxes when borders or paddings are used on the boxes.
+</p>
+
+<p>
+In order for the method to succeed, it's <em>essential</em> that it be employed on pages displaying in
+"<a href="http://www.communitymx.com/content/article.cfm?cid=85FEE">standards&nbsp;mode</a>."
+This is because a browser running in "quirks&nbsp;mode" will display the same way decade-old
+browsers once did, to comply with backwards-compatibility for very old web pages.
+</p>
+
+<p>
+Besides the mode issue, it's important that you create your CSS layouts in a modern non-IE browser,
+and then attempt to correct any issues that IE may have with your standards-based code. Do NOT
+build sites while checking only in IE, or its many bugs and incorrect behaviors will lead to bad code
+and many difficulties in other browsers.
+</p>
+
+<h2>Feed your Head</h2>
+
+<p>
+Place the following code block in the head section of every page to be IE-corrected. Be careful to
+have this code block following the primary CSS file or calling link (the one that's read by all browsers),
+or else the new IE-only rules may not be able to override the relevant main CSS rules.
+For more info on the subject, see the
+<a href="http://www.w3.org/TR/CSS21/cascade.html#specificity">specificity&nbsp;section</a>
+in the W3C specs.
+</p>
+
+<div class="">
+<code>&lt;head>
+
+&nbsp;&nbsp;&lt;link rel="stylesheet" type="text/css" href="myprimary.css" />
+
+&nbsp;&nbsp;&lt;!--[if IE]>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel="stylesheet" type="text/css" href="myiehacks.css" />
+&nbsp;&nbsp;&lt;![endif]-->
+
+&nbsp;&nbsp;&lt;!--[if lte IE 6]>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script type="text/javascript" src="myiescripts.js">&lt;/script>
+&nbsp;&nbsp;&lt;![endif]-->
+
+&nbsp;&nbsp;&lt;!--[if lt IE 6]>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel="stylesheet" type="text/css" href="myiehacks-5.5.css" />
+&nbsp;&nbsp;&lt;![endif]-->
+
+&lt;/head>
+</code>
+</div>
+
+<p class="clear">
+You can change the link calls or add more, but don't mess with the
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp">Conditional&nbsp;Comments</a>
+unless you know what you're doing.
+</p>
+
+<h3>Using the CC's</h3>
+
+<p class="clear">
+The first CC feeds <strong>myiehacks.css</strong> to all versions of IE.
+This file is used mainly to give any
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>
+fixing required for IE6. IE7 does have some
+remaining bugs that require such fixing, but even if a given hasLayout bug occurs only in IE6
+and below the fix will not harm IE7 and so does not need to be hidden from IE7. Versions before
+IE5.5 generally have the same hasLayout bugs as IE6.
+</p>
+
+<p>
+Generally this file will contain a "zoom" rule, shown below with examples of elements to be given
+hasLayout. The zoom property is one of those that triggers hasLayout on a box in IE, but the
+value "1" is equal to 100% of zoom so no zooming actually occurs. Only the hasLayout triggering
+takes place.
+</p>
+
+<code>.somebuggyelement,
+.somebuggyelement a,
+.colwrapper div {
+  zoom: 1;
+  }
+</code>
+
+<p>
+Whenever you discover an element that needs the fix for IE, just add it to the multiple selector,
+making sure to separate it from the other selectors by a comma. Note: don't use a comma after the
+last selector or strict browsers will properly ignore the entire rule!
+</p>
+
+<p>
+The second CC targets IE6 and below for any scripting calls such as the Suckerfish script
+or the various PNG support scripts. These scripts force IE6 to emulate support for any-element
+CSS hovering and semi-transparent PNG images. IE7 natively supports both those things,
+thus IE7 need not see (and be slowed by) any such scripts unnecessarily.
+</p>
+
+<p>
+The third CC is targeted to IE5.5 and lower only.
+<strong>myiehacks-5.5.css</strong> will contain any widths or heights for boxes
+that don't display correctly due to the
+<a href="http://www.communitymx.com/content/article.cfm?cid=E0989953B6F20B41">Box&nbsp;Model&nbsp;Problem</a>.
+If you do not wish to support IE5.5 in this way you can simply delete the last conditional comment completely along with its link.
+</p>
+
+<p>
+ Be aware that IE5/Win does not support zoom and so can't be fixed by this method. If you must support
+ that browser, you can make a duplicate of the zoom rule within the last CC and change "zoom:&nbsp;1;"
+ to "height:&nbsp;1%;". This rule will harmlessly trigger hasLayout in IE5/Win, but it must <em>not</em>
+ be read by IE7 (or any other modern browser) or else big problems will occur.
+</p>
+
+<p class="tip">
+BTW, these CCs are bulletproof and immune to any future IE
+browser changes. They will always perform exactly as advertised,
+because they're a proprietary Microsoft feature, not some browser
+flaw to be exploited.
+</p>
+
+</div>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 2, 2008<br />
+Created: July 2, 2008
+</p>
+
+</div>
+
+<style type="text/css">
+.consultbox {font-size: .75em; position: fixed; top: 15px; right: 7px; background: white;
+border: 2px solid #3e6ae2; width: 140px; padding: 8px 5px; text-align: center; line-height: 1.5;}
+* html .consultbox {position: absolute;}
+.consultbox span {font-weight: bold;}
+.consultbox img {margin-bottom: -4px;}
+.consultbox a {white-space: nowrap;}
+</style>
+
+<div class="consultbox">
+<span>Are complex CSS issues making your programmers <em>crazy?</em></span> <br />
+I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Let me help you too</a>
+</div>
+
+</body>
+
+
+</html>

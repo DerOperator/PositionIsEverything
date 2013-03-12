@@ -1,0 +1,22 @@
+div.domTT {
+    border: 2px solid #9999CC;
+	max-width:200px;
+	filter: progid:DXImageTransform.Microsoft.Shadow(direction=135,color=7777AA,strength=5)
+    background-color: #9999CC;
+    }
+div.domTTCaption {
+	font-family: verdana, arial, sans-serif;
+    font-size: 65%;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #9999CC;
+    vertical-align:middle;
+}
+div.domTTContent {
+    font-size: 65%;
+	font-family: verdana, arial, sans-serif;
+    padding: 2px;
+    background-color: #F9F9FF;
+    overflow:auto;
+	width:196px;
+}

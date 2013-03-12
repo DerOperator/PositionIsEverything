@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Examples - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1>Examples</h1>
+
+<p>You'd probably feel cheated if I didn't roll out some more examples that give an idea of how these techniques could be put into action. So without further ado: <a href="#opera9">[note]</a></p>
+
+<div class="examples">
+
+<h4 id="example-interactive"><a href="http://www.fu2k.org/alex/css/onetruelayout/example/interactive">Interactive Demo</a></h4>
+<div class="screenshot"><a href="http://www.fu2k.org/alex/css/onetruelayout/example/interactive"><img src="images/screenshots/interactive.gif" alt="screenshot of interactive demo" /></a></div>
+<p>Add columns! Switch the order around! Turn methods on or off! Toggle units! Support idiot browsers!</p>
+<p><em>You</em> call the shots.</p>
+
+<h4 id="example-rounded"><a href="example/rounded.html">Nested Rounded Corners</a></h4>
+<div class="screenshot"><a href="example/rounded.html"><img src="images/screenshots/rounded.gif" alt="screenshot of rounded corners example" /></a></div>
+<p>A pixel-based fixed width layout that shows just how crazy you can go repeatedly nesting the combined technique within itself.</p>
+<p>Not only is this a layout that would be impossible to achieve with a table-based layout <a href="#table_impossibility">[note]</a>, but the source ordering is a joy compared to how you'd have to do it <a href="#table_version">[note]</a></p>
+<p>Of course, this version is somewhat overladen with hacks and additional markup. So, just to show how it could (nay, should and will) be, here's <a href="example/rounded_future_perfect.html">a slimmed down version</a> that jettisons all the extraneous cruft. Of course, it only works in Safari... <ins datetime="2006-04-11">(and Firefox as of 1.5)</ins></p>
+
+
+<h4 id="example-boxes"><a href="example/boxes.html">Boxes</a></h4>
+<div class="screenshot"><a href="example/boxes.html"><img src="images/screenshots/boxes.gif" alt="screenshot of boxes example" /></a></div>
+<p>A scalable em-based layout which is unremarkable other than the fact that it raises <a href="appendix/examplesresults.html">yet more questions</a> about Opera's positional abilities, and that it would be nigh on impossible to achieve with <em>Faux Columns</em>.</p>
+
+<h4 id="example-borders"><a href="example/borders.html">Borders with backgrounds</a></h4>
+<div class="screenshot"><a href="example/borders.html"><img src="images/screenshots/borders.gif" alt="screenshot of borders example" /></a></div>
+<p>A liquid percentage-based layout that is utterly unremarkable. Even Opera 8 doesn't require any particularly bizarre hacks.</p>
+
+</div>
+
+<p>Results for these examples can be found in <a href="appendix/exampleresults.html">Appendix C</a>.</p>
+
+<h2 id="real-world-examples">"Real world" examples</h2>
+
+<p>Unfortunately legal and intranet issues prevent me from showing you genuine working sites using these methods. Consequently I've brewed up a couple of quick makeovers that achieve much the same results as the orignals but using the now, all-too familar techniques.</p>
+
+<div class="examples">
+<h4 id="example-tucows"><a href="example/tucows.html">Tucows design fragment</a></h4>
+<div class="screenshot"><a href="example/tucows.html"><img src="images/screenshots/tucows.gif" alt="screenshot of Tucows makeover example" /></a></div>
+<p>A retrofit of an existing design pattern achieved without touching the underlying HTML.</p>
+
+<h4 id="example-bbc"><a href="example/bbc.html">BBC home page</a></h4>
+<div class="screenshot"><a href="example/bbc.html"><img src="images/screenshots/bbc.jpg" alt="screenshot of BBC makeover example" /></a></div>
+<p>Reimagined from the ground up as a scalable em-based layout without a table in sight.</p>
+</div>
+
+<h2 id="continuation">And finally...</h2>
+<p>Yes, <a href="conclusion.html">finally</a>.</p>
+
+
+
+
+
+
+
+
+<ul id="paging">
+<li id="next"><a href="conclusion.html">Next (Conclusion)</a></li>
+<li id="previous"><a href="combined.html">Previous (Putting it all together)</a></li>
+</ul>
+
+<div id="footnotes">
+<h2>Footnotes</h2>
+<ol>
+<li id="opera9">The makeovers aside, all these examples were made almost a year ago and have only been retrofitted to cope with Opera 8. Now that the positioning and <code>overflow: hidden</code> bugs have been fixed, the hacks to make Opera 8 and under behave themselves trip Opera 9 up. Fortunately, ways and means exist to make things ok again, but it's probably just as sensible to ignore older versions of Opera.</li>
+<li id="table_impossibility">Don't understand why? Go back and read the 'Why' of <a href="verticalgrid.html">Vertical Grids</a> again.</li>
+<li id="table_version">Below is the table structure that would be required just to ape the barebones of the <em>One True Layout</em> version. Of course, to actually go the whole way and replicate the rounded corners and bottom alignment would be that bit more complicated. And remember, any time you want to reorganise the order of the layout, you have to shuffle it all up again. Still, if you do want to go down that route, here's a load of <a href="http://www.fu2k.org/alex/css/equalheight/tables">table-based experiments</a> I did way back in the day. You never know, they may come in handy...</li>
+</ol>
+
+<table>
+<caption>Schematic table illustrating complexity of recreating "Nested Rounded Corners" layout as a table</caption>
+<tr>
+<td rowspan="3" colspan="2">
+<p>Block 6 Top</p>
+<p>Source order = 1</p>
+<p>Colspan = 2</p>
+<p>Rowspan = 3</p>
+</td>
+<td colspan="2">
+<p>Block 2 Top</p>
+<p>Source order = 2</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 1 Top</p>
+<p>Source order = 3</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 3 Top</p>
+<p>Source order = 4</p>
+<p>Colspan = 2</p>
+</td>
+<td rowspan="5" colspan="2">
+<p>Block 9 Top</p>
+<p>Source order = 5</p>
+<p>Colspan = 2</p>
+<p>Rowspan = 5</p>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<p>Block 2 Bottom</p>
+<p>Source order = 6</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 1 Bottom</p>
+<p>Source order = 7</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 3 Bottom</p>
+<p>Source order = 8</p>
+<p>Colspan = 2</p>
+</td>
+</tr>
+<tr>
+<td colspan="3">
+<p>Block 5 Top</p>
+<p>Source order = 9</p>
+<p>Colspan = 3</p>
+</td>
+<td colspan="3">
+<p>Block 4 Top</p>
+<p>Source order = 10</p>
+<p>Colspan = 3</p>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<p>Block 6 Bottom</p>
+<p>Source order = 11</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="3">
+<p>Block 5 Bottom</p>
+<p>Source order = 12</p>
+<p>Colspan = 3</p>
+</td>
+<td colspan="3">
+<p>Block 4 Bottom</p>
+<p>Source order = 13</p>
+<p>Colspan = 3</p>
+</td>
+</tr>
+<tr>
+<td colspan="4">
+<p>Block 8 Top</p>
+<p>Source order = 14</p>
+<p>Colspan = 4</p>
+</td>
+<td colspan="4">
+<p>Block 7 Top</p>
+<p>Source order = 15</p>
+<p>Colspan = 4</p>
+</td>
+</tr>
+<tr>
+<td colspan="4">
+<p>Block 8 Bottom</p>
+<p>Source order = 16</p>
+<p>Colspan = 4</p>
+</td>
+<td colspan="4">
+<p>Block 7 Bottom</p>
+<p>Source order = 17</p>
+<p>Colspan = 4</p>
+</td>
+<td colspan="2">
+<p>Block 9 Bottom</p>
+<p>Source order = 18</p>
+<p>Colspan = 2</p>
+</td>
+</tr>
+</table>
+
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li class="current">Examples</li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

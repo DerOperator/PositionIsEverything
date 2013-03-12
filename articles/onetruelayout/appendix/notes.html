@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Miscellaneous notes - In search of the One True Layout</title>
+<script type="text/javascript" src="../article.js"></script>
+<style type="text/css">
+@import url(../article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1><small>Appendix I</small>Miscellaneous notes</h1>
+
+<h2 id="naming-of-classes-and-ids">What's in a <del>name</del><ins>id/class</ins>?</h2>
+<p>Throughout this article and its assorted examples I use class names and ids such as <code>#footer</code>, <code>#header</code>, <code>#block_1</code> and <code>.verticalalignment</code>. You shouldn't use identifiers like this in the real world.</p>
+<p>Take for example <code>#header</code>. What's in it? If, I'm guessing here, it actually contains site identity stuff like logos, <code>#site-identity</code> (or whatever you prefer) would be better. Disclaimer legalese in the "footer"? Then use someting more descriptive like <code>#site-legal</code> or <code>#legal-mumbo-jumbo</code>. Because you might want to place you site identity at the bottom or doen the side, and then <code>#header</code> doesn't make any sense. It's the same reason really for not using class names like <code>.red-bold-helvetica</code>.</p>
+<p>I'm using these names because this is an article with example code. In this case they really are properly descriptive. Unless you're writing a similar article, using simliar names will not be so for you.</p>
+
+<h2 id="hacks-vs-conditional-comments">Hacks vs conditional comments</h2>
+<p>Throughout the article I use hacks to deal with IE Win - that's just the way I like to do things. It also makes the example code here simmpler and clearer. And to be clearer still about the intent of the code: it is <em>example</em> code. I do not recommend that you cut and paste it (see the remarks about class names and ids above), but rather that you write it yourself after understanding the principles behind the techniques.</p>
+<p>So, feel free to use conditional comments or plain voodoo if you prefer. But please don't bother telling me hacks are wrong etc...</p>
+
+<h2 id="pixel-perfection">Pixel perfection</h2>
+<p>Throughout the article, the working examples linked to  are percentage-based. Consequently those examples, surprise surprise, are not pixel perfect and small gaps will occasionally (or rather, frequently) appear between the columns. One fix for such a three column layout is to set just the backgrounds of the side columns and let the background of the wrapping element paint the central column.</p>
+<p>Personally I would avoid such layouts in a real life production situation, but I feel that it helps explain that the principles of the techniques better than using rigid pixel values. And others may not feel comfortable with grappling with the concept of scalable em-based layouts. So precentages, it is.</p>
+
+<h2 id="rounding-error">"It's broken in my browser..."</h2>
+
+<p>Yes, I know. Some of the examples have incorrect wrapping in Internet Explorer. At some window sizes. It's caused by a rounding error, a known problem with Explorer. If you read the section <a href="../anyorder.html#how-caveats"><em>Danger Alex Robinson</em></a> on the Any Order Columns page you'll see it mentioned in passing.</p>
+
+<p>Try resizing your browser - you should see the column jump back and forth from its correct position to where you see it now. If you must use percentages, the solution is to feed Explorer a slightly smaller value for the problematic column, say 32.9% instead than 33%. I could have done that in the examples but frankly, what with the length of the article and wanting to concentrate on the bare minimum to demonstrate things, I chose to not include such refinements. If you go to the interactive demo, you'll see that there's a message advising about reducing values if wrapping occurs.</p>
+
+<p>For obvious reasons the problem doesn't occur at all with pixel-based designs. And much less frequently with em-based ones, especially since I always make the wrapper just that little bit wider than it needs to be.</p>
+
+<p>Of course, if you've found another problem with the layout, please make haste to let me know about it.</p>
+
+<h2 id="no-room-at-the-inn">But what about...?</h2>
+<p>There are plenty of things that could have been added to this article.</p>
+<p>At over 10000 words, though, it's already a bit of a monster and only issues that arise as a direct consequence of techniques discussed here are addressed. However I have tried to point the reader towards the most common problems that these techniques share with other approaches. If you think I've made any appalling omissions, tell me about it.</p>
+
+
+
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="../index.html">Introduction</a></li>
+<li><a href="../anyorder.html">Any Order Columns</a></li>
+<li><a href="../equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="../verticalgrid.html">Vertical Grids</a></li>
+<li><a href="../combined.html">Putting it all together</a></li>
+<li><a href="../examples.html">Examples</a></li>
+<li><a href="../conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="acknowledgements.html">Acknowledgements</a></li>
+<li><a href="methodresults.html">Browser results for the methods</a></li>
+<li><a href="exampleresults.html">Browser results for the examples</a></li>
+<li><a href="holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="theory.html">Notes on theory</a></li>
+<li class="current">Miscellaneous notes</li>
+<li><a href="equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="../print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="../changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../../articles.html">Articles</a></li>
+<li><a href="../../../guests.html">Guest Demos</a></li>
+<li><a href="../../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

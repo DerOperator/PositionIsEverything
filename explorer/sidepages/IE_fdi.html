@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>IE/Win: floats bugs...</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="italic,html,css,bug,Internet Explorer,demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A bug report dealing with Explorer's problems with justified and italicized text." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+body {
+	background-color: #fff;
+	color: #000;
+}
+.sideimg {
+	float: left;
+	width: 160px;
+	height: 80px;
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+.mainimg {
+	background-color: #cfc;
+	width: 300px;
+	margin-left: 200px;
+}
+.wrapimg {
+	width: 80%;
+	background: #eee url(../images/g100vc2.gif) repeat;
+}
+.clear {
+	clear: both;
+}
+
+* html .wrapimg {
+	zoom: 1;
+}
+
+* html #sideimg {
+	margin: 0 -3px;
+	ma\rgin: 0;
+}
+
+</style>
+</head>
+
+<body>
+<div class="wrapimg">
+	<img class="sideimg" src="../images/fli160q.gif" alt="left floated image 160px wide"/>
+	<div class="mainimg">A fixed width (300px) div, with margin-left: 200px</div>
+	<div class="clear">&nbsp;</div>
+</div>
+<p>If the browser window is narrowed enough, so that the "liquid" container should become insufficient
+to contain the green div (with its margin left), then the green div drops below the float,
+even if no more room is available there then beside the float (it simply moves vertically.)
+Moreover the liquid container stops to shrink (or better: IE enlarges it to enclose the green div.)<br/>
+In other words, when the browser window is narrowed so that the grey (width:80%) container should have a width
+less than 500px (margin-left + width of the green div) then IE/Win does two wrong things:</p>
+<ul>
+<li>It moves vertically the green div below the float.</li>
+<li>It enlarges the grey div to contain the green one.</li>
+</ul>
+
+<p>More standard compliant browsers simply allow the fixed width green div to overflow the container and doesn'n move it.
+</p>
+
+<div style="float: right; margin: 40px;"><a style="color: #000;" href="../italicbug-ie.html#seven">Return to IE And Italics</a></div>
+
+</body>
+
+
+
+</html>

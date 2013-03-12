@@ -1,0 +1,668 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+<title>CSS Hacks and IE7</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="A discussion of the theory of CSS floating." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<link rel="stylesheet" type="text/css" href="articles.css" />
+
+<style type="text/css">
+
+
+</style>
+</head>
+
+<body id="ie7">
+
+<h1>CSS Hacks and IE7</h1>
+
+<div class="wrapper">
+
+<p class="alignright">
+<a href="../index-2.html"><strong>Return to p.i.e.</strong></a><br />
+<a href="../articles.html"><strong>Return to Articles</strong></a>
+</p>
+
+<p class="tip">
+If you only want to know the quick and dirty way to feed rules to IE only,
+go to <a href="haslayout.html">this&nbsp;page</a> which explains
+one method to do so.
+</p>
+
+<p>
+In 2005 Microsoft  started cleaning up a lot of its selector support problems,
+but a lot of coders were using these IE problems to hack special rules for the
+Explorer browser. In the long run the newly-supported CSS selectors will
+make our jobs easier, but in the short run it  mean rewriting stylesheets
+and updating our IE-coddling methods so they don't explode in our faces.
+</p>
+
+<p>
+A number of CSS hacks that relied on IEwin's failure to support
+certain advanced selectors are failing to "work" because IE7 now supports those selectors
+and so reads CSS rules not intended for it. If this is you, read on...
+</p>
+
+<h2>Should We Even Bother?</h2>
+
+<p>
+It's a simple fact that the majority browser (IE/Win) cannot be made
+to handle complex CSS designs without the ability to induce
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>
+on certain buggy elements within those layouts.
+The <a href="haslayout.html">zoom&nbsp;fix</a>
+triggers hasLayout on a box and is utterly critical when it comes to taming IE's
+many list and float bugs, and we would be greatly restricted in the choice of designs .
+</p>
+
+<p>
+However, aside from the zoom fix, it is possible to go entirely or almost hack-free
+by intelligently working around IE's CSS failures. When we design our sites we try to make
+the CSS as clean as possible, and only feed IEwin custom styles as a last resort,
+and only when forced to do so by client requirements. Other modern browsers are held to
+a higher standard and if problems do occur in them and can't be worked around,
+we just shrug and assume the problem will be fixed eventually. Only when that
+problem is a page-breaker will we go so far as to redesign the page.
+</p>
+
+<p>
+As we say, this is our design philosophy, and you are entitled to yours as well.
+Anyway, let's get right into the heart of the issue, specifically the changes we can
+expect from IE7, and new ways to handle old problems.
+</p>
+
+<h2>What's In, What's Out</h2>
+
+<p>
+Let's look at what we are told will be the relevant changes to IE7. There are two
+CSS &quot;combinators&quot; that will become supported, and one element structure
+will be eliminated. First the two CSS combinators:
+</p>
+
+<ul class="darkblue indented" style="list-style: none;">
+
+<li>
+<h5><a href="http://www.w3.org/TR/CSS21/selector.html#x13">The Child Selector</a></h5>
+
+<p>
+This selector uses a &quot;>&quot; symbol as a &quot;combinator&quot; that is
+placed between two parts
+of a CSS selector, and indicates that the target of the rule is the element on the
+right side of the &quot;>&quot; combinator, but <em>only</em> when that element
+is a direct child of the element to the left of the combinator. Thus, the
+selector <strong>table>td</strong> can never target any element, because TD's
+are <em>never</em> direct children of tables, only of TR's. On the other hand,
+the selector <strong>tr>td</strong> would select <em>every</em> TD on the page, since
+all TD's are direct children of TR's.
+</p>
+
+<p>
+The main difference between the Child combinator and the familiar space combinator
+is that the space combinator is a &quot;descendant&quot; combinator, meaning that
+the element to the right of the space only needs to be between the tags of the
+element on the left to be selected. So with the selector
+<strong>table&nbsp;td</strong>, all TD's will selected, since TD's always fall
+between the tag pair of one table or another.
+</p>
+
+<p>
+The Child combinator is quite useful for targeting rules to direct children of
+an element, <em>without</em> also targeting the more deeply nested descendants as well.
+Unfortunately, up until IE7 there was no point in using it for its intended purpose,
+since so few of the viewing public would get the benefits of the styling.
+</p>
+
+<p>
+It did however have a &quot;useful&quot; function in the writing of rules that IEwin would reliably
+ignore, such as <strong>html>body&nbsp;&nbsp;.targetelement</strong>. It works because
+the body is always a direct child of html, making that part of the selector true at all times.
+Then the space combinator in front of <strong>.targetelement</strong> (or any other
+selected element) allows the styles to be applied anywhere within the body element.
+</p>
+
+<p>
+IEwin just ignores the entire rule because it cannot recognize that child combinator.
+Now that support is coming, IE7 will be able to view such hacked CSS. But since
+that browser will <em>still</em> have quite a few failings, letting it get a look
+at those hacks could be less than desirable, to say the least.
+</p>
+
+</li>
+
+<li>
+<h5><a href="http://www.w3.org/TR/CSS21/selector.html#adjacent-selectors">The Adjacent Sibling Selector</a></h5>
+
+<p>
+This selector is a &quot;+&quot; combinator symbol placed between parts of a selector, and is very
+similar to the Child combinator. The only difference between the two is that while
+the Child combinator points to direct children of an element, the Adjacent Sibling combinator
+points to an element which directly <em>follows</em> another element in the source.
+</p>
+
+<p>
+Thus the selector <strong>tr+td</strong> cannot select anything, because TD's never
+directly follows a TR. Instead, TD's are contained <em>inside</em> TR's, and that
+is not considered to be &quot;following&quot; the TR. However, the selector <strong>tr+tr</strong>
+would select any TR that directly followed another TR, which means that every TR
+within a table would be selected except for the very first TR in that table.
+</p>
+<p>
+Get it? An adjacent sibling element not only follows its previous sibling, but is
+also completely separate from it. Further, if two DIV's are in sequence and each
+contains a paragraph, those two paragraphs are <em>not</em> considered siblings, because they
+reside in different parent elements. The fact that one follows another means nothing
+unless the following sibling starts at the same point where the previous sibling ends.
+</p>
+
+<p>
+It's possible to point a Sibling selector at any one of a sequence of adjacent
+elements, simply by repeating the use of the combinator, so the selector
+<strong>td+td+td</strong> would select all TD's that come directly after
+two previous TD's. This also means that the the third, fourth, fifth, and any
+remaining TD's in a table row would receive the styles attached to such a selector,
+since they all have two TD's directly before them in the table row.
+</p>
+
+<p>
+The first two TD's in the next table row would <em>not</em> be selected, because they are
+enclosed in a different TR. But then of course any remaining TD's in that row <em>would</em>
+be selected, just as in the previous table row.
+</p>
+
+<p class="tip">
+Be aware that IE7 likes to count HTML comments as siblings, so if you start using this
+combinator as intended then be sure to place comments <em>inside</em> the siblings, not on the outside
+where they will fall between the siblings and be counted as one of them! Oy...
+</p>
+
+<p>
+Again, the Adjacent Sibling combinator will come in real handy for the future, but right now
+there are CSS hacks out there that utilize it, much like the Child combinator.
+Not good.
+</p>
+
+</li>
+
+</ul>
+
+<p>
+Clearly we need to begin eliminating these hacks from our CSS files <em>before</em>
+our clients start screaming bloody murder, not after.
+</p>
+
+<h3>But, weren't there <em>three?</em></h3>
+
+<p>
+Oh, you want to know about that structural thing? Well, the hack that uses
+it is called the <strong>star-html</strong> hack, and it works by taking advantage
+of an oddity in Explorer's treatment of the <strong>Document&nbsp;Object&nbsp;Model</strong>,
+or <strong>DOM</strong> for short. Simply stated, all web pages start with a root element
+called <strong>html</strong>, which then contains two children, the <strong>head</strong>
+and the <strong>body</strong> elements. Those two then contain other children, and so forth.
+</p>
+
+<p>
+Most browsers obey this arrangement, but <strong>Explorer</strong> for both
+<strong>Win</strong> and <strong>Mac</strong> do not.
+They seem to think there is a mysterious element <em>enclosing the html element!</em>
+It's pretty strange, but in fact this extra outer &quot;root&quot; element has no apparent
+ill effects on web pages, and remained unnoticed for years, until
+<a href="http://www.info.com.ph/~etan/w3pantheon/style/csshub.html">Edwardson&nbsp;Tan</a>
+began experimenting with CSS selectors. He found that a selector written as
+<strong>*&nbsp;html&nbsp;&nbsp;.targetelement</strong> would apply the styles to
+<strong>.targetelement</strong>, but only for the IE browsers.
+</p>
+
+<p>
+Think about it. That star is the &quot;universal&quot; selector, so it points
+to any element, but it comes <em>before</em> <strong>html</strong>. Therefore,
+the full selector in effect says: &quot;Select <strong>.targetelement</strong> when it
+is contained within <strong>html</strong>, <em>and</em> when <strong>html</strong> is
+contained within any other element&quot;.
+</p>
+
+<p>
+Obviously since <strong>html</strong> is the root element on the page, it <em>cannot</em>
+be contained by any other element, but that's exactly what IE thinks! We don't
+know the name of this element, but the star selector part of that hack does not care,
+as long as there <em>is</em> such an element surrounding <strong>html</strong>.
+</p>
+
+<p>
+As you can imagine, this hack has proved quite useful, particularly when wrapped in
+a <a href="http://www.sam-i-am.com/work/sandbox/css/mac_ie5_hack.html">different&nbsp;hack</a>
+that hides the star-html hack from IEmac. By doing that, you create a
+combination hack which will feed rules directly to IEwin, <em>and no other browser</em>.
+Such a combo hack is perfect for handling box model issues and anything else that
+IEwin needs to see exclusively, particularly the Holly hack.
+</p>
+<p>
+Sadly, Microsoft has seen fit for some reason to lose that strange &quot;root&quot;
+element in IE7, leaving <strong>html</strong> as the correct root. That's very compliant of
+them, but it presents a problem. Yep, just as with the newly supported combinators,
+any pages that use this hack will start breaking in IE7, but this time it's because
+IE7 will <em>not</em> be able to read those special rules it needs so badly.
+</p>
+
+<h2>Desperately Seeking Solutions</h2>
+
+<p>
+Happily for us, Microsoft also saw fit to develop a browser feature called
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp">Conditional&nbsp;Comments</a>
+(back in the IE5win version). CC's allow coders to write an HTML comment in a way
+that will &quot;alert&quot; IEwin, causing it to peek inside the CC
+and parse what it finds there. Other browsers do not have this feature, and so
+they see just a normal comment, ignoring it and all it contains.
+</p>
+
+<p>
+See where we are going with this? Those formerly useful (but now embarrassing) CSS
+hacks in our stylesheets may be stripped out of the stylesheets and placed into a
+separate stylesheet file. Then that new &quot;IEwin hacks&quot; CSS file may be called into
+the page via a head link that has been
+hidden within a conditional comment. All other browsers (even IEmac) will see a
+normal comment and just pass over it to the following code. IEwin however will look
+inside the CC, see the link, call the special hack-filled CSS file, and add those
+rules to the cascade just like any other stylesheet. Sweet! Here's how it would look:
+</p>
+
+<p class="code">
+&lt;!--[if IE]><br />
+&lt;link rel="stylesheet" type="text/css" href="iehacks.css" /><br />
+&lt;![endif]-->
+</p>
+
+<p>
+Okay, it's not as convenient as the seductively useful star-html hack, but unlike
+that hack, CC's are not going to go away, ever. Furthermore, CC's boast rock solid
+reliability and safety. Not even the W3C&nbsp;Validator will know that the CC is anything
+other than a normal comment, so the page will validate just fine, even if your hack
+file is stuffed full of invalid proprietary MS rules.
+</p>
+
+<p>
+Of course we all understand that this CC enabled CSS file is for rules that will
+make IEwin behave as close to the specs as possible, right? What's that? You <em>really</em>
+want to use all those cool MS proprietary scrollbar stylings, do you? Well if you must,
+at least this method will squirrel away those icky rules apart from the nice clean
+CSS in the main sheet. That way, validation is assured.
+</p>
+
+<p class="tip">
+From reading
+<a href="http://www.mezzoblue.com/archives/2005/10/13/bye_bye_tan_/">Mezzoblue's</a>
+blog comments we see that if one is using XSLT, the brackets contained within the
+CC tags can cause trouble. Happily
+<a href="http://www.nickfitz.co.uk/">Nick&nbsp;Fitzsimons</a> also saw those comments,
+and Nick has described for us how to go about
+<a href="http://www.nickfitz.co.uk/2005/10/27/ie-conditional-comments-in-xslt-10/">generating&nbsp;CC's&nbsp;via&nbsp;XSLT</a>.
+Thanks Nick!
+
+
+
+</p>
+
+<p>
+Anyway, let's get right into the details of cleaning up a typical hack-ridden web
+page, shall we? BTW, there's <em>lots</em> of pages just like that, right
+here at PIE! Oh well...
+</p>
+
+<h2>Going Legit</h2>
+
+<p>
+Rather than embarrassing anyone by exposing their hacks to public ridicule, we were going
+to do one of our own pages, but it seems that none contain any hacks other than
+the star-html hack. So instead we will show how to strip out hacks that might be
+found in other real world web pages.
+</p>
+
+<p class="tip">
+All the discussion to follow assumes that IEwin is in &quot;standards&quot; mode, via a
+<a href="http://www.communitymx.com/content/article.cfm?cid=85FEE">correct&nbsp;doctype</a>.
+If IEwin is allowed to fall back to &quot;quirks&quot; mode
+by an old, incorrect, or missing doctype, all bets are off, and the observed behaviors
+might appear radically different. Microsoft has said that IEwin's future improvements
+will depend on IE being in standards mode, and quirks mode will be left for sites that
+must maintain lots of legacy code that would break if handled strictly according
+to the standards.
+</p>
+
+<h4>The Tantek hack</h4>
+
+<p class="code">
+#wrapper {<br />
+&nbsp;&nbsp;border: 10px solid black;<br />
+&nbsp;&nbsp;width: 770px; /* IE5.x/win sees this.. */<br />
+&nbsp;&nbsp;voice-family: "\"}\"";<br />
+&nbsp;&nbsp;voice-family: inherit;<br />
+&nbsp;&nbsp;width: 750px; /* ..but not this &quot;standards&quot; width value.. */<br />
+&nbsp;&nbsp;}<br />
+&nbsp;<br />
+html>body #wrapper {<br />
+&nbsp;&nbsp;width: 750px; /* ..or this reinforcement of the standards width. */<br />
+}
+</p>
+
+<p>
+That's the well known
+<a href="http://tantek.com/CSS/Examples/boxmodelhack.html"><strong>Tantek&nbsp;hack</strong></a>,
+and it feeds a special width to IEwin versions before IE6 to combat the
+<a href="http://www.communitymx.com/content/article.cfm?cid=E0989953B6F20B41">box&nbsp;model&nbsp;problem</a>,
+and also gave Opera 5 a second hacked rule using the Child selector, because
+that browser was also fooled by the primary Tantek hack just like the early IEwin's
+were. All of this mess was superseded by the simpler star-html hack, but many web pages
+still have the Tantek hack. The specific goal of the above example hack is to
+create a wrapper box that is 770px wide when the 10px side borders are added on to
+the stated 750px width.
+</p>
+
+<p>
+Technically this hack does not need to be stripped out, because the hack primarily works
+via the use of escapes to hide certain critical characters from the early IE's. IE6, IE7,
+and all other modern browsers are not fooled by these legal escapes, so nothing can
+go wrong by letting IE7 see the hack. Not even the last part is dangerous, because
+that Child hack simply feeds the &quot;standards&quot; width, which IE6 and IE7 are
+already getting from the first part of the hack. If IE7 suddenly starts reading that
+Child hack, it will get the correct value anyway.
+</p>
+
+<p>
+Still, as long as we are stripping dangerous hacks, let's remove that one as well.
+Naturally the border rule and all other ordinary CSS rules are left within the main
+CSS file, along with the &quot;standards&quot; compliant 750px width. Remember
+that our CC enabled <strong>hacks.css</strong> file will be seen only by IEwin,
+versions 5 and up, so no hacks to hide the file from IEmac are needed.
+</p>
+
+<h3>Conditional Comments</h3>
+
+<p>
+It so happens that CC's come in several varieties that different versions of
+IEwin will either read or ignore, depending on the code placed within the starting
+tag of the conditional comment. See the
+<a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/ccomment_ovw.asp">Microsoft&nbsp;page</a>
+for specifics, and
+<a href="multiIE.html">Taming&nbsp;Your&nbsp;Multiple&nbsp;IE&nbsp;Standalones</a>
+here at PIE for lots more details and useful tips on CC's.
+</p>
+
+<p>
+So you could create two different hack files, one that all IEwin versions can
+see for general hacks, and another just for box model issues and whatever other
+hacking might be needed specifically for IEwin versions prior to IE6:
+</p>
+
+<p class="code">
+&lt;!--[if IE]><br />
+&lt;link rel="stylesheet" type="text/css" href="iehacks.css" /><br />
+&lt;![endif]--><br />
+&nbsp;<br />
+&lt;!--[if IE 5]><br />
+&lt;link rel="stylesheet" type="text/css" href="iehacks-5.css" /><br />
+&lt;![endif]-->
+</p>
+
+<p>
+By adding that &quot;5&quot; in the start tag, you are saying that only versions
+of IEwin that begin with a 5 should read the CC. IE5.5's version does begin with
+a 5, so it does read the CC along with IE5win.
+</p>
+
+<p>
+Once these files exist, it is a simple matter to segregate box model widths and
+heights within the version 5 only file. This does avoid the need for any CSS
+hacking at all, but of course there is one more special CSS file to deal
+with, possibly increasing the chances of errors and difficulties in the future.
+</p>
+
+<p>
+When using this method, make sure that the links for the CC's come later than
+the main CSS file link in the source, and that the rules within the CC's have at least the same
+or higher
+<a href="http://www.w3.org/TR/REC-CSS2/cascade.html#specificity">specificity</a>
+than any similar rules in the main sheet. If not, your
+hacks will not override those primary rules for IEwin, and will fail to do their jobs.
+Also be sure that if the two different CC linked CSS files have conflicting rules,
+that the ordering and/or specificity is proper, or there could be trouble there too.
+</p>
+
+<h4>Hybrid Hacking</h4>
+
+<p>
+Once stripped, the above hack is replaced in the <strong>iehacks.css</strong>
+file with this code:
+</p>
+
+<p class="code">
+<strong>iehacks.css</strong><br />
+&nbsp;<br />
+#wrapper {<br />
+&nbsp;&nbsp;width: 770px;<br />
+&nbsp;&nbsp;wid<span style="color: red;">\</span>th: 750px;<br />
+}
+</p>
+
+<p>
+See that red-colored &quot;escape&quot; inside the second property name? It's a legal
+'escape' backslash and should be ignored, but when it is inside the
+property name it is <em>not</em> ignored by IE5 and IE5.5
+for Windows. Instead it causes those browsers to ignore the following &quot;t&quot;
+character in this case, thus making the property name unreadable to them. So the result is that
+all the IEwin versions get the widened width, and then IE6 and IE7 will see and
+obey the second rule with the standards width. Just remember that the escape must
+not come directly before any of the first six alphabetical characters, because they
+have special meanings when preceeded by an escape. If we had written it as
+&quot;wi\dth&quot;, then IE6 and IE7 would ignore the &quot;d&quot; and see
+&quot;with&quot; as the property name. Not good. Specifically the forbidden characters are
+a, b, c, d, e, and f.
+</p>
+
+<p>
+Happily there is always at least one character inside every property that isn't one
+of the first six, and so may be safely escaped this way. However, you can't escape
+the &quot;w&quot; in &quot;width&quot;, because IE5.5 is somehow able to ignore
+the escape when it comes first. Keep the escape within the name and it will work every time.
+Since IE5 and IE5.5 are the browsers that are fooled by the escape and are also the
+ones with the box model problem, it's a perfect fit and won't cause trouble in the
+future.
+</p>
+
+<h3>The Child and Adjacent Sibling Hacks</h3>
+
+<p>
+These combinators when used as hacks are always meant to prevent IEwin
+from seeing a rule that would cause it to break in some way. So when one appears
+in a CSS file, it can't simply be removed without depriving the other browsers
+of the styles within that rule. Yes, the Child hack portion of the selector can
+be deleted, leaving a simple rule for IE7, but then older IEwin's would see it
+and break. Somehow we need to simplify the rule without letting IEwin get a look at it.
+</p>
+
+<p>
+In fact, this is not actually possible, so instead we will let IEwin see the simple
+unhacked rule, and then &quot;negate&quot; that rule from within the general CC,
+where non-IEwin browsers won't be affected.
+</p>
+
+<p>
+One common use for the Child hack is to give IEwin a
+<a href="http://www.w3.org/TR/CSS21/visudet.html#propdef-height">height</a>
+while other browsers get only a
+<a href="http://www.w3.org/TR/CSS21/visudet.html#propdef-min-height">min-height</a>.
+Since IEwin will always
+<a href="../explorer/expandingboxbug.html">enlarge&nbsp;any&nbsp;dimension</a>
+when needed to keep content contained, a height is actually treated as a min-height by IEwin.
+The important thing is not to let other browsers see the height meant for IEwin only.
+Typically it is done this way:
+</p>
+
+<p class="code">
+#wrapper {<br />
+&nbsp;&nbsp;min-height: 500px; /* IEwin does not support min-height */<br />
+&nbsp;&nbsp;height: 500px;<br />
+}<br />
+&nbsp;<br />
+html>body #wrapper {<br />
+&nbsp;&nbsp;height: auto;<br />
+}
+</p>
+
+<p>
+This sets both a min-height and height to the same value, and then in the Child-hacked rule
+where IEwin is not paying attention, the height is set back to the default <strong>auto</strong>.
+Unfortunately IE7 will be able to read that second rule, and it so happens that IE7
+will still expand boxes just like earlier IEwin versions. This means that the
+above rule will make IE7 also reset the height to auto, and so the desired min-height
+&quot;effect&quot; will be lost in that browser.
+</p>
+
+<p>
+The answer here is to delete the Child hack and its <strong>auto</strong> value completely,
+and then move the height declaration out of the first rule, sending it instead
+to the iehacks.css file. IEwin still gets the length value for height that it needs,
+and no other browsers are troubled by it. The problem is now solved, at least until
+an IEwin version comes along that does <em>not</em> expand boxes improperly!
+</p>
+
+<p>
+Even then it is not a big problem, because CC's are so flexible. Let's say that
+IE8 has arrived, and it has been redesigned so that it correctly obeys box
+dimensions like other browsers. Hopefully such a radically different IE version
+will also support min-height. But in any case, we will not want the height rule
+meant for IE7 and lower versions to be seen by an IE8 that we have described.
+It's also likely that many other things will be improved at the same
+time, so there may be a sizable group of special IEwin rules that IE8 should not see.
+Thus we would write our CC link call this way:
+</p>
+
+<p class="code">
+&lt;!--[if lt IE 8]><br />
+&lt;link rel="stylesheet" type="text/css" href="iehacks.css" /><br />
+&lt;![endif]-->
+</p>
+
+<p>
+See that &quot;lt&quot; in the tag code? It stands for &quot;less&nbsp;than&quot; IE8,
+so IE8 would be excluded from reading this CC, and won't get the the linked stylesheet.
+Depending on future realities within the IE browsers, various combinations of
+CC's could be made to handle most anything. Still, let's hope MS does not cause
+too many complications for us, eh?
+</p>
+
+<p class="tip">
+There happens to be something called the
+<a href="http://www.dithered.com/css_filters/css_only/owen_hack.html">Owen&nbsp;hack</a>,
+which has the selector
+<strong>head:first-child+body&nbsp;{}</strong>. This hack was useful because it could not be read
+by Opera 6, while Op7 had no trouble with it. Nowadays few care about Op6, but the
+hack still lurks within a few stylesheets, and MS is warning against its continued
+use.<br /><br />We know the sibling selector will be obeyed by IE7, but the Owen hack also
+contains &quot;head:first-child.&quot; That is an advanced CSS
+<a href="http://www.w3.org/TR/CSS21/selector.html#x24"><strong>pseudoclass</strong></a>
+which IEwin does not currently support, but this MS warning seems to intimate that
+<strong>:first-child</strong> and possibly other such selectors might be slated for
+support in IE7! True or not, this should be a clear indication that using any
+advanced selectors to exclude weak-but-evolving browsers <em>may</em> be counter productive.
+A word to the wise, eh?
+</p>
+
+<h3>The Star-html Hack</h3>
+
+<p>
+There's not too much left to say about this hack. It hides a rule from non-IE
+browsers, but allows IEwin and IEmac to view the rule. IE7 will be excluded from
+viewing the hack, so any such hacked rules that you think IE7 should see will need to be
+moved into iehacks.css, or into a more specifically targeted CC linked stylesheet.
+</p>
+
+<p>
+The only wrinkle is with the IEmac browser. There may be the occasional hacked
+rule that you want IEmac to see along with the IEwin browsers, but once the special rule
+is stashed inside the CC, poor IEmac won't be able to access that file or the rules
+it contains. The answer to this problem is something we call the Mac-only hack,
+dreamed up by Tantek&nbsp;&Ccedil;elik himself (who has been a Microsoft programmer
+among many other things). It is the older
+<a href="http://www.sam-i-am.com/work/sandbox/css/mac_ie5_hack.html">Mac&nbsp;hiding&nbsp;hack</a>
+with a new twist. It's constructed from a special pair of CSS comments, between which
+you may place CSS rules that <em>only</em> IEmac will read.
+Assuming that IEmac needs something unique such as a width on a normally widthless
+float, you can write this into your main stylesheet:
+</p>
+
+<p class="code">
+/*\*//*/<br />
+#floatedbox {width: 200px;}<br />
+/* */
+</p>
+
+<p>
+You can find out how it works
+<a href="http://www.stopdesign.com/examples/ie5mac-bpf/">here</a>, but as for this
+being an undesirable hack, don't worry about it. The hack depends entirely on a parsing
+error in the IEmac engine, caused by the escape within the top comment. No browser
+later than Nav 4 has any problem with this arrangement, and no future browser
+will either. Furthermore, IEmac is no longer being developed by MS, so there is zero chance
+of problems developing as we are seeing with IE7. Use it in good health!
+</p>
+
+
+
+<h2>Conclusion</h2>
+
+<p>
+By now you should have a pretty good idea of what's coming at us soon. If your
+code is shot thru with CSS hacks like ours, you have two options: Fix it now or
+participate in a slow-motion train wreck. It's your choice.
+</p>
+
+<p>
+There's no point in chewing out Microsoft either. We have been screaming for years
+that they should do what they are about to do. Okay, it would be nice for them to fix
+all the bugs at the same time, but face it, that ain't gonna happen. MS is definitely
+starting to take their issues seriously tho, and IE7 will be just the first step
+toward a more compliant Explorer. If MS is willing to face lots of bad vibes in
+order to approach full compliance, we prefer to see it as a good sign
+for the future.
+</p>
+
+<p>
+Anyway, why not have a positive attitude? It can't hurt anything, and a lot less
+stomach acid is produced as a result. That's our policy and we're stickin' to it!
+</p>
+
+
+
+
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 4, 2008<br />
+Created October 26, 2005
+</p>
+
+</div>
+
+</body>
+
+
+</html>

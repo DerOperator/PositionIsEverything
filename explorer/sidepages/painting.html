@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+
+
+<head>
+
+<title>Scroll &amp; window painting</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<style type="text/css" media="all">
+<!--
+
+html, body {
+	font: 0.94em "Lucida Grande", verdana, sans-serif;  }
+
+ul li {
+	font-size: 2.5em;
+}
+
+.test1 li {
+background: #d00;
+}
+	
+.test2 li {
+background: url(diamondplate.jpg);
+}
+	
+#nav a {
+	font: 1em/2em Verdana, Helvetica, sans-serif;
+	color: #006;
+	text-decoration: none;  }
+	
+#nav a:hover {
+	text-decoration: underline;  }		
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<div id="nav">
+
+<a href="#" onclick="alert('Drag this baby to paint the list!')">Launch window</a><br />
+<a href="../ie-listbug.html#painted">Go Back</a>
+
+</div>
+
+<p>You need to be viewing this with IE/Win for it to work. The first list's items have a background color, and the second 
+set of list items have a background image.</p>
+
+<div style="position: relative; float: left; width: 100%;">
+
+<ul class="test1">
+	<li>One</li>
+	<li>Two</li>
+	<li>Three</li>
+	<li>Four</li>
+	<li>Five</li>
+</ul>
+
+</div>
+
+<div style="position: relative; float: left; width: 100%;">
+
+<ul class="test2">
+	<li>One</li>
+	<li>Two</li>
+	<li>Three</li>
+	<li>Four</li>
+	<li>Five</li>
+</ul>
+
+</div>
+
+</body>
+
+
+
+</html>

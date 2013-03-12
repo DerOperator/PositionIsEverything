@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+    <title>IE6 Border Chaos</title>
+    <meta name="Author" content="Jonathan McLean" />
+
+<meta http-equiv="content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="This demo page shows buggy CSS border behaviors in Explorer for Windows." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+
+<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+
+<style type="text/css">
+
+body {margin: 5px 4%; padding: 0; background: #aaa; font: small Verdana, Arial, sans-serif;}
+
+#global-wrapper {border: 2px black solid; background: white; min-width: 30em;}
+
+#header {padding-right: 17.5em; border-bottom: 1px solid black; background: black; color: white;}
+
+#header h1 {float: left; width: 100%; font: bold 170% Arial, sans-serif; text-align: center; margin: 1ex -1px 1ex 0; letter-spacing: 0.1em;}
+
+#header h1 span {padding-right: 1em;}
+
+#header ul.links {float: right; width: 17.5em; display: inline; margin: 0 -17.5em 0 1px; padding: 0;}
+
+#header ul.links li {list-style-type: none; margin: 0; padding: 0;}
+
+#header ul.links li {font-weight: normal;}
+
+#header ul.links a {color: white; font-weight: bold; text-decoration: none;}
+
+#header ul.links a:hover {text-decoration: underline;}
+
+#content {margin: 10px;}
+
+#content a {color: #137; font-weight: bold;}
+
+#content a:active {color: #731;}
+
+#nav-menu {float: right; border: 3px solid black; padding: 7px; margin: 0 0 10px 10px;}
+
+#nav-menu ul {margin: 0 0 0 1em; padding: 0;}
+
+#nav-menu li {margin: 0; padding: 0;}
+
+h2 {font: bold 145% Arial, sans-serif;}
+
+h3 {font: bold 120% Arial, sans-serif;}
+
+.clear {clear: both;}
+
+.example-image {text-align: center; margin: 1.2em 0;}
+
+.example-image img {border: 6px solid pink;}
+
+code {font: bold 100% monospace; color: #700;}
+
+pre.code-block {display: block;  white-space: pre; padding: 10px; margin: 1.2em 5px; border: 2px solid black; color: #300; font-size: 100%; background: white;}
+
+#footer {border-top: 1px solid black; padding: 7px 10px 7px 40px; color: #555; font-size: 87%;}
+
+#footer a {color: #336;}
+
+</style>
+
+  </head>
+  <body>
+
+    <div id="global-wrapper">
+      <div id="header">
+        <h1><span>IE6 Border Chaos</span></h1>
+
+        <ul class="links"
+          ><li><a href="../explorer.html">Return to Explorer Demos</a></li
+          ><li><a href="../guests.html">Return to Guest Demos</a></li
+          ><li><a href="ie-listbug.html">Next Explorer demo</a></li
+        ></ul>
+        <div class="clear"></div>
+      </div>
+      <div id="content">
+<p style="text-align: right; margin-right: 50px;">Written by <strong>Jonathan McLean</strong></p>
+        <div id="nav-menu">
+          <ul>
+            <li><a href="sidepages/border-chaos-demo.html">Go to Border Chaos Demo</a></li>
+          </ul>
+        </div>
+        <h2 id="s1">What Is Border Chaos?</h2>
+        <p>This is an IE6-only bug that occurs when the following conditions are met:</p>
+        <ul>
+          <li>There are two consecutive block-level boxes;</li>
+          <li>The second one has a negative top margin; and</li>
+          <li>There is at least one border on the second box or its ancestors.</li>
+        </ul>
+        <p>Perhaps not the most common situation — we don’t often use negative margins for consecutive flowed boxes — but IE renders all the
+		borders around the second box in odd locations (and seems to omit some entirely), which is just wrong. There is a
+		<a href="sidepages/border-chaos-demo.html">demo</a> on another page. For those people without IE/Win, some screenshots follow.</p>
+
+
+        <h2 id="s2">Screenshots</h2>
+        <p>The <a href="sidepages/border-chaos-demo.html">demo</a> <em>should</em> be rendered like this (screenshot from Firefox 0.8):</p>
+
+        <div class="example-image"><img src="images/bc-firefox0.8.png" alt="Correctly placed borders in Firefox 0.8" /></div>
+
+        <p>This seems pretty simple — how hard can it be to draw a few lines? Unfortunately, IE 6.0/Win doesn't like it at all. It draws parts of the
+		surrounding borders all over the place, even eliminating bits here and there:</p>
+
+		<div class="example-image"><img src="images/bc-ie6.0.png" alt="Misplaced borders in IE 6.0/Win" /></div>
+
+        <h2 id="s3">The Code</h2>
+        <p>The code used in the <a href="sidepages/border-chaos-demo.html">demo</a> is as follows:</p>
+        <pre class="code-block">&lt;div class="demo-outer"&gt;
+  &lt;div class="demo-inner"&gt;
+    &lt;div class="demo1"&gt;
+      This is a &amp;lt;div&amp;gt; with a border and a positive top margin.
+    &lt;/div&gt;
+    &lt;div class="demo2"&gt;
+      This is a &amp;lt;div&amp;gt; with a border and a negative top margin.
+    &lt;/div&gt;
+    &lt;div class="demo1"&gt;
+      This is a &amp;lt;div&amp;gt; with a border and a positive top margin.
+    &lt;/div&gt;
+    &lt;div class="demo2"&gt;
+      This is a &amp;lt;div&amp;gt; with a border and a negative top margin.
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;p&gt;This is a &amp;lt;p&amp;gt; that does &lt;strong&gt;not&lt;/strong&gt; have a border.&lt;/p&gt;
+&lt;/div&gt;</pre>
+        <pre class="code-block">.demo-outer {
+    border: 3px dashed black;
+    padding: 8px;
+}
+.demo-inner {
+    border: 3px solid black;
+    padding: 0 8px 8px 8px;
+}
+.demo1 {
+    border: 1px solid black;
+    margin-top: 8px;
+}
+.demo2 {
+    border: 1px solid blue;
+    margin-top: -1px;
+}
+.demo-outer p {
+    margin-bottom: 0;
+}</pre>
+        <p>These boxes are also enclosed by <code>div#global-wrapper</code>, which has a two-pixel border. If you check the screenshot,
+		you will notice a pair of two-pixel horizontal lines going across the page — these are from <code>div#global-wrapper</code>.</p>
+
+
+        <h2 id="s4">Workarounds</h2>
+        <p>So, what can we do about this? We don’t want our documents to look quite like that. I have found a few ways to avoid the problem:</p>
+        <ul>
+          <li>
+            <h3 id="s4.1">Don’t Do It!</h3>
+            <p>In some cases, it is possible to avoid the problem outright. In this instance, I could achieve the intended behavior quite easily through other
+			means — I could just remove the border from the first box and get rid of the negative margin. This is clear and simple, and doesn’t trigger
+			other pesky bugs.</p>
+          </li>
+          <li>
+            <h3 id="s4.2">Relative Positioning</h3>
+            <p>Setting <code>position: relative;</code> on the offending box or its ancestors solves the problem — <em>but only for that box and its
+			descendants</em>. Any ancestors with borders will still be messed up. In other words, if I were to put
+			<code>position: relative;</code> on <code>.demo-outer</code> (the one with the dashed border), then IE would render it like this:</p>
+
+			<div class="example-image"><img src="images/bc-ie6.0-partialfix.png" alt="Slightly improved border placement in IE 6.0/Win" /></div>
+
+			<p>So, while the borders on <code>div.demo-outer</code> and its descendants are rendered correctly, the border on <code>div#global-wrapper</code>
+			is still rendered in the same manner as before. Putting <code>position: relative;</code> on <code>div#global-wrapper</code> would get rid of the problem
+			utterly, but doing so on the <a href="sidepages/border-chaos-demo.html">demo page</a> has the unfortunate side-effect of making the page header
+			disappear for some reason (sigh).</p>
+            <p>In this case, I could also get rid of the negative margin and use relative positioning to move the second box up by one pixel. This is not a
+			general-case solution since it leaves an gap underneath the second box.</p>
+          </li>
+          <li>
+            <h3 id="s4.3">The Zoom Fix</h3>
+       <p>
+       This IE6 bug may be fixed by applying the <a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a>.
+       The difficulty is identifying exactly which boxes need the hack,
+			and I think it might vary depending on the context. I experimented
+      with the <a href="sidepages/border-chaos-demo.html">demo</a>,
+      and I found that the bug may be fixed in this case by applying the
+      Zoom&nbsp;Fix to <code>.demo2</code> and <code>.demo-inner</code>
+      (i.e., the negatively margined boxes 	and the box with a three-pixel, solid,
+      black border). BTW, applying the Zoom&nbsp;Fix to different combinations of boxes produces
+      interesting results.
+      </p>
+          </li>
+        </ul>
+
+
+        <h2 id="s5">Conclusion</h2>
+        <p>There's not much to conclude here — it’s a bug and it’s potentially annoying, but it can be avoided or fixed. This isn’t IE6's most
+		spectacular bug, but it serves as yet another warning of the many problems found in IE. Authors beware.</p>
+      </div>
+      <div id="footer">
+        <p>Written November 2004 for P.I.E.<br />
+        Updated July 7th, 2008 <br />
+        Jonathan McLean<br />
+        <a href="&#109;&#97;ilto&#58;&#100;efenestrator&#64;&#103;&#109;&#97;il&#46;c&#111;m">&#100;efenestrator&#64;&#103;&#109;&#97;il&#46;c&#111;m</a></p>
+      </div>
+    </div>
+  </body>
+
+
+</html>

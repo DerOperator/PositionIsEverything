@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+
+	<title>Relative Shift</title> 
+
+<meta name="Big John" content="October 16, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" An Opera6 bug involving relatively shifted elements. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0;}
+
+body {margin: 0; padding: 0; background: #eee;}
+
+pre {margin: 0; font-family: garamond, "times new roman", sans-serif;}
+
+p {font-size: .8em; font-family: verdana, arial, sans-serif;}
+
+pre {margin: 0; font-family: currier, monospace; font-size: .8em; color: #800;}
+
+a {color: #000;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .7em;}
+
+#textcol {
+position: absolute;
+top: 30px;
+left: 50%;
+right: 50px;
+border: 1px solid #000;
+padding: 0 15px;
+background: #ffd;
+margin-right/*this comment hides the value from IE5.0/Win*/ : 50px;}   
+
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+     The previous property and the following rule are for the purpose of making IE5/mac honor the 
+50px spacing on the right side of #textcol. IE5/mac does not obey the 'right' property at all. It does 
+    obey 'margin-right' but IE6/win does not (triggered by the opposing 'left' property). The rule below 
+   withholds the 'right' value from Moz, and also re-feeds the 'margin-right' to IE5/mac, which fails to
+	read it in the previous rule, along with IE5.0/win.   Good Ghod, has it really come to this?
+			http://www.dzr-web.com/misc/ie-right-positioning/
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+html>body #textcol {
+right: 0;
+margin-right: 50px;
+}
+
+#code-col {
+position: absolute;
+top: 20em;
+left: 12%;
+width: 31%;
+}
+
+
+/*******************************************************************************
+                 Demo positioning rules
+*******************************************************************************/
+
+div#wrapper {   /**** This is the grey column ****/
+margin: 30px 55% 0 10%;
+padding-top: 10px;
+background: #ccc;
+height: 1200px;
+}
+
+h1 {   /**** This is the shifting text ****/
+position: relative;
+top: 3em;
+left: -1.8em;
+margin-bottom: 10px;   /**** A bottom margin seems to enable the bug  ****/
+padding-left: .2em;
+color: #dda;
+font: bold 2.5em "trebuchet ms", helvetica, sans-serif;
+background: #586;
+}
+
+-->
+</style>
+
+</head>
+<body>
+
+<div style="width: 150%;"></div> <!-- This provides the horizontal scrollbar -->
+
+
+<!--XXXXXXXXXXX  Start of Demo  XXXXXXXXXXXXXXX-->
+
+<div id="wrapper">
+
+<h1>
+Relative<br />&nbsp;Shift
+</h1>
+<!-- For the bug to occur, there must be no 'flowed' elements from here to the end of body. -->
+
+</div>
+
+<!--XXXXXXXXXXX  End of Demo  XXXXXXXXXXXXXXXX-->
+
+
+<div id="code-col"> <!-- XXX  This is an absolute div.  XXX-->
+<pre>
+h1   /* Green box */
+{
+   position: relative;
+   top: 3em;
+   left: -1.8em;
+   margin-bottom: 10px; 
+}
+</pre>
+<p>
+<strong>In this demo:</strong>
+When the 'relative' element (block or inline), has any bottom margin, and no 'flowed elements' follow 
+in the code, <em>and</em> no bottom border exists on the grey box, the relative shift bug may (or may
+not) occur. 
+</p>
+<p>
+The bug can also occur with an absolute container, and who knows, maybe lots of other ways too. 
+</p>
+<p>
+<strong>This text</strong> is <em>not</em> part of the static grey column, but is an external, absolutely positioned
+div instead. Any flowed elements following the demo would kill the bug.
+</p>
+</div>
+
+<div id="textcol"> <!-- XXX  This is an absolute div.  XXX-->
+<br />
+<p class="alignright">
+<a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a><br />
+<a href="opp-floats.html"><strong>Next Opera demo</strong></a>
+</p>
+<p>
+<strong>This is a 'scrollable bug',</strong> so grab ahold of those scrollbars, (Horizontal too), and 
+<em>play around with them</em>.
+Hit refresh/reload to reset the effect. Go ahead; I'll wait.<br />(may require initial reload to see the bug)
+</p>
+
+<p>
+<br />
+Fascinating, ain't it? The green block would normally be near the top of the grey column, 
+but it has been given <strong>position: relative</strong>, then shifted down 3em, and 1.8em to the left.
+</p>
+<p>
+In any modern browser other than Op6, you see the block in the shifted position. In this demo tho, 
+Op6 shows the 'preshifted' block, and most of the 'postshifted' block as well.<br />
+Hmmm...
+</p>
+<p>
+This bug seems to be <em>timing dependent</em>, because a local copy of it will not show the bug
+(except upon screen re-size). 
+That fact makes this bug most difficult to track down, or even notice at all. It also may be intermittent, 
+for unknown but possibly timing related reasons. <strong>Note:</strong> because of the timing 
+dependency, this bug is <em>very slippery</em>, and may or may not be affected by various 
+'triggers' or 'fixes'. Frankly, it's confusing as heck.
+</p>
+<p>
+In addition to scrolling, switching to a different window and back
+will also 'complete' the shift. Mouse-dragging will reveal the shifted text, but won't clear the 'ghost'.
+</p>
+<p>
+<strong>Fixes:</strong> Removing the bottom margin from the shifted element sometimes does it, or 
+placing a bottom border on the container element might do it. A good way is to
+place a static or relative element anywhere after it in the code. Any 'flowed' element will do,
+even raw text. 
+</p>
+<p>
+Because of this, the bug usually inhabits footers. (duh!)
+</p>
+<p>
+I'm sorry I can't be more specific, but this bug is highly variable and difficult to pin down. However,
+you will now recognize it when it appears, and a little experimenting will find the way.
+</p>
+<p>
+<strong>Note:</strong> Opera 7 has corrected this bug. Yay!
+</p>
+<p>
+<strong>Thanks</strong> 
+to <a href="http://www.info.com.ph/~etan/w3pantheon/style/csshub.html"><strong>Edwardson Tan</strong></a>, 
+of the <a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss</strong></a> list, for 
+major collaboration in analyzing this bug.<br />
+(first isolated on Tan's 'CSS Hub' page)
+</p>
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: February 26, 2003<br />
+Created October 16, 2002
+</p>
+
+</div>
+
+</body>
+
+
+</html>
+

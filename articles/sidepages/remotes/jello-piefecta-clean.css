@@ -1,0 +1,232 @@
+html, body, ol, ul, li, dl, dt, dd, img {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+}
+
+body {
+  padding: 0 340px; /* the critical side padding that sets the natural min-width! */
+  background: url(../images/brownlattice2.gif); /* this BG tiles the area outside the columns */
+  color: #000;
+  font-family: georgia, verdana, sans-serif;
+  font-size: 100.01%; /* this body font-size fixes an IE bug and maintains x-browser uniformity */
+  text-align: center; /* centers the #sizer element in IE5.x/win */
+}
+
+#sizer {
+  margin: 0 auto; /* centers #sizer in standard browsers */
+  padding: 0;
+  width: 60%; /* this value controls liquidity; 0% = full rigid, 100% = full liquid */
+  text-align: left; /* resets the default text alignment for the page */
+  max-width: 120px; /* IE7 supports this property, doesn't need the fancy MS expression */
+}
+
+#expander { /* Any % height here causes IE to lose the neg right margin */
+	margin: 0 -335px; /* neg side margin values should be < or = to side body padding */
+	min-width: 670px; /* This prevents Safari from losing the negative margins in narrow windows */
+	position: relative; /* makes #expander visible outside #sizer in IEwin */
+	min-height: 1px; /* This harmless declaration gives Layout to IE7, which can't read the star/html hack in the CC below */
+}
+
+/* #expander must receive "hasLayout" for IEwin bug fixing; applied in CC */
+
+#wrapper1 {
+  position: relative;
+  background: url(../images/redcircles.gif); /* this BG tiles the left column */
+  font-size: .9em; /* set global font-size here */
+  border: 3px solid #da5;
+  border-width: 4px 3px;
+} /* this positioning may be needed for IEwin if page is to contain positioned elements */
+
+#wrapper2 {
+  position: relative; /* extra insurance against bugs in IEwin */
+  background: url(../images/redblots.gif) 100% 0 repeat-y; /* this BG tiles the right column */
+}
+
+
+/****************** Main Page Structure *****************/
+
+/* To modify the side column widths and the col divider widths, the values that are
+marked "critical" and also refer to the desired mod MUST be changed as a group. */
+
+
+.outer {
+  background: url(../images/bluelattice.gif); /* this BG tiles the center column */
+  border-left: 2px solid #da5; /*** Critical left divider dimension value ***/
+  border-right: 2px solid #da5; /*** Critical right divider dimension value ***/
+  margin-left: 200px;    /*** Critical left col width value ***/
+  margin-right: 200px;    /*** Critical right col width value ***/
+}
+
+.float-wrap {
+  float: left;
+  width: 100%;
+}
+
+.center {
+  float: right;
+  width: 100%;
+}
+
+.left {
+  float: left;
+  position: relative; /* Needed for IE/win */
+  width: 200px;    /*** Critical left col width value ***/
+  margin-left: -202px;    /*** Critical left col width value ***/ /*** Critical left divider dimension value ***/
+}
+
+.right {
+  float: right;
+  position: relative; /* Needed for IE/win */
+  width: 200px;    /*** Critical right col width value ***/
+  margin-right: -202px;    /*** Critical right col width value ***/ /*** Critical right divider dimension value ***/
+  margin-left: 2px;   /*** Critical right divider dimension value ***/
+}
+
+.centerbox {
+  font-weight: bold;
+  text-align: justify;
+  overflow: visible;
+  width: 100%;
+}
+
+.container-left {color: #ffc;}
+
+.container-right {color: #ffc; padding-bottom: 80px;} /* makes room for the froggy */
+
+
+/*************** Header and Footer elements *****************/
+
+.header {
+  width: 100%;
+  color: #b33;
+  padding: 5px 0;
+  background: url(../images/jello1.gif) no-repeat 50px 7px;
+} /* "jello" BG is made to be in fixed position here */
+
+
+.header span {color: #373;}
+
+.footer {
+  width: 100%;
+  font-size: 1.8em;
+  font-weight: bold;
+  clear: both;
+  padding: 5px 0 15px;
+  position: relative;
+}
+
+.footer p {margin: 10px 0 0 20px; color: #383;}
+
+.footer hr {
+  color: #944;
+	margin: 0;
+	background: #944;
+	height: 5px;
+}
+
+.froggy {
+position: absolute;
+top: -65px;
+right: -10px;
+}
+
+
+/************** Spacing Controls for various column contents ***************/
+
+.outer ul {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.textpadder {padding: 8px;}
+
+
+/************** Generic Rules *************/
+
+a {color: #000; vertical-align: bottom;}
+
+p  {margin: .8em 0;}
+
+h1 {margin: 70px 0 10px 80px;}
+
+h2 {
+  font-size: 1.2em;
+  text-align: center;
+  padding: 5px 0;
+  margin: 0;
+  border: 3px solid #dcd3c2;
+  border-color: #fef5e4 #d4cab9 #c2b9a8 #ece3d2;
+  color: #500;
+  background: url(../images/marble1.jpg);
+  font-family: tahoma, arial, sans-serif;
+}
+
+h3 {
+margin: 1em 0 .3em;
+}
+
+.alignright {margin: 0 10px 10px 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+
+/************** Fancy Nav Buttons *************/
+
+.sidenav li a {
+  display: block;
+  border: 2px solid #dcd3c2;
+  color: #500;
+  text-decoration: none;
+  background: url(../images/marble1.jpg);
+  padding: 4px 5px 4px 10px;
+  font-family: tahoma, arial, sans-serif;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.sidenav li a:hover {
+  border-color: #fef5e4 #d4cab9 #c2b9a8 #ece3d2;
+  background-position: -1px -1px;
+  padding: 3px 6px 5px 9px;
+}
+
+.sidenav li a:active {
+  border-width: 3px 1px 1px 3px;
+  border-color: #c2b9a8 #ece3d2 #fef5e4 #d4cab9;
+  background-position: 0 0;
+  padding: 4px 5px 4px 10px;
+}
+
+
+/************** Special Fixes *************/
+
+.outer {word-wrap: break-word;}
+/* Prevents long urls from breaking layout in IE, must
+be hidden in a conditional comment for CSS to validate */
+
+img {max-width: 100%;}
+/* prevents oversize images from breaking layout in browsers that support max-width */
+
+
+/**************** Utility Rules *******************/
+
+.brclear { /* Use a break with this class to clear float containers */
+  clear:both;
+  height:0;
+  margin:0;
+  font-size: 1px;
+  line-height: 0;
+}
+
+.clicker {
+  display: block;
+  text-align: center;
+  padding: 3px;
+  background: #833;
+  cursor: pointer;
+}
+
+.hide {display: none;}
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<title>IE Conditional Comments to make an IE only root node</title>
+<style type="text/css">
+
+body {
+    background : #fff;
+    font-family : Georgia, serif;
+    color : #444;
+    font-size : 9pt;
+    line-height : 1.8em;
+    letter-spacing : 1px;
+}
+
+#ie5-5only, #ie5-01only {
+    text-align : center; /* IE 5.x centering fix */
+}
+
+#ie5-5only #mastercontainer,
+#ie5-01only #mastercontainer {
+    text-align : left;  /* this limits the centering fix */
+}
+
+#mastercontainer {
+    width : 600px;
+    margin : 28px auto;
+}
+
+#notie, #ie7box, #ie6box, #ie5-5box, #ie5-01box {
+    padding : 5px;
+	font-size: 1.3em;
+	font-weight: bold;
+    width : 100%;
+}
+
+#notie {border : 2px solid black;}
+#ie7box {border : 2px solid blue;}
+#ie6box {border : 2px solid green;}
+#ie5-5box {border : 2px solid purple;}
+#ie5-01box {border : 2px solid red;}
+
+#ie7andup    #notie,
+#ie6only     #notie,
+#ie5-5only #notie,
+#ie5-01only #notie,
+#ie7box, 
+#ie6box, 
+#ie5-5box, 
+#ie5-01box 
+{
+    display : none;
+}
+
+#ie7andup    #ie7box,
+#ie6only     #ie6box,
+#ie5-5only #ie5-5box,
+#ie5-01only #ie5-01box
+{
+    display : block;
+}
+
+</style>
+</head>
+<body>
+
+<!--[if gte IE 7]><div id="ie7andup"><![endif]-->
+<!--[if IE 6]><div id="ie6only"><![endif]-->
+<!--[if IE 5.5000]><div id="ie5-5only"><![endif]-->
+<!--[if lt IE 5.5000]><div id="ie5-01only"><![endif]-->
+
+<div id="mastercontainer">
+
+<p>This page uses conditional comments to detect versions of Internet Explorer and create a wrapper div in depending on the detected version. We use the ID of one of these divs to create CSS rules targeted at any version of IE.</p>
+
+
+<div id="notie">This browser is not IE 7, 6, or 5</div>
+<div id="ie7box">This browser is IE 7</div>
+<div id="ie6box">This browser is IE 6</div>
+<div id="ie5-5box">This browser is IE 5.5</div>
+<div id="ie5-01box">This browser is IE 5</div>
+</div>
+
+<!--[if IE]></div><![endif]-->
+
+</body>
+
+
+</html>

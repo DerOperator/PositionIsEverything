@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+
+<title>IE Link border-bottom Bug : Example 1</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<style type="text/css" media="screen">
+<!--
+
+body {
+	margin: 10px 10%;
+	padding: 10px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: small;
+	color: #000000;
+	background-color: #FFFFFF;
+	border: #999999 1px solid;
+}
+
+h1, h2, h3, h4 {
+	font-family: Georgia, Times, "Times New Roman", serif;
+	color: #333344;
+}
+
+h1 {
+	margin: 0px;
+	padding: 5px;
+	color: #FFFFFF;
+	background-color: #AA0000;
+	border: #990000 1px solid;
+}
+
+
+a:hover {
+	color: #0000FF;
+	background: none transparent scroll repeat 0% 0%;
+}
+
+.container {
+	border: #CC0000 5px solid; 
+	background-color: #CCCCCC;
+}
+
+.floated {
+	border: #0000CC 5px solid; 
+	width: 200px; 
+	float: left; 
+	background-color: #FFFFCC;
+}
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>Guillotine in Action</h1>
+<h2>When floats are not cleared</h2>
+
+<div class="container">
+	<div class="floated">
+		<p>This is the <strong>floated</strong> div.</p>
+		<p><a href="#">Any link</a> in this div will reset the Guillotine.</p>
+		<p>Content</p>
+		<p>More Content</p>
+		<p>And More Content</p>
+		<p>Even More Content</p>
+		<p>Until the float is taller than the non-floated content</p>		
+	</div> 
+	<a href="#">Link in Line 1</a><br />
+	<a href="#">Link in Line 2</a><br />
+	<a href="#">Guillotine Link</a><br />
+	<a href="#">Guillotine Link</a><br />
+	<a href="#">Guillotine Link</a><br />
+	This is the <strong>non-floated</strong> content.
+</div>
+
+<p style="border: #00CC00 5px solid;">This is a paragraph that comes <em>after</em> the container</p>
+</body>
+
+
+</html>

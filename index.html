@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+	
+	<title>/* Position Is Everything */ &mdash; Modern browser bugs explained in detail!</title> 
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="Advanced CSS demos and bug reports" />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+<meta name="revisit-after" content="10 Days" />
+<meta name="doc-class" content="Living Document" />
+
+<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" />
+
+<link rel="stylesheet" href="css/mainpage.css" type="text/css" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+</head>
+
+<body>
+
+<div class="logo"></div>
+
+<div class="wrapper">
+
+<h1> 
+Position Is Everything<br /> A compendium of <br />CSS positioning bugs
+</h1>
+<!-- This header text is invisible in css browsers, but in non-css 
+	browsers it replaces the title image. -->
+
+<div id="leftcol">
+
+<p class="intro">
+I'm Big John, and here I attempt to describe and demonstrate some of the bugs found in web browsers, and to
+show advanced CSS methods that work across all browsers.
+</p>
+
+<div class="announcement"> 
+<p><strong>Big John does webinars on CSS!<strong></p>
+<p style="margin: 15px 0;">
+<a href="http://everyones.com/webinar/cssexplainingthecascade">
+Big John on CSS: Explaining the Cascade</a> </p>
+<p>Do you know...</p>
+<ul>
+<li>the difference between a tag attribute and a CSS style?</li>
+<li>what the '!important' keyword does to a declaration?</li>
+<li>what CSS 'pseudo-classes' are, and why they're different from regular classes?</li>
+<li>what the 'child' and 'sibling' combinators are?</li>
+<li>what happens when two CSS rules attempt to apply different values to the same property of an element, and why?</li>
+<li>how the weighting system of CSS actually works?</li>
+</ul>
+<p>If you answered "No" to most of these questions, then this webinar is for you.</p>
+
+<p style="margin: 15px 0;">
+<a href="http://everyones.com/webinar/dealingwithie6">
+Big John on CSS: Dealing with IE6 - Parts 1 and 2</a> </p>
+<p>Yes, Big John finally vents his spleen all over IE6, and you are the beneficiary. 
+There's <em>so much</em> to cover that it's in two parts, oy...</p>
+</div>
+
+
+<h3>Newest Content</h3>
+<ul>
+
+<li> <a href="articles/dropshadows-gimp1.html">Making Drop Shadow Images for the PNG Drop Shadows Method</a> 
+&nbsp; For those who like the Four Sided PNG Drop Shadows method but aren't sure how the shadow image is made, this Gimp tutorial is for you!
+</li>
+
+<li> <a href="articles/dropshadows2.html">Four Sided PNG Drop Shadows [Revised and Improved!]</a> 
+&nbsp; Drop shadows on two sides are great, but on four sides they're twice as nice. For an "all-around" good time,
+check out this surprisingly easy method, <em>now without the need for more than a single clean dropshadow image!</em>
+Sweet...
+</li>
+
+<li> <a href="http://www.vision.to/margins-and-absolute-positioning.php">Margins and Absolute Positioning</a> 
+&nbsp; The low-down on margin behaviors for absolutely positioned elements. Authored by Big John but hosted remotely. Be sure to come on back, y'hear?
+</li>
+
+<li> <a href="http://www.vision.to/auto-positioning-for-absolute-elements.php">Auto Positioning for Absolute Elements</a> 
+&nbsp; A different way to control absolutely positioned elements. Authored by Big John but hosted remotely.
+</li>
+
+<li> <a href="http://www.vision.to/the-difference-between-the-flow-and-positioning.php">The difference between 'The Flow' and 'Positioning' for Web Pages</a> 
+&nbsp; A basic CSS article for your perusal, authored by Big John but hosted remotely.
+</li>
+
+</ul>
+
+<form style="display: block; margin: 30px 0 -20px; text-align: center;" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="6299380">
+<input type="image" src="images/donate.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="../www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+
+<h3><a href="ie-primer.html">Internet Explorer vs. the Standards</a></h3>
+<p>
+Do you want to know why our simple CSS positioning system ends up becoming so very frustrating 
+to so many unsuspecting coders? Go to this <a href="ie-primer.html">collection</a> of articles and demos
+showing some of the major problems and ways to get around them.
+Warning: Barf Alert!
+</p>
+
+<h3>Browser specific bug demos:</h3>
+<ul>
+<li>
+<a href="explorer.html">Explorer Exposed!</a> 
+&nbsp; Bugs found only in Internet Explorer.
+</li>
+<li>
+<a href="op-omnibus.html">Opera Omnibus</a> 
+&nbsp; Bugs found only in Opera.
+</li>
+<li>
+<a href="gecko.html">Open Source Oopsies</a> 
+&nbsp; Bugs found only in Gecko based browsers (N6+, Mozilla, Camino, etc.)
+</li>
+</ul>
+
+<h3><a href="articles.html">Articles We (and others) Wrote</a></h3>
+
+<p>
+A number of <a href="articles.html">in-depth articles</a>,  with the emphasis on readability. 
+We have tried hard to make complex subjects clear, and we hope you agree.
+</p>
+
+<h3>Layout demos</h3>
+<ul>
+<li> <a href="articles/dropshadows2.html">Four Sided PNG Drop Shadows</a>
+&nbsp; PNG is the wave of the future, so get on your surfboard and see how they can
+really jazz up your dropshadows.
+</li>
+<li> <a href="articles/pie-maker/pagemaker_2_9_home.html">ClevaTreva's New Improved Piefecta Page Maker</a> 
+&nbsp; Do you like the <strong>Piefecta</strong> layout, but back away fast after seeing the hairy-chested CSS
+code behind it? Well fret not, because 
+<a style="font-weight: normal; color: #ffa;" href="javascript:location='mailto:\u0063\u0073\u0073\u0067\u0075\u0079\u0040\u0063\u006c\u0065\u0076\u0061\u0074\u0072\u0065\u0076\u0061\u002e\u0065\u0037\u0065\u0076\u0065\u006e\u002e\u0063\u006f\u006d';void 0">ClevaTreva</a>
+has developed a <em>new</em>
+version of his page maker, exclusively for PIE! Not only does it produce one, two, or three
+column source ordered layouts without mussing your hair, but it will soon create dropshadows to boot!
+This is almost <em>too much good stuff</em>. Thanks, Trev.
+</li>
+<li> <a href="articles/onetruelayout/index.html">In search of the One True Layout</a> 
+&nbsp; Want to be able to display your columns in any order? Want to be able to have 
+equal height columns without having to use faux columns? Want to be able to 
+align elements vertically across columns? So does 
+<a style="font-weight: normal; color: #ffa;" href="http://www.fu2k.org/alex/css/">Alex&nbsp;Robinson</a>.
+Settle back as Alex reports on a group of techniques that will let you do all that, 
+for any number of columns you desire.
+</li>
+<li> <a href="articles/jello.html">The Jello Mold Piefecta</a>
+&nbsp; The Piefecta layout, <em>now with a liquid center column</em>, poured into a
+brand new Jello Mold wrapper invented and explained by 
+<a href="http://uwmike.com/" style="font-weight: normal; color: #ffa;">Mike&nbsp;Purvis</a>. 
+Features: Source ordered, all cols same length, all areas tilable, customized 
+width behaviors.  
+</li>
+<li> <a href="css-dropdowns.html">Deluxe CSS Dropdowns And Flyouts</a>
+&nbsp; Presenting a slick combination of dropdowns and flyouts, all generated
+via clean CSS. You're gonna like this!
+</li>
+<li> 
+<a href="css-flyout.html">All-CSS Flyout Nav</a>
+&nbsp; The DOM generated horizontal flyout nav has a new challenger. Works in all
+but IE/Mac, and degrades well. Enjoy!
+</li>
+<li>
+<a href="guests/3colcomplex.html">Perched Upon a Lily Pad</a> 
+&nbsp; Holly Bergevin's tour de force layout demo shows just how complex a css layout can get 
+and still work well across modern browsers. 
+</li>
+<li>
+<a href="piefecta-rigid.html">The Piefecta 3-col Layout</a>
+&nbsp; Rigid 3-col, all cols the same length, the center col is first in the source, 
+and pixel perfect across ALL modern browsers.
+</li>
+<li>
+</ul>
+
+<h3>Cross-browser Bug Demos and Articles:</h3>
+<ul>
+<li>
+<a href="round-error.html">The 1px Rounding Error Problem</a> 
+&nbsp; A small but irritating flaw in the way boxes get rendered.
+</li>
+<li> <a href="bg-centering.html">Background Positioning vs. Centered Elements</a> 
+&nbsp; Yet another form of 1px error, caused by mixed centering methods. It may 
+never happen to you, but if it does and you are not ready, better have your analyst
+on speed-dial! 
+</li>
+<li> <a href="easyclearing.html">How To Clear Floats Without Structural Markup</a> 
+&nbsp;At last, a way to dispense with those pesky extra clearing elements. Adapted from a demo by 
+<a href="http://www.csscreator.com/" style="font-weight: normal; color: #ffa;">Tony&nbsp;Aslett</a>, and now
+with a clean CSS fix for IE/Mac to replace the ugly Javascript hack. Woohoo!
+</li>
+<li>
+<a href="posbugs.html">Going Absolutely Buggy</a> 
+&nbsp;What happens when absolutely positioned boxes are nested.
+</li>
+<li>
+<a href="abs_relbugs.html">Absolutely Buggy II</a> 
+&nbsp;Nesting absolute boxes inside a relative box. (have you done this yet?)
+</li>
+</ul>
+
+<h4><a href="guests.html">Guest demos</a></h4>
+<p>
+Contrary to widespread belief, I <em>can't</em> do it all! Here, other coders try their hand 
+at demoization.
+</p>
+
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: 31 May, 2011<br />
+Created May 5, 2002
+</p>
+
+<!-- end .leftcol --></div>
+
+
+<div id="rightwrap">
+<div id="rightcol">
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function clearDefault(el) {
+  if (el.defaultValue==el.value) el.value = ""
+}
+//-->
+</script>
+
+<!-- Search Google -->
+<form method="get" action="http://www.google.com/cse" style="display: block; text-align: center; margin-bottom: 30px;">
+
+<div style="padding: 0; position: relative; width: 259px; height: 49px; margin: 0 auto;">
+<img src="images/google3.gif" border="0" width="259px" height="49px" alt="google">
+<a href="http://www.google.com/search" style=" position: absolute; top: 0; left: 0; width:113px; height: 45px; background: url(images/bgfix.gif); text-decoration: none;">&nbsp;</a>
+</div>
+
+<input type="text" name="q" size="20" maxlength="255" value="Got a bug?" onfocus="clearDefault(this)" style="background: white; border: 1px solid #000; color: #000; margin-right: 5px;" />
+<input type="submit" name="sa" value="Google PIE" id="subbutton" style="background: #fc6; border: 1px solid #222; color: #222; padding: 0; font-weight: bold;" />
+<input type="hidden" name="cof" value="GALT:#0099ff;S:http://positioniseverything.net;GL:2;AH:center;BGC:#212ca3;LH:150;LC:#ffcc66;L:http://www.positioniseverything.net/images/buglogo.gif;LW:588;T:#ffffaa;GIMP:#ffaaaa;AWFID:3207e6bfbb1e63d4;" />
+<input type="hidden" name="sitesearch" value="positioniseverything.net" />
+
+</form>
+<!-- Search Google --> 
+
+<!--
+<h3><a href="design/index.html">Big John Design</a><br />
+<span>Web Design and Consulting</span></h3>
+<p>
+Want a CSS/JS guru to make your site push the boundaries of the possible?
+Need someone to call about your broken site?
+</p>
+<p>
+Consider <a style="display: inline; text-decoration: underline;" 
+href="design/index.html"><strong>Big&nbsp;John&nbsp;Design</strong></a> 
+for your more <em>difficult</em> coding requirements. JQuery a specialty. 
+ASP.NET supported.
+</p>
+<p>Past clients include: <br /> <a href="http://baercom.com/">Baercom</a>,
+<a href="http://milo.com/">Milo</a>,
+and <a href="http://www.alphabetsigns.com/">Alphabetsigns</a>.
+</p>
+<p style="margin-top: 20px;">
+<a href="http://www.linkedin.com/in/cssjunkie">Big John's Linkedin bio</a>
+</p>
+-->
+
+<h3 style="margin-top: 20px;">Webinars:</h3>
+<ul>
+<li><a href="http://everyones.com/webinar/bigjohn" title=" Learn from Big John ">CSS Webinars by Big John</a></li>
+<li><a href="http://everyones.com/webinar/everyones" title=" Learn from Myra Rhodes ">Dreamweaver Webinars<br /> by Myra Rhodes</a></li>
+</ul>
+
+
+<h3 style="margin-top: 20px;">Tools:</h3>
+<ul>
+<li><a href="http://finalbuilds.edskes.net/iecollection.htm" title=" All IE versions at once! ">IE Browser Standalones</a></li>
+</ul>
+
+<h3 style="margin-top: 20px;">New Bug Demos On The Web:</h3>
+<ul>
+<li><a href="http://k-u-h-n.net/wp/" title=" Several bug reports and a couple of neat techniques ">k-u-h-n.net</a></li>
+<li><a href="http://www.mindgarden.de/index.php?id=956" title=" A problem with grouping first-child in IE8 ">IE Advanced selector Bugs</a></li>
+</ul>
+
+<h3 style="margin-top: 20px;">CSS Study:</h3>
+<ul>
+<li><a href="http://css-discuss.incutio.com/" title=" The 'memory bank' of CSS-Discuss ">CSS-Discuss Wiki</a></li>
+<li><a href="http://meiert.com/en/indices/css-properties/" title=" A fast link-listing of all known CSS properties. ">CSS Properties Index</a></li>
+<li><a href="http://www.satzansatz.de/cssd/onhavinglayout.html" title=" You need to read this. ">On Having Layout</a></li>
+<li><a href="http://www.meyerweb.com/eric/css/" title="My primary CSS influence">Eric Meyer's CSS</a></li>
+<li><a href="http://www.satzansatz.de/css.html" title=" Ingo knows what browsers are really doing inside. ">Ingo Chao's CSS</a></li>
+<li><a href="http://css-class.com/" title="Simple elegant demos betray a genius at work">CSS Class</a></li>
+<li><a href="http://www.gtalbot.org/BrowserBugsSection/" title=" Don't make eye contact with the cat! ">Gérard Talbot's Bug Reports</a></li>
+<li><a href="http://www.brunildo.org/test/" title=" Serious CSS tests for serious CSS students. ">CSS Tests by Bruno Fassino</a></li>
+<li><a href="http://www.css-zibaldone.com/articles/" title=" More useful CSS info ">CSS Zibaldone</a></li>
+</ul>
+
+<h3>CSS Resources:</h3>
+
+<ul>
+
+<li><a href="http://www.brainjar.com/" title=" Go to 'CSS Positioning' ">BrainJar.com</a></li>
+<li><a href="http://www.cssplay.co.uk/index.html" title=" Pretty creative for an old guy! ">Stu Nicholls CSS Play</a></li>
+<li><a href="http://www.456bereastreet.com/" title=" Lots of good stuff here ">456 Berea Street</a></li>
+<li><a href="http://sixrevisions.com/" title=" Lists of great CSS demos and methods ">Six Revisions</a></li>
+<li><a href="http://www.accessify.com/" title=" Everything accessible, that webmasters need to know. ">Accessify.com</a></li>
+
+</ul>
+
+<div id="bugpic">
+<a href="sidepages/poole.html" title=" Drawn by Elizabeth Poole "><img src="images/piebug-left.gif" 
+alt="Drawing of a browser bug" /></a>
+</div>
+
+<h3>E-lists and Forums:</h3>
+<ul>
+<li><a href="http://webstandardsgroup.org/mail/" title=" A beginner's CSS and standards e-list. ">Web Standards Group</a></li>
+<li><a href="http://www.css-discuss.org/mailman/listinfo/css-d" title=" A more advanced CSS e-list. ">CSS-Discuss</a></li>
+<li><a href="http://www.csscreator.com/" title=" A very lively newer css forum site/layout generator ">CSS Creator</a></li>
+</ul>
+
+<h3>Experimental CSS:</h3>
+<ul>
+<li><a href="http://www.meyerweb.com/eric/css/edge/" 
+title=" He showed us the way CSS is done ">Meyer's CSS Edge</a></li>
+<li><a href="http://www.infimum.dk/DHTMLindex.html" 
+title=" The full power of css + scripting is unleashed! So very cool... ">Imfimum.dk</a></li>
+<li><a href="http://lofotenmoose.info/css/" 
+title=" What happens when a literary mind plays around with CSS ">CSS Destroy</a></li>
+<li><a href="http://www.designdetector.com/" 
+title=" The man who made the CSS House ">Design Detector</a></li>
+</ul>
+
+
+<h3>Study tips:</h3>
+
+<img style="float: right; margin: 5px 20px 10px; display: inline;" src="images/stop.gif" alt="Image of a unique type of keyboard" />
+
+<p>
+The source code for each demo usually has all the relevant CSS  embedded in the head section.
+Please feel free to take, use, and if need be, <em>abuse</em> all code found on this site.  
+</p>
+
+<h3>Site Sponsors</h3>
+
+<p>
+<strong>Mike Papageorge</strong>, of Masadelante.com, a volunteer sponsor 
+of this bug site (and a really cool biker dude too). <a style="display:
+inline; text-decoration: underline;" 
+href="http://www.masadelante.com/">Diseño&nbsp;Web&nbsp;España</a>
+(Web Design of Spain) offers full hosting and web design services for those
+who want the best.  (for English, click button in upper right)  They have
+hosted PIE for lo these many years without flaw. Nice going guys! 
+</p>
+
+<p>
+Also check out Mike's 
+personal and excellent web&nbsp;design&nbsp;resource&nbsp;blog, <a href="http://www.fiftyfoureleven.com/">fiftyfoureleven.com</a>
+<br /><br /></p>
+
+<p>
+For <strong>custom web applications</strong> employing php/mysql coding, I highly recommend: <br /> <a href="http://www.vision.to/" > www.vision.to</a> 
+</p>
+
+
+<h3><a href="http://wanderlucky.com/">wanderlucky.com</a></h3>
+<p>
+Want to see what I do to cure burnout? 
+<a href="http://wanderlucky.com/">Wanderlucky</a>
+is the repository for my personal hiking and kayaking trip reports, complete with 
+photos. Come see the evolution of the next Steinway..  or is it Hemmingbeck...?
+</p>
+
+
+<!-- end .rightcol --></div>
+<img id="bevel" width="25px" height="25px" alt="" src="images/box-cor.gif" />
+<img id="bevel-lr" width="25px" height="25px" alt="" src="images/box-cor-lr.gif" />
+<!-- end .rightwrap --></div>
+
+<div id="title-img">&nbsp;</div>
+
+<!-- end .wrapper --></div>
+
+
+<img src="images/blackbug.gif" style="position: absolute; left: -3000px;" alt="" />
+
+</body>
+
+
+</html>

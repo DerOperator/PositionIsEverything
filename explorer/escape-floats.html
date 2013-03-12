@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+<title>The IE6/7 Escaping Floats Bug</title>
+
+<meta name="Big John" content="26 October, 2003" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="description" content="This demo shows a bug in IE when multiple floats are in a 'widthless' container." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+<style type="text/css">
+
+html {
+margin: 0;
+padding: 0;
+border: 0;
+}
+
+body {
+margin: 0;
+padding: 0;
+font-size: 80%;
+background: #efe;
+font-family: verdana,sans-serif;
+}
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h4 {font-size: 1.2em; font-weight: bold; margin: 1.5em 10% .5em;}
+
+.textbox {margin: 2em 0 3em;}
+
+.textbox p {margin: .6em 10% .6em 18%; padding: 0;}
+
+a:link, a:visited, a:active {color: #000;}
+
+.alignright {margin: 0 30px 30px 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+pre {margin: 30px 12%; padding: 20px 20px 20px 50px; background: #f8ddb8;
+	border: 2px solid #000; font-size: 1.2em; font-family: monospace;}
+
+pre span {color: #d00;}
+
+html[xmlns] pre {font-size: 1.3em;} /*** This hack sends a fudged value to Mozilla ***/
+
+ul {text-align: right; padding-right: 30px; list-style: none;}
+
+/*XXXXXXXXXXXXXXXXXXXX Demo rules start here XXXXXXXXXXXXXXXXXXXXXXX*/
+
+.floatholder {
+border: 2px solid #000;
+margin: 0 40% 20px 10%;
+}
+
+.floatbox {
+float: left;
+width: 50px;
+height: 50px;
+margin: 2px;
+background: #bb7;
+color: #ffd;
+text-align: center;
+}
+
+</style>
+
+<!-- below is a CC containing the "zoom fix" that cures the bug -->
+<!--[if IE]>
+  <style type="text/css">
+    .zoomfix {zoom: 1;}
+    /* any use of the zoom property (among others) will trigger hasLayout on an element in IE/Win */
+  </style>
+<![endif]-->
+
+
+	</head>
+
+	<body>
+
+<h1>The IE Escaping Floats Bug&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+
+<ul>
+<li><a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a></li>
+<li><a href="creep.html"><strong>Next IE demo</strong></a></li>
+</ul>
+
+<div class="textbox">
+<h4>The Setup</h4>
+<p>
+Below is a div box with margins (10% on left and 40% on right) and 2px black borders. Inside are a number of left floated
+divs dimensioned as 50px squares. Following the floats is a "cleared" div to make
+the container div enclose the floats
+</p>
+<p>
+In Opera and Mozilla it looks fine, but check it out in IE/win for a suprise.
+</p>
+</div>
+
+<div class="floatholder">
+
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+
+<div style="clear: both;"></div>
+
+</div>
+
+<div class="textbox">
+<h4>Major Problems</h4>
+<p>
+In Explorer for Windows there are two display errors. One, the container is only containing
+the last line of floats , and the floats are also running off to the right, all the way to the
+right screen edge! Take it from me, folks, that is <em>not</em> kosher.
+</p>
+
+<p>
+Just to pour salt in the wound, this bug also causes a horizontal scrollbar at many screen sizes.
+Try playing with the window width and see how when the last float line protrudes from the container,
+the length of the protrusion translates into the size of the scrollbar. Interesting.
+</p>
+
+<p>
+<a href="images/escape-floats-ie6.gif"><strong>Screenshot in IE6</strong></a> <br />
+<a href="images/escape-floats-ie7.gif"><strong>Screenshot in IE7</strong></a>
+</p>
+
+<p>
+IE7 fixed most of the IE float bugs, but not this ugly customer! MS specifically stated that it would not
+be fixed due to some kind of "technical reasons." Must be pretty ba-ad...
+</p>
+
+<p>
+This CSS train wreck in IE/win is due to the lack of
+<a href="http://www.satzansatz.de/cssd/onhavinglayout.html"><strong>hasLayout</strong></a>
+on the black bordered container (div.floatholder).  On many sites div.floatholder
+would have a stated width, and that too will trigger hasLayout so the author never
+sees this bug. Widths are not always desirable however, so it's a good thing we have the
+<a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a>
+To use instead.
+</p>
+
+<h4>The Zoom Fix In Action</h4>
+<p>
+Below is the same demo as above, except for the addition of the
+<a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a> to <strong>div.floatholder</strong>:
+</p>
+
+</div>
+
+<div class="floatholder zoomfix">
+
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+<div class="floatbox"><br />Float</div>
+
+<div style="clear: both;"></div>
+
+</div>
+
+<div class="textbox">
+
+<h4>Other Uses</h4>
+<p>
+The Zoom Fix can be used to correct a number of IE/win float bugs besides this one,
+mostly in IE6. With IE7, MS has managed to supress most float bugs and won't
+need the Zoom&nbsp;Fix, but it won't be harmed either, so no worries there.
+</p>
+
+</div>
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 7, 2008<br />
+Created December 3, 2003
+</p>
+
+</div>
+
+</body>
+
+
+</html>

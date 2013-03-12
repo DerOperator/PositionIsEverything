@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+	<title>The Jello Mold</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<style type="text/css" media="screen">
+
+/* Jello */
+body {
+	padding: 0 350px 0 350px; /* these side paddings together determine the natural min-width */
+	margin: 0;
+	text-align: center; /* this centers the wrappers in older IEwin versions */
+	background: gray;
+}
+
+#sizer {
+	margin: 0 auto 0 auto; /* this centers the wrappers in standards browsers */
+	width: 50%; /* here is the critical value for customizing the Jello behavior */
+	max-width: 300px;  /* version for IE6 is at the bottom of this style block */
+}
+
+#expander {
+	background: white;
+	margin: 0 -350px 0 -350px; /* these side margins should be the same or slightly less than body paddings */
+	min-width: 700px; /* This prevents Safari from losing the negative margins in narrow windows */
+	position: relative;
+}
+
+/* helps IE get the child percentages right. */
+#wrapper { width: 100%; }
+
+
+/* * * * * * * * * * * * * * * * * */
+
+#sidebar {
+	width: 20%;
+	float: left;
+	display: inline; /* IEwin doubled margin bug fix */
+	text-align: left;
+	margin-left: 6%;
+}
+
+#content {
+	width: 62%;
+	margin-right: 8%;
+	text-align: left;
+	float: right;
+	display: inline; /* IEwin doubled margin bug fix */
+}
+
+
+/* http://positioniseverything.net/easyclearing.html */
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+</style>
+
+
+<!-- Here we use a conditional comment to give IE6 the javascript hack that
+helps them do max-width. The rule with the selector that starts with "* html" hides
+its styles from IE7 and above. No need to make IE7 run the script when it obeys
+max-width just fine. -->
+
+<!--[if IE]>
+    <style type="text/css">
+
+      * html #sizer {
+        width:expression(document.body.clientWidth > 1300 ? "300px" : "50%" );
+        }
+
+      #expander,
+      .clearfix {
+        zoom: 1;
+        }
+
+    </style>
+<![endif]-->
+
+</head>
+
+<body>
+
+<div id="sizer">
+	<div id="expander">
+		<div id="wrapper" class="clearfix">
+			<div id="content">
+				<p><a href="../jello-expo.html">Return to Jello Mold Explanation</a></p>
+				<p><a href="../jello.html">Return to Jello Mold Piefecta</a></p>
+				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque quis dolor id risus congue rhoncus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla elementum urna in velit. Integer vel ipsum. Quisque eget tellus. Phasellus rhoncus, libero et tristique euismod, sem wisi imperdiet felis, vitae dignissim diam erat sed nisl. Nunc rutrum erat ut wisi. Ut neque purus, ullamcorper quis, placerat at, molestie id, sapien. Mauris in pede. Donec tincidunt fermentum turpis. Sed dapibus, nisl at aliquam dapibus, augue lorem varius lorem, nec egestas turpis urna in metus. Suspendisse vulputate. Sed sit amet lacus. Nulla sem tellus, sagittis sodales, gravida gravida, egestas fermentum, est.</p>
+				<p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Praesent vel tellus. Aenean pede odio, condimentum ornare, convallis in, ornare non, dui. Sed diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos. Fusce faucibus leo ut lorem. Donec tempus. Donec at arcu eget eros luctus tempus. Proin porta consequat metus. Nunc faucibus lobortis odio. Ut tincidunt, arcu quis sollicitudin cursus, diam arcu eleifend nunc, id fringilla erat mi sed urna. Fusce porta sapien nec quam. Nam pede erat, aliquam sed, vestibulum sed, auctor in, enim.</p>
+
+				<p>Maecenas ultrices augue id ante. Nulla hendrerit est non nulla. Vestibulum orci mauris, mattis sit amet, mollis eget, aliquam at, ipsum. Aliquam erat volutpat. Curabitur mauris. Pellentesque augue lorem, elementum eget, egestas ultrices, molestie a, odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut pede augue, euismod ac, sodales et, vulputate vitae, dolor. Fusce lorem. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut nonummy sapien sed lacus.</p>
+			</div>
+			<div id="sidebar">
+				<p>Integer purus. Nulla laoreet, felis et tristique laoreet, felis elit sollicitudin magna, id tincidunt dui ligula vitae arcu. Nulla ac felis. Donec quis augue id ligula faucibus pharetra. In gravida pharetra neque.</p>
+				<p>Nunc malesuada, odio vitae lobortis blandit, erat lacus fringilla quam, eget tincidunt dolor arcu sed pede. Nulla in mi. Ut cursus urna at lectus. Fusce dictum justo non velit. Vestibulum mauris nulla, porta sed, suscipit at, vehicula vitae, mauris. Curabitur faucibus dolor a dolor. Aenean velit. Nam hendrerit massa in orci elementum tincidunt. Quisque lobortis wisi vitae erat. Proin enim. Donec tincidunt augue nec mauris.</p>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+
+<title>Opera 7 Nested Box Bug</title>
+
+<meta name="Big John" content="May 11, 2003" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" This demo displays a new Op7.1 box rendering bug. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {margin: 0; padding: 0; border: 0;}
+
+body {margin: 0; padding: 0; font-family: verdana, sans-serif; font-size: 90%; 
+	background: #eed; height: 60em;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+.clear {clear: both; margin-top: 30px;}
+
+a {border: 0; color: #000;}
+
+p {margin: 5px 10%;}
+
+h1 {
+font-size: 22px;
+text-align: center;
+border-bottom: 3px solid #fff;
+background: #000;
+margin: 0;
+color: #fff;
+padding: 3px;
+}
+
+h2 {
+font-size: 1.1em;
+margin: 1em 0 .3em 8% ;
+}
+
+.demobox {margin: 30px 5% 20px 13%;}
+
+/************** rules for demo ******************/
+
+.innerbox {
+height:100%;
+width: 100%;
+background: #66a;
+color: #fff;
+font-size: .9em;
+}
+
+.container {
+float: left;
+margin: 0 20px 20px 0;
+width: 50px;
+background: #696;
+}
+
+.height {height: 50px;}
+
+.b-one {border: 0;}
+
+.b-two {border: 5px solid #c33;}
+
+.b-three {border: 10px solid #c33;}
+
+.b-four {border: 15px solid #c33;}
+
+.b-five {border: 20px solid #c33;}
+
+.b-six {border: 25px solid #c33;}
+
+
+.p-one {border: 0;}
+
+.p-two {padding: 5px;}
+
+.p-three {padding: 10px;}
+
+.p-four {padding: 15px;}
+
+.p-five {padding: 20px;}
+
+.p-six {padding: 25px;}
+
+#fix {
+	border: 1px solid black;
+	background-color: #dcdcdc;
+	padding: 0;
+	margin: 1em 4em .3em 4em;
+}
+
+#fix h2 {
+	font-size: 1.1em;
+	margin: 1em 0 .3em 1em;
+}
+
+#fix p {margin: 5px 5%;}
+
+#fix .demobox {margin: 30px 0 20px 8%;}
+
+pre {
+	background: #eee;
+	border: 1px solid #000;
+	margin: 1em 5%;
+	padding: 10px 30px;
+}
+
+/************** rules for fix ******************/
+
+*>.min-height {
+	min-height: 50px;
+	height: auto;
+}
+
+.minmax-height {
+	min-height: 50px; 
+	max-height: 50px;
+}
+
+.height-inherit {
+	height: inherit;
+}
+
+.min-height-inherit {
+	min-height: inherit;
+}
+
+.minmax-height-inherit {
+	min-height: inherit;
+	max-height: inherit;
+}
+
+/************ end rules for fix ****************/
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>Opera 7 Nested Box Bug&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+
+<br />
+<p class="alignright">
+<a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a><br />
+<a href="breakup-bug.html"><strong>Next Opera demo</strong></a><br />
+<a href="../index-2.html"><strong>Return to PIE</strong></a><br />
+</p>
+
+<h2>The Setup</h2>
+<p>
+Here is a real weirdie. This Opera bug (seen in all 7.x versions, except 7.0) 
+involves a container (positioned, floated or whatever), given a fixed 'height' 
+(either pixels or EM's). Inside it is nested a second box that has a percentage based
+height. The specs say this box should base its height on the content area of its 
+parent container, But Op7 isn't doing that. 
+</p>
+<p>
+Take a look at the demos below. Each demo container box (green BG) has 50px 'height' and 'width', and each has a 
+nested inner box. The only differences are in the amount of borders or padding on the outer boxes.
+<strong>Note:</strong> The inner boxes are specified to have 'heights' of 100%, and have blue 
+backgrounds.
+</p>
+
+					<!-- start of first demo -->
+<div class="demobox">
+
+<div class="container height b-one">
+<div class="innerbox">No border</div>
+</div>
+
+<div class="container height b-two">
+<div class="innerbox">5px border</div>
+</div>
+
+<div class="container height b-three">
+<div class="innerbox">10px border</div>
+</div>
+
+<div class="container height b-four">
+<div class="innerbox">15px border</div>
+</div>
+
+<div class="container height b-five">
+<div class="innerbox">20px border</div>
+</div>
+
+<div class="container height b-six">
+<div class="innerbox">25px border</div>
+</div>
+
+<div style="clear: both;">&nbsp;</div>
+
+<div class="container height p-one">
+<div class="innerbox">No padding</div>
+</div>
+
+<div class="container height p-two">
+<div class="innerbox">5px padding</div>
+</div>
+
+<div class="container height p-three">
+<div class="innerbox">10px padding</div>
+</div>
+
+<div class="container height p-four">
+<div class="innerbox">15px padding</div>
+</div>
+
+<div class="container height p-five">
+<div class="innerbox">20px padding</div>
+</div>
+
+<div class="container height p-six">
+<div class="innerbox">25px padding</div>
+</div>
+
+</div>
+					<!-- end of first demo -->
+
+
+<h2 style="clear: left;">What the...?</h2>
+<p>
+Close inspection reveals that Op7 is painting the borders and padding around the outside 
+of the container's stated dimensions, as required in the specs, but seems to be calculating 
+the inner box height as tho the old IE5.x box model were in effect! In other words, the 
+100% height of the inner box is squeezed down more and more as borders and padding 
+are added to the outer box. This, while correctly keeping the outer box according to the
+specs. Hoo boy.
+</p>
+<p>
+<strong>Screenshots: </strong> 
+<a href="images/boxbug-op7.1.gif">Op7.1</a>, 
+<a href="images/boxbug-op6.gif">Op6</a>,
+<a href="images/boxbug-moz.gif">Op7.0, Mozilla1 and IE6</a>
+</p>
+
+<h2>Hmmm...</h2>
+<p>
+I find it interesting that while Op6 handles this demo badly, Op7.0 did not show the bug, looking 
+just like Mozilla and IE6. Even IE5.5/win gets it close, except for the box model problem. 
+I'm assuming IE5/mac also gets it right.
+It's been a while since this bug appeared, and as of Opera 7.54 the bug still has not been fixed.
+</p>
+<p>
+If the inner box is given 'overflow: hidden' the text content that extends below the blue area disappears, 
+proving it is the box itself, and not just the BG that is affected. Also, the horizontal direction seems not to
+be involved, only the heights.
+</p>
+<h2>Round Two</h2>
+<p>
+If the outer box is given no 'height' (or a % height) it is correct and agrees with Moz.
+The demos below have no specified height on the outer boxes. (this set badly breaks Op6)
+</p>
+
+					<!-- start of second demo -->
+<div class="demobox">
+
+<div class="container b-one">
+<div class="innerbox">No border</div>
+</div>
+
+<div class="container b-two">
+<div class="innerbox">5px border</div>
+</div>
+
+<div class="container b-three">
+<div class="innerbox">10px border</div>
+</div>
+
+<div class="container b-four">
+<div class="innerbox">15px border</div>
+</div>
+
+<div class="container b-five">
+<div class="innerbox">20px border</div>
+</div>
+
+<div class="container b-six">
+<div class="innerbox">25px border</div>
+</div>
+
+<div style="clear: both;">&nbsp;</div>
+
+<div class="container p-one">
+<div class="innerbox">No padding</div>
+</div>
+
+<div class="container p-two">
+<div class="innerbox">5px padding</div>
+</div>
+
+<div class="container p-three">
+<div class="innerbox">10px padding</div>
+</div>
+
+<div class="container p-four">
+<div class="innerbox">15px padding</div>
+</div>
+
+<div class="container p-five">
+<div class="innerbox">20px padding</div>
+</div>
+
+<div class="container p-six">
+<div class="innerbox">25px padding</div>
+</div>
+
+</div>
+					<!-- end of second demo -->
+<div style="clear: both;"></div>
+					
+<h2>This Bug Is No More</h2>
+
+<p>
+The Nested Box Bug had a pretty long run, but Opera has finally vanquished it in
+the official release of Opera 8.0, and considering that the bug still existed in 
+the Op8 beta version, there must have been some interesting action over there! 
+</p>
+
+<p>
+Kudos once more to <strong>Thomas</strong> (AKA "Tomcat76" on the Opera Support Forums),
+who makes a point of informing us when Opera fixes a bug we have demoed here on PIE.
+Opera seems to be about as fast at bug fixing as Mozilla, which goes to show that 
+a private company can keep up with Open Source if they really want to. Are you 
+listening, Bill?   
+</p>
+					
+<h2>A Fix for the Opera 7 Legacy Bug</h2>					
+					
+<p>
+For those who need to support Op7, a solution to this issue is now available, 
+courtesy of <strong>Simon&nbsp;Carney</strong>:
+</p>					
+					
+<!--===================================  The Fix  ===================================-->
+<div id="fix">
+<h2>The Fix</h2>
+<p>The fix is quite simple really. No hacks or extra containers to tie everything together, just a
+different way of specifying how a browser can calculate the height of a given container. We'll be using
+the height sub-properties <strong>min-height</strong> and <strong>max-height</strong> on the container
+box, and we'll set the height of the nested box to implicitly inherit the height of its parent.</p><br />
+
+<p>The first step is to fix the height of the nested box. Since <strong>height:&nbsp;100%</strong> is
+causing the inner box to shrink as the margins and padding increase, we need an absolute height value
+rather than a relative one. Setting the height with <strong>height:&nbsp;inherit</strong> fixes this
+somewhat, but the same bug now causes the nested box to inherit the total height of its parent, including
+unfortunately the margins and padding. Mozilla on the other hand, correctly inherits only the true
+height, and looks fine.</p>
+
+<!-- start of fix demo 1 -->
+<div class="demobox">
+
+<div class="container height b-one">
+<div class="innerbox height-inherit">No border</div>
+</div>
+
+<div class="container height b-two">
+<div class="innerbox height-inherit">5px border</div>
+</div>
+
+<div class="container height b-three">
+<div class="innerbox height-inherit">10px border</div>
+</div>
+
+<div class="container height b-four">
+<div class="innerbox height-inherit">15px border</div>
+</div>
+
+<div class="container height b-five">
+<div class="innerbox height-inherit">20px border</div>
+</div>
+
+<div class="container height b-six">
+<div class="innerbox height-inherit">25px border</div>
+</div>
+
+</div>
+<!-- end of fix demo 1 -->
+<div style="clear: both;"></div>
+
+<p>This is where the min-height and max-height properties come in. By changing the container's height
+property to min-height we can specify a minimum height for the container, meaning it could get taller
+if needed. We also set the nested box's height with <strong>min-height:&nbsp;inherit</strong>. This
+allows both it and the container to expand as content fills it. Take a look:</p>
+
+<!-- start of fix demo 2 -->
+<div class="demobox">
+
+<div class="container height min-height b-one">
+<div class="innerbox min-height-inherit">No border</div>
+</div>
+
+<div class="container height min-height b-two">
+<div class="innerbox min-height-inherit">5px border5px border5px border5px border5px border</div>
+</div>
+
+<div class="container height min-height b-three">
+<div class="innerbox min-height-inherit">10px border</div>
+</div>
+
+<div class="container height min-height b-four">
+<div class="innerbox min-height-inherit">15px border</div>
+</div>
+
+<div class="container height min-height b-five">
+<div class="innerbox min-height-inherit">20px border</div>
+</div>
+
+<div class="container height min-height b-six">
+<div class="innerbox min-height-inherit">25px border</div>
+</div>
+</div>
+<!-- end of fix demo 2 -->
+<div style="clear: both;"></div>
+
+<p>If we need to constrain the height of the container for any reason we simply include a <strong>max-height</strong>
+property to compliment the <strong>min-height</strong> on the container and add a <strong>max-height:&nbsp;inherit</strong>
+property to the nested box. For Opera 7.1+ this should now should be equivalent to a simple height property.
+While the height property induces the bug, the combination of equal min-height and max-height does not.
+Go figure.</p>
+
+<!-- start of fix demo 3 -->
+<div class="demobox">
+
+<div class="container height minmax-height p-one">
+<div class="innerbox minmax-height-inherit">No padding</div>
+</div>
+
+<div class="container height minmax-height p-two">
+<div class="innerbox minmax-height-inherit">5px padding5px padding5px padding5px padding5px padding</div>
+</div>
+
+<div class="container height minmax-height p-three">
+<div class="innerbox minmax-height-inherit">10px padding</div>
+</div>
+
+<div class="container height minmax-height p-four">
+<div class="innerbox minmax-height-inherit">15px padding</div>
+</div>
+
+<div class="container height minmax-height p-five">
+<div class="innerbox minmax-height-inherit">20px padding</div>
+</div>
+
+<div class="container height minmax-height p-six">
+<div class="innerbox minmax-height-inherit">25px padding</div>
+</div>
+</div>
+<!-- end of fix demo 3 -->
+<div style="clear: both;"></div>
+
+<p>Notice how constraining the box height like this causes Opera and Mozilla to overflow the excess
+text in the second demo box above. IE/Win wrongly enlarges the box to keep the content enclosed, so
+always keep this fact in mind.</p><br />
+
+<p>Finally, we need to keep this fix as cross browser compatible as possible. Since <strong>IE5.x/Win</strong>
+and <strong>IE5/Mac</strong> do not support the min-height and max-height properties, we still need to
+keep the original height rules in the CSS for them to use. By serving our new min/max-height rules
+to Opera with child selectors that Explorer does not recognize and wrapping all this in the Mac hiding
+hack, we keep our  original CSS intact and override only those properties that Opera is rendering
+incorrectly. While we're feeding non-IE browsers the new properties, we also need to reset the height
+value on the container to "auto", since <strong>min-height</strong> does not replace <strong>height</strong>.</p>
+<br />
+
+<pre>
+/* hides from IE-Mac \*/
+*>.minimum-height-fix {
+	min-height: 50px;
+	height: auto;
+}
+/* End IE-Mac hide */
+
+.minmax-height {
+	min-height: 50px; 
+	max-height: 50px;
+}
+</pre>
+
+<p>The upper and lower comments keep IE/Mac from looking inbetween and obeying those rules within, and
+the child hack in front of the selector, "*>.minimum-height-fix", prevents IE/Win from seeing the rule
+as well. The second rule does the same thing as a mere 50px height, but does not trigger the Opera bug.</p>
+<br />
+<p class="small alignright clear"><strong>Simon Carney<br />November 11, 2004</strong></p>
+
+</div>
+<!--===============================  End of the Fix  ================================-->
+<br />
+<p>
+Thanks Simon! :-)
+</p>					
+
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: May 7, 2005<br />
+Created May 11, 2003
+<br />&nbsp;
+</p>
+
+
+
+</body>
+
+
+</html>
+

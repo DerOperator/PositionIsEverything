@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>In search of the one true layout - Vertical Grid Alignment</title>
+<style type="text/css">
+/* <![CDATA[ */
+#block_1
+	{
+	float: left;
+	width: 34%;
+	margin-left: 33%;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 33%;
+	margin-left: -67%;
+	}
+#block_3
+	{
+	float: left;
+	width: 33%;
+	}
+.verticalalignleft
+	{
+	position: absolute;
+	top: 50%;
+	height: 50%;
+	margin-left: 5em !important;
+	background: #669966;
+	}
+.verticalalignright
+	{
+	position: absolute;
+	bottom: 0;
+	background: #996666;
+	}
+#block_1 .verticalalignright
+	{
+	right: 33%;
+	}
+#block_2 .verticalalignright
+	{
+	right: 67%;
+	}
+#block_3 .verticalalignright
+	{
+	right: 0;
+	}
+#wrapper
+	{
+	position: relative;
+	}
+/* we need this for IE 5.01 - otherwise the wrapper does not expand to the
+necessary height (unless fixed, this problem becomes even more acute 
+weirdness as the method is enhanced */
+/* actually IE Mac 5 needs it */
+* html #wrapper
+	{
+	float: left;
+	}
+/* easy clearing */
+#wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+#wrapper
+	{
+	display: inline-block;
+	}
+/*\*/
+#wrapper
+	{
+	display: block;
+	zfloat: left; /* experimental values to fix Opera */
+	zwidth: 100% /* experimental values to fix Opera */;
+	}
+/* end easy clearing */
+/* ]]> */
+</style>
+<style type="text/css">
+@import url(onetruelayout3.css);
+</style>
+</head>
+<body>
+<div id="header">
+<h1>Vertical Grid Alignment</h1>
+</div>
+<div id="wrapper_extra">
+<div id="wrapper">
+<div id="block_1">
+<h2>Block 1</h2>
+<p class="verticalalignleft">Snap 1L</p>
+<p class="verticalalignright">Snap 1R</p>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+<div id="block_2">
+<h2>Block 2</h2>
+<p class="verticalalignleft">Snap 2L</p>
+<p class="verticalalignright">Snap 2R</p>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+<div id="block_3">
+<h2>Block 3</h2>
+<p class="verticalalignleft">Snap 3L</p>
+<p class="verticalalignright">Snap 3R</p>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+</div><!-- close div#wrapper -->
+</div><!-- close div#wrapper_extra -->
+<div id="footer">
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Footer text</a></p>
+</div>
+</body>
+
+
+</html>

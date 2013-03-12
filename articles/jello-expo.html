@@ -1,0 +1,558 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+	<title>Jello Molds &amp; Width Control</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta name="description" content="An explaination of the Jello Mold Layout by Mike Purvis." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta http-equiv="Content-Language" content="en-us" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+<meta name="revisit-after" content="30 Days" />
+<meta name="doc-class" content="Living Document" />
+
+<link rel="SHORTCUT ICON" href="../favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+	<style type="text/css" media="screen">
+
+* { margin: 0; padding: 0; border: 0; font-family: Tahoma, sans-serif; }
+
+body {
+	padding: 0px 350px 0px 350px;
+	text-align: center;
+	background: gray;
+}
+
+#sizer {
+	margin: 0 auto 0 auto;
+	padding: 0;
+	width: 50%;
+	max-width: 300px;  /* version for IE is at the bottom of this style block */
+	background: green;
+}
+
+#expander {
+	background: white;
+	margin: 0 -350px 0 -350px;
+	min-width: 700px;
+	position: relative;
+}
+
+/* helps IE get the child percentages right. */
+#wrapper { width: 100%; }
+
+
+#sidebar {
+	width: 20%;
+	float: left;
+	display: inline;
+	text-align: left;
+	margin-left: 6%;
+	padding-bottom: 3em;
+	color: #686;
+	}
+
+#content {
+	width: 62%;
+	margin-right: 8%;
+	text-align: left;
+	display: inline;
+	float: right;
+	padding-bottom: 3em;
+}
+
+/* * * * * * * * * * * * * * * * * */
+
+#back { background: black; padding-top: 30px; }
+
+.explain { font-family: Georgia, serif; font-size: 24px; font-weight: bold; padding: 2.5em 0 1.5em 0; overflow: hidden; }
+.explain .rule { height: 2px; background: white; display: block; font-size: 1px;}
+.explain div { /*float: left; width: 100%;*/ text-align: center;}
+.explain .wide {position: relative; top: -.7em; background: white; padding: 0 10px; vertical-align: bottom;}
+
+
+#explain1 div p { display: inline; background: gray; color: white; position: relative; top: -0.7em; }
+#explain1 { position: absolute; top: 0; left: 0px; width: 350px;}
+
+#explain2 { padding: 1.5em 0 1.5em 0; background: url(images/50.gif) 50% 0 no-repeat;}
+#explain2 div p { background: green; color: white; padding-left: .5em; padding-right: .5em; }
+
+#explain3 { position: absolute; top: 0; left: 0px; width: 350px; font-size: .9em;}
+#explain3 div p { background: red; color: black;  }
+#explain3 .rule { background: black; }
+
+h1 { padding: 3em 0 0.5em 0; font-family: Georgia, serif; font-size: 2em; }
+
+h1 span { padding: 3em 0 0.5em 0; font-family: Georgia, serif; font-size: .5em; }
+
+.return {position: absolute; top: 10px; right: 20px; width: 20em; text-align: right; font-size: .9em; line-height: 1.4;}
+.return a {color: #000;}
+
+/* * * * * * * * * * * * * * * * * */
+
+code { font-family: monospace; background: #eee; 	position: relative;}
+pre.code {
+	background: #eee;
+	border: 2px solid black;
+	margin: .5em -8% .5em -43%;
+	padding: 0 0 .2em 10px;
+	color: #600;
+}
+
+pre.code code {
+display: block;
+}
+
+#expander p,
+#expander ul,
+#expander ol,
+#expander td,
+#expander th,
+#expander li {
+	margin: .95em 0em .95em 0em;
+	font-size: 13px;
+	line-height: 1.2;
+}
+#expander li { margin-left: 5%; }
+
+h2, h3 { margin: 1.5em 0 1em 0; }
+
+h2 { background: black; color: white; padding: 3px; }
+
+table { width: 90%; }
+td,th { text-align: right; }
+
+#footer { clear: both; padding: 0.5em 0 0.5em 0; margin: 1em 5% 1em 5%; border-top: 3px solid black; }
+
+#expander { padding-bottom: 5em; } /* prevent margins from spilling over */
+
+	</style>
+<!--[if IE]>
+<style type="text/css">
+#sizer {
+	width:expression(document.body.clientWidth > 1300 ? "300px" : "50%" );
+}
+
+pre.code {
+	display: inline-block;
+	position: relative;
+}
+
+#expander { zoom: 1; }
+
+</style>
+<![endif]-->
+</head>
+
+<body>
+
+<div id="back">
+
+<div id="explain1" class="explain"><span class="rule"></span><div><p>350px</p></div></div>
+<div id="sizer">
+    <div id="explain2" class="explain"></div>
+	<div id="expander">
+
+		<div id="wrapper">
+		<h1>Jello Molds &amp; Width Control<br /><span>A Guest Demo by <a href="http://uwmike.com/">Mike Purvis</a></span></h1>
+
+		<div id="explain3" class="explain"><div><span class="rule"></span><span class="wide">350px</span></div></div>
+
+		<div id="content">
+
+		<div class="return">
+    <a href="jello.html"><strong>Return to The Jello Mold Piefecta</strong></a><br />
+    <a href="../articles.html"><strong>Return to Articles</strong></a>
+    </div>
+
+
+			<h2>Minimum Width</h2>
+
+<p>One of the keys to success in liquid layouts is a complete set of tools for
+precisely controlling a document's <strong>width</strong>, as viewed on the screen.</p>
+
+<p>Non-support in IE6 has rendered the CSS2
+<a href="http://www.w3.org/TR/REC-CSS2/visudet.html#min-max-widths"><code>min-width</code></a>
+property useless for now (IE7 supports this property). However, with a few devious styles and some innocuous IE6-fixes,
+we can impose a natural minimum width on any element.</p>
+
+<p>And as an added bonus, there's a new type of width governance-- a cross between
+a fixed width and a percentage width.</p>
+
+<!--<p>If you change the size of your browser, you'll see that the header and
+footer bars on this page are exhibiting this behaviour, at 700px. (IE6, IE5/Win,
+IE5/Mac, Safari, Opera [versions?])</p>-->
+
+			<h3>The Secret Sauce: Negative Margins</h3>
+
+<p>Most CSS properties that control spacing are about making an element <em>smaller</em>
+
+than it would otherwise have been. Margins, padding, and borders all shrink an
+element inside its containing space. <strong>But negative margins are unique in
+that they make an element <em>larger</em> than its parent</strong>.</p>
+
+<p>The narrowest an ordinary element can be is zero pixels wide. So if an element can be
+expanded 700px <em>wider</em> than its parent element, that nested child element's
+<strong>minimum possible width</strong> becomes 0px + 700px, or exactly 700px.</p>
+
+<p>
+In other words, if the parent element is 0px wide and its child is always 700px
+wider than its parent, that child element cannot ever be narrower than 700px.
+When negative margins are applied to both sides of the widthless nested child,
+the effect is to widen that child element in both directions, causing it to appear
+wider than its parent!
+</p>
+
+<p>
+Note that the outer element will typically be the <code>body</code> element in
+most production pages, so for this code example we'll give the outer div a
+
+
+<code>id="bodydiv"</code> as a substitute "body" element, and we'll call the
+outer element <code>#expander</code>, since its negative margins will be expanding
+its displayed width.
+</p>
+
+<p>Here's some example markup upon which we'll apply the minimum-width effect,
+via negative margins:</p>
+
+<pre class="code"><code>&lt;div id="bodydiv"&gt;
+  &lt;div id="expander"&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/p&gt;
+
+  &lt;/div&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>Now we'll use those negative side margins to make <code>#expander</code> 700px
+<em>wider</em> than <code>#bodydiv</code>. This can be done all on one side of
+
+
+<code>#expander</code>, but to simplify centering we will split the total expansion
+and place half on each side of <code>#expander</code>. And so that we don't let
+those negative margins run the sides of <code>#expander</code> straight past the
+edges of the window, we'll apply the same 700px total as as left and
+right padding on <code>#bodydiv</code>. Here's the styles:</p>
+
+<pre class="code"><code>#bodydiv { padding: 0 350px 0 350px; }
+#expander { margin: 0 -350px 0 -350px; }</code></pre>
+
+<p>Two divs, two styles. However, for IE to treat the negative margins properly,
+several fixes must be applied:</p>
+
+				<ul>
+				<li><code>#expander</code> must be <code>position:relative</code>,</li>
+				<li>all the <code>div</code>s must be
+				<a href="haslayout.html">zoom&nbsp;fixed</a> to give IE hasLayout, and...</li>
+				<li>there must be another <code>div</code> in between the pair, with a width of 100%.</li>
+
+				</ul>
+
+<p>The first two problems are easily solved; the third is the more frustrating
+and confusing. But it seems that IE will not properly set the width of
+<code>#expander</code> to 700 pixels <em>more</em> than <code>#bodydiv</code> unless
+there's an in-between element with an explicit full width of 100%. So the final
+minimum-width code becomes:</p>
+
+<pre class="code"><code>&lt;div id="bodydiv"&gt;
+
+  &lt;div id="sizer"&gt; &lt;!-- new IE bugfixing div --&gt;
+    &lt;div id="expander"&gt;
+      &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/p&gt;
+
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+&lt;/div&gt;
+
+#bodydiv { padding: 0 350px 0 350px; }
+#sizer { width: 100%; }
+#expander { margin: 0 -350px 0 -350px; position: relative; }
+
+(in a separate IE-only stylesheet brought in from a <a href="haslayout.html">conditional comment</a>...)
+
+#bodydiv,
+#expander {
+    zoom: 1;
+    }
+
+</code></pre>
+
+<p>
+The <strong>zoom&nbsp;fix</strong> shown above won't valicated because it's MS-proprietary
+CSS, but inside a conditional comment only IE can ever read it, allowing validation.
+</p>
+
+<p>
+<strong>Safari</strong> will lose the negative side margins on #expander if the
+Jello Mold is loaded into a window that is narrower than the sum of those margins,
+so to fix this a simple min-width at that value is applied to #expander:
+</p>
+
+<pre class="code"><code>#expander { margin: 0 -350px 0 -350px; min-width: 700px; }</code></pre>
+
+<p>
+
+This just reinforces what Safari ought to be doing anyway, so it doesn't harm any
+other browser, not even IE6, which ignores min-width anyway.
+</p>
+
+			<h2>The Jello Mold</h2>
+
+<p>In the styles above, there's one very interesting number that just begs for
+attention. It's the <code>100%</code> width on <code>#sizer</code>. If purely
+in the interest of science we should change that from 100% to 50%, what will happen?</p>
+
+<p>That very change has been applied to this very page you are reading! Try re-sizing
+your browser window by dragging it wider and narrower, and watch what happens to
+the white content as compared to the side spaces.</p>
+
+<p>The content is showing a minimum width of 700 pixels (with a horizontal scrollbar
+at narrower window widths), and with the old <code>#sizer</code> width of 100%,
+the content would always fill the window at larger window sizes. </p>
+
+<p>But what does the page do when <code>#sizer</code> is set to <code>width:50%</code>
+and the browser window is <em>wider</em> than 700 pixels?</p>
+
+				<ol>
+  			<li>Subtracts 700 from the width (padding),</li>
+
+  			<li>Takes 50% of what's left (width), and</li>
+  			<li>Adds 700 to it (negative margin).</li>
+				</ol>
+
+<p>May not sound like much, but check out the size of this at different widths:</p>
+
+		<table>
+
+			<tr><th>Browser Width</th><th></th><th>Jello Width</th><th>Percentage</th></tr>
+
+			<tr><td>800px</td><td>(800 - 700) * 0.5 + 700 = </td><td>750px</td><td>94%</td></tr>
+			<tr><td>1024px</td><td>(1024 - 700) * 0.5 + 700 = </td><td>862px</td><td>84%</td></tr>
+
+			<tr><td>1280px</td><td>(1280 - 700) * 0.5 + 700 = </td><td>990px</td><td>77%</td></tr>
+
+			<tr><td>1600px</td><td>(1600 - 700) * 0.5 + 700 = </td><td>1150px</td><td>72%</td></tr>
+			<tr><td>2560px</td><td>(2560 - 700) * 0.5 + 700 = </td><td>1630px</td><td>64%</td></tr>
+
+		</table>
+
+<p>At the page top you can see grey sides that are the 350px side body paddings,
+and between them is the green colored <code>#sizer</code> div, which is set to
+a width of 50%, making it stay at exactly half the width of the available space
+between the body paddings.</p>
+
+<p>What's happening is that the percentage of the window occupied by the page
+content is large when the window is narrow, and that percentage shrinks as the
+window is widened. So not only is there a minimum width, but the page also expands
+horizontally at a slower rate than the window as a whole. You get to decide how
+quickly the percentage shrinks, simply by selecting different percentage widths
+on <code>#sizer</code>.</p>
+
+			<h3>Centering</h3>
+
+<p>Normally a flexible layout such as this will need to be centered in the browser.
+This is done by applying side <code>auto</code> margins to <code>#sizer</code>.
+Here's the code:</p>
+
+<pre class="code"><code>&lt;div id="bodydiv"&gt;
+  &lt;div id="sizer"&gt;
+	&lt;div id="expander"&gt;
+
+	  &lt;p&gt;Lorem ipsum dolor sit amet, consectetuer adipiscing elit.&lt;/p&gt;
+	&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+#bodydiv {
+	padding: 0 350px 0 350px;
+	text-align: center; /* centering hack for IE5.x/Win */
+	}
+#sizer {
+	width: 50%;
+	margin: 0 auto 0 auto; /* standard centering method */
+	text-align: left; /* resets centering hack to default */
+	}
+#expander {
+	margin: 0 -350px 0 -350px;
+	position: relative;
+	text-align: left;
+	}
+
+(in a separate IE-only stylesheet brought in from a <a href="haslayout.html">conditional comment</a>...)
+
+#bodydiv,
+#expander {
+    zoom: 1;
+    }
+
+
+</code></pre>
+
+<p>The side auto margins on <code>#sizer</code> must always be equal, automatically
+centering <code>#sizer</code> in standards compliant browsers, including IE6.
+Previous IE/Win versions don't understand side auto margins, so we have to use
+a text-align hack on the outer element, which wrongly centers all content in those
+earlier IE's. Then that hack is reversed back to the default in <code>#sizer</code>
+
+so that we don't center all of the page's text.</p>
+
+<p>As mentioned before, the <code>body</code> element will usually be the outer
+element, rather than a div like <code>#bodydiv</code>.</p>
+
+			<h3>One More Pitfall</h3>
+
+<p><strong>IE becomes confused with internal percentages.</strong> Often you
+will want percentage sized floated columns in your layout, as is the case in this
+page. Their widths are defined as a percentage of <code>#expander</code>, their
+direct parent element.</p>
+
+<p>Unfortunately, for IE to get this correct it needs to have a parent element
+with an <em>explicit</em> width, not a weird one derived of negative margin
+wizardry. So in this page and the bare-bones demo, there's a fourth <code>div</code>
+nested inside <code>#expander</code> whose only purpose is to be <code>width:100%</code>.
+This inner wrapper fills <code>#expander</code>, and is itself width defined,
+so any internal columns will have a clean width reference to calculate against.</p>
+
+<p>If no nested elements need percentage widths, this inner wrapper won't be necessary.
+However, if coders who come after you don't understand this bug, it could get nasty
+for them so you might want to have this div just in case. Also since it's a full
+wrapper, you can always use it as a graphical hook.</p>
+
+			<h2>Maximum Width</h2>
+
+<p>Screens will keep on getting bigger and users will keep on maximizing their browsers.
+At some point there does need to be a constraint put on content width. For most
+modern browsers, a maximum width may be declared using <code>max-width</code>.
+As with <code>min-width</code>, however, it is unsupported in IE.</p>
+
+<p>However, IE <em>does</em> support a non-standard method by which any property's
+value may be expressed as a snippet of Javascript. IE5/Mac didn't incorporate this,
+so it gets left in the cold. But for everyone else, the following code imposes a maximum width
+of 1000px on the white content area.</p>
+
+<pre class="code"><code>#sizer {
+	width: 50%;
+	margin: 0 auto 0 auto;
+	max-width: 300px;  /* 1000 - 700 = 300 */
+	width:expression(document.body.clientWidth > 1300 ? "300px" : "50%" );
+	}</code></pre>
+
+<p>In the interests of validation, the <code>expression</code> and the zoom fix should be wrapped
+in a <a href="http://www.quirksmode.org/css/condcom.html">conditional&nbsp;comment</a>.
+This hides it from better browsers, and from the validator. Unfortunately, IE5/Mac
+never implemented conditional comments, so there's no known way to impose a maximum
+width effect on IE5/mac without involving fully-fledged Javascript. Here's what it
+looks like with the comment:</p>
+
+<pre class="code"><code>&lt;style type="text/css"&gt;
+
+#sizer {
+	width: 50%;
+	margin: 0 auto 0 auto;
+	max-width: 300px;  /* 1000 - 700 = 300 */
+}
+&lt;/style&gt;
+
+&lt;!--[if IE]&gt;
+  &lt;style type="text/css"&gt;
+    #sizer {
+    width:expression(document.body.clientWidth > 1300 ? "300px" : "50%" );
+    }
+
+#bodydiv,
+#expander {
+    zoom: 1;
+    }
+
+  &lt;/style&gt;
+
+&lt;![endif]--&gt;</code></pre>
+
+<p>The expression gets the window width and checks it against the leading value of 1300px
+to see if the window is wider than that. If true, the first value after the question
+mark (300px) gets applied as the <code>#sizer</code> width, and if false, the
+second value (50%) is applied instead. The 300px value is found by subtracting the
+700px negative margin total from 1300px to get 600px, then multiplying by 50%,
+arriving at 300px for the "true" value.</p>
+
+<p>The maximum width in this case has been used simply as a safeguard to protect the
+readability of your site on very wide screens (in excess of 1300 pixels). Depending on
+your design, you'll need to play with the minimum and maximum width controls that the
+Jello technique offers. But that's the beauty of it-- you can!</p>
+
+
+			<h2>A Tool and A Minimal Case</h2>
+
+
+			<h3>Two Column Fluid</h3>
+
+<p>A sample Jello Mold codeset, at its bare-bones minimum: <a href="sidepages/min-demo.html">here</a></p>
+
+			<h3>Jello Generator</h3>
+
+<p>The exact 700px/50% combination on <em>this</em> page produces the widths shown
+in the table above. But if you'd like a different set of values, the
+<a href="sidepages/pie-calc.html">Jello Generator</a> can help you find the exact pair you want.</p>
+
+
+<h2>Last Words</h2>
+<p>The Jello Mold all about control. <em>You</em> control your maximum and
+minimum widths, <em>you</em> control exactly what width you're showing at
+the resolutions in between. This opens up the door to flexible designs of
+a sort that are simply not possible without such precision. No more
+worrying if your floats break up on those very wide and very narrow
+screens.</p>
+
+<p>Of course, this is a pretty new technique. We've been careful about
+checking it out, but keep your eyes open for those scary bugs lurking
+where no one has seen them yet. And if you do find something odd, let us
+know!</p>
+
+			 </div>
+
+      <div id="sidebar">
+
+<p><a href="sidepages/min-demo.html"><strong>Bare bones demo page</strong></a></p>
+<p><a href="sidepages/pie-calc.html"><strong>Jello Generator</strong></a></p>
+
+<p>The "Bare Bones" page has the minimal code necessary to create the Jello Mold layout.
+The Jello Generator is a handy tool I've whipped up to handle the mathmatical
+grunt work of customizing the layout to suit your needs. Enjoy!</p>
+
+			 </div>
+
+			 <div id="footer">
+
+<p>written for P.I.E. by <a href="http://uwmike.com/">Mike Purvis</a> in July of
+2005 | last updated July 2008</p>
+
+			</div>
+
+
+		</div>
+	</div>
+</div>
+</div>
+</body>
+
+
+
+</html>

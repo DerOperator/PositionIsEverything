@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+
+<title>Elizabeth Poole</title>
+
+<meta name="Big John" content="15 September, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content="This demo shows a 3px gap that Internet Explorer adds to layouts when floats are used." />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {
+margin: 0;
+padding: 0;
+border: 0;
+}
+
+body {
+margin: 0;
+padding: 0;
+font-size: 100%;
+background: #757cd4;
+font-family: verdana,sans-serif;
+}
+
+h1 {font-size: 1.2em; margin: 1em 3% 1em;}
+
+p {margin: 2em 5% 1em;}
+
+a {color: #000;}
+
+.alignright {margin: 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+#return {position: absolute; top: 20px; right: 0; text-align: right; padding: .5em;}
+
+#wrap {position: absolute; left: 300px; top: 80px; width: 350px;}
+
+#col {border: 2px solid #000; padding: 0 .3em 1.5em .7em; background: #ffd}
+
+#bugpic {position: absolute; top: 130px; left: 60px;}
+
+#bevel {
+/*/*/position: absolute; top: 0; left: 0;/* */  
+/*/*/ /*/ display: none; /* */
+}
+
+/*** These comment hacks are Caio and anti-Caio hacks, to hand-feed rules for 
+	the benefit of Nav4.  http://css-discuss.incutio.com/?page=CaioHack  ***/
+
+#bevel-lr {
+/*/*/float: right; position: relative; top: -25px; left: 2px;/* */  
+/*/*/ /*/ display: none; /* */
+}
+/*** Opera 6 needs the above 'left: 2px' to fix an incorrect display. ***/
+
+head:first-child+body #bevel-lr {left: 0;}
+/*** This is the Owen hack, to hide from Opera 6 (IE fails to see it as well).
+	http://www.albin.net/CSS/OwenHack.html  ***/
+
+* html #bevel-lr {left: 3px; lef\t: 0px;}
+/*** This is the Tan hack.  IE5.5/win needs a 3px fudge but IE6 does not.
+	See: http://css-discuss.incutio.com/?page=BoxModelHack ***/
+
+
+-->
+</style>
+
+	</head>
+
+	<body>
+
+<div id="return">
+<a href="../index-2.html"><strong>Return to P.I.E</strong></a>
+</div>
+
+<img src="../images/piebug-right.gif" id="bugpic" />
+
+<div id="wrap">
+<div id="col">
+
+<h1>Elizabeth Poole,<br />
+artist extrordinare</h1>
+
+<p>
+This cute little bug on our main page was drawn at our request by 
+Elizabeth Poole, someone with more talent than us, that's for sure!
+</p>
+
+<p>
+Won't you visit her site at <a href="http://www.elizabethpoole.com/">elizabethpoole.com</a>?
+</p>
+
+<div style=" margin:0; padding:0; line-height:0px;"></div>
+</div>
+<img id="bevel-lr" width="25px" height="25px" alt="" src="../images/box-cor-lr-nofade.gif" />
+<img id="bevel" width="25px" height="25px" alt="" src="../images/box-cor-nofade.gif" />
+</div>
+
+
+</body>
+
+
+</html>

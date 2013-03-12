@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+<title>Going Absolutely buggy</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" This demo shows absolute positioning variance and bugs. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta http-equiv="imagetoolbar" content="no" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+
+html {margin: 0; padding: 0;}
+
+body {margin: 0; padding: 0; font-family: verdana, sans-serif; font-size: 80%;
+	background: #eff; height: 60em;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .9em;}
+
+a {border: 0; color: #000;}
+
+p {margin: 5px 10px;}
+
+img {Position: absolute;}
+
+img#moz {top: 290px; left: 30px;}
+
+img#ie {top: 390px; left: 30px;}
+
+img#op6 {top: 490px; left: 30px;}
+
+img#omni {top: 590px; left: 30px;}
+
+div#mozcaption {position: absolute; top: 290px; left: 125px; width: 90px; font-size: .9em;}
+
+div#iecaption {position: absolute; top: 390px; left: 125px; width: 90px; font-size: .9em;}
+
+div#opcaption {position: absolute; top: 490px; left: 125px; width: 90px; font-size: .9em;}
+
+div#omnicaption {position: absolute; top: 590px; left: 87px; width: 118px; font-size: .9em;}
+
+h1 {
+font-size: 22px;
+text-align: center;
+border-bottom: 3px solid #fff;
+background: #000;
+margin: 0;
+color: #fff;
+padding: 3px;
+}
+
+h2 {
+font-size: 1.2em;
+text-align: center;
+border-top: 5px solid #fff;
+border-bottom: 5px solid #fff;
+background: #966;
+margin: .2em 0;
+color: #ffa;
+padding: 3px;
+}
+
+h3 {
+margin: 15px 0 7px;
+font-size: 1.1em;
+}
+
+
+/**** Demo rules ****/
+
+#rightcol {
+position: absolute;
+top: 90px;
+left: 220px;
+right: 1.5em;
+border: 1px solid #000;
+padding: 15px;
+background: #ffd;
+margin-right/* hide from IE5.0/Win */ : 1.5em;}
+
+/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+     The previous rule and the following rule is for the purpose of making IE5/mac honor the 1.5em
+      spacing on the right side of #rightcol. IE5/mac does not obey the 'right' property at all. It does
+    obey 'margin-right' but IE6/win does not (because of the opposing 'left' property). The rule below
+   withholds the 'right' value from Moz, and also re-feeds the 'margin-right' to IE5/mac, which fails to
+          read it in the previous rule, along with IE5.win.   Good Ghod, has it really come to this?
+                                        http://www.dzr-web.com/misc/ie-right-positioning/
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+html>body #rightcol {
+right: 0;
+margin-right: 1.5em;
+}
+
+
+/************** rules for demo ******************/
+
+#content-area {
+height:100%;
+width:100%;
+background: #999;
+color: #9fc;
+}
+
+#container {
+position: absolute;
+top: 90px;
+left: 30px;
+width: 80px;
+height: 80px;
+background: #bde;
+padding: 20px;
+border: 20px solid #c33;
+}
+
+* html #container {	/* Only IE sees these rules, but the escapes '\' hide the second pair from IE5.x/win */
+width: 160px;
+height: 160px;
+w\idth: 80px;
+hei\ght: 80px;
+}
+
+/**** The above is the Tan hack to fix the IE5.x box model error.
+   http://css-discuss.incutio.com/?page=BoxModelHack  See: 'A Modified SBMH' ****/
+
+
+#leftbox {
+position: absolute;
+top: 0px;
+left: 0px;
+width: 40px;
+height: 40px;
+background: #23f;
+border: 12px solid #000;
+}
+
+* html #leftbox {
+width: 64px;
+height: 64px;
+w\idth: 40px;
+he\ight: 40px;
+}
+
+#rightbox {
+position: absolute;
+bottom: 0px;
+right: 0px;
+width: 40px;
+height: 40px;
+background: #acb;
+border: 12px solid #262;
+}
+
+* html #rightbox {
+width: 64px;
+height: 64px;
+w\idth: 40px;
+he\ight: 40px;
+}
+
+#innerleft {
+position: absolute;
+top: 0px;
+left: 0px;
+width: 8px;
+height: 8px;
+background: #a53;
+border: 4px solid #ff8;
+}
+
+* html #innerleft {
+width: 16px;
+height: 16px;
+w\idth: 8px;
+he\ight: 8px;
+}
+
+#innerright {
+position: absolute;
+bottom: 0px;
+right: 0px;
+width: 8px;
+height: 8px;
+background: #f00;
+border: 4px solid #fff;
+}
+
+* html #innerright {
+width: 16px;
+height: 16px;
+w\idth: 8px;
+he\ight: 8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>
+Going Absolutely Buggy
+</h1>
+
+<h2>
+Absolute boxes inside absolute boxes
+</h2>
+
+					<!-- start of demo -->
+<div id="container">
+
+<div id="leftbox">
+<div id="innerleft"></div>
+</div>
+
+<div id="rightbox">
+<div id="innerright"></div>
+</div>
+
+<div id="content-area"></div>
+
+</div>
+					<!-- end of demo -->
+
+<img src="images/Moz1.gif" width="80px" height="80px" id="moz" />
+
+<div id="mozcaption">
+Mozilla 1,<br />IE5/Mac,<br />Opera 7
+</div>
+
+<img src="images/IE5.5.gif" width="80px" height="80px" id="ie" />
+
+<div id="iecaption">
+IE5.5/Win<br />IE6/Win
+</div>
+
+<img src="images/Op6.gif" width="80px" height="80px" id="op6" />
+
+<div id="opcaption">
+Op6/Win<br />Op6/mac
+</div>
+
+<img src="images/omniweb.gif" width="42px" height="82px" id="omni" />
+
+<div id="omnicaption">
+Omniweb.<br /><br />
+Op6 has competition.
+</div>
+
+<div id="rightcol">
+
+<p class="alignright">
+<a href="index-2.html"><strong>Return to p.i.e.</strong></a>
+</p>
+
+<h3>The demo</h3>
+<p>
+This one is based entirely on absolute positioning. div#container
+(thick brown border) is positioned using 'left' and 'top', and has equal width and height (80px).
+It contains two absolute boxes, (black and green borders) and a static div to show the
+content area, (grey box) and thus the padding area as well (light blue around grey box).
+<strong>Note:</strong> Without the fixed dimensions on div#container, browser behavior
+would vary wildly. See <a href="abs_relbugs.html">Absolutely Buggy II</a> to view this behavior.
+</p>
+<p>
+The green and black bordered boxes are positioned to opposite corners by applying '0px'
+on top/left and bottom/right respectively. They each enclose a small box positioned
+the same way.  All boxes are dimensioned as squares, and Tan hack (for the IE5.x incorrect box model,
+see source) is applied to all the boxes.
+</p>
+<p>
+Below are screenshots of this demo.
+</p>
+<h3>The behaviors</h3>
+<p>
+It is assumed that earlier browsers will have 'difficulties' with this demo.
+</p>
+<p>
+The mighty Gecko engine (Moz, N6/7) renders flawlessly.
+IE5/Mac appears identical to Moz. Opera 7 is also correct.
+</p>
+<p>
+IE/Win is close, considering it's IE. But notice those vertically stretched small boxes?
+It appears that IE will not allow the 'height' of these absolute boxes to be less than the 'line-height'.
+However, this applies only to the big and little boxes. The middle sized boxes will strangely
+honor 'height:0px'.
+</p>
+<p>
+However, such a bug will only rarely affect a page. Not so with Opera 6.
+</p>
+<h3>Oh, my aching back!</h3>
+<p>
+Please note that in Op6 the black and green bordered
+boxes are (as one unit)
+exactly the  same size as the grey content area. (!) It would seem that Opera is rendering the demo
+by first placing the container without any padding or borders. Then the contained absolute boxes
+are placed accordingly. Finally, the specified padding and borders are applied to the container box,
+which stretches it down and right <em>without affecting those contained boxes.</em>
+The same goes for the little boxes.
+</p>
+<p>
+This is a big problem (if you care about Op6). Don't assume you'll correct it with a wrapper div either,
+because the bug will infect that div as well.
+</p>
+<h3>The Fix</h3>
+<p>
+Don't use borders or padding on such a container. If you must,
+an absolutely positioned div may be positioned over (or under) the container,
+so as to provide 'substitute' borders and padding.
+</p>
+<p>
+Happily, Opera 7 has fixed this problem, and now plays nice with absolute positioning.
+Bow thrice in the direction of Norway, please.
+</p>
+<h3>Whoops!</h3>
+<p>
+Those using Op7.1 may notice that the demo is missing its grey content area, supplied by a nested div BG.
+This was pointed out to me by
+<a href="http://www.designdetector.com/"><strong>Chris Hester</strong></a>.
+See <a href="op-omnibus/boxbug.html"><strong>this&nbsp;page</strong></a> for details on a brand new Opera bug!
+</p>
+<h3>Update January 2007</h3>
+<p>
+According to reports, the more recent <strong>Omniweb</strong> versions correctly
+display the demo on this page. Way to go, guys!
+</p>
+<h3>Update July 2008</h3>
+<p>
+All the modern browsers now handle this demo properly, and IE7 has corrected IE's
+"no box shorter than the lineboxes" problem as well, so it too exactly matches the others.
+Well, that's one battle won...
+</p>
+<br />
+<p class="small alignright">
+<a href="design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: July 4, 2008<br />
+Created June 2, 2002
+</p>
+</div>
+
+</body>
+
+
+</html>

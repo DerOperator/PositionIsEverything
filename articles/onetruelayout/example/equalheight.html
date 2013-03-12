@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Example - In search of the One True Layout - Equal Height Columns</title>
+<style type="text/css">
+/* <![CDATA[ */
+#block_1
+	{
+	float: left;
+	width: 34%;
+	margin-left: 33%;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 33%;
+	margin-left: -67%;
+	}
+#block_3
+	{
+	float: left;
+	width: 33%;
+	}
+/* Start Mac IE5 filter \*/
+#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px !important;
+	margin-bottom: -32767px !important; 
+	}
+/* End Mac IE5 filter */
+#wrapper
+	{
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	}
+/* we need this for IE 5.01 - otherwise the wrapper does not expand to the
+necessary height (unless fixed, this problem becomes even more acute 
+weirdness as the method is enhanced */
+#wrapper
+	{
+/* Normally a Holly-style hack height: 1% would suffice but that causes 
+IE 5.01 to completely collapse the wrapper - instead we float it */
+	float: left;
+/* NB. possibly only IE 5.01 needs to get this float value - otherwise 5.5 sometimes 
+(I saw it happen many moons ago) makes the width of wrapper too small 
+the float: none with the comment is ignored by 5.01,
+5.5 and above see it and carry on about their business
+It's probably fine to just remove it, but it's left here 
+just in case that many moons ago problem rears its head again */
+	float/**/: none;
+	}
+/* easy clearing */
+#wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+#wrapper
+	{
+	display: inline-block;
+	}
+/*\*/
+#wrapper
+	{
+	display: block;
+	}
+/* end easy clearing */
+#footer
+	{
+	clear: both;
+	}
+/* Safari needs this - otherwise the ghost overflow, though painted 
+correctly obscures links and form elements that by rights should be above it.
+An unintended side-effect is that it cause such elements to vanish in IE 5.01
+and 5.5, hence the child selector hack */
+* > #footer, * > form, * > #notes, * > .output
+	{
+	position: relative;
+	z-index: 1000;
+	}
+/* ]]> */
+</style>
+<style type="text/css">
+@import url(onetruelayout3.css);
+</style>
+</head>
+<body>
+<div id="header">
+<h1>Equal Height Columns</h1>
+</div>
+<div id="wrapper">
+<div id="block_1">
+<h2>Block 1</h2>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+<div id="block_2">
+<h2>Block 2</h2>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+<div id="block_3">
+<h2>Block 3</h2>
+<p>Filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler</p>
+<p>Filler</p>
+<p>Filler</p>
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Last filler</a></p>
+</div>
+</div><!-- close div#wrapper -->
+<div id="footer">
+<p><a href="http://www.fu2k.org/dev/null" title="Dummy link to test that link works OK">Footer text</a></p>
+</div>
+<div id="legend">
+<p id="article_location">This example forms part of the <em>Position is Everything</em> article, <a href="../index.html">In Search of the One True Layout</a>.</p>
+<p>Block 3 not showing up in the right place? Please read <a href="../appendix/notes.html#rounding-error">this</a> first before sending a report.</p>
+</div>
+<div class="output">
+<h2>HTML Output</h2>
+<pre>
+&lt;div id="wrapper"&gt;
+&lt;div id="block_1"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+	...
+&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+</div>
+<div class="output">
+<h2>CSS Rules</h2>
+<pre>
+#block_1
+	{
+	float: left;
+	width: 34%;
+	margin-left: 33%;
+	}
+* html #block_1
+	{
+	display: inline;
+	}
+#block_2
+	{
+	float: left;
+	width: 33%;
+	margin-left: -67%;
+	}
+#block_3
+	{
+	float: left;
+	width: 33%;
+	}
+/* Start Mac IE5 filter \*/
+#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px !important;
+	margin-bottom: -32767px !important; 
+	}
+/* End Mac IE5 filter */
+#wrapper
+	{
+	overflow: hidden; /* This hides the excess padding in non-IE browsers */
+	}
+/* we need this for IE 5.01 - otherwise the wrapper does not expand to the
+necessary height (unless fixed, this problem becomes even more acute 
+weirdness as the method is enhanced */
+#wrapper
+	{
+/* Normally a Holly-style hack height: 1% would suffice but that causes 
+IE 5.01 to completely collapse the wrapper - instead we float it */
+	float: left;
+/* NB. possibly only IE 5.01 needs to get this float value - otherwise 5.5 sometimes 
+(I saw it happen many moons ago) makes the width of wrapper too small 
+the float: none with the comment is ignored by 5.01,
+5.5 and above see it and carry on about their business
+It's probably fine to just remove it, but it's left here 
+just in case that many moons ago problem rears its head again */
+	float/**/: none;
+	}
+/* easy clearing */
+#wrapper:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]'; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+	}
+#wrapper
+	{
+	display: inline-block;
+	}
+/*\*/
+#wrapper
+	{
+	display: block;
+	}
+/* end easy clearing */
+#footer
+	{
+	clear: both;
+	}
+/* Safari needs this - otherwise the ghost overflow, though painted 
+correctly obscures links and form elements that by rights should be above it.
+An unintended side-effect is that it cause such elements to vanish in IE 5.01
+and 5.5, hence the child selector hack */
+* &gt; #footer, * &gt; form, * &gt; #notes, * &gt; .output
+	{
+	position: relative;
+	z-index: 1000;
+	}
+</pre>
+</div>
+</body>
+
+
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+<title>IE6 Three Pixel Gap</title>
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="keywords" content="demo,test,big john,big,john,position is everything,position,css,html,bug,bugs,bug fix" />
+<meta name="description" content="A demo page showing a 3 pixel bug in Explorer" />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="MSThemeCompatible" content="no" />
+<meta name="Rating" content="General" />
+<meta name="doc-class" content="Living Document" />
+
+<link rel="SHORTCUT ICON" href="favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">if (window.self != window.top) window.top.location = window.self.location; </script>
+
+
+<style type="text/css">
+
+.consultbox {
+float: left;
+font-size: 80%;
+background: white;
+border: 2px solid #000;
+width: 300px;
+margin: 10px 30px 20px 0;
+padding: 12px 10px 8px 30px;
+line-height: 1.5;
+}
+
+.consultbox img {margin-bottom: -4px;}
+
+.consultbox h2 {
+margin: 0 0 8px -20px;
+padding: 0;
+line-height: 1.2;
+text-align: center;
+}
+
+.consultbox h3 {
+margin: 20px 0 0 -20px !important;
+padding: 0 !important;
+font-size: 130%;
+color: #b00;
+}
+
+.consultbox h4 {
+margin: 4px 0 0 -10px !important;
+padding: 0 !important;
+color: #059 !important;
+}
+
+.consultbox h4 a {
+color: #059 !important;
+}
+
+.consultbox p {
+margin: 2px 0 8px !important;
+}
+
+html {
+margin: 0;
+padding: 0;
+border: 0;
+}
+
+body {
+margin: 0;
+padding: 0;
+font-size: 80%;
+background: #cdc;
+font-family: verdana,sans-serif;
+}
+
+a {color: #000;}
+
+.alignright {margin: 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+.tip {
+background: #eed;
+border: 1px solid #000;
+padding: 10px;
+}
+
+code {font-size: 1.2em; display: block; margin: 10px 10px 20px; color: #600;}
+
+ul {margin: 0 0 10px 0; padding: 0; list-style: none; text-align: right;}
+
+li {margin: 0; padding: 0;}
+
+li a {margin: 0 5px;}
+
+h1 {font-size: 22px; text-align: center; border-bottom: 3px solid #fff; background-color: #000;
+	margin: 0 0 30px 0; color: #fff; padding: 3px;}
+
+h4 {clear: both; font: bold 1.2em; margin: 1.2em 0 .4em;}
+
+.close-up {position: absolute; top: 40em; left: 68px;}
+
+#textcol {border: 1px solid black; background: #f8eece; padding: 10px; margin: 0 3em 2em 300px;}
+
+#textcol p {margin: .6em 0 .6em .6em;}
+
+.printed {display: none; float: left; margin: 10px 20px 10px 0;}
+
+
+/*XXXXXXXXXXXXXXXXXXXX Demo rules start here XXXXXXXXXXXXXXXXXXXXXXX*/
+
+#floatholder {
+position: absolute;
+left: 30px;
+top: 5em;
+border: 4px solid;
+border-color: #fe6 #cb4 #a92 #ed5;
+width: 240px;
+background: #ec8;
+}
+
+* html #floatholder {
+width: 248px;
+w\idth: 240px;
+}
+
+#floatbox {
+float: left;
+width: 65px;
+height: 17em;
+border: 6px solid #68f;
+font-size: 1.2em;
+font-weight: bold;
+color: #46d;
+}
+
+* html #floatbox {
+width: 77px;
+w\idth: 65px;
+}
+
+#textwrapper {
+border: 2px solid #000;
+}
+
+#jog-box {
+border: 4px solid #f66;
+margin-left: 90px;
+}
+
+</style>
+
+
+<style media="print" type="text/css">
+
+#floatholder {display: none;}
+
+#textcol {margin: 0 3em; border: none;}
+
+.printed {display: block; clear: both;}
+
+.print-hide {display: none;}
+
+.close-up {display: none;}
+
+.tip {padding: 0; border: 0;}
+
+</style>
+
+	</head>
+
+	<body>
+
+<h1>The IE6 Three Pixel Text-Jog&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+
+<div id="textcol">
+
+<div class="consultbox">
+<h2>Are complex CSS issues making your programmers <em>crazy?</em></h2>
+<p>I've provided advanced CSS consulting for
+<a href="http://milo.com/">Milo&nbsp;<img src="../images/MiloFavicon.png" alt="" /></a>
+and many other big sites. <br />
+<a href="../design/index-2.html">Hire me to help you too.</a></p>
+
+<h3><a href="http://everyones.com/webinar/bigjohn">Big John's CSS Webinars!</a></h3>
+
+<p>Let Big&nbsp;John (yours&nbsp;truly) <a href="http://everyones.com/webinar/bigjohn">teach&nbsp;you</a> 
+about CSS in a setting where you can
+actually <em>ask questions</em>. Will wonders never cease? Learn about the cascade
+and its arcane mysteries, or dive into the cesspool of IE6 with Big&nbsp;John as your lifeguard.
+</p>
+
+<p>
+Besides upcoming webinar dates, you can also download recorded versions
+of <a href="http://everyones.com/webinar/bigjohn">previous webinars</a> 
+(some free, some for sale). 
+</p>
+
+</div>
+
+<ul class="print-hide">
+<li><a href="../explorer.html"><strong>Return to Explorer Exposed</strong></a></li>
+<li><a href="escape-floats.html"><strong>Next IE demo</strong></a></li>
+</ul>
+
+<img class="printed" src="images/jog-demo.gif" alt="" />
+<img class="printed" src="images/jog.gif" alt="" />
+
+<h4>This bug is only in IE6 and below. IE7 does not show the bug.</h4>
+
+<p>
+Please look closely at the test box to the left. Observe how the text at the top does not quite
+touch the blue bordered float on the left. The text should touch the float, but instead it seems to
+have a 3px padding, keeping it away from the float.
+</p>
+<p>
+Now see how in the black bordered paragraph the 3px space is still there. The left edge of the
+paragraph is way over on the left edge of the test box (behind the float),
+but the space is still evident. This implies that
+the space is connected to something in the &lt;p&gt;, not the &lt;p&gt; itself.
+</p>
+<h4>
+But just what is in the &lt;p&gt;?
+</h4>
+<p>
+Only text, which also means 'line boxes'; invisible 'anonymous' boxes that
+contain inline text, images, and anything else that is declared 'inline'.
+</p>
+<p>
+So apparently IE is adding 3px of space to the end of the line boxes in this demo if they touch the float. Now cast your
+eyes down to the bottom of the test box. Observe how the 3px space is evident even tho the red bordered
+box (#jog-box) is left margined far enough to separate it from the float. This means that the added 'space'
+is applied to the line boxes that are adjacent to a float, not just to ones that are touching the float.
+</p>
+<p class="tip">
+Be aware that the paragraphs' left margin extends <em>behind</em> the float, reaching all the way
+to the left side of the brown container box, just as with the black bordered paragraph in the demo.
+To make that gap between the float and the red paragraph, the left paragraph margin must be larger
+than the width of the float.
+</p>
+<h4>
+Here's the tricky part
+</h4>
+<p>
+Observe how the 3px space abruptly ends at the same vertical height that the float also ends. (!)
+It's now clear that the float is causing the 3px space to be added to the line boxes. In fact, if the blue box
+were floated to the right, the space would be appended to the right end of the line boxes.
+</p>
+<p>
+The close-up image at the lower left shows the 'text-jog' that results when the float is passed by.
+ It is this 'jog' that is the main problem, causing a small but irritating
+blemish on otherwise flawless layouts.
+</p>
+<p class="tip">
+Another problem may occur in tightly fitting layouts when the 3px space is added. Say you have a float
+followed by a div holding a large image. Both the float and the div are in a container, and the width of
+the div combined with the side margin on the div equals the container width.
+<br /><br />
+When the adjacent float induces the 3px space on the one big line box inside the div (the one holding that image), the
+div can no longer fit in the container! That's because there is 3px of new width on the div, but IE has already determined
+box widths, and refuses to go back and redo it. So what
+happens is that the div does not display <em>until it is below the vertical level of the float.</em> There, the
+3px does not get applied, and the now properly sized div fits just fine, especially with no float to sit next to the div.
+<br /><br />
+Without knowledge of the 3px space, solving this misalignment can be nearly impossible.
+</p>
+
+</p>
+<h4>Finding Fixes</h4>
+<p>
+Up until late 2003 coders who noticed the jog had serious difficulties dealing with it. Eventually it became
+clear that applying a dimension to the paragraph, either 'width' or 'height', prevents IE/win from adding
+the 3px space.
+</p>
+<p>
+Unfortunately, this dimension also throws IE into its proprietary
+<a href="../floatmodel.html"><strong>float&nbsp;model</strong></a>. In effect, when the dimension is applied
+the paragraph seems to act much like a float, displaying <em>next</em> to the real float, rather than
+letting the float drape across it as the specs require.
+</p>
+<p>
+Normally this behavior must be avoided to keep all the browsers in agreement, but thru  it
+can actually be employed to kill the 3px jog while not leading to variance.
+</p>
+
+<h4></h4>
+
+<h4>Details</h4>
+<p>
+Remember, only IE/win is allowed to see this, and in addition, IE is prevented from applying the left margin on the
+paragraph. That left paragraph margin is normally allowed to run behind the float (as it should), but
+the paragraph box itself is kept from doing the same (in IE) just because it has that dimension (very wrong).
+As if that were not enough, the paragraph margin seems to get 3px added to it by IE, so if the margin is as wide
+or wider than the float, this 3px variance will make IE have a wider gap between the float and the
+paragraph.
+</p>
+
+<p>
+<strong>Special Note:</strong> This fix should be used on a wrapper element enclosing all content
+following the float, not on individual elements. By applying the fix on just one big element the hack
+stays simple and possible problems are avoided.
+</p>
+
+<p>
+Rather than deal with this madness, just apply desired horizontal space between the two elements
+by using a right margin on the float instead of the left margin on the paragraph. Here's how it might
+look in code:
+</p>
+<code>
+#floatbox {<br />
+&nbsp;&nbsp;float: left;<br />
+&nbsp;&nbsp;width: 100px;<br />
+&nbsp;&nbsp;}<br />
+&nbsp;<br />
+p {<br />
+&nbsp;&nbsp;margin-left: 110px;<br />
+&nbsp;&nbsp;}<br />
+&nbsp;<br />
+/* Hide from IE5-mac. Only IE-win sees this. \*/<br />
+&nbsp;<br />
+* html #floatbox {<br />
+&nbsp;&nbsp;margin-right: 10px;<br />
+&nbsp;&nbsp;}<br />
+&nbsp;<br />
+* html p {<br />
+&nbsp;&nbsp;height: 1%;<br />
+&nbsp;&nbsp;margin-left: 0;<br />
+&nbsp;&nbsp;}<br />
+&nbsp;<br />
+/* End hide from IE5/mac */<br />
+</code>
+<p>
+Two more things. When the IE float model is invoked, the float suddenly has a 3px margin on the
+paragraph side, which at least can be killed within the Tan hack either by a negative 3px margin, or
+by reducing the existing float margin by 3px.
+</p>
+<p>
+Additionally, as mentioned before, IE5/mac must be kept from seeing the hacks,
+so the hacks are wrapped in the Mac-hack (uses comments). See this
+<a href="../sidepages/jogfix.html"><strong>live demo</strong></a> for a working example
+of this method, and check out the source for tips.
+</p>
+<p>
+<strong>Special Note:</strong> If the float is an <em>image</em> (or presumably, other generated content),
+then the 3px line box space is NOT applied by IE. Sadly, IE5.x/win does not leave it at that, but in the event
+of a floated image, a proprietary 3px margin is applied to both the left and right sides of the image. Since IE6
+does not do this, we have yet another cross-Explorer variation. Just what we need.
+</p>
+<p>
+Unlike the 3px line box space, these unfortunate margins can be hacked away by use of the Tan hack, thus:
+</p>
+<code>
+* html #floated-image {<br />
+margin: 0 -3px; ma\rgin: 0;<br />
+}
+</code>
+<p class="tip">
+Using '* html' before the target element keeps all but IE from recognizing it as a real selector.
+IE thinks there is a wrapper element surrounding 'html' and so does obey all rules within this block.
+The second 'ma\rgin' is ignored by IE5.x/win, so IE6 and IE5/mac get the non-hacked margin values.
+For more on the Tan hack see
+<a href="http://www.info.com.ph/~etan/w3pantheon/style/starhtmlbug.html"><strong>this page</strong></a>.
+</p>
+<h4>Conclusion</h4>
+<p>
+IE is still a big headache, but I personally thought this problem would never be solved.
+Glad to see that not all is lost.
+</p>
+
+<h4>Late Breaking News!</h4>
+
+<p class="tip">
+New info (mid 2004) has been discovered relating to the use of dimensions on a box. Go to
+<a href="http://www.communitymx.com/content/article.cfm?page=2&amp;cid=C37E0"><strong>this&nbsp;page</strong></a>
+for the dirty low-down.
+</p>
+
+<p>
+<strong>Thanks</strong> to
+<a href="http://www.quarante-deux.org/"><strong>Ellen&nbsp;Herzfeld</strong></a>
+for timely testing of various Explorer versions.
+</p>
+<br />
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Big John's Advanced CSS Design "><strong>Big John Design</strong></a>
+&nbsp;
+<a href="mailto:johnthebig66@yahoo.com">Contact Us</a>
+&copy;positioniseverything.net<br />
+Last updated: May 13, 2007<br />
+Created January 18, 2003
+</p>
+</div>
+
+<div id="floatholder">
+
+<div id="floatbox">Float</div>
+
+This text touches the blue float directly, and has the 3px space on the left.
+
+<p id="textwrapper">
+This text is wrapped in a paragraph (black border), and see, the space is still there, deep inside the &lt;p&gt;!
+</p>
+
+<div id="jog-box">
+This box is margined on the left, the width of the float and more, to keep it separate from the float.
+Still, the space continues, until.. hey! Where'd it git to?! Well, it appears that: no adjacent float, no 3px space.
+</div>
+
+<div style="clear: both;"></div>
+
+</div>
+
+<div class="close-up">
+<img src="images/jog.gif" />
+<p style="text-align: center; font-size: 1.2em;">
+Screenshot in IE6
+</p>
+</div>
+
+</body>
+
+
+</html>

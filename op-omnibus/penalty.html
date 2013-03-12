@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head> 
+
+<title>Offsetting Penalties&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</title>
+
+<meta name="Big John" content="August 28, 2002" />
+
+<meta http-equiv="content-Type" content="text/html; charset=iso-8859-1" /> 
+<meta name="mssmarttagspreventparsing" content="true" />
+<meta name="keywords" content="demo,test,big john,big,john,positioniseverything,css,html,what else do you want from me!?" />
+<meta name="description" content=" This demo displays some odd ways elements may overlap in Opera. " />
+<meta name="distribution" content="global" />
+<meta name="resource-type" content="document" />
+<meta name="robots" content="all" />
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<style type="text/css">
+<!--
+
+html {
+margin: 0;
+padding: 0;
+}
+
+body {
+margin: -45px 0 0 0;  /*** Big negative margin is for a better looking demo ***/ 
+padding: 0;
+font-family: verdana, sans-serif;
+font-size: 80%;
+background: #588;
+height: 85em;
+}
+
+a {color: #000;}
+
+.alignright {margin-top: 0; text-align: right;}
+
+.small {font-size: .8em;}
+
+h1 {position: absolute; top: 10px; left: 10em; color: #efe; font-style: italic; margin: 0; font-size: 1.8em;}
+
+.raised {margin-top: -130px;}  /*** Big negative margin is for a better looking demo ***/ 
+
+#textcol {
+position: absolute;
+top: 55px;
+left: 40%;
+width: 55%;
+border: 2px dotted black;
+background: #ddd;
+padding: 10px;
+}
+
+* html #textcol {
+width: 58%;
+w\idth: 55%;
+}
+
+/**** The above is the Tan hack to fix the IE5.x box model error. 
+   http://css-discuss.incutio.com/?page=BoxModelHack  See: 'A Modified SBMH' ****/
+
+
+#wrapper {
+margin-right: 60%;
+padding: 0 1.6em 0 4.4em;
+}
+
+.absolute {position: absolute;}
+
+/************** rules for demo ******************/
+
+.float {float: left; width: 9.5em;}
+
+.float-container {float: left; width: 5.7em;}
+
+.container {  /*** Blue Box ***/
+	background: #bde; 
+	color: #47e; 
+	border: .5em solid #36d; 
+	font-size: 3em;
+	font-weight: bold;
+	}
+
+.upper {  /*** Green Box ***/
+	position: relative; 
+	top: 5.5em; 
+	left: -2.3em; 
+	background: #8c8; 
+	color: #3b3; 
+	border: .7em solid #262; 
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-right: 2em;  /*** Only for demo appearances ***/
+	}
+
+.nested {  /*** Yellow Box ***/
+	position: relative; 
+	top: -3.8em; 
+	left: -2.3em;
+	background: #c98; 
+	color: #fe6; 
+	border: .7em solid #fe6; 
+	font-size: .5em;
+	font-weight: bold;
+	}
+
+.lower {  /*** Red Box ***/
+	position: relative; 
+	top: -9.2em; 
+	left: 2.5em; 
+	width: 9.5em;
+	background: orange; 
+	color: #f00; 
+	border: .7em solid #d66; 
+	font-size: 1.5em;
+	font-weight: bold;
+	margin-right: 1.5em;  /*** Only for demo appearances ***/
+	}
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<h1>Offsetting&nbsp;Penalties</h1>
+
+<div id="wrapper">
+
+	<div class="upper">  <!-- Green Box -->
+	U U U U U U U U U U
+	U U U U U U U U U U
+	U U U U U U U U U U
+	U U U U U U U U U U
+	U U U U U U U U 
+	</div>
+
+<div class="container">
+
+C C C C C C C C C C <!-- Blue Box -->
+
+	<div class="nested">  <!-- Yellow Box -->
+	N N N N N N N N N N
+	N N N N N N N N N N
+	N N N N N N N N N N
+	N N
+	</div>
+
+</div>
+
+	<div class="lower">  <!-- Red Box -->
+	L L L L L L L L L L
+	L L L L L L L L L L
+	L L L L L L L L L L
+	L L L L L L L L L L
+	</div>
+
+<!--XXXXXXXXXX  Demo two  XXXXXXXXXXX-->
+
+	<div class="upper raised">  <!-- Green Box -->
+	U U U U U U U U U U
+	U U U U U U U U U U
+	U U U U U U U U U U
+	U U U U U U U U U U
+	U U U U U U U U 
+	</div>
+
+<div class="container">
+
+C C C C C C C C C C <!-- Blue Box -->
+
+	<div class="nested">  <!-- Yellow Box -->
+	N N N N N N N N N N
+	N N N N N N N N N N
+	N N N N N N N N N N
+	N N
+	</div>
+
+</div>
+
+	<div class="lower float">  <!-- Red Box -->
+	L L L L L L L L L L
+	L L L L L L L L L L
+	L L L L L L L L L L
+	L L L L L L L L L L
+	</div>
+
+<div style="clear: both;">&nbsp;</div>  
+
+<!--XXXXXXXXXX  Demo three  XXXXXXXXXXX-->
+
+<div class="container float-container">
+
+C C C C C C C C C C <!-- Blue Box -->
+
+	<div class="nested">  <!-- Yellow Box -->
+	N N N N N N N N N N
+	N N N N N N N N N N
+	N N N N N N N N N N
+	N N 
+	</div>
+
+</div>
+<div style="clear: both;">&nbsp;</div>  
+
+</div>
+
+<div id="textcol">
+<p class="alignright">
+<a href="../op-omnibus.html"><strong>Return to Opera Omnibus</strong></a><br />
+<a href="op7-bg-bug.html"><strong>Next Opera demo</strong></a>
+</p>
+<p>
+I know what you're thinking. <em>"What the heck IS that mess?!"</em>
+</p>
+<p>
+Allow me to explain. All the boxes are flowed elements. 
+First comes the <strong style="color: #5e5; background: #bbb;">U</strong>pper 
+green box, which has 
+been given <strong>position:&nbsp;relative</strong>, then offset downward, and a bit left.
+Next is the blue <strong style="color: #23f; background: #bbb;">C</strong>ontainer box,
+a simple non-shifted element.
+<strong style="color: #fe8; background: #999;">N</strong>ested within is the yellow box, 
+also 'relative' and offset upwards and a bit more to the left. 
+Finally comes the <strong style="color: #f00; background: #bbb;">L</strong>ower red box, 
+which follows the blue box, and is likewise offset up, and to the right.
+</p>
+<p>
+This has been done to make all the boxes intersect each other. Why? Well, it's to display 
+the way Opera 6 handles element components, like borders, backgrounds, and content. 
+Go ahead, take another look, I dare you.
+</p>
+<p>
+<strong>Note:</strong> Opera 7 is almost entirely cured of these behaviors, and only has
+trouble with the upper green box. (see screenshot)
+</p>
+<p>
+<strong>Screenshots:</strong> (all Win),
+<a href="images/penalty-op6-1st.gif">Op6&nbsp;1st&nbsp;demo</a>,
+<a href="images/penalty-op6-2nd.gif">Op6&nbsp;2nd&nbsp;demo</a>,
+<a href="images/penalty-op6-3rd.gif">Op6&nbsp;3rd&nbsp;demo</a>,
+<a href="images/penalty-op7.gif">Op7&nbsp;1st&nbsp;demo</a>,
+<a href="images/penalty-moz.gif">Moz</a>,
+<a href="images/penalty-IE5.5.gif">IE5.5</a>. <strong>Note:</strong> IE5.5 displays an odd
+bug, triggered by use of negative margining on the second demo. This margin is only for convenient demo
+positioning, and does not affect the Opera problem.
+</p>
+<p>
+<strong>The breakdown--First demo</strong><br />
+Close examination reveals that there are two seperate groups here. At the bottom of the stack is the 
+green box, including only the border and background, but <em>not</em> the content.
+Then above it the blue box, the yellow nested box, and the red box, all <em>without</em> their contents.
+</p>
+<p>
+Above that group is the 'content' group. (hang in there, folks)<br />
+The stacking arrangement is <em>exactly</em> the same as the first group! Specifically, 
+(from bottom to top)
+green, blue, yellow, and red. This, by the way, is the default 'z-index' ordering one would expect
+for positioned elements.
+</p>
+<p>
+<strong>Note:</strong> The empty space in the blue box is the 'static' position of the yellow 
+nested box, before the yellow box gets
+offset away from that space. This accords with the standards.
+</p>
+<p>
+<strong>The second demo</strong> is the same, except that the red box has been floated. You can see 
+how this causes the red border/background to be 'raised' up to the red content. In Op6, floating 
+appears to be more significant than mere positioning. (?)
+</p>
+<p>
+<strong>By the way,</strong> Moz and IE correctly stack the boxes, and their contents are not 
+seperate from those boxes, as in Op6 (aside from some positioning variances).
+I've made a few margin alterations to get the demo and the text column to arrange nicely.
+These margins have no effect on the demo proper, but in browsers other than Opera, they produce some 
+minor changes in the layout. Since this demo is meant only for Opera, no further attempt was made to
+cater for other browsers.
+</p>
+<p>
+<strong>The third demo</strong> is also the same as the first, except that the upper and lower elements
+have been removed, and the blue container element has been floated. 
+</p>
+<p>
+<strong>"What the.. "</strong><br />
+Have you spotted it yet? If not, look real close at the third demo. What a funny thing!
+When the container is floated, the nested element still keeps its content on top, but its
+border/background actually slips <em>between</em> the border and the background
+of its parent container. What a perversion! Even more interesting, the same effect occurs if the blue 
+box is made 'absolute' rather than 'floated'. (hmmmm...)
+</p>
+<p>
+<strong>Conclusions</strong><br />
+I could easily pontificate for hours over this Op6 oddity, but perhaps it's better left to the imagination.
+Besides, Opera7 has eliminated all the problems, except for the upper green box, which is relatively 
+offset down over the static blue box. maybe Op8 will be the charm...
+</p>
+<p>
+<strong>Thanks</strong> to 
+<a href="http://www.info.com.ph/~etan/w3pantheon/style/csshub.html"><strong>Edwardson Tan</strong></a>
+and <a href="http://www.violetsky.net/"><strong>Stephanie Sullivan</strong></a>,
+of the <a href="http://www.css-discuss.org/mailman/listinfo/css-d"><strong>css-discuss</strong></a> list, for 
+editing assistance.
+</p>
+<p class="small alignright">
+<a href="../design/index.html"
+ title=" Holly 'n John's Tableless Design and Repair "><strong>Holly 'n John</strong></a>
+&nbsp; 
+
+Contact <a href="mailto:&#104;&#111;&#108;&#108;&#121;&#64;&#99;&#111;&#109;&#109;&#117;&#110;&#105;&#116;&#121;&#109;&#120;.&#99;&#111;&#109;">Holly</a>
+Contact <a href="mailto:johnthebig66@yahoo.com" title="If you've found something new and interesting, let us know! ">John</a> 
+&copy;positioniseverything<br />
+Last updated: February 26, 2003<br />
+Created October 31, 2002
+</p>
+
+</div>
+
+</body>
+
+
+</html>

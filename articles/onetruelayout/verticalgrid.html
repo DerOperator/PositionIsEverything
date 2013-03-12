@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Vertical Grids - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<h1>Vertical Grids</h1>
+
+<h2 id="what">What?</h2>
+<p>A method enabling the vertical positioning of elements across grids/columns</p>
+
+<div class="screenshot"><img src="images/screenshots/verticalgrid.gif" alt="animated screenshot showing layout with elements aligned to the bottom of each column" /></div>
+
+<h2 id="why">Why?</h2>
+
+<p>Because it's a perfectly reasonable demand that designers should be able to control the vertical as well as the horizontal axis.</p>
+<p>Some may argue that designers shouldn't even have control over the horizontal axis, but if you agree with that position what the hell are you doing reading this article?</p>
+<p>Still reading?</p>
+<h3 id="why-tables">Get your tables on</h3>
+<p>The age old method for dealing with vertical positioning is to use tables. Stick what needs to be top aligned in cells in one row; what needs to be bottom-aligned goes in the row that follows.</p>
+<p>The good thing about the table-based way is that it works.</p>
+<p>The bad things about the table-based way is that it forces the designer to separate logically connected elements into an arbitrary source order dictated by the design alone. Which is bad from the semantic point of view but even worse from the practical one, since it leads inexorably to the creation of gnarly, nested, hard-to-maintain tag soup.</p>
+<p>It also means that bottom-aligned elements <em>must</em> appear below all the elements within the top-aligned block and not level with the last element within it as might be desired. Or middle-aligned.</p>
+<p>However, it <em>does</em> work and does so reliably which counts for a lot when it comes to web development. It doesn't stop it being utterly dirty though.</p>
+<h3 id="why-explicit-height">I know how tall you are</h3>
+<p>No, not you. The elements within which I want to vertically align things.</p>
+<p>This is the other more modern approach - as long as you know the height of the column elements then you can just set <code>position: relative</code> on the column element and then any elements within it just need <code>position: absolute</code>.</p>
+<p>To know the height, you have to know that your content will be that height (eg. the only content in the "flow" will be images which are the same height across the columns - over which you then position your text and any other images) or that your content will not make the element be higher than that and set the <code>height</code> attribute.</p>
+<p>Which is fine so far as it goes, but as soon as you need any kind of vertical liquidity, then this approach breaks down. Which is why so many designers simply don't bother.</p>
+
+<h2 id="how">How?</h2>
+<p>The problem with the modern approach is that it's not possible to guarantee the height of the individual column blocks.</p>
+<p>However, we can rely on the height of the containing element by applying any of your favourite <a href="http://css-discuss.incutio.com/?page=ClearingSpace">float clearing</a> methods to ensure that the container element does indeed contain the columns. After that, it's just a matter of applying <code>position: relative</code> to the container element.</p>
+<p>Now if we apply <code>position: absolute</code> to any element within the column blocks, it will be vertically positioned relative to the container element.</p>
+
+<p>Which gives us the ability to snap things to the bottom or middle of the grid across all the columns.</p>
+
+<p>Of course, it also means that the element will be positioned relative to the container tag horizontally as well.</p>
+
+<p>This isn't a problem though if all we want to do is shift the element vertically. As long as we only set the element to appear at, say, <code>bottom: 0</code> or <code>top: 50%</code>, then it will appear horizontally aligned with the column it's in. If we want to shift the element from the left edge of the column, all that's needed is a suitable amount of <code>margin-left</code>.</p>
+
+<h3 id="how-positioning-from-the-right">The power of the right</h3>
+<p>But what if we do want to offset the element from the column's right edge (which truth be told, is the most likely use for this)?</p>
+<p>The simplest, if not the easiest, solution is to set individual <code>right</code> values, where those values are equal to 100 - the value of the rightmost point of the column. <a href="#rightmost_point" title="Rightmost point? Huh? What are talking about?">[note]</a></p>
+
+<p class="example"><a href="example/verticalgridsimple.html">Example of the Vertical Grid technique (simple version with 2-1-3 ordering)</a></p>
+
+<h3 id="how-opera-1">A Night at the Phantom of the Opera</h3>
+<p>If you just looked at the previous example in Opera (7 or 8, forget about 6), you might have noticed that things are a little off.</p>
+<p>First off, it fails to get the vertical positioning right at all if <a href="http://www.fu2k.org/alex/css/bugs/opera_absolutewithinrelativewithoutexplicitheight">percentages are used</a>. That's why the "L" Snaps are at the very top of the containing tag and don't start in the middle as they ought to.</p>
+<p>Adding <code>float: left</code> and an explicit <code>width: 100%</code> almost solves things, but not well enough. Block 1's snap still floats to the top and none of the elements picks up on the <code>height: 50%</code>. It looks like Opera is a hopeless case, and the best that can be achieved if Opera must be catered for is aligning to the absolute top or bottom using pixels or ems.</p>
+<h3 id="how-opera-2">Opera Crackers</h3>
+<p>Secondly, the horizontal shifting works <em>sometimes</em>. That is sometimes it doesn't, failing to apply background colours and shifting the element less than it actually requires. I can't figure out the cause of this monkey business at all (it doesn't appear to be the negative margins since it fails even more spectacularly when ordered 1-2-3) which means that there is no simple CSS fix. (And this is the case whether the layout is percentage-, em- or pixel-based.)</p>
+<p>Which means...</p>
+<h3 id="how-opera-3">Duck Tag Soup</h3>
+<p>We need a markup fix<!-- yes, that should really be marx up for the full effect, ho ho -->. If we wrap the element we want positioned on the right, that element can be made to be the width of the column and then absolutely positioned on the right within it.</p>
+<p>As if it's not bad enough that it's a markup fix (though since it's just an additonal wrapping tag, it's low down the scale of markup atrocities), we now run into the different models that browsers use to calculate the width of nested absolutely-positioned elements. To be blunt, Opera and IE Win <a href="http://www.fu2k.org/alex/css/bugs/positionabsolutewidthinherit"title="Inconsitency in determining width of absolutely positioned element when grandparent is relatively postioned">make it easy, but get it wrong</a> (according to the standards, that is, but that's the only game in town).</p>
+<p>So for Opera and IE Win all we need to do is:</p>
+<pre><ins>.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	}
+.verticalalign p
+	{
+	position: absolute:
+	right: 0;
+	bottom: 0;
+	}</ins></pre>
+
+<p><em>NB. floating the inner element would probably do just as well in most situations</em></p>
+
+<p>But because, Safari and Mozilla get it right, that would make the element-to-be-aligned 100% of the wrapping element. The correct value for the width in those browsers is the actual width of their parent elements. So now we add:</p>
+<pre>.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	<del>width: 100%;</del>
+	}
+<ins>#element_1 .verticalalign
+	{
+	width: 34%;
+	}
+#element_2 .verticalalign
+	{
+	width: 33%;
+	}
+#element_3 .verticalalign
+	{
+	width: 33%;
+	}</ins></pre>
+<p>Of course, <code>.verticalalign</code> is now too narrow in Opera and IE! So we plump them back up again with a media query hack for Opera (subject to the same caveats as before), and a star html hack for IE. Hey presto!</p>
+
+<pre><ins>/* hack for Opera 7+ */
+@media all and (min-width: 0px){
+.verticalalign
+	{
+	width: 100% !important;
+	}
+}
+/* hack for IEs of all persuasions before IE7 */
+* html .verticalalign
+	{
+	width: 100% !important;
+	}</ins></pre>
+
+<h3 id="how-opera-4">Opera - let's start all over again</h3>
+<p>As of the beta version of Opera 9, the position and dimensions of absolutely positioned and fixed position elements are treated correctly when they are nested inside each other (except for that vertical percentage thing mentioned above). So now the <code>width: 100%</code> gets applied as it should. Which screws things up big time.</p>
+<p>As I said on the previous page, there is such a relatively small number of Opera users (who in all likelihood upgrade often and early), that it's probably OK to just leave out the Opera 8 fix.</p>
+<p>Mind you, if you do want to figure out how to distinguish Opera 9 from previous versions, I'm really not going to stop you. Well, actually I am. You see, I've already got one. <a href="http://www.geocities.com/seanmhall2003/css3/attr.html">CSS3 attribute selectors</a> to the rescue!</p>
+<pre>/* hack for Opera 7+ */
+@media all and (min-width: 0px){
+.verticalalign
+        {
+        width: 100% !important;
+        }
+<ins>/* But Opera 9 does it right, so CSS3 hax to the max */
+div[id^="wrapper"] #block_1 .verticalalign
+        {
+        width: 34% !important;
+        }
+div[id^="wrapper"] #block_2 .verticalalign
+        {
+        width: 33% !important;
+        }
+div[id^="wrapper"] #block_3 .verticalalign
+        {
+        width: 33% !important;
+        }</ins>
+}</pre>
+<p class="example"><a href="example/verticalgrid.html">Example of the Vertical Grid technique (2-1-3 ordering)</a></p>
+
+<h2 id="where">Where?</h2>
+<h3 id="where-success">Works fully in</h3>
+<p>IE Win 7 beta 2, IE Win 6, IE Win 5.5, IE Win 5.01, Operas 7, 8 and 9, Firefox 1.5 and 1.0, Netscape 7 and 8, Safari 1.03 (and up)</p>
+
+<h3 id="where-failure">Doesn't work fully in</h3>
+<h4 id="where-ie-mac">IE Mac 5</h4>
+<p>Pretty much works - but absolute positioning is flaky at the best of times in this tired old workhorse</p>
+<h4 id="where-netscape6-opera6">Netscape 6, Operas 5 and 6</h4>
+<p>Do not understand the method at all. It is left as an exercise to the reader to figure out the necessary hacks to cope with those browsers if required.</p>
+
+<h2 id="when">When?</h2>
+<p>It's a bit finickity, but the technique is pretty sturdy unless you must support older browsers.</p>
+<p>You could instead reach for <code>display:table</code> but that results in, frankly, equivalent but less readable code than tables. And you can't then position elements absolutely within the table cells<a href="#absolute_tables">[note]</a>. And even if the positioning was possible, you'd be stuck with the intial source ordering of the columns...</p>
+<p>Of course, it should all be so much easier than this, as Eric Meyer laments in <a href="http://www.meyerweb.com/eric/thoughts/2004/09/05/css-grids/">CSS Gridlock</a>.</p>
+
+
+<h2 id="continuation">Quest's End</h2>
+<p>The individual pieces are in place - time to bring the holy bacon home.</p>
+
+
+
+<ul id="paging">
+<li id="next"><a href="combined.html">Next (Putting it all together)</a></li>
+<li id="previous"><a href="equalheight.html">Previous (Equal Height Columns - revisited)</a></li>
+</ul>
+
+<div id="footnotes">
+<h2>Footnotes</h2>
+<ol>
+<li id="rightmost_point">If you've forgotten what I'm talking about or came to this page directly go back and read <a href="anyorder.html#how"><em>Any Order Columns</em></a> now.</li>
+<li id="absolute_tables">Positioning elements absolutely in table-cells should work in theory, since <code>position:relative</code> applies to any element. CSS 2.1 notes however, that the behaviour is 'undefined for elements with <code>display: table-*</code>'. As Philippe Wittenbergh points out, with <code>td {position: relative}</code>, it does work... in iCab 3.0 alone.</li>
+</ol>
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li class="current">Vertical Grids</li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+<p id="print"><a href="print.html">Entire article as single page</a> (140k)</p>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+

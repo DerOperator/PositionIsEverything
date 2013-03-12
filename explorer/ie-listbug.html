@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+
+<head>
+
+
+
+
+
+<title>The IE/Win Disappearing List-Background Bug</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" media="all" href="sidepages/demPre.css" />
+
+<style type="text/css" media="all">
+<!--
+
+/***** These are the minimum trigers needed for this bug to do it's thing *****/
+
+
+div#bug {
+	position: relative;
+	float: left;
+	width: 200px;  }
+
+div#bug dt {
+	background: #FF6666;  }
+
+
+
+/***** These are the styles for the working example *****/
+
+
+div#working {
+	float: left;
+	width: 200px;  }
+
+div#working dt {
+	background: #FF6666;  }
+
+-->
+</style>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+	<h1>The IE/Win Disappearing List-Background Bug</h1>
+
+	<div id="nav">
+		<a href="../explorer.html">Return to Explorer Demos</a>
+		| <a href="../guests.html">Return to Guest Demos</a> |
+		<a href="guillotine.html">Next Explorer Demo</a>
+	</div>
+
+    	<h2>What is it?</h2>
+
+		<p>
+		   It&rsquo;s another IE bug which is caused by placing a list with a background
+		   set within a floated &lt;div&gt; that has been relatively positioned. (IE doesn't mind if you set a background
+		   image, a color, or even both; they'll all disappear.) When these conditions are in place
+		   IE will display the background incorrectly. With me so far? Here are a couple of screen
+		   shots which should make it clearer:
+		</p>
+
+
+		<p id="cap1">
+		<img src="images/ieScreen1.gif" class="left" alt="Disappearing List Backgrounds (dl)" />
+		   This is how IE renders a &lt;dl&gt; with a background set on the
+		   &lt;dt&gt;. None too impressive huh? I know, but what do you expect;
+		   this is IE we&rsquo;re dealing with here!
+		</p>
+
+<div id="scrCde1">
+
+		<h3>Screen 1 Code</h3>
+
+		<pre>
+			<code>
+      div {
+         float: left;
+         position: relative;
+         width: 150px;
+         background: #fffdd5;
+         border: 1px solid #000;  }
+
+      dt {
+         background: red;  }
+			</code>
+		</pre>
+
+</div>
+
+		<p id="cap2">
+		<img src="images/ieScreen2.gif" class="right" alt="Disappearing List Backgrounds (ul)" />
+		   This is how IE renders a &lt;ul&gt; with a background
+		   set on the &lt;li&gt;. On the first &lt;ul&gt; no backgrounds
+		   show, but on the second &lt;ul&gt; they <em>do</em> display.
+		   The same thing happens with ordered lists.
+		</p>
+
+<div id="scrCde2">
+
+		<h3>Screen 2 Code</h3>
+
+		<pre>
+			<code>
+        div {
+           float: left;
+           position: relative;
+           width: 150px;
+           background: #fffdd5;
+           border: 1px solid #000;  }
+
+        li {
+           background: red;  }
+			</code>
+		</pre>
+
+</div>
+
+		<p style="clear: both;">
+		   Just in case those screen shots weren't enough for you, here's an actual
+		   working example of this heinous bug side by side with a list displayed the
+		   way the <acronym title="World Wide Web Consortium">W3C</acronym> intended!
+		</p>
+
+<div id="bug">
+
+		<dl>
+		  <dt>Where's my border?</dt>
+			<dd>Definition 1</dd>
+			<dd>Definition 2</dd>
+		  <dt>Some Other Term</dt>
+			<dd>Definition 1</dd>
+			<dd>Definition 2</dd>
+		</dl>
+
+		<p>
+		This is the bug in action. Notice that while the second &lt;dt&gt; has a background, the first has no background.
+		</p>
+
+</div>
+
+<div id="working">
+
+		<dl>
+		  <dt>Check out my border!</dt>
+			<dd>Definition 1</dd>
+			<dd>Definition 2</dd>
+		  <dt>Some Other Term</dt>
+			<dd>Definition 1</dd>
+			<dd>Definition 2</dd>
+		</dl>
+
+		<p>
+		Here is the same code with a fix applied. All backgrounds present and correct! (read on for the fix)
+		</p>
+
+</div>
+
+		<p style="clear: left;">
+		   Now obviously this bug is fairly uncommon, it&rsquo;s not often you float a &lt;div&gt; <em>and</em> relatively
+		   position it. But saying that there are times when doing so comes in useful, mainly when absolutely positioning elements
+		   and for fixing other IE bugs... Okay, maybe it <em>is</em> common after all!
+		</p>
+
+		<p>
+		   This bug gets even stranger than in the examples above, much stranger! For instance; the order the lists
+		   are placed and what type of lists they are affect the way the backgrounds display. Place a &lt;dl&gt; after
+		   a &lt;ul&gt; and it's backgrounds <em>will display,</em> but when placed before; only the first &lt;dt&gt; will
+		   display. If a background is set on &lt;dd&gt; then they will always be displayed, go figure.
+		</p>
+
+		<p>
+		   Some other strange effects this bug produces are scroll and window painting. This is where the act
+		   of scrolling or moving a window over a color background will &quot;paint&quot; it. I've made a simple
+		   <a name="painted" id="painted" title="Scroll/Window Painting Mini-demo" href="sidepages/painting.html">scroll/window painting example</a> for you to peruse.
+	         (I used a little JavaScript to open up an alert box, so if you have that disabled just open up a new window yourself and use that).
+		</p>
+
+		<p>
+		   Note that either a background image or a background color can be "painted" by window dragging, so this is
+		   consistent with the list background problem.
+		</p>
+
+	<h2>How Do I Fix It?</h2>
+
+		<p>
+		   The good news is that this little bug is a cinch to eradicate. Just place
+		   the following code in your  stylesheet and you'll never have to suffer through
+		   the indignity of disappearing list backgrounds again!
+		</p>
+
+          <pre id="mainCure">
+            <code>
+          ul, ol, dl {
+              position: relative;  }
+            </code>
+          </pre>
+
+		<p>
+		   Another way is to wrap the effected lists in a relatively positioned &lt;div&gt;,
+		   but as this adds extra, un semantic mark-up, it's best to just use the
+		   first method, which I've patented as the &quot;1 point Smith manoeuvre&quot;.
+		</p>
+
+		<p>
+		   Some other <em>less than perfect</em> ways to defeat this bug, listed mainly for informational purposes:
+		</p>
+
+			<ol>
+			  <li>Float the list itself</li>
+			  <li>Declare <code>display: inline;</code> on the list. (Works on &lt;dl&gt;s)</li>
+			  <li>Declare any dimension on the lists, or apply the
+        <a href="../articles/haslayout.html"><strong>Zoom&nbsp;Fix</strong></a>.</li>
+			  <li>Placing a comment tag before the first disappearing element will fix it but subsequent lists will still have problems.</li>
+			</ol>
+
+	<h2>In Conclusion</h2>
+
+		<p>
+		   This is a really strange and annoying bug to deal with. It took me a
+		   while to figure out just what the heck was going on and how to solve
+		   it. The biggest problem with this bug is just how variable it can be. The
+		   order in which the lists and other elements are placed have small but
+		   noticeable effects on the way they're displayed.
+		</p>
+
+		<p>
+		   But despite this bug's variability, it's easily remedied, just declare&nbsp;
+		<strong><code>position:&nbsp;relative;</code></strong>
+		 on all effected lists and you're good to go!
+		</p>
+
+
+<p class="small alignright">
+<a href="http://www.silenus.pwp.blueyonder.co.uk/"><strong>Matt Smith</strong></a><br />
+silenus *at* rock dot com<br />
+Last updated: July 9, 2008<br />
+Created July 30, 2004
+</p>
+
+
+</div>
+
+</body>
+
+
+
+</html>

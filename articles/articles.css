@@ -1,0 +1,241 @@
+html, body, ul, ol, li, img {margin: 0; padding: 0; border: 0;}
+
+body {margin: 0; padding: 0; font-family: georgia, "times new roman", serif; background-color: #f8eedd; font-size: 100%; color: #000;}
+
+.wrapper {max-width: 50em; min-width: 35em; padding: 0 17% 10px 15%;}
+
+h1 {font-size: 22px; border-bottom: 3px solid #fff; background-color: #000;
+	margin-top: 0; color: #fff; padding: 3px 0 3px 3em;}
+
+h2 {font-size: 1.4em; font-weight: bold; margin: 1em 0 .5em -3em; color: #640; padding-top: .5em; clear: both;}
+
+h3 {font-size: 1.2em; font-weight: bold; margin: 1.5em 0 .5em -2em; color: #640;}
+
+h4 {font-size: 1em; font-weight: bold; margin: 1.5em 0 .5em -1em;}
+
+p {margin: .8em 0 .6em 0;}
+
+ul, ol {margin: .6em 0 1.4em 0;}
+
+li {margin: 5px 0; padding: 0;}
+
+a {color: #000; font-weight: bold;}
+
+.darkblue {color: #005;}
+
+.darkred {color: #500;}
+
+.darkgreen {color: #030;}
+
+.indented {margin: 0 50px 0 30px;}
+
+.alignright {margin: 0 30px 20px 10%; text-align: right;}
+
+.small {font-size: .9em;}
+
+pre {margin: 30px 0; padding: 20px 20px 20px 50px; background-color: #f8ddb8;
+	border: 2px dotted #000; font-size: 1.1em; clear: both;}
+
+.float-p {padding: 10px 30px 10px 0;}
+
+.float-p img {float: left; margin: 0 20px 10px 0;}
+
+.float-left {float: left; clear: left; margin: 0 20px 10px 0;}
+
+.float-right {float: right; clear: right; margin: 0 0 10px 20px;}
+
+.clear {clear: both; margin-top: 2em;}
+
+.inlinecode {color: #800; background: #ddd; font-family: monospace;}
+
+.inlineimp {background: #e0e8f0;}
+
+.code, code {
+background-color: #FEFCF5;
+border: 1px solid #036;
+font: 0.9em "Lucida Console", "Courier New", Courier, monospace;
+margin: 1.2em 30px 1em 20px;
+padding: 15px;
+line-height: 1.5;
+display: block;
+white-space: pre;
+float: lef;
+}
+
+.tip {
+background-color: #e0e8f0;
+border: 1px solid #036;
+color: #000;
+font: 0.9em Verdana, Geneva, Arial, Helvetica, sans-serif;
+margin: .8em 0 10px 0;
+padding: 5px;
+clear: both;
+}
+
+.float-box1 {
+border: 1px solid black;
+margin: 10px 20px 10px 0;
+padding: 10px;
+float: left;
+width: 180px;
+text-align: center;
+background: #fffaeb;
+display: inline;
+}
+
+.float-box2 {
+float: left;
+width: 11.5em;
+height: 16em;
+margin: 10px 20px 10px 0;
+display: inline;
+}
+
+.floatdemo-multi div {
+float: left; width: 50px; height: 50px; w\idth: 44px; hei\ght: 38px; padding: 6px 0 0;
+margin: 0 5px 5px 0; border: 3px solid; border-color: #7d7 #48b348 #4a4 #70d070;
+background: #55bb55; text-align: center; font-weight: bold; font-size: .8em;
+font-family: georgia, serif; color: #ff8;
+}
+
+.floatdemo-multi {
+margin: 15px 0 10px 0;
+}
+
+.opp-wrapper {
+margin: 15px 0 15px 0;
+}
+
+.opp-float {
+width: 100%;
+}
+
+.sidenav {
+position: fixed;
+top: 10em;
+left: 3em;
+margin-top: 20px;
+width: 14em;
+}
+
+.maincol {
+margin: 0 20px 0 21.5em;
+max-width: 50em;
+min-width: 35em;
+}
+
+#jello h2, #jello h3, #jello h4 {margin-left: -20px;}
+
+#jello p {margin-left: 0;}
+
+.sidenav ul, .sidenav ol {margin: 0; list-style: none;}
+
+
+.sidenav li {margin: 4px 0 0; list-style: none;}
+
+.sidenav li a {
+display: block;
+border: 2px solid #dcd3c2;
+color: #500;
+text-decoration: none;
+background: url(images/marble1.jpg);
+padding: 4px 5px 4px 10px;
+font-family: tahoma, arial, sans-serif;
+font-size: 1.1em;
+font-weight: bold;
+}
+
+.sidenav li a:hover {
+border-color: #fef5e4 #d4cab9 #c2b9a8 #ece3d2;
+background-position: -1px -1px;
+padding: 3px 6px 5px 9px;
+}
+
+.sidenav li a:active {
+border-color: #c2b9a8 #ece3d2 #fef5e4 #d4cab9;
+background-position: 0 0;
+padding: 4px 5px 4px 10px;
+}
+
+ul p {
+margin: .5em 0;
+}
+
+ul h5 {
+margin: 2em 0 0 0;
+}
+
+dl {
+margin: .6em 0 1.4em 0;
+}
+
+dl ul {
+margin: 0;
+}
+
+#dropshadows h3, #dropshadows h4 {
+clear: both;
+margin-top: 0;
+padding-top: 2em;
+}
+
+
+* html .sidenav li a
+{
+zoom: 1;
+}
+
+* html .sidenav
+{
+position: absolute;
+top: auto;
+}
+
+.spanbox {
+background: #e0e8f0;
+border: 1px solid black;
+padding: .5em .3em .3em;
+}
+
+.consultbox {
+float: left;
+font-size: 80%;
+background: white;
+border: 2px solid #000;
+width: 300px;
+margin: 10px 30px 20px 20px;
+padding: 12px 10px 8px 30px;
+line-height: 1.5;
+}
+
+.consultbox img {margin-bottom: -4px;}
+
+.consultbox h2 {
+margin: 0 0 8px -20px;
+padding: 0;
+line-height: 1.2;
+text-align: center;
+color: #640;
+background: none;
+}
+
+.consultbox h3 {
+margin: 20px 0 0 -20px !important;
+padding: 0 !important;
+font-size: 130%;
+color: #b00;
+}
+
+.consultbox h4 {
+margin: 4px 0 0 -10px !important;
+padding: 0 !important;
+color: #059 !important;
+}
+
+.consultbox h4 a {
+color: #059 !important;
+}
+
+.consultbox p {
+margin: 2px 0 8px !important;
+}

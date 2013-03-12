@@ -1,0 +1,130 @@
+body {
+margin: 0;
+padding: 0;
+text-align: center;
+font: 0.8em/1.5em Verdana, Helvetica, sans-serif;
+color: #000;
+background: #C6DBFF;  } 
+
+div#wrapper {
+position: relative;
+width: 689px;
+margin: 0 auto;
+padding: 40px 30px 30px;
+text-align: left;
+background: #C6DBFF url(../images/demo_holder.gif) repeat-y center;  }
+
+#wrapper a {
+color: #d75B00;
+text-decoration: underline;  }
+
+#wrapper a:hover {
+text-decoration: none;  }
+
+p#cap1, p#cap2 {
+padding: 0 5px 5px 0;
+margin: 10px 40px 10px;
+border-top: 1px solid #000;  }
+
+p#cap2 {
+padding: 0 0 5px 5px;
+margin: 10px 40px 10px;
+text-align: right;
+clear: left;  }
+
+div#scrCde1  {
+margin-left: 380px;  }
+
+div#scrCde2 {
+margin-left: 30px;  }
+
+div#scrCde2 h3 {
+text-align: left;  }
+
+div#scrCde1 code, div#scrCde2 code {
+color: #660000;  }
+
+h1, h2, h3 {
+font: bold 2em "Trebuchet MS", Verdana, Helvetica, sans-serif;
+color: #095EC6;
+margin: 10px 0 40px 10px;
+padding: 0;  }
+
+h2 {
+font-size: 1.4em;
+color: #053DBE;
+margin: 10px 0 30px 20px;  }
+
+h3 {
+font-size: 1em;
+margin: 5px 0 5px 20px;  }
+
+p {
+padding: 10px 40px; }
+
+ol {
+margin: 20px 40px;  }
+
+pre {
+line-height: 1.1em;
+margin: 0;
+padding: 0;  }
+
+pre#mainCure {
+border-left: 2px solid black;
+margin: 0 0 0 60px; }
+
+code {
+font-size: 1.2em;
+color: #003842;
+padding: 0;
+margin: 0;  }
+
+.left {
+float: left;
+margin: -1px 20px 10px 0;
+padding: 0;  }
+
+.right {
+float: right;
+margin: -1px 0 10px 20px;
+padding: 0;  }
+
+acronym {
+cursor: help;
+border-bottom: 1px dotted black;  }
+
+
+div#bug {
+margin: 10px 30px 10px 50px;
+border: 1px solid gray;
+padding: 10px;  }
+
+div#working {
+margin: 10px; 
+border: 1px solid gray;
+padding: 10px;  }
+
+div#bug dt, div#working dt {
+color: #0000C6;
+font-weight: bold;  }
+
+div#bug p, div#working p {
+font-size: 70%;  }
+
+#nav {
+position: absolute;
+top: 0;
+width: 90%;
+padding: 6px;
+text-align: center;  }
+
+#nav a {
+color: black;  }
+
+.alignright {
+margin-top: 0; 
+text-align: right;  }
+
+.small {
+font-size: .9em;  }

@@ -1,0 +1,2476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Print version - In search of the One True Layout</title>
+<script type="text/javascript" src="article.js"></script>
+<style type="text/css">
+@import url(article.css);
+</style>
+</head>
+<body>
+<div id="content">
+
+<div id="introduction">
+
+
+<h1><small>Introduction</small> In search of the One True Layout</h1>
+
+<p>Pure CSS-based layouts have come a long way but they still have shortcomings <a href="#table_shortcomings">[note]</a> that fail to address certain design goals without compromising the true separation of content and presentation.</p>
+
+<p>In short, the problematic design goals are these:</p>
+
+
+<h3 id="introduction-flexibility">Total Layout Flexibility</h3>
+<p>That is, the ability to order columns logically in the source while displaying them in <em>any</em> order desired. For <em>any</em> number of columns.</p>
+
+<h3 id="introduction-equal-height">Equal Height Columns</h3>
+<p>Or more accurately, equal height columns without having to rely on faux columns.</p>
+
+<h3 id="introduction-vertical-grids">Vertical placement of elements across grids/columns</h3>
+<p>Designers face the choice of relying on elements being a particular height, resorting to tables or simply not bothering.</p>
+
+<h2 id="introduction-continuation">Towards a solution</h2>
+<p>This article shows how to achieve each of these goals, and then how to combine them, creating what could be called the <em>One True Layout™</em> <a href="#one_true_origin">[note]</a>.</p>
+
+<div class="update">
+<h3>Problems with the Equal Height Columns method</h3>
+<p>Several problems have been found with the Equal Heights method, detailed in <a href="appendix/equalheightproblems.html" title="Dead? Heavily bruised? Or just slightly dazed? You be the judge...">Appendix J</a>.</p>
+</div>
+
+
+
+
+</div>
+<div id="anyorder">
+<h1>Any Order Columns</h1>
+
+<h2 id="anyorder-what">What?</h2>
+<p>A method for keeping columns (or more precisely, blocks of elements <a href="#accessibility_elements" title="What's an element, daddy?">[note]</a>) logically ordered in the source while still providing the designer the ability to display them in any order whatsoever without the need for any additional non-semantic markup.</p>
+
+
+<div class="screenshot"><img src="images/screenshots/anyorder.gif" alt="animated screenshot of possible orderings of a 3 column layout" /></div> 
+
+<h2 id="anyorder-why">Why?</h2>
+<h3 id="anyorder-why-accessibility">It's good for the users</h3>
+<p>Browsers that do not make use of the CSS positioning information will present the content in the order that it is marked up. Consequently the ordering of content in the source code is important as far as accessibilty <a href="#source_order_bad">[note]</a> and assistive technologies are concerned.&nbsp;<a href="#accessibility_heuristics" title="Where I do a mini-rant on pure CSS layouts that use non-semantic markup">[note]</a></p>
+<h3 id="anyorder-why-semantics">It's good for you</h3>
+<p>The overriding rationale behind CSS is the separation of content and style - the removal of non-semantic cruft and complete ordering flexibility theoretically allows for repurposing of content without the need for tweaking html.</p>
+<p>Although this might be less useful for an individual's site where markup can be altered to accomodate design changes, this is a huge win for systems based on templates where changing the html is either impossible or undesirable.</p>
+<p>Furthermore it promises even greater customisability of a site for individual users. For instance, side columns could be swapped over or even placed on the the same side (though whether this would be a good idea or not is debatable).</p>
+<h3 id="anyorder-why-search-engines">It's good for you <em>and</em> the users</h3>
+<p>Search engine spiders/robots read web pages like this - they start at the top left, read across, and then move down. Consequently the ordering of content on a page is important as far as search engine algorithms are concerned. <a href="#search_heuristics" title="So how do those search engine johnnies go about things?">[note]</a></p>
+
+<h2 id="anyorder-how">How?</h2>
+<p>Through the magic of floats and (when necessary) negative margins. Each block is floated in the following way:</p>
+<ol>
+<li>Work out the rightmost point of any of the floated blocks that precede it in the source</li>
+<li>Work out the desired leftmost point of the block</li>
+<li>Subtract the rightmost point's value from the leftmost point's to give the block's <code>margin-left</code></li>
+</ol>
+
+<p>If we want the column blocks of our layout to be the same width and ordered 2-1-3, the maths work out like this:</p>
+
+<table>
+<caption>Calculations for simple 2-1-3 ordering with respective widths, 33%, 34% and 33%</caption>
+<colgroup span="4" width="1*" />
+<tbody>
+<tr>
+<th class="empty"></th>
+<th scope="col">leftmost point</th>
+<th scope="col">rightmost point</th>
+<th scope="col">margin-left</th>
+</tr>
+<tr>
+<th scope="row">Block 1</th>
+<td>33%</td>
+<td>N/A</td>
+<td>33 - 0 = 33%</td>
+</tr>
+<tr>
+<th scope="row">Block 2</th>
+<td>0%</td>
+<td>67% (Block 1)</td>
+<td>0 - 67 = -67%</td>
+</tr>
+<tr>
+<th scope="row">Block 3</th>
+<td>67%</td>
+<td>67% (Block 1)</td>
+<td>67 - 67 = 0%</td>
+</tr>
+</tbody>
+</table>
+
+<p id="html_base">So given this HTML markup...</p>
+<pre><ins>&lt;div id="block_1"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_2"&gt;
+	...
+&lt;/div&gt;
+&lt;div id="block_3"&gt;
+	...
+&lt;/div&gt;</ins></pre>
+
+<p>... we apply the following CSS:</p>
+<pre><ins>#block_1
+	{
+	float: left;
+	width: 34%;
+	margin-left: 33%;
+	}
+#block_2
+	{
+	float: left;
+	width: 33%;
+	margin-left: -67%;
+	}
+#block_3
+	{
+	float: left;
+	width: 33%;
+	}</ins></pre>
+
+<p>Units can be percentages if the layout is liquid, ems or pixels if fixed width. <a href="#mixing_units" title="But I want to mix my units">[note]</a> <a href="#reverse_order" title="Float direction shouldn't matter">[note]</a></p>
+
+<h3 id="anyorder-how-simple">Is it really that simple?</h3>
+<p>Of course not. It never is, is it? This method runs head first into a peculiarity in the layout engine of IE Win (5 and 6) - if block 1 is not the first column, it requires its margin-left to be divided by 2.</p>
+<p>Investigating further, we find that the bug is triggered for any block <em>n</em> (where <em>n</em> is the position of the block within the source code) if:</p>
+
+<ol>
+<li>column positions 1 to <em>n</em>-1 are occupied by blocks 1 to <em>n</em>-1 (in any order)</li>
+<li>block <em>n</em> occupies column position 2<em>n</em> or greater</li>
+</ol>
+<p>Under such circumstances element <em>n</em> will require its margin-left to be reduced - the overall number of columns appears to be irrelevant.</p>
+<p>Keen readers will have noticed and been chomping at the bit to point out that this is the dreaded <a href="../../explorer/doubled-margin.html">IE Doubled Float-Margin Bug</a>. Well spotted. The good news is that the usual fix works just fine.</p>
+<p>All that is required is <code>display: inline</code> targeted at IE for the element in question. It's only the first such block in the source ordering that needs this "hand holding" and once the fix is in, it magically sorts out any following elements which would otherwise need the fix.</p>
+<p>So in the code example, block 1 is to appear as column 2 and triggers the bug, since its column position is equal to 2 times its source position <a href="#missing_position" title="Where I explain that the explanation is, like the theory of gravity, a convenient sham">[note]</a>. Consequently we need to add the following CSS:</p>
+<pre><ins>* html #block_1
+	{
+	display: inline;
+	}</ins></pre>
+<p class="example"><a href="example/basic.html">Example of the basic Any Order technique (2-1-3 ordering)</a> <a href="#not_so_basic" title="Not quite so basic...">[note]</a></p>
+<p>So it's very nearly that simple. Or rather it <em>is</em> that simple. It's actually possible to simply set all the column elements to <code>display: inline</code> (as far as IE is concerned) without any unfortunate side effects and without any need to work out whether any of the column blocks need the hand-holding or not. <a href="#reductio_ad_simplicitatem" title="Yet more overly-complicated explanation of just how simple things are">[note]</a></p>
+
+<h3 id="anyorder-how-wrapping-things-up">Wrapping things up</h3>
+<p>As things stand in the example, there's no wrapper/container element holding the columns together. More often than not, you're  going to want or probably even need one. Most likely, if you want to apply a faux-columns style background to the columns (or utilise the techniques developed later in this article), there's the not-so trivial matter of making sure that the container expands to fully contain the columns. And so the simple method sketched out so far becomes a little messier again.</p>
+<p>Over the years, <a href="http://css-discuss.incutio.com/?page=ClearingSpace">several non-cruft-introducing methods</a> have been invented to deal with this. Unfortunately though, the <code><a href="http://mezzoblue.com/archives/2005/03/03/clearance/">overflow: hidden</a></code> method causes everything to just blow up. And a bug in Firefox/Mozilla means that you can't use the <a href="http://orderedlist.com/articles/clearing-floats-fne/" title="or Float (Nearly) Everything, as this author calls it">simple floated container</a> method, if, but only if, the longest column has actually been negatively shifted. That's a pretty big if, though. Using <code>display:table</code> works fine for a pure any order solution, but I've not used it here because it runs into trouble later on.</p>
+<p>Fortunately, the original (and still the best ;) <a href="../../easyclearing.html">EasyClearing<sup>TM</sup></a> works just fine, if somewhat more verbosely than the alternatives.</p>
+<p class="example"><a href="example/anyorder.html">Example of the Any Order technique with containing element (2-1-3 ordering)</a></p>
+<p>The method even holds up if you want to use <code>direction: rtl</code>. In that case you just switch right for left in the column float and margin declarations.</p>
+<p class="example"><a href="example/rtl.html">Example of the Any Order technique as a right-to-left layout</a></p>
+<h3 id="anyorder-how-caveats">Danger, er, Alex Robinson!</h3>
+<p>This method is, being a float-based method, prone to the usual float method problems. Because IE (both Win and Mac) violates the specs and expands elements to be at least the width of the largest nested element, things can get funky. This means that unexpectedly wide images or long unbroken strings of text will cause havoc with the layout.</p>
+<p>NB. these problems are intrinsic to any float techniques in IE, and are not caused by the use of negativity itself, but because elements are being negatively shifted, an unexpected float wrap could cause some of those elements to be placed beyond the left edge of the viewport. Consequently, particular care should be taken with the following issues:</p>
+<ul>
+<li><a href="../../explorer/italicbug-ie.html">italics</a></li>
+<li><a href="../../explorer/expandingboxbug.html">the expanding box problem</a></li>
+<li><a href="../../round-error.html">rounding errors when using ems or percentages</a></li>
+<li><a href="../../explorer/percentages.html">quirky percentages in IE6's visual formatting mode</a></li>
+</ul>
+<p>Other likely IE problems can be found at Position Is Everything's <a href="../../explorer.html">Explorer exposed!</a> and <a href="../../ie-primer.html">Windows Explorer vs. the Standards</a>. See also <a href="http://www.satzansatz.de/cssd/onhavinglayout.html">On having layout</a>, the extremely thorough dissection of IE's layout engine quirks.</p>
+
+
+<h2 id="anyorder-where">Where?</h2>
+
+<h3 id="anyorder-where-success">Works fully in</h3>
+<p>IE Win 7 beta 2, IE Win 6, IE Win 5.5, IE Win 5.01, IE Mac 5, Operas 7, 8 and 9, Firefox 1.5 <a href="#gecko_regression">[note]</a> and 1.0, Netscape 8, Safari 1.03 (and up), OmniWeb 5</p>
+
+<h3 id="anyorder-where-failure">Doesn't work fully in</h3>
+
+<h4 id="anyorder-where-netscape7">Netscapes 6 and 7</h4>
+<p>If the longest block has been negatively shifted under any circumstances (either directly or indirectly, so that it displays before any block that precedes it in the source order), its height is ignored. Instead Netscape treats as longest the longest block that has not been negatively shifted. This can cause any following elements to not be cleared correctly. Apart from that massive stumbling block, it works just great.</p>
+<h4 id="anyorder-where-other-browsers">Other Browsers</h4>
+<p>This technique does not work in Opera 6 or Netscape 4. As is. That's right, it's possible to even make it work in those browsers if you really want to. That's so insane though, that I'm putting the details of how in this <a href="appendix/olderbrowsers.html">appendix</a>.</p>
+<p>Opera 5 is another matter - the blocks never become columns, stretching to fill the width of the container and stacking up on top of each other just as if they were regular unfloated blocks. Except that the column background colours don't show up. Well, if you <em>must</em> support Opera 5...</p>
+<p>IE 4? I've got no idea. I can't get it to run on any of the Windows machines I've got access to. I don't imagine that it will behave very well though. Or in IEs 2 or 3. <em>Or</em> Netscape 2 or 3.</p>
+
+<h2 id="anyorder-when">When?</h2>
+<p>The method is both robust and generic. It allows for proper logical source ordering with the flexibility to layout in pretty much any manner. <a href="#any_order_vertical" title="But what pray, of the vertical dimension?">[note]</a></p>
+<h3 id="anyorder-when-alternative-methods">Alternative methods</h3>
+<p>However, it is certainly true that the columns can shift a pixel or two when percentages are used. If you can guarantee the longest column, the <a href="http://www.fu2k.org/alex/css/layouts/3Col_OrderedAbsolute.mhtml">Ordered Absolute method</a> gives more precision for percent-specified layouts.</p>
+<p>And if you can bear a bit of javascript, <a href="http://www.shauninman.com/plete/2004/07/absolutely-positive">Absolutely Positive</a>, Shaun Inman's routine for "clearing" absolutely positioned elements, offers a potentially much more powerful method for achieving all this and more.</p>
+<p>Tom Wright's <a href="http://www.severnsolutions.co.uk/twblog/archive/2004/07/01/cssnegativemarginsalgebra">CSS Negative Margins Algebra</a> is another CSS-plus-negatively- margined-float approach that's more than worth a look. While perhaps not being as generic as this method, it does allow you to completely remove any interdependence between the positional CSS and the underlying semantics.</p>
+<h3 id="anyorder-when-existing-methods">Existing methods</h3>
+<p>The <a href="../../ordered-floats.html" title="Big John's original essay on 'Source Ordered Columns'">original Source Ordered Columns</a> <a href="#previous_examples">[note]</a> goes a long way towards satisfying the same issues that the Any Order technique does, but it requires a semantically unnecessary inner wrapping tag to group some of the columns together. This reliance on an inner wrapping tag also limits the number of possible column orderings. Removing the need for the inner wrapper allows all possible orderings to be achieved (though the inner wrapper can serve <a href="http://www.fu2k.org/alex/css/test/EightColumns.mhtml">other purposes</a>. See <a href="appendix/theory.html" title="possible orderings">Appendix H</a> for the theory of possible orderings.</p>
+<h3 id="anyorder-when-related-methods">Related methods</h3>
+<p>It would be criminal not to mention Ryan Brill's <a href="http://alistapart.com/articles/negativemargins/">Creating Liquid Layouts with Negative Margins</a>, Thierry Koblentz's neat riff on Ryan's original <a href="http://www.tjkdesign.com/articles/3cols.asp">3 columns fluid layout</a>, Doug Livingstone's <a href="http://www.redmelon.net/tstme/3cols2/">CSS Columns</a> and Position is Everything's <a href="../../piefecta-rigid-2.html">Piefecta</a></p>
+<p>All these methods provide a way for mixing pixel widths in liquid layouts. A variation on the basic Any Order technique which can achieve the same results can be found <a href="appendix/holygrail.html">here</a>.</p>
+<h3 id="anyorder-when-new-methods">Newer methods</h3>
+<p><em>Because the web never sleeps...</em></p>
+<p>Eric Meyer had a brainwave in the middle of a workshop and came up with <a href="http://meyerweb.com/eric/thoughts/2005/11/09/multi-unit-any-order-columns/">Multi-Unit Any-Order Columns</a> which does exactly what it says on the tin.</p>
+<p>Matthew Levine went questing for a better way to mix pixel widths into liquid layouts in <a href="http://www.alistapart.com/articles/holygrail">In Search of the Holy Grail</a>.</p>
+
+
+<h2 id="anyorder-continuation">Liberté, Egalité...</h2>
+<p>Now that we have the freedom to put our columns in any old order, let's move on to that perennial CSS favourite, how to make them the <a href="equalheight.html">same height</a>.</p>
+
+
+
+</div>
+<div id="equalheight">
+<h1>Equal Height Columns - revisited</h1>
+
+<div class="update">
+<h3>Stop Press!</h3>
+<p>Several problems have been found with this technique since publication. Those problems are discussed in <a href="appendix/equalheightproblems.html">Appendix J</a></p>
+</div>
+
+<h2 id="equalheight-preamble">Huh?</h2>
+<p>As an astute disciple of CSS, you are probably about to point out that there is a well-known tried and tested method for this (and as already mentioned earlier in this article), the one popularised in Dan Cederholm's <a href="http://www.alistapart.com/articles/fauxcolumns/">Faux Columns</a>. If so, just wait - we are returning to the scene of the crime...</p>
+
+<h2 id="equalheight-who">Who?</h2>
+<p>The real credit for this technique belongs to Mark Challoner who had the crucial insight - I have merely helped polish it to the point where you can see your boots in it.</p>
+
+<h2 id="equalheight-what">What?</h2>
+<p>What it says on the tin - a method to make all columns appear to be the same height. But without the need for faux column style background images.</p>
+
+<div class="screenshot"><img src="images/screenshots/equalheight.gif" alt="animated screenshot showing layout with equal height columns" /></div>
+
+<h2 id="equalheight-why">Why?</h2>
+<p>Because equal height columns are a perfectly reasonable design goal. And the even more astute disciple will be nodding sagely, ruminating over the problems that flow from faux columns. Namely:</p>
+<ol>
+<li>you have to change your background images any time you adjust the widths of your columns</li>
+<li>you have to do some weird and brain-hurting calculations if your design is not a fixed-width pixel-based layout</li>
+<li>you have to create background images in the first place, even if all you want to do is apply a solid background colour (or heaven forbid, a simple gutter line)</li>
+<li>you have to add an additional wrapping container div for each additional faux column you want</li>
+<li>some layouts are quite simply impossible to achieve <a href="#impossible_layouts" title="Lay the impossibility on me oh wise one">[note]</a></li>
+</ol>
+
+<p>The most astute disciple is already one step ahead and is awaiting the pronouncement that Faux Columns are dead. I wouldn't go that far - in fact, they probably remain the weapon of choice. However, the method about to be described certainly provides an alternative that overcomes the problems above in some, if not all, circumstances.</p>
+
+<h2 id="equalheight-how">How?</h2>
+<p>The basic method works like this:</p>
+<ol>
+<li>Blocks which will act as columns must be wrapped in a container element</li>
+<li>Apply <code>overflow: hidden</code> to the container element</li>
+<li>Apply <code>padding-bottom: $big_value</code> <a href="#big_value" title="What the hell is $big_value?">[note]</a> to the column blocks, where $big_value is a large enough value to guarantee that it's equal to or larger than the tallest column</li>
+<li>Apply <code>margin-bottom: -$big_value</code> to the column blocks</li>
+</ol>
+
+<p>What happens is that columns really become as tall as the content they contain plus <code>$big_value</code> thanks to the <code>padding-bottom</code>. The negative <code>margin-bottom</code> brings the flow of the document back to where the same point as where the <code>padding-bottom</code> began, and the <code>overflow: hidden</code> on the containing element chops off the overflow<a href="#overflow_table_clash">[note]</a>. Consequently the columns' presence on the page only appears to be the height of the containing element and any background colour (or image for that matter) applied to the columns displays for that height. Most crucially, the height of the page reflects what appears to be on the page and does not dissappear into the scrolling distance.</p>
+<p>Remarkably, IE Win doesn't actually need the <code>overflow: hidden</code>, but it causes no problems so there is no need to hide it.</p>
+<p>Beware though, browsers don't let you throw arbitrarily large values at them. They have limits. Exceed that limit and the columns will expand to the padding-bottom value and you'll end up wiuth some pretty long pages. Fortunately, we know the number of that limit (which is actually provided by Safari which is the most conservative browser in this matter): <code>32767px</code>. This should suffice for most cases (though feel free to use a smaller value) and yields us code like this:</p>
+<pre><ins>#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px;
+	}
+#wrapper
+	{
+	overflow: hidden;
+	}</ins></pre>
+
+<p>Now if you wanted to actually achieve a 0.5em padding-bottom on the column, then you'd need code like this: <a href="#alternative_padding" title="Yes, there's more than one way to skin this cat">[note]</a></p>
+
+<pre>#block_1, #block_2, #block_3
+	{
+	<del>padding-bottom: 32767px;</del>
+	<del>margin-bottom: -32767px;</del>
+<ins>	padding-bottom: 1000em;
+	margin-bottom: -999.5em;</ins>
+	}</pre>
+
+<p>There seems to be a consensus that pixel values are usually a better bet for this type of malarkey. So, unless you need to do something like the previous example, it's wisest to stick to pixel values - especially since an em-based value which might seem fine at one font setting can end up breaking the browser's actual limit when increased.</p>
+
+<h3 id="equalheight-how-rough-edges">The rough edges</h3>
+<p>Of course, it's only to be expected that things aren't quite that simple, and that we'll need to polish things up before this is production-ready.</p>
+<h4 id="equalheight-how-rough-edges-safari">Safari</h4>
+<p>I'm not sure exactly which versions of Safari this effects, but the padding-bottom has a ghost effect that, though the columns are painted correctly, links and form elements that follow the columns and that by rights should be above it, are unclickable. <ins>(Fixed as of <a href="http://bugzilla.opendarwin.org/show_bug.cgi?id=5626" title="Bug 5626: REGRESSION: float element with bottom padding and negative margin overlaps subsequent elements">4 November 2005</a>)</ins></p>
+<p>This problem can be overcome by setting <code>position: relative</code> on any of the necessary elements. However, An unintended side-effect is that it cause such elements to vanish in IE Wins, 5.01 and 5.5, so we need to prevent those browsers seeing the <code>position: relative</code>.</p>
+<p>For example, if we had an element with the id "affected_element", we would add the following: <a href="#obvious_point_about_z-indexes" title="An obvious point about the value used here for z-indexes">[note]</a></p>
+<pre><ins>* &gt; #affected_element
+	{
+	position: relative;
+	z-index: 1000;
+	}</ins></pre>
+<h4 id="equalheight-how-rough-edges-ie-mac">IE Mac 5</h4>
+<p>IE5 Mac gets the column heights right, but the height of the page ends up including the invisble padding. Whether or not you think this is acceptable is up to you, but a simple backslashed comment hack will prevent IE5 Mac from doing the whole equal heights expansion. Graceful degradation, baby...</p>
+<pre><ins>/* Start Mac IE5 filter \*/</ins>
+#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px; 
+	}
+<ins>/* End Mac IE5 filter */</ins></pre>
+<h4 id="equalheight-how-rough-edges-opera-1">Opera - take 1</h4>
+<p>Operas 7.0 through 7.2 don't actually chop off the extended columns at the right place. For sure they don't march off quite as far as the numbers would make you think they would, but that's little comfort when you've got huge columns obliterating all in their path.</p>
+<p>Adding <code>display: inline-block</code> to the container element would solve this, but it would cause other problems to pop out from under the Opera bug carpet which are possibly fixable, but life's just too short - the most robust solution is to add our old friend <a href="../../easyclearing.html">EasyClearing</a>, and all's well again.</p>
+<p>Apart from in IE Win 5.01, where the addition of the easy clearing causes the exact opposite to happen - ie. where before all was well, now the columns stretch off into the distance. Because of Opera, mind. Fortunately, we can just add a <code>float: left;</code> and 5.01 is happy again.</p>
+<pre><ins>* html #wrapper
+	{
+	float: left;
+	}</ins></pre>
+<p class="example"><a href="example/equalheight.html">Example of the Equal Height Column technique (2-1-3 ordering)</a></p>
+
+<h4 id="equalheight-how-rough-edges-opera-2">Opera - take 2</h4>
+<p>Opera 8 introduced <a href="http://www.fu2k.org/alex/css/bugs/opera8_overflowhiddenplusnegativemarginbottom">a bit of a bug</a> to its handling of <code>overflow: hidden</code>. So, even though the easy clearing is enough to sort out the lesser Operas (though note that 7.54 works just fine without any "help"), we are again faced with columns that wouldn't look out of place in <em>The Towering Inferno</em>.</p>
+<p>Fortunately, once more there is a fix. The large padding-bottom/negative margin-bottom routine needs to removed from the columns themselves and applied to elements <em>within</em> them instead.</p>
+<p>The most obvious way to achieve this would be to set a class on the final element in each of the columns, but that would be bad since a) you need to add the class in, and b) the class is essentially playing the same role as a clearing break element - since the class is actually a structural aid rather than saying anything about what's actually within the element in question.</p>
+<p>Better is to use the <code>:after</code> pseudo element which we can rely on since we're targeting a modern browser. Rather than using <code>padding-bottom</code>, we use <code>padding-top</code> instead, since we can't rely on <code>visibility: hidden</code> to hide the generated content. Because otherwise the generated content doesn't actually increase the height of the column, somewhat defeating its purpose.</p>
+<p>Of course, removing the <code>padding-bottom</code> from the columns causes all the other browsers to collapse the columns. We could hide the removal from IE Wins with a child descendant hack, but that wouldn't help Safari and Firefox. So we reach into our box of tricks and pull out the @media query hack <a href="#media_query_hack" title="Beware the @meejahor!">[note]</a>.</p>
+<p>Here's what the addional Opera 8 code looks like:</p>
+<pre>/* Start Mac IE5 filter \*/
+#block_1, #block_2, #block_3
+	{
+	padding-bottom: 32767px;
+	margin-bottom: -32767px; 
+	}
+/* End Mac IE5 filter */
+<ins>@media all and (min-width: 0px) {
+#block_1, *#block_2, #block_3
+	{
+	padding-bottom: 0;
+	margin-bottom: 0; 
+	}
+#block_1:after, #block_2:after, #block_3:after
+	{
+	content: '[DO NOT LEAVE IT IS NOT REAL]';
+	display: block;
+	background: inherit;
+	padding-top: 32767px;
+	margin-bottom: -32767px;
+	height: 0;
+	}
+}</ins></pre>
+
+<p class="example"><a href="example/equalheightopera8fix.html">Example of the Equal Height Column technique with a fix for Opera 8 (2-1-3 ordering)</a></p>
+
+<h3 id="equalheight-how-rough-edges-opera-3">Opera - take 3</h3>
+<p>The good news is that the beta version of Opera 9 fixes the bug in Opera 8. Considering the relatively small proportion of Opera users and the likelihood of such users to upgrade often and early, it's probably OK to just leave out the Opera 8 fix.</p>
+<p>On the other hand, if you want to figure out how to distinguish Operas 8 and 9, I'm not going to stop you.</p>
+
+<h2 id="equalheight-where">Where?</h2>
+
+<div class="update">
+<h3>Stop Press!</h3>
+<p>Just in case you missed the bit at the top of the page, several problems have been found with this technique since publication. Those problems are discussed in <a href="appendix/equalheightproblems.html">Appendix J</a></p>
+</div>
+
+<h3 id="equalheight-where-success">Works fully in</h3>
+<p>IE Win 7 beta 2, IE Win 6, IE Win 5.5, IE Win 5.01, Operas 7, 8 and 9, Firefox 1.5 and 1.0 <a href="#select_scroll_oddness">[note]</a>, Netscape 8, Safari 1.03 (and up), (OmniWeb5.0?)</p>
+
+<h3 id="equalheight-where-failure">Doesn't work fully in</h3>
+
+<h4 id="equalheight-where-netscape7">Netscapes 6 and 7</h4>
+<p>The longest column must not have been negatively shifted under any circumstances otherwise we're in the same old boat of following elements not being cleared correctly as with the <a href="anyorder.html">Any Order Columns</a> method. But with an added twist. Since the containing element has been set to <code>overflow: hidden</code>, anything in the columns below the point that Netscape mistakenly believes is the endpoint of the columns is cut off and not displayed.</p>
+
+<h4 id="equalheight-where-ie-mac">IE Mac 5</h4>
+<p>As mentioned previously, the method causes the page to expand to the "actual" height of the columns. The choice is yours whether to accept that or to forego the equal heights in this superannuated browser, currently tottering around the edges interweb waiting to be put out of its misery.</p>
+
+<h4 id="equalheight-where-opera6">Operas 5 and 6</h4>
+<p>Do not understand the method at all. It is left as an exercise to the reader to figure out the necessary hacks to cope with those browsers if required.</p>
+
+<h2 id="equalheight-when">When?</h2>
+<p>This method is fairly robust, generic and nestable.</p>
+<p>It can get a little gnarly under certain circumstances  - in Operas and IE Win 5.01 (see the <a href="examples.html">expanded examples</a> for details.)</p>
+<h3 id="equalheight-when-alternative-methods">Alternative methods</h3>
+<p><a href="http://www.alistapart.com/articles/fauxcolumns/">Faux Columns</a> have already been discussed. Ingo Chao has a faux columnless <a href="http://www.satzansatz.de/cssd/columnswapping.html">two em-based columns with equal height</a>.</p>
+<p>Modern browsers hold out the promise of being able to use <a href="http://www.456bereastreet.com/archive/200406/equal_height_boxes_with_css_part_ii/"><code>display:table</code></a> to achieve much the same effect. However once you have chosen that route you are stuck with a rigid table structure. There is no way you can reorder the column blocks. Moreover, browser support for positioning elements relatively or absolutely within a table cell, whether the cell actually a <code>td</code>, <code>th</code> or another element with <code>display:table-cell</code>) is non-existent except for some slight support in iCab 3.0. Apparently. Which puts you back to square one having to write markup that looks like a traditional table.</p>
+
+<h2 id="equalheight-when-breaking-the-gridlock">Breaking the gridlock</h2>
+<p>Now that we have our revised mechanism for making columns the same height, it's time to turn our attention to how to position elements vertically within those columns.</p>
+
+
+
+
+</div>
+<div id="verticalgrid">
+<h1>Vertical Grids</h1>
+
+<h2 id="verticalgrid-what">What?</h2>
+<p>A method enabling the vertical positioning of elements across grids/columns</p>
+
+<div class="screenshot"><img src="images/screenshots/verticalgrid.gif" alt="animated screenshot showing layout with elements aligned to the bottom of each column" /></div>
+
+<h2 id="verticalgrid-why">Why?</h2>
+
+<p>Because it's a perfectly reasonable demand that designers should be able to control the vertical as well as the horizontal axis.</p>
+<p>Some may argue that designers shouldn't even have control over the horizontal axis, but if you agree with that position what the hell are you doing reading this article?</p>
+<p>Still reading?</p>
+<h3 id="verticalgrid-why-tables">Get your tables on</h3>
+<p>The age old method for dealing with vertical positioning is to use tables. Stick what needs to be top aligned in cells in one row; what needs to be bottom-aligned goes in the row that follows.</p>
+<p>The good thing about the table-based way is that it works.</p>
+<p>The bad things about the table-based way is that it forces the designer to separate logically connected elements into an arbitrary source order dictated by the design alone. Which is bad from the semantic point of view but even worse from the practical one, since it leads inexorably to the creation of gnarly, nested, hard-to-maintain tag soup.</p>
+<p>It also means that bottom-aligned elements <em>must</em> appear below all the elements within the top-aligned block and not level with the last element within it as might be desired. Or middle-aligned.</p>
+<p>However, it <em>does</em> work and does so reliably which counts for a lot when it comes to web development. It doesn't stop it being utterly dirty though.</p>
+<h3 id="verticalgrid-why-explicit-height">I know how tall you are</h3>
+<p>No, not you. The elements within which I want to vertically align things.</p>
+<p>This is the other more modern approach - as long as you know the height of the column elements then you can just set <code>position: relative</code> on the column element and then any elements within it just need <code>position: absolute</code>.</p>
+<p>To know the height, you have to know that your content will be that height (eg. the only content in the "flow" will be images which are the same height across the columns - over which you then position your text and any other images) or that your content will not make the element be higher than that and set the <code>height</code> attribute.</p>
+<p>Which is fine so far as it goes, but as soon as you need any kind of vertical liquidity, then this approach breaks down. Which is why so many designers simply don't bother.</p>
+
+<h2 id="verticalgrid-how">How?</h2>
+<p>The problem with the modern approach is that it's not possible to guarantee the height of the individual column blocks.</p>
+<p>However, we can rely on the height of the containing element by applying any of your favourite <a href="http://css-discuss.incutio.com/?page=ClearingSpace">float clearing</a> methods to ensure that the container element does indeed contain the columns. After that, it's just a matter of applying <code>position: relative</code> to the container element.</p>
+<p>Now if we apply <code>position: absolute</code> to any element within the column blocks, it will be vertically positioned relative to the container element.</p>
+
+<p>Which gives us the ability to snap things to the bottom or middle of the grid across all the columns.</p>
+
+<p>Of course, it also means that the element will be positioned relative to the container tag horizontally as well.</p>
+
+<p>This isn't a problem though if all we want to do is shift the element vertically. As long as we only set the element to appear at, say, <code>bottom: 0</code> or <code>top: 50%</code>, then it will appear horizontally aligned with the column it's in. If we want to shift the element from the left edge of the column, all that's needed is a suitable amount of <code>margin-left</code>.</p>
+
+<h3 id="verticalgrid-how-positioning-from-the-right">The power of the right</h3>
+<p>But what if we do want to offset the element from the column's right edge (which truth be told, is the most likely use for this)?</p>
+<p>The simplest, if not the easiest, solution is to set individual <code>right</code> values, where those values are equal to 100 - the value of the rightmost point of the column. <a href="#rightmost_point" title="Rightmost point? Huh? What are talking about?">[note]</a></p>
+
+<p class="example"><a href="example/verticalgridsimple.html">Example of the Vertical Grid technique (simple version with 2-1-3 ordering)</a></p>
+
+<h3 id="verticalgrid-how-opera-1">A Night at the Phantom of the Opera</h3>
+<p>If you just looked at the previous example in Opera (7 or 8, forget about 6), you might have noticed that things are a little off.</p>
+<p>First off, it fails to get the vertical positioning right at all if <a href="http://www.fu2k.org/alex/css/bugs/opera_absolutewithinrelativewithoutexplicitheight">percentages are used</a>. That's why the "L" Snaps are at the very top of the containing tag and don't start in the middle as they ought to.</p>
+<p>Adding <code>float: left</code> and an explicit <code>width: 100%</code> almost solves things, but not well enough. Block 1's snap still floats to the top and none of the elements picks up on the <code>height: 50%</code>. It looks like Opera is a hopeless case, and the best that can be achieved if Opera must be catered for is aligning to the absolute top or bottom using pixels or ems.</p>
+<h3 id="verticalgrid-how-opera-2">Opera Crackers</h3>
+<p>Secondly, the horizontal shifting works <em>sometimes</em>. That is sometimes it doesn't, failing to apply background colours and shifting the element less than it actually requires. I can't figure out the cause of this monkey business at all (it doesn't appear to be the negative margins since it fails even more spectacularly when ordered 1-2-3) which means that there is no simple CSS fix. (And this is the case whether the layout is percentage-, em- or pixel-based.)</p>
+<p>Which means...</p>
+<h3 id="verticalgrid-how-opera-3">Duck Tag Soup</h3>
+<p>We need a markup fix<!-- yes, that should really be marx up for the full effect, ho ho -->. If we wrap the element we want positioned on the right, that element can be made to be the width of the column and then absolutely positioned on the right within it.</p>
+<p>As if it's not bad enough that it's a markup fix (though since it's just an additonal wrapping tag, it's low down the scale of markup atrocities), we now run into the different models that browsers use to calculate the width of nested absolutely-positioned elements. To be blunt, Opera and IE Win <a href="http://www.fu2k.org/alex/css/bugs/positionabsolutewidthinherit"title="Inconsitency in determining width of absolutely positioned element when grandparent is relatively postioned">make it easy, but get it wrong</a> (according to the standards, that is, but that's the only game in town).</p>
+<p>So for Opera and IE Win all we need to do is:</p>
+<pre><ins>.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	}
+.verticalalign p
+	{
+	position: absolute:
+	right: 0;
+	bottom: 0;
+	}</ins></pre>
+
+<p><em>NB. floating the inner element would probably do just as well in most situations</em></p>
+
+<p>But because, Safari and Mozilla get it right, that would make the element-to-be-aligned 100% of the wrapping element. The correct value for the width in those browsers is the actual width of their parent elements. So now we add:</p>
+<pre>.verticalalign
+	{
+	position: absolute;
+	bottom: 0;
+	<del>width: 100%;</del>
+	}
+<ins>#element_1 .verticalalign
+	{
+	width: 34%;
+	}
+#element_2 .verticalalign
+	{
+	width: 33%;
+	}
+#element_3 .verticalalign
+	{
+	width: 33%;
+	}</ins></pre>
+<p>Of course, <code>.verticalalign</code> is now too narrow in Opera and IE! So we plump them back up again with a media query hack for Opera (subject to the same caveats as before), and a star html hack for IE. Hey presto!</p>
+
+<pre><ins>/* hack for Opera 7+ */
+@media all and (min-width: 0px){
+.verticalalign
+	{
+	width: 100% !important;
+	}
+}
+/* hack for IEs of all persuasions before IE7 */
+* html .verticalalign
+	{
+	width: 100% !important;
+	}</ins></pre>
+
+<h3 id="verticalgrid-how-opera-4">Opera - let's start all over again</h3>
+<p>As of the beta version of Opera 9, the position and dimensions of absolutely positioned and fixed position elements are treated correctly when they are nested inside each other (except for that vertical percentage thing mentioned above). So now the <code>width: 100%</code> gets applied as it should. Which screws things up big time.</p>
+<p>As I said on the previous page, there is such a relatively small number of Opera users (who in all likelihood upgrade often and early), that it's probably OK to just leave out the Opera 8 fix.</p>
+<p>Mind you, if you do want to figure out how to distinguish Opera 9 from previous versions, I'm really not going to stop you. Well, actually I am. You see, I've already got one. <a href="http://www.geocities.com/seanmhall2003/css3/attr.html">CSS3 attribute selectors</a> to the rescue!</p>
+<pre>/* hack for Opera 7+ */
+@media all and (min-width: 0px){
+.verticalalign
+        {
+        width: 100% !important;
+        }
+<ins>/* But Opera 9 does it right, so CSS3 hax to the max */
+div[id^="wrapper"] #block_1 .verticalalign
+        {
+        width: 34% !important;
+        }
+div[id^="wrapper"] #block_2 .verticalalign
+        {
+        width: 33% !important;
+        }
+div[id^="wrapper"] #block_3 .verticalalign
+        {
+        width: 33% !important;
+        }</ins>
+}</pre>
+<p class="example"><a href="example/verticalgrid.html">Example of the Vertical Grid technique (2-1-3 ordering)</a></p>
+
+<h2 id="verticalgrid-where">Where?</h2>
+<h3 id="verticalgrid-where-success">Works fully in</h3>
+<p>IE Win 7 beta 2, IE Win 6, IE Win 5.5, IE Win 5.01, Operas 7, 8 and 9, Firefox 1.5 and 1.0, Netscape 7 and 8, Safari 1.03 (and up)</p>
+
+<h3 id="verticalgrid-where-failure">Doesn't work fully in</h3>
+<h4 id="verticalgrid-where-ie-mac">IE Mac 5</h4>
+<p>Pretty much works - but absolute positioning is flaky at the best of times in this tired old workhorse</p>
+<h4 id="verticalgrid-where-netscape6-opera6">Netscape 6, Operas 5 and 6</h4>
+<p>Do not understand the method at all. It is left as an exercise to the reader to figure out the necessary hacks to cope with those browsers if required.</p>
+
+<h2 id="verticalgrid-when">When?</h2>
+<p>It's a bit finickity, but the technique is pretty sturdy unless you must support older browsers.</p>
+<p>You could instead reach for <code>display:table</code> but that results in, frankly, equivalent but less readable code than tables. And you can't then position elements absolutely within the table cells<a href="#absolute_tables">[note]</a>. And even if the positioning was possible, you'd be stuck with the intial source ordering of the columns...</p>
+<p>Of course, it should all be so much easier than this, as Eric Meyer laments in <a href="http://www.meyerweb.com/eric/thoughts/2004/09/05/css-grids/">CSS Gridlock</a>.</p>
+
+
+<h2 id="verticalgrid-continuation">Quest's End</h2>
+<p>The individual pieces are in place - time to bring the holy bacon home.</p>
+
+
+</div>
+<div id="combined">
+<h1>Putting it all together</h1>
+
+<div class="screenshot"><img src="images/screenshots/combined.gif" alt="animated screenshot showing a layout combining all the previous techniques" /></div>
+
+<p>Back in the introduction, I made a rash claim - that I could conjure up a layout that satisfied:</p>
+<ul>
+<li>total layout flexibility</li>
+<li>equal height columns</li>
+<li>vertical placement of elements across grids</li>
+</ul>
+
+<p>Now comes the magic moment. We've seen how to solve each of these problems in isolation. What happens if we just stick them all together?</p>
+
+<p>Well, to cut to the chase, it works in all the browsers that the individual techniques work in. Except... and it almost makes me weep to say it. Except Firefox 1.0.</p>
+
+<p class="example"><a href="example/combined.html">Example of the One True Layout™ (2-1-3 ordering)</a></p>
+
+<h3 id="combined-problem-with-firefox1.0">Firefighting Firefox</h3>
+
+<p>This time we've run into a <a href="http://www.fu2k.org/alex/css/bugs/overflowhiddenpluspositionrelative">delightful bug</a>. If an element has <code>position:relative</code> and <code>overflow:hidden</code> but no explicit <code>height</code>, then nested elements positioned absolutely within it vanish completely in Firefox 1.0. And until this is fixed, there is no CSS workaround for it.</p>
+
+<div class="update">
+<h3>Stop Press!</h3>
+<p>This bug has been fixed in Firefox 1.5. Indeed, it was fixed in the Gecko engine as of version 1.8b2.</p>
+</div>
+
+<p>It's time for another markup fix. We can't dispense with either the <code>position:relative</code> or <code>overflow:hidden</code>, but we can remove the <code>overflow</code> from <code>#wrapper</code> and apply it to another element that we put around it:</p>
+
+<pre><ins>&lt;div id="wrapper_extra"&gt;</ins>
+&lt;div id="wrapper"&gt;
+&lt;div id="element_1"&gt;
+	...
+&lt;div class="verticalalign"&gt;&lt;p&gt;Snap 1&lt;/p&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div id="element_2"&gt;
+	...
+&lt;div class="verticalalign"&gt;&lt;p&gt;Snap 2&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="element_3"&gt;
+	...
+
+&lt;div class="verticalalign"&gt;&lt;p&gt;Snap 3&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+<ins>&lt;/div&gt;</ins></pre>
+
+<pre><ins>#wrapper_extra
+	{
+	position: relative;
+	}</ins>
+#wrapper
+	{
+	overflow: hidden;
+	<del>position: relative;</del>
+	}</pre>
+<p>This placates the mysterious Firefox bug, but causes IE to lose the plot. No matter, that's easy to fix:</p>
+<pre><ins>* html #wrapper
+	{
+	position: relative;
+	}</ins></pre>
+<p class="example"><a href="example/combinedfirefoxfix.html">Example of the One True Layout™ with a fix for Firefox (2-1-3 ordering)</a></p>
+
+<h2 id="combined-where">Where?</h2>
+<p>As previously noted, it works everywhere the individual  techniques do. See <a href="appendix/methodresults.html" title="How the agents handle it - Table of Browser performance">Appendix B</a> for all the gory details.</p>
+
+<h2 id="combined-continuation">Show me the money shot</h2>
+<p>Would sir care to peruse some more involved examples?</p>
+</div>
+<div id="examples">
+<h1>Examples</h1>
+
+<p>You'd probably feel cheated if I didn't roll out some more examples that give an idea of how these techniques could be put into action. So without further ado: <a href="#opera9">[note]</a></p>
+
+<div class="examples">
+
+<h4 id="examples-example-interactive"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/interactive">Interactive Demo</a></h4>
+<div class="screenshot"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/interactive"><img src="images/screenshots/interactive.gif" alt="screenshot of interactive demo" /></a></div>
+<p>Add columns! Switch the order around! Turn methods on or off! Toggle units! Support idiot browsers!</p>
+<p><em>You</em> call the shots.</p>
+
+<h4 id="examples-example-rounded"><a href="example/rounded.html">Nested Rounded Corners</a></h4>
+<div class="screenshot"><a href="example/rounded.html"><img src="images/screenshots/rounded.gif" alt="screenshot of rounded corners example" /></a></div>
+<p>A pixel-based fixed width layout that shows just how crazy you can go repeatedly nesting the combined technique within itself.</p>
+<p>Not only is this a layout that would be impossible to achieve with a table-based layout <a href="#table_impossibility">[note]</a>, but the source ordering is a joy compared to how you'd have to do it <a href="#table_version">[note]</a></p>
+<p>Of course, this version is somewhat overladen with hacks and additional markup. So, just to show how it could (nay, should and will) be, here's <a href="example/rounded_future_perfect.html">a slimmed down version</a> that jettisons all the extraneous cruft. Of course, it only works in Safari... <ins datetime="2006-04-11">(and Firefox as of 1.5)</ins></p>
+
+
+<h4 id="examples-example-boxes"><a href="example/boxes.html">Boxes</a></h4>
+<div class="screenshot"><a href="example/boxes.html"><img src="images/screenshots/boxes.gif" alt="screenshot of boxes example" /></a></div>
+<p>A scalable em-based layout which is unremarkable other than the fact that it raises <a href="appendix/examplesresults.html">yet more questions</a> about Opera's positional abilities, and that it would be nigh on impossible to achieve with <em>Faux Columns</em>.</p>
+
+<h4 id="examples-example-borders"><a href="example/borders.html">Borders with backgrounds</a></h4>
+<div class="screenshot"><a href="example/borders.html"><img src="images/screenshots/borders.gif" alt="screenshot of borders example" /></a></div>
+<p>A liquid percentage-based layout that is utterly unremarkable. Even Opera 8 doesn't require any particularly bizarre hacks.</p>
+
+</div>
+
+<p>Results for these examples can be found in <a href="appendix/exampleresults.html">Appendix C</a>.</p>
+
+<h2 id="examples-real-world-examples">"Real world" examples</h2>
+
+<p>Unfortunately legal and intranet issues prevent me from showing you genuine working sites using these methods. Consequently I've brewed up a couple of quick makeovers that achieve much the same results as the orignals but using the now, all-too familar techniques.</p>
+
+<div class="examples">
+<h4 id="examples-example-tucows"><a href="example/tucows.html">Tucows design fragment</a></h4>
+<div class="screenshot"><a href="example/tucows.html"><img src="images/screenshots/tucows.gif" alt="screenshot of Tucows makeover example" /></a></div>
+<p>A retrofit of an existing design pattern achieved without touching the underlying HTML.</p>
+
+<h4 id="examples-example-bbc"><a href="example/bbc.html">BBC home page</a></h4>
+<div class="screenshot"><a href="example/bbc.html"><img src="images/screenshots/bbc.jpg" alt="screenshot of BBC makeover example" /></a></div>
+<p>Reimagined from the ground up as a scalable em-based layout without a table in sight.</p>
+</div>
+
+<h2 id="examples-continuation">And finally...</h2>
+<p>Yes, <a href="conclusion.html">finally</a>.</p>
+
+
+
+
+
+
+
+</div>
+<div id="conclusion">
+<h1>Conclusion</h1>
+
+<p>The <em>Any Order</em> and <em>Vertical Grid</em> techniques are fundamentally simple. More importantly, they will carry on working for as long as browsers support CSS2.1. All that will change is the dropping some of the hacks which are only needed to help the current crop of browsers (Safari notwithstanding - and Gecko once they get that regression bug fixed). That is, the techniques will improve over time. Why? <strong>Because these techniques do exactly what the specs say you can do.</strong></p>
+
+<p>On the other hand, the <em>Equal Height</em> technique is a kludge - despite the fact that the basic concept is solid and that any future browsers that are properly conforming will support it <ins datetime="2006-04-11">(<a href="appendix/equalheightproblems.html" title="Problems with the Equal Height Columns method">Or maybe not...</a>)</ins>. But it's only needed because <code>display: table-cell</code> doesn't allow for a) reordering the columns, or in today's mainstream browsers at any rate, b) absolute or relative positioning.</p>
+
+<h3 id="conclusion-bits-and-bobs">Bits and bobs</h3>
+<p>There was a whole lot of stuff that didn't really fit in the article and has been shunted into appendices. Of these, the most interesting is probably the one on creating <a href="appendix/holygrail.html">any order columns with liquid center and fixed-width sides</a>. Seeing as people like that kind of thing for some reason.</p>
+
+<h3 id="conclusion-teh-suck">One step forward, two steps backwards...</h3>
+<p>The techniques described in this article were almost completely worked out around Christmas 2004. Unfortunately by the time I got round to actually publish them, the beta of Opera 8 had been released. It's only recently that I was able to spend the time to figure out a fix for that.</p>
+
+<p>And now the latest beta version of the Gecko engine is upon us and causing <a href="http://www.fu2k.org/alex/css/bugs/gecko1.8b2+_negativefloats/">even more havoc</a>. Well tough. This time I'm publishing. I refuse to be bowed once again by a browser's failing - especially where that failing is a reversal of previous <em>correct</em> CSS support.</p>
+
+<h3 id="conclusion-modern-miracles">and two more steps forwards...</h3>
+<p>Opera 9 was released in beta the day before this article was first published. It fixes all the bugs mentioned throughout this article. And then the Mozilla team fixed the <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=312777">bug</a> that screwed up the <em>Any Order</em> method and incorporated the fix at double quick time on 2 November 2005. All's well that ends well.</p>
+
+<h2 id="conclusion-conclusion">Famous last words</h2>
+<p>All that's left to say, is "Rock on IE7"! <a href="#spawn_of_redmond">[note]</a></p>
+
+<p>... actually IE7 (as of beta 2) seems to pretty much work, though when zooming, things can go a bit awry if percentages have been used. The only tweaks needed seem to be those instances where <code>* html</code> has been used to hide the forcing of <code>hasLayout</code> on IE and where IE7 still needs it - eg. the plain vanilla vertical grids. </p>
+
+
+
+
+</div>
+<div id="appendix_acknowledgements">
+<h1><small>Appendix A</small>Acknowledgements</h1>
+<p>When first working on the <a href="anyorder.html">Any Order Columns</a> method, I spent an entire evening barking up the wrong garden path trying to figure out a <a href="http://www.fu2k.org/alex/css/cssjunk/anyordercolumnsdataset">crack-fuelled formula</a> that would cope with IE's margin shifting problems. However, as <a href="../../index.html" title="Big John... Big Bad John">John Gallant</a> pointed out to me, it was just the <a href="../../explorer/doubled-margin.html">IE Doubled Float-Margin Bug</a>. Without Big John pointing out what now seems hilariously obvious in hindsight, I would have abandoned the whole exercise since my hacked-up approximations would never have done for "real world" usage. He also, as always, provided much encouragement and useful advice.</p>
+<p>As noted in the course of the article, the <a href="equalheight.html">Equal Height Columns</a> method was actually invented by Mark Challoner and <a href="http://archivist.incutio.com/viewlist/css-discuss/47116">posted to [css-d]</a> in November 2004. Strangely that announcement passed by with barely a murmur. Possibly it was because there were still some issues with the technique (though usually that spurs [css-d] into action). Mark and I continued to bash away at the technique until it was polished into pretty much the form you see here. Indeed, it was Mark's crucial insight that led me to embark on this whole mad crusade.</p>
+<p>Thanks also to Ingo Chao, Bob Easton, Zöe Gillenwater, Eric Meyer, Gunlaug Sørtun, Ryan Thrash and Philippe Wittenbergh for help and comments at various stages of this article's development.</p>
+
+<h2>Post-publication</h2>
+<p>Massive thanks to the Mozilla team for fixing the negatively-margined float bug in record time and getting the fix into Firefox 1.5.</p>
+<p>Thanks also to: Andrey Petrov for reporting and suggesting fix for IE6 bug in basic demo; Donna Casey for reporting the crazy text scroll problem that Firefox 1.0 has with the Nested Rounded example and Ingo Chao for coming up with a simplified test case and fix for it; Andrew Soderberg for pointing out the <a href="equalheightproblems.html#ie_printing">printing problems in IE</a>; Bill Wallace and Chris W Parker for suggesting moving #footer's clear:both into the core css and out of the ancillary css file; Rob Cochrane for spurring me on to add support for <code>direction:rtl</code>; Philippe Wittenbergh (again) for creating copious test cases and pointing out the Opera 9 <code>overflow:hidden</code> behaviour change was for passing the Acid 2 test; Ingo Chao (that man again) for half slaying the anchor problems in Geckos.</p>
+<p>In chronological order, the following reported the <a href="equalheightproblems.html#linking_to_anchors">problems with links to anchors</a> with equal height columns: Leevi Graham, Bryan Buchs, Vitaly, Xavier Guilbert, Justin Watt, Micah Wylde, Thoreau Lovell, Trevor Creech, Neil Drumm, Sebastiaan van Achterbergh, Vince Bishop, joey3xRoadRunner, Michael Hickland, Jakub Wojtaszczyk, Eric Everman, Jennifer Hiller, Franck Bossy, Jörn Hofer, Keisuke Omi, Stefan Schlachter, Jesse Scott, Christopher M Kelly, Ischa Gast and Kevin White.</p>
+
+</div>
+<div id="appendix_methodresults">
+<h1><small>Appendix B</small>Browser results for the methods</h1>
+
+<p><em>For browsers which exist for different platforms, the results are the same unless expliclty mentioned.</em></p>
+
+<table id="appendix_methodresults-agent_results">
+<caption>Overview of browser behaviour</caption>
+<colgroup>
+<col width="20%" />
+</colgroup>
+<colgroup span="4" width="20%" />
+<thead>
+<tr>
+<th scope="col">Browser</th>
+<th scope="col"><a href="example/anyorder.html">Any Order</a></th>
+<th scope="col"><a href="example/equalheight.html">Equal Heights</a></th>
+<th scope="col"><a href="example/verticalgrid.html">Vertical Grid</a></th>
+<th scope="col"><a href="example/combined.html">Combined</a></th>
+</tr>
+</thead>
+<tbody>
+<tr class="important">
+<th scope="row">IE Win 7 beta 2</th>
+<td>pass</td>
+<td>pass</td>
+<td>fail (mild) <a href="#appendix_methodresults-IE7b2_vertical">[note]</a></td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 6</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.01</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">IE Mac 5.2</th>
+<td>pass</td>
+<td>fail (mild) <a href="#appendix_methodresults-IEMac5_equal">[note]</a></td>
+<td>fail (mild) <a href="#appendix_methodresults-IEMac5_vertical">[note]</a></td>
+<td>fail (mild) <a href="#appendix_methodresults-IEMac5_combined">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.0</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass <a href="#appendix_methodresults-FF1_combined">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">Netscape 8.0</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.2, 7.1, 7.0</th>
+<td>pass <a href="#appendix_methodresults-N7.2_anyorder">[note]</a></td>
+<td>pass</td>
+<td>fail (mild) <a href="#appendix_methodresults-N7.2_vertical">[note]</a></td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.2, 6.1</th>
+<td>pass <a href="#appendix_methodresults-N6.2_anyorder">[note]</a></td>
+<td>pass <a href="#appendix_methodresults-N6.2_equal">[note]</a></td>
+<td>fail (severe) <a href="#appendix_methodresults-N6.2_vertical">[note]</a></td>
+<td>fail (severe) <a href="#appendix_methodresults-N6.2_combined">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.0</th>
+<td>fail (total) <a href="#appendix_methodresults-N6.0_anyorder">[note]</a></td>
+<td>untested</td>
+<td>untested</td>
+<td>untested</td>
+</tr>
+<tr>
+<th scope="row">Netscape 4.7</th>
+<td>fail (fixable) <a href="#appendix_methodresults-N4.7_anyorder">[note]</a></td>
+<td>untested</td>
+<td>untested</td>
+<td>untested</td>
+</tr>
+<tr>
+<th scope="row">Opera 9.0 (beta)</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass<a href="#appendix_methodresults-Op9_vertical">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 8.0, 8.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 7.5</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 7.2, 7.1, 7.0</th>
+<td>pass</td>
+<td>fail (severe) <a href="#appendix_methodresults-Op7.2_equal">[note]</a></td>
+<td>pass</td>
+<td>fail (severe) <a href="#appendix_methodresults-Op7.2_combined">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 6</th>
+<td>fail (fixable) <a href="#appendix_methodresults-Op6_anyorder">[note]</a></td>
+<td>fail <a href="#appendix_methodresults-Op6_equal">[note]</a></td>
+<td>fail <a href="#appendix_methodresults-Op6_vertical">[note]</a></td>
+<td>fail <a href="#appendix_methodresults-Op6_combined">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 5</th>
+<td>fail (total) <a href="#appendix_methodresults-Op5_anyorder">[note]</a></td>
+<td>untested</td>
+<td>untested</td>
+<td>untested</td>
+</tr>
+<tr class="important">
+<th scope="row">Safari 2.0, 1.3, 1.2, 1.03</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">OmniWeb 5.0.1</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">iCab 3.02beta</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">iCab 3.01beta</th>
+<td>pass</td>
+<td>pass</td>
+<td>fail (total) <a href="#appendix_methodresults-iCab3_vertical">[note]</a></td>
+<td>fail (total) <a href="#appendix_methodresults-iCab3_combined">[note]</a></td>
+</tr>
+</tbody>
+</table>
+<table id="appendix_methodresults-agent_notes">
+<caption>Notes on individual browser behaviour</caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody>
+<tr>
+<th id="appendix_methodresults-IE7b2" colspan="2">IE Win 7 beta 2</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-IE7b2_vertical">Vertical Grid</th>
+<td headers="appendix_methodresults-IE7b2 appendix_methodresults-IE7b2_vertical">
+<p>Example as it stands fails</p>
+<p>Solution is to force get <code>hasLayout</code> applied to #wrapper, eg using something like <code>zoom: 1</code>.</p></td>
+</tr>
+<tr>
+<th id="appendix_methodresults-IEMac5" colspan="2">IE Mac 5.2</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-IEMac5_equal">Equal Heights</th>
+<td headers="appendix_methodresults-IEMac5 appendix_methodresults-IEMac5_equal">
+<p>By not feeding IE Mac the padding- and margin-bottom values that are behind the equal height, we get an acceptable degradation - if IE Mac 5 really must be catered for, then it's nothing faux-columns suitably applied can't handle</p>
+<p>On the other hand, if IE Mac 5 does get to see the padding- and margin-bottom values, the failure is catascrophic as it makes the page that height</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-IEMac5_vertical">Vertical Grid</th>
+<td headers="appendix_methodresults-IEMac5 appendix_methodresults-IEMac5_vertical">
+<p>Snaps placed above wrapper div (despite being able to paint wrapper's background to the correct height)</p>
+<p>Solution is to not give IE Mac 5 the absolutely positioning for snap and to just let it take its place in the flow</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-IEMac5_combined">Combined</th>
+<td headers="appendix_methodresults-IEMac5 appendix_methodresults-IEMac5_combined">
+<p>Now the snaps vanish entirely</p>
+<p>The fix is the same as the solution for snapped elements without equal columns</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-FF1" colspan="2">Firefox 1.0</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-FF1_combined">Combined</th>
+<td headers="appendix_methodresults-FF1 appendix_methodresults-FF1_combined">
+<p>A bug when <code>overflow: hidden</code> and <code>position: relative</code> are declared on the same element causes the unmodified markup to fail severely since the snappers quite simply vanish</p>
+<p>#wrapper's <code>overflow: hidden</code> can't be removed since it's the lynchpin that the equal heights method relies on</p>
+<p>However, by wrapping another div around #wrapper and moving <code>position: relative</code> to it, everything is ok again.</p>
+<p>It's annoying that this has to be done, but so far it's the only known fix</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-N7.2" colspan="2">Netscape 7.2, 7.1, 7.0</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-N7.2_anyorder">Any Order</th>
+<td headers="appendix_methodresults-N7.2 appendix_methodresults-N7.2_anyorder">
+<p>See article body for details</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-N7.2_vertical">Vertical Grid</th>
+<td headers="appendix_methodresults-N7.2 appendix_methodresults-N7.2_vertical">
+<p>Snaps placed correctly to the bottom of the wrapper div, however 1em additional bottom margin sneaked into the wrapper div and so the snaps are 1em below the bottom of the longest column.</p>
+<p>But check the combined result...</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-N6.2" colspan="2">Netscape 6.2, 6.1</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-N6.2_anyorder">Any Order</th>
+<td headers="appendix_methodresults-N6.2 appendix_methodresults-N6.2_anyorder">
+<p>Same caveat as for NS7</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-N6.2_equal">Equal Heights</th>
+<td headers="appendix_methodresults-N6.2 appendix_methodresults-N6.2_equal">
+<p>Some elements beneath the wrapper appear not to be able to receive clicks - the footer is ok so there you go</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-N6.2_vertical">Vertical Grid</th>
+<td headers="appendix_methodresults-N6.2 appendix_methodresults-N6.2_vertical">
+<p>Snaps vanish</p>
+<p>... and where they gos, nobody knows</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-N6.2_combined">Combined</th>
+<td headers="appendix_methodresults-N6.2 appendix_methodresults-N6.2_combined">
+<p>Netscape 6.1</p>
+<p>Since the snaps fail, unsurprisingly  the combination fails too - the equal height stuff still works just fine</p>
+</td>
+</tr><tr>
+<th id="appendix_methodresults-N6.0" colspan="2">Netscape 6.0</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-N6.0_anyorder">Any Order</th>
+<td headers="appendix_methodresults-N6.0 appendix_methodresults-N6.0_anyorder">
+<p>Columns simply stack up on top of each other</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-N4.7" colspan="2">Netscape 4.7</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-N4.7_anyorder">Any Order</th>
+<td headers="appendix_methodresults-N4.7 appendix_methodresults-N4.7_anyorder">
+<p>See the appendix that deals with <a href="appendix/olderbrowsers.html">older browsers</a>.</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_methodresults-Op9" colspan="2">Opera 9.0 (beta)</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op9_vertical">Vertical Grid</th>
+<td headers="appendix_methodresults-Op9 appendix_methodresults-Op9_vertical">
+<p>To get Opera 9 and 8 to play together at the same time requires some mundane if verbally spectacular and verbose hackery. Of course, you could just drop support for Opera 8...</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_methodresults-Op7.2" colspan="2">Opera 7.2, 7.1, 7.0</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op7.2_equal">Equal Heights</th>
+<td headers="appendix_methodresults-Op7.2 appendix_methodresults-Op7.2_equal">
+<p>Percent works just fine.</p>
+<p>Pixels and ems go haywire and extend the columns.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op7.2_combined">Combined</th>
+<td headers="appendix_methodresults-Op7.2 appendix_methodresults-Op7.2_combined">
+<p>Percent also stops working in just the same manner as the equal height failure.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op6" colspan="2">Opera 6</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op6_anyorder">Any Order</th>
+<td headers="appendix_methodresults-Op6 appendix_methodresults-Op6_anyorder">
+<p>See the appendix that deals with <a href="appendix/olderbrowsers.html">older browsers</a>.</p>
+<p>Additionally, the em version makes the columns too narrow for some reason</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op6_equal">Equal Heights</th>
+<td headers="appendix_methodresults-Op6 appendix_methodresults-Op6_equal">
+<p>There's a rendering display problem (which is probably the cause for Mark's extra content wrapper div) when the page is left and returned to (clicking back and forward, switching to another app and back again, but not reloading the page), everything is magically ok!</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op6_vertical">Vertical Grid</th>
+<td headers="appendix_methodresults-Op6 appendix_methodresults-Op6_vertical">
+<p>Horribly messy</p>
+<p>Each Snap extends from the bottom of its column to the bottom of the viewport (nice job on your positioning there Opera 6).</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op6_combined">Combined</th>
+<td headers="appendix_methodresults-Op6 appendix_methodresults-Op6_combined">
+<p>The messiness of the snap placement, <em>and</em> the equal heights stop working.</p>
+<p>But because of the overflow:hidden, the extended snaps are also subject to the magic of the equal height's "now you see it, now you don't" page revisit born againness</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op5" colspan="2">Opera 5</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-Op5_anyorder">Any Order</th>
+<td headers="appendix_methodresults-Op5 appendix_methodresults-Op5_anyorder">
+<p>Columns don't even begin to be treated as such - they just stack up vertically, ie. as usual</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-iCab3" colspan="2">iCab 3.0 beta</th>
+</tr>
+<tr>
+<th id="appendix_methodresults-iCab3_vertical">Vertical Grid</th>
+<td headers="appendix_methodresults-iCab3 appendix_methodresults-iCab3_vertical">
+<p>The vertically positioned elements don't show up at all.</p>
+<p>Which is very odd since the <a href="exampleresults.html">examples</a> work in iCab just fine.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_methodresults-iCab3_combined">Combined</th>
+<td headers="appendix_methodresults-iCab3 appendix_methodresults-iCab3_combined">
+<p>Still no sign of the vertically positioned elements.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="appendix_exampleresults">
+<h1><small>Appendix C</small>Browser results for the examples</h1>
+
+<p><em>For browsers which exist for different platforms, the results are the same unless expliclty mentioned.</em></p>
+
+<table id="appendix_exampleresults-agent_results">
+<caption>Overview of browser behaviour</caption>
+<colgroup span="4" width="25%"></colgroup>
+<thead>
+<tr>
+<th scope="col">Browser</th>
+<th scope="col"><a href="example/rounded.html">Nested Rounded Corners</a></th>
+<th scope="col"><a href="example/boxes.html">Boxes</a></th>
+<th scope="col"><a href="example/borders.html">Borders</a></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th scope="row">IE Win 7 beta2</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<th scope="row">IE Win 6.0</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass <a href="#appendix_exampleresults-IEWin6_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">IE Win 5.5</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass <a href="#appendix_exampleresults-IEWin6_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">IE Win 5.01</th>
+<td>Fail (mild) <a href="#appendix_exampleresults-IEWin5.01_rounded">[note]</a></td>
+<td>Fail (moderate) <a href="#appendix_exampleresults-IEWin5.01_boxes">[note]</a></td>
+<td>Pass (?) <a href="#appendix_exampleresults-IEWin5.01_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">IE Mac 5.2</th>
+<td>Fail <a href="#appendix_exampleresults-IEMac5_rounded">[note]</a></td>
+<td>Fail (mild) <a href="#appendix_exampleresults-IEMac5_boxes">[note]</a></td>
+<td>Fail (mild) <a href="#appendix_exampleresults-IEMac5_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Firefox 1.5</th>
+<td>Pass <a href="#appendix_exampleresults-FF1.5b_all">[note]</a></td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Firefox 1.0</th>
+<td>Pass <a href="#appendix_exampleresults-FF1_all">[note]</a></td>
+<td>Pass <a href="#appendix_exampleresults-FF1_rounded">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 8.0</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.2, 7.1</th>
+<td>Pass <a href="#appendix_exampleresults-N7.2_all">[note]</a></td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.0</th>
+<td>Fail (mild) <a href="#appendix_exampleresults-N7.0_rounded">[note]</a></td>
+<td>Fail (mild) <a href="#appendix_exampleresults-N7.0_boxes">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.2</th>
+<td>Fail <a href="#appendix_exampleresults-N6.2_rounded">[note]</a></td>
+<td>Fail (moderate) <a href="#appendix_exampleresults-N6.2_boxes">[note]</a></td>
+<td>Fail (severe) <a href="#appendix_exampleresults-N6.2_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 9.0 (beta)</th>
+<td>Pass</td>
+<td>Fail (moderate) <a href="#appendix_exampleresults-Op9_boxes">[note]</a></td>
+<td>Pass <a href="#appendix_exampleresults-Op9_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 8.5, 8.0</th>
+<td>Pass</td>
+<td>Pass <a href="#appendix_exampleresults-Op8_boxes">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 7.5</th>
+<td>Pass</td>
+<td>Pass <a href="#appendix_exampleresults-Op7.5_boxes">[note]</a></td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 7.2</th>
+<td>Fail (mild) <a href="#appendix_exampleresults-Op7.2_rounded">[note]</a></td>
+<td>Pass <a href="#appendix_exampleresults-Op7.2_boxes">[note]</a></td>
+<td>Fail (mild) <a href="#appendix_exampleresults-Op7.2_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 7.1</th>
+<td>Fail (mild) <a href="#appendix_exampleresults-Op7.1_rounded">[note]</a></td>
+<td>Pass <a href="#appendix_exampleresults-Op7.1_boxes">[note]</a></td>
+<td>Fail (severe) <a href="#appendix_exampleresults-Op7.1_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 6.0</th>
+<td>Fail (severe) <a href="#appendix_exampleresults-Op6.0_rounded">[note]</a></td>
+<td>Fail (severe) <a href="#appendix_exampleresults-Op6.0_boxes">[note]</a></td>
+<td>Fail (severe) <a href="#appendix_exampleresults-Op6.0_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Safari 2, 1.3, 1.2</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Pass</td>
+</tr>
+<tr>
+<th scope="row">Safari 1.0</th>
+<td>Pass</td>
+<td>Pass</td>
+<td>Fail (mild) <a href="#appendix_exampleresults-Saf1.0_borders">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">iCab 3.0beta</th>
+<td>pass</td>
+<td>pass</td>
+<td>pass</td>
+</tr>
+</tbody>
+</table>
+
+<table id="appendix_exampleresults-agent_notes">
+<caption>Notes on individual browser behaviour</caption>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody>
+<tr>
+<th id="appendix_exampleresults-IEWin6" colspan="2">IE Win 6.0, 5.5</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-IEWin6_borders">Borders</th>
+<td headers="appendix_exampleresults-IEWin6 appendix_exampleresults-IEWin6_borders">
+<p>Bizarrely needs adjustment to cater for slight but unexplained  right-hand corner background shift</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-IEWin5.01" colspan="2">IE Win 5.01</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-IEWin5.01_rounded">Rounded</th>
+<td headers="appendix_exampleresults-IEWin5.01 appendix_exampleresults-IEWin5.01_rounded">
+<p>Fails to extend all the boxes to quite the absolute height required</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-IEWin5.01_boxes">Boxes</th>
+<td headers="appendix_exampleresults-IEWin5.01 appendix_exampleresults-IEWin5.01_boxes">
+<p>Extends side borders to bottom of page and truncates #block_3d though not its contents. On scrolling, the extended borders vanish which means it's probably <code>pos: rel</code> related</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-IEWin5.01_borders">Borders</th>
+<td headers="appendix_exampleresults-IEWin5.01 appendix_exampleresults-IEWin5.01_borders">
+<p>Basic hacks allow nice degradation that maintains the decorative elements while forgoing the correct stretching of the bottom boxes. Without those hacks the columns simply vanish, presumably due to some <code>pos:rel</code> thing</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-IEMac5" colspan="2">IE Mac 5.2</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-IEMac5_rounded">Rounded</th>
+<td headers="appendix_exampleresults-IEMac5 appendix_exampleresults-IEMac5_rounded">
+<p>Since it can't really cope with the snaps or corners it degrades positionally well enough, apart from div 9 which wraps underneath - nothing to do with the wrapping container since giving it extra space does not help.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-IEMac5_boxes">Boxes</th>
+<td headers="appendix_exampleresults-IEMac5 appendix_exampleresults-IEMac5_boxes">
+<p>Degrades nicely and as expected.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-IEMac5_borders">Borders</th>
+<td headers="appendix_exampleresults-IEMac5 appendix_exampleresults-IEMac5_borders">
+<p>Degrades nicely and as expected though requiring same background shifting as IE Win 6.0</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-FF1.5b" colspan="2">Firefox 1.5b1, Camino 1.0a1</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-FF1.5b_all">All</th>
+<td headers="appendix_exampleresults-FF1.5b appendix_exampleresults-FF1.5b_all">
+<p>Float positioning when negative margins are around is bust in the beta versions and release candidate 1.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-FF1" colspan="2">Firefox 1.0</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-FF1_all">All methods</th>
+<td headers="appendix_exampleresults-FF1 appendix_exampleresults-FF1_all">
+<p>Also tested and passes in Firefox 0.8 and Mozillas 1.4, 1.5 and 1.6</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-FF1_rounded">Rounded</th>
+<td headers="appendix_exampleresults-FF1 appendix_exampleresults-FF1_rounded">
+<p>The presence of a relatively positioned element within any of the blocks causes weird scrolling effects when trying to select text. This bug has been fixed in 1.5, but just so you know. Details in this <a href="http://archivist.incutio.com/viewlist/css-discuss/64928">[css-d] thread</a>.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N7.2" colspan="2">Netscape 7.2, 7.1</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N7.2_all">All methods</th>
+<td headers="appendix_exampleresults-N7.2 appendix_exampleresults-N7.2_all">
+<p>Strangely enough since I really would have expected these to fail</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N7.0" colspan="2">Netscape 7.0</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N7.0_rounded">Rounded</th>
+<td headers="appendix_exampleresults-N7.0 appendix_exampleresults-N7.0_rounded">
+<p>Bottom right corner and snap inset upwards and leftwards.</p>
+<p>Mild failure, and probably hackable for working solutions.</p>
+<p><em>Following a machine crash, I no longer have a copy of Netscape 7.0 and cannot track one down, so this might no longer be true - but who cares?</em></p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N7.0_boxes">Boxes</th>
+<td headers="appendix_exampleresults-N7.0 appendix_exampleresults-N7.0_boxes">
+<p>Extremely close, but bottom bg painting extends beyond the borders of the bottom-most boxes</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-N6.2" colspan="2">Netscape 6.2</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N6.2_rounded">Rounded</th>
+<td headers="appendix_exampleresults-N6.2 appendix_exampleresults-N6.2_rounded">
+<p>Much the same as Netscape 7.0</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N6.2_boxes">Boxes</th>
+<td headers="appendix_exampleresults-N6.2 appendix_exampleresults-N6.2_boxes">
+<p>Much the same as Netscape 7.0 but not quite as close</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-N6.2_borders">Borders</th>
+<td headers="appendix_exampleresults-N6.2 appendix_exampleresults-N6.2_borders">
+<p>An utter mess</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-Op9" colspan="2">Opera 9.0 (beta)</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op9_boxes">Boxes</th>
+<td headers="appendix_exampleresults-Op9 appendix_exampleresults-Op9_boxes">
+<p>Final boxes only painted as far as bottom of verticallt aligned elements leaving ghostly space above bottommost border for each column.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op9_borders">Borders</th>
+<td headers="appendix_exampleresults-Op9 appendix_exampleresults-Op9_borders">
+<p>To get Opera 9 and 8 to play together at the same time requires some mundane if verbally spectacular and verbose hackery. Of course, you could just drop support for Opera 8...</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-Op8" colspan="2">Opera 8.5, 8.0</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op8_boxes">Boxes</th>
+<td headers="appendix_exampleresults-Op8 appendix_exampleresults-Op8_boxes">
+<p>Weirdness going on when setting margin and padding, along with ems. Gets it basically right but the leftmost column is shunted rightwards and needs explicit surgery to rectify things - which causes reload side-effect oddness in IEs.</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-Op7.5" colspan="2">Opera 7.54</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op7.5_boxes">Boxes</th>
+<td headers="appendix_exampleresults-Op7.5 appendix_exampleresults-Op7.5_boxes">
+<p>As with Opera 8</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-Op7.2" colspan="2">Opera 7.23</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op7.2_rounded">Rounded</th>
+<td headers="appendix_exampleresults-Op7.2 appendix_exampleresults-Op7.2_rounded">
+<p>Top left rounded corners dissappear</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op7.2_boxes">Boxes</th>
+<td headers="appendix_exampleresults-Op7.2 appendix_exampleresults-Op7.2_boxes">
+<p>As with Opera 8</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op7.2_borders">Borders</th>
+<td headers="appendix_exampleresults-Op7.2 appendix_exampleresults-Op7.2_borders">
+<p>As with Opera 8</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-Op7.1" colspan="2">Opera 7.10</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op7.1_rounded">Rounded</th>
+<td headers="appendix_exampleresults-Op7.1 appendix_exampleresults-Op7.1_rounded">
+<p>As with Opera 7.23</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op7.1_boxes">Boxes</th>
+<td headers="appendix_exampleresults-Op7.1 appendix_exampleresults-Op7.1_boxes">
+<p>Bizarre! No overlong scrolling page!</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op7.1_borders">Borders</th>
+<td headers="appendix_exampleresults-Op7.1 appendix_exampleresults-Op7.1_borders">
+<p>Bottom boxes overly extended</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-Op6.0" colspan="2">Opera 6.06</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op6.0_rounded">Rounded</th>
+<td headers="appendix_exampleresults-Op6.0 appendix_exampleresults-Op6.0_rounded">
+<p>Block 1 disappears, most snaps vanish, bottom corners vanish or incorrectly placed</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op6.0_boxes">Boxes</th>
+<td headers="appendix_exampleresults-Op6.0 appendix_exampleresults-Op6.0_boxes">
+<p>Block 3 covers the central column (Block 1), snaps and bottom borders all over the place</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Op6.0_borders">Borders</th>
+<td headers="appendix_exampleresults-Op6.0 appendix_exampleresults-Op6.0_borders">
+<p>Block 3 covers the central column (Block 1), snaps and borders not shifted to bottom.</p>
+<p>Potentially hackable to degrade nicely à la IE Mac 5...</p>
+</td>
+</tr>
+
+<tr>
+<th id="appendix_exampleresults-Saf1.0" colspan="2">Safari 1.0.3</th>
+</tr>
+<tr>
+<th id="appendix_exampleresults-Saf1.0_borders">Borders</th>
+<td headers="appendix_exampleresults-Saf1.0 appendix_exampleresults-Saf1.0_borders">
+<p>Top borders not drawn correctly</p>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+
+
+
+</div>
+<div id="appendix_holygrail">
+<h1><small>Appendix D</small>Any Order Columns - Liquid center, fixed-width sides</h1>
+<h2>aka <a href="http://glish.com/css/7.asp">The Holy Grail</a></h2>
+
+
+<p>We should be able to take the <a href="../anyorder.html">Any Order Columns</a> technique, apply the relevant amount of <code>margin-left</code> and <code>right</code> to the main block and then neg the side columns into position. Something like this:</p>
+
+<pre>#block_1
+	{
+	float: left;
+	margin-left: 15em;
+	margin-right: 200px;
+	}
+#block_2
+	{
+	float: left;
+	margin-left: -100%;
+	width: 15em;
+	}
+#block_3
+	{
+	float: left;
+	margin-left: -200px;
+	width: 200px;
+	}</pre>
+
+
+<p>In theory that's great, but it only actually works in Safari. To make it work (after a fashion) in IE, Firefox and Opera requires expressions and other odd difficult to fathom kludges.</p>
+
+<p>The solution is a wrapping element. The nice thing though, is it only has to wrap the first block. The wrapping element is 100% wide and floated. Now we can apply those left and right margins on the first block to get it into place and the negging can proceed.</p>
+
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/holygrail">Semi-interactive example of the Any Order technique with fluid main column and fixed width ancillary columns</a></p>
+
+<h3 id="appendix_holygrail-how-hang-on-a-minute">Hang on a minute</h3>
+<p>Some of the different scenarios need slightly different handling - but it's still a very simple technique.</p>
+
+<p>How different? Well the quirks are:</p>
+
+<h4 id="appendix_holygrail-how-column1-last-in-source">For orderings 3-2-1 and 2-3-1</h4>
+
+<p>Explorer needs the central column shifted over by the width of the left column, otherwise it buts up flat on the very left. Fortunately setting <code>position: relative</code> and its <code>left</code> value to the width of the left column does the job.</p>
+
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/holygrail?order=321">Example of the Any Order technique with fluid main column and fixed width ancillary columns (3-2-1 ordering)</a></p>
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/holygrail?order=231">Example of the Any Order technique with fluid main column and fixed width ancillary columns (2-3-1 ordering)</a></p>
+
+<h4 id="appendix_holygrail-how-213">For ordering 2-1-3</h4>
+
+<p>#block_3 needs to be floated right (in all the other cases, all the floats are in the same direction so this is the closest there is to a gotcha) Explorer overdoes the -100% negging and just requires a negative margin that is the same as its width</p>
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/holygrail?order=213">Example of the Any Order technique with fluid main column and fixed width ancillary columns (2-1-3 ordering)</a></p>
+
+<h3 id="appendix_holygrail-where-success">Works in...</h3>
+<p>IEs 5.01, 5.5, 6.0 on the PC, Firefox 1, Operas 8, 7 (.02 though .54), and the latest Safari.</p>
+
+<h3 id="appendix_holygrail-where-partial-success">Wheels beginning to fall off...</h3>
+<p>Netscape 7.2 fails to clear the footer properly.</p>
+
+<p>IE5 on the mac gets a horizontal scroll bar that extends to where the width of the page would be if the neg-floated elements had actually floated to the right of the main column. But it does work, so it's just an unfortunate side effect as far as I'm concerned.</p>
+
+<p>Opera 6 works, apart from 1-2-3 and its mirror 3-2-1. Not that it matters ;) However, it looks as if judicious Opera hacking could overcome this.</p>
+
+<h3 id="appendix_holygrail-where-failure">Doesn't work in...</h3>
+<p>Unsurprisingly, Opera 5 doesn't display the columns as columns at all.</p>
+
+<h3 id="appendix_holygrail-when">Fitness for public consumption</h3>
+<p>I presume that as with the non-fixed width ancillary columns, that this technique is a) nestable,  b) possible with additional columns and c) amenable to the <a href="../equalheight.html">Equal Height Columns</a> method.</p>
+<p>However, because I personally have no use for this type of layout, I have not tested these presumptions.</p>
+
+<h2 id="appendix_holygrail-how-without-wrapper">No wrapper - slight return</h2>
+<p>Of course, another problem with not having a wrapper element around the first block, is that, since it is floated but has no explicit width, the block will only be as wide as its content makes it. If there's not enough content to expand the block to fill the available space, the <code>margin-right</code> will not reach the right hand edge of the viewport and the rest of the positioning will be out of wack.</p>
+
+<p>Now we could assume that there will always be enough content to expand things just so, or we could do something like:</p>
+
+<pre>
+#block_1:after
+	{
+	content: '.';
+	display: block;
+	float: left;
+	width: 100%;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
+	}</pre>
+<p>Nice try, but only Opera really gets it. Safari and Mozilla prefer something along these lines:</p>
+<pre>
+#block_1:after
+	{
+	content: '. . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .
+	. . . . . . . . . . . . . . . . . . . . . . . . .';
+	display: block;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
+	}</pre>
+
+<p>But Opera hates it with a passion. A solution could be fashioned out of this material, but really, until browsers get their act together, the additional wrapper is just so much less of a drag...</p>
+</div>
+<div id="appendix_anyorderalternative">
+<h1><small>Appendix E</small>Any Order Columns - an alternative approach</h1>
+
+<p>Philippe Wittenbergh suggested a possible workaround for the Gecko 1.8b2 bug - and what do you know, it's the basis for a whole new alternative way of doing any order columns. Up to a point.</p>
+
+<h2 id="appendix_anyorderalternative-how">How?</h2>
+<p>Each column is still floated, but we:</p>
+<ol>
+<li>add <code>position: relative</code></li>
+<li>substitute <code>left</code> for <code>margin-left</code>. The value of <code>left</code> for block <em>n</em> is worked out so:
+<ol>
+<li>determine the position of the leftmost edge of the block</li>
+<li>add up the widths of any block that precedes it in the source</li>
+<li>subtract the total of the widths from the leftmost edge</li>
+</ol>
+</li>
+</ol>
+
+<p>The following CSS gives us our standard 2-1-3 ordering:</p>
+<pre><ins>#block_1
+        {
+        position: relative;
+        float: left;
+        width: 34%;
+        left: 33%;
+        }
+* html #block_1
+        {
+        display: inline;
+        }
+#block_2
+        {
+        position: relative;
+        float: left;
+        width: 33%;
+        left: -34%;
+        }
+#block_3
+        {
+        position: relative;
+        float: left;
+        width: 33%;
+        }</ins></pre>
+
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/anyorderalternative">Interactive example of the alternative Any Order technique</a></p>
+
+<h3 id="appendix_anyorderalternative-how-half-an-alternative">Half an alternative</h3>
+<p>This works fine in modern browsers with the equal height method, but because of the <code>position: relative</code> applied to the columns, it can never be souped up to be used as the underlying chassis for the vertical grid.</p>
+<p>Of course, if you don't have any need for vertical grid-style positioning, then it will do just fine.</p>
+
+<h3 id="appendix_anyorderalternative-how-less-of-an-alternative">Somewhat less of an alternative</h3>
+<p>Unfortunately it doesn't work in IE Win 5.01 or 5.5. And adding equal heights into the mix makes IE Win 6 lose the plot. Moreover IE Mac 5 pays no attention to the <code>left</code> declarations. And the same goes for Safari 1.03.</p>
+
+<h3 id="appendix_anyorderalternative-how-alternative-alternative">An alternative alternative</h3>
+<p>On the other hand it works in all Netscapes back to 6.1 (and gets round the longest column problem that occurs in some of them) and all versions of Opera back to 7.0. - feed the 'original' Any Order technique to all versions of IE and you've got the best of both worlds. Forgive me for leaving that for someone else to implement...</p>
+
+<h2 id="appendix_anyorderalternative-where">Where?</h2>
+
+<table id="appendix_anyorderalternative-agent_results">
+<caption>Overview of browser behaviour for alternative method</caption>
+<colgroup>
+<col width="50%" />
+</colgroup>
+<colgroup span="2" width="25%" />
+<thead>
+<tr>
+<th scope="col">Browser</th>
+<th scope="col">Any Order</th>
+<th scope="col">Equal Heights</th>
+</tr>
+</thead>
+<tbody>
+<tr class="important">
+<th scope="row">IE Win 6</th>
+<td>pass</td>
+<td>fail <a href="#appendix_anyorderalternative-IEWin6_equal">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.5</th>
+<td>fail <a href="#appendix_anyorderalternative-IEWin5_anyorder">[note]</a></td>
+<td>fail <a href="#appendix_anyorderalternative-IEWin5_equal">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">IE Win 5.01</th>
+<td>fail <a href="#appendix_anyorderalternative-IEWin5_anyorder">[note]</a></td>
+<td>fail <a href="#appendix_anyorderalternative-IEWin5_equal">[note]</a></td>
+</tr>
+<tr class="important">
+<th scope="row">IE Mac 5.2</th>
+<td>fail <a href="#appendix_anyorderalternative-IEMac5_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.5</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Firefox 1.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Netscape 8.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 7.2, 7.1, 7.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.2, 6.1</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Netscape 6.0</th>
+<td>fail <a href="#appendix_anyorderalternative-N6.0_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr>
+<th scope="row">Netscape 4.7</th>
+<td>fail <a href="#appendix_anyorderalternative-N4.7_anyorder">[note]</a></td>
+<td>fail <a href="#appendix_anyorderalternative-N4.7_equal">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Netscape 4.04</th>
+<td>fail <a href="#appendix_anyorderalternative-N4.04_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 8.0, 8.5</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Opera 7.5, 7.2, 7.1, 7.0</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">Opera 6</th>
+<td>pass</td>
+<td>fail <a href="#appendix_anyorderalternative-Op6_equal">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">Opera 5</th>
+<td>fail <a href="#appendix_anyorderalternative-Op5_anyorder">[note]</a></td>
+<td>fail</td>
+</tr>
+<tr class="important">
+<th scope="row">Safari 2.0, 1.3</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr class="important">
+<th scope="row">Safari 1.03</th>
+<td>fail <a href="#appendix_anyorderalternative-Saf1_anyorder">[note]</a></td>
+<td>fail <a href="#appendix_anyorderalternative-Saf1_equal">[note]</a></td>
+</tr>
+<tr>
+<th scope="row">OmniWeb 5.0.1</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+<tr>
+<th scope="row">iCab 3.0 beta</th>
+<td>pass</td>
+<td>pass</td>
+</tr>
+</tbody>
+</table>
+
+
+<table id="appendix_anyorderalternative-agent_notes">
+<caption>Notes on individual browser behaviour</caption>
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody>
+<tr>
+<th id="appendix_anyorderalternative-IEWin6" colspan="2">IE Win 6.0</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-IEWin6_equal">Equal Heights</th>
+<td headers="appendix_anyorderalternative-IEWin6 appendix_anyorderalternative-IEWin6_equal">
+<p>The <code>overflow: hidden</code> does not do its magic and the columns are painted into the distance.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-IEWin5" colspan="2">IE Win 5.5, 5.01</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-IEWin5_anyorder">Any Order</th>
+<td headers="appendix_anyorderalternative-IEWin5 appendix_anyorderalternative-IEWin5_anyorder">
+<p>Shifted elements are incorrectly positioned</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-IEWin5_equal">Equal Heights</th>
+<td headers="appendix_anyorderalternative-IEWin5 appendix_anyorderalternative-IEWin5_equal">
+<p>Given the problems with the any ordering, the results are not pretty</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-IEMac5" colspan="2">IE Mac 5.2</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-IEMac5_anyorder">Any Order</th>
+<td headers="appendix_anyorderalternative-IEMac5 appendix_anyorderalternative-IEMac5_anyorder">
+<p>The <code>left</code> declarations are completely ignored and the columns display in source order</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-N6.0" colspan="2">Netscape 6.0</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-N6.0_anyorder">Any Order</th>
+<td headers="appendix_anyorderalternative-N6.0 appendix_anyorderalternative-N6.0_anyorder">
+<p>Columns simply stack up on top of each other and no background colour is painted</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-N4.7" colspan="2">Netscape 4.7</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-N4.7_anyorder">Any Order</th>
+<td headers="appendix_anyorderalternative-N4.7 appendix_anyorderalternative-N4.7_anyorder">
+<p>Background colours not painted but the positioning is preserved.</p>
+<p>Float clearing would need additional markup cruft.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-N4.7_equal">Equal Heights</th>
+<td headers="appendix_anyorderalternative-N4.7 appendix_anyorderalternative-N4.7_equal">
+<p>Columns vanish.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-N4.04" colspan="2">Netscape 4.04</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-N4.04_anyorder">Any Order</th>
+<td headers="appendix_anyorderalternative-N4.04 appendix_anyorderalternative-N4.04_anyorder">
+<p>Background colours not painted and columns just stack.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-Op6" colspan="2">Opera 6</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-Op6_equal">Equal Heights</th>
+<td headers="appendix_anyorderalternative-Op6 appendix_anyorderalternative-Op6_equal">
+<p>There's a rendering display problem (which is more sever in the Mac than the Win version) that causes the columns to be painted overlong. The "usual" fixes of clicking back and forward or switching to another app and back again don't work, but scrolling up and down make's everything magically ok!</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-Op5" colspan="2">Opera 5</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-Op5_anyorder">Any Order</th>
+<td headers="appendix_anyorderalternative-Op5 appendix_anyorderalternative-Op5_anyorder">
+<p>Background colours not painted and columns just stack.</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-Saf1" colspan="2">Safari 1.03</th>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-Saf1_anyorder">Any Order</th>
+<td headers="appendix_anyorderalternative-Saf1 appendix_anyorderalternative-Saf1_anyorder">
+<p>The <code>left</code> declarations are completely ignored and the columns display in source order</p>
+</td>
+</tr>
+<tr>
+<th id="appendix_anyorderalternative-Saf1_equal">Equal Heights</th>
+<td headers="appendix_anyorderalternative-Saf1 appendix_anyorderalternative-Saf1_equal">
+<p>The <code>left</code> declarations still don't work, but the column heights are correctly painted.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="appendix_anyverticalorder">
+<h1><small>Appendix F</small>Any Vertical Order</h1>
+
+
+<p>If you can guarantee the height of elements within a block, you can, within reason, reorder them vertically.</p>
+
+<p>The following example is far from definitive - not least because even the modern browsers can't begin to agree on how to behave. But just to give a flavoursome idea of what's possible and to remind me (or someone else) to properly investigate and see who's right and who's wrong <a href="#vertically_challenged">[note]</a>, here goes...</p>
+
+<p class="example"><a href="http://www.fu2k.org/alex/css/onetruelayoexample/anyverticalorder">Semi-interactive example of vertically shifting blocks</a></p>
+
+<p>Now elements within the main content or changing lists of links would probably be too unpredictable to monkey around with in any case (as well as there being no sane reason why you would want to), but chunks like navigation and site identity have no business appearing in the source before the real content and, unless their height is <em>that</em> unpredictable, could easily be catered for.</p>
+
+<p>For instance, but much more realistically than the examples linked to,  a theoretical element, say <code>#site_identity</code>,  could be last in the source and still rise to the top:</p>
+
+<pre>body
+	{
+	margin-top: 4em;
+	}
+#site_identity
+	{
+	position: absolute:
+	top: 0;
+	height: 4em;
+	}</pre>
+
+<p>There are other ways this kitty could be skinned, but if you don't do something along these lines in this day and age, you're committing a layout crime ;)</p>
+
+
+</div>
+<div id="appendix_olderbrowsers">
+<h1><small>Appendix G</small>Any Order Columns for older browsers</h1>
+
+<h2 id="appendix_olderbrowsers-netscape4">Netscape 4</h2>
+<p>Rather than position each float relative to the overall rightmost point has been cleared, if any element has a negative margin-left applied to it, NN4 (4.7, for sure) treats all positive <code>margin-left</code>s as starting from 0.</p>
+<p>So we just need to negatively shift one element (by the amount that would be expected from its desired position) and then set <code>margin-left</code> on the other elements <em>as if they were absolutely positioned</em></p>
+<table>
+<caption>Adjusted margin-left values for Netscape 4 - 3-1-4-2 ordering, all widths 25%</caption>
+<colgroup>
+<col width="1*" />
+<col width="1*" />
+<col width="1*" />
+</colgroup>
+<tbody>
+<tr><th class="empty"></th><th scope="col">NN4</th><th scope="col">Normal</th></tr>
+<tr><th scope="row">Block 1</th><td>25</td><td>25</td></tr>
+<tr><th scope="row">Block 2</th><td>75</td><td>25</td></tr>
+<tr><th scope="row">Block 3</th><td>-100</td><td>-100</td></tr>
+<tr><th scope="row">Block 4</th><td>50</td><td>-50</td></tr>
+</tbody>
+</table>
+<p>Of course, NN4 doesn't understand the easy clearing method, so a non-semantic clearing element would need to introduced to force the wrapper element's height.</p>
+<p>Though this would work, NN4's application of colours and background images to floated and absolutely positionned elements is notoriously flaky, so maintaining the layout structure is the most you could seriously hope to achieve.</p>
+
+
+<h2 id="appendix_olderbrowsers-opera6">Opera 6</h2>
+<p>Suffers from something similar but different to NN4.</p>
+<p>Once the overall rightmost point has been cleared, it works from the preceding element's rightmost point.</p>
+<table>
+<caption>Adjusted margin-left values for Opera 6 - 3-1-4-2 ordering, all widths 25%</caption>
+<colgroup>
+<col width="1*" />
+<col width="1*" />
+<col width="1*" />
+</colgroup>
+<tbody>
+<tr><th class="empty"></th><th scope="col">Op 6</th><th scope="col">Normal</th></tr>
+<tr><th scope="row">Block 1</th><td>25</td><td>25</td></tr>
+<tr><th scope="row">Block 2</th><td>25</td><td>25</td></tr>
+<tr><th scope="row">Block 3</th><td>-100</td><td>-100</td></tr>
+<tr><th scope="row">Block 4</th><td>25</td><td>-50</td></tr>
+</tbody>
+</table>
+<p>However, if you are so foolhardy as to try and do something with this information, know this also - Opera 6 has problems when using ems and makes the columns too narrow for some reason.</p>
+</div>
+<div id="appendix_theory">
+<h1><small>Appendix H</small>Notes on theory</h1>
+
+<h2 id="appendix_theory-possible-orderings">On possible orderings</h2>
+
+<p>Since the <em>Any Order</em> technique does not rely on wrapping elements, the blocks can be arranged in all possible combinations. For <em>n</em> columns, since any block can be in the position of any column, that number is given by the simple formula <em>n</em> <a href="http://en.wikipedia.org/wiki/Factorial">factorial</a> or <em>n</em>!</p>
+<p>eg. for <em>n</em> = 5, the possible orderings = 1 x 2 x 3 x 4 x 5 = 120</p>
+
+<p>With the wrapping elements (as in the original <a href="../../ordered-floats.html">Source Ordered Columns</a>), things are more constrained. For each wrapping element we essentially end up with two sub columns - two sub-columns means two possible combinations, giving us the formula, 2<sup><em>n</em>-1</sup>.</p>
+<p>eg. for <em>n</em> = 5, the possible orderings = 2 x 2 x 2 x 2 = 16</p>
+
+<p>As you can see, as the number of columns increases, the potential number of combinations increases far more rapidly for the <em>Any Order</em> technique.</p>
+
+<p>More practically, wrapping elements can be used to good effect to enable groups of blocks to be stacked vertically within, rather than as, columns, giving yet more potential layout flexibility.</p>
+
+<table>
+<caption>Possible combinations for the different methods</caption>
+<colgroup span="3" width="1*" />
+<tbody>
+<tr>
+<th scope="col">Number of Columns</th>
+<th scope="col">Source Order Columns</th>
+<th scope="col">Any Order Columns</th>
+</tr>
+<tr>
+<th scope="row">2</th>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<th scope="row">3</th>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<th scope="row">4</th>
+<td>8</td>
+<td>24</td>
+</tr>
+<tr>
+<th scope="row">5</th>
+<td>16</td>
+<td>120</td>
+</tr>
+<tr>
+<th scope="row">6</th>
+<td>32</td>
+<td>720</td>
+</tr>
+<tr>
+<th scope="row">7</th>
+<td>64</td>
+<td>5040</td>
+</tr>
+<tr>
+<th scope="row">8</th>
+<td>128</td>
+<td>40320</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="appendix_theory-faux-columns-and-wrappers">On faux columns and wrappers</h2>
+<p>Until enough browsers support multiple backgrounds on a single element, <em>n</em>-2 wrapping elements are required to hold the necessary background images to create the effect of <em>n</em> columns.</p>
+<p>Unless, of course, the layout is a fixed pixel-width one, in which case a single background image can be used for any number of columns.</p>
+
+</div>
+<div id="appendix_notes">
+<h1><small>Appendix I</small>Miscellaneous notes</h1>
+
+<h2 id="appendix_notes-naming-of-classes-and-ids">What's in a <del>name</del><ins>id/class</ins>?</h2>
+<p>Throughout this article and its assorted examples I use class names and ids such as <code>#footer</code>, <code>#header</code>, <code>#block_1</code> and <code>.verticalalignment</code>. You shouldn't use identifiers like this in the real world.</p>
+<p>Take for example <code>#header</code>. What's in it? If, I'm guessing here, it actually contains site identity stuff like logos, <code>#site-identity</code> (or whatever you prefer) would be better. Disclaimer legalese in the "footer"? Then use someting more descriptive like <code>#site-legal</code> or <code>#legal-mumbo-jumbo</code>. Because you might want to place you site identity at the bottom or doen the side, and then <code>#header</code> doesn't make any sense. It's the same reason really for not using class names like <code>.red-bold-helvetica</code>.</p>
+<p>I'm using these names because this is an article with example code. In this case they really are properly descriptive. Unless you're writing a similar article, using simliar names will not be so for you.</p>
+
+<h2 id="appendix_notes-hacks-vs-conditional-comments">Hacks vs conditional comments</h2>
+<p>Throughout the article I use hacks to deal with IE Win - that's just the way I like to do things. It also makes the example code here simmpler and clearer. And to be clearer still about the intent of the code: it is <em>example</em> code. I do not recommend that you cut and paste it (see the remarks about class names and ids above), but rather that you write it yourself after understanding the principles behind the techniques.</p>
+<p>So, feel free to use conditional comments or plain voodoo if you prefer. But please don't bother telling me hacks are wrong etc...</p>
+
+<h2 id="appendix_notes-pixel-perfection">Pixel perfection</h2>
+<p>Throughout the article, the working examples linked to  are percentage-based. Consequently those examples, surprise surprise, are not pixel perfect and small gaps will occasionally (or rather, frequently) appear between the columns. One fix for such a three column layout is to set just the backgrounds of the side columns and let the background of the wrapping element paint the central column.</p>
+<p>Personally I would avoid such layouts in a real life production situation, but I feel that it helps explain that the principles of the techniques better than using rigid pixel values. And others may not feel comfortable with grappling with the concept of scalable em-based layouts. So precentages, it is.</p>
+
+<h2 id="appendix_notes-rounding-error">"It's broken in my browser..."</h2>
+
+<p>Yes, I know. Some of the examples have incorrect wrapping in Internet Explorer. At some window sizes. It's caused by a rounding error, a known problem with Explorer. If you read the section <a href="../anyorder.html#how-caveats"><em>Danger Alex Robinson</em></a> on the Any Order Columns page you'll see it mentioned in passing.</p>
+
+<p>Try resizing your browser - you should see the column jump back and forth from its correct position to where you see it now. If you must use percentages, the solution is to feed Explorer a slightly smaller value for the problematic column, say 32.9% instead than 33%. I could have done that in the examples but frankly, what with the length of the article and wanting to concentrate on the bare minimum to demonstrate things, I chose to not include such refinements. If you go to the interactive demo, you'll see that there's a message advising about reducing values if wrapping occurs.</p>
+
+<p>For obvious reasons the problem doesn't occur at all with pixel-based designs. And much less frequently with em-based ones, especially since I always make the wrapper just that little bit wider than it needs to be.</p>
+
+<p>Of course, if you've found another problem with the layout, please make haste to let me know about it.</p>
+
+<h2 id="appendix_notes-no-room-at-the-inn">But what about...?</h2>
+<p>There are plenty of things that could have been added to this article.</p>
+<p>At over 10000 words, though, it's already a bit of a monster and only issues that arise as a direct consequence of techniques discussed here are addressed. However I have tried to point the reader towards the most common problems that these techniques share with other approaches. If you think I've made any appalling omissions, tell me about it.</p>
+</div>
+<div id="appendix_equalheightproblems">
+<h1><small>Appendix J</small>Problems with the Equal Height Columns method</h1>
+
+<p>Several issues have been discovered since publication which, depending on your requirements, can cause severe problems when using the equal height technique.</p>
+
+<ol>
+<li><a href="#linking">Linking to anchors in elements within the containing block</a></li>
+<li><a href="#scrolling">Selecting and scrolling in Gecko-derived browsers</a></li>
+<li><a href="#printing">Printing in Internet Explorer</a></li>
+</ol>
+
+<h2 id="appendix_equalheightproblems-linking">Linking to anchors in elements within the containing block</h2>
+<p>Linking to an anchor in any of the columns within the element that has been set to overflow: hidden causes the content of that column to shift upwards. In IE and Firefox, that is.</p>
+<p class="example"><a href="example/equalheightanchors.html">Example of anchors in the equal height method</a></p>
+<p>ie. it's not the large padding that's casuing the problem (though obviously it is the trigger of the behaviour)</p>
+
+<h3 id="appendix_equalheightproblems-linking-ie-fix">A fix for IE</h3>
+<p class="example"><a href="example/equalheightanchorsiefix.html">Fix for anchor problem in IE</a></p>
+<p>IEs 6 and under are easy. Simply suppress the <code>overflow: hidden</code> on the containing wrapper element.</p>
+<p>IE7b thought doesn't work since <code>overflow:visible</code> makes the overflow of the columns, well, visible. So we use an expression instead, making the columns the height of the column container.</p>
+<p>However, there are dragons here...</p>
+<ol>
+<li>If we use the exact height of the wrapper, things can explode on first load or, absolutely without fail, when refreshing the page using F5. We can be worked around by taking a pixel off. Then the shorter columns are still shorter requiring the footer to be shifted up a pixel for good measure.</li>
+<li>Of course, it will fail utterly if the security level is such that expressions don't get evaluated or at the very least annoy the hell out of users with a prompt to allow the expressions to be evaluated...</li>
+</ol>
+<p>So if you don't like those dragons, you might prefer to force IE7 into <a href="http://www.fu2k.org/alex/css/examples/moreequalheightcolumnsquirks">Quirks mode</a>. <a href="#ie-fix-alt">[note]</a></p>
+
+<h3 id="appendix_equalheightproblems-linking-no-gecko-fix">No cure for Cancer</h3>
+<p>...or rather, there appears to be no fix for Gecko-based agents. I had thought shifting the padding and negative margin to the top (like for the Opera 8 fix) would sort things out, but once Gecko knows that the box is larger than what's displayed the anchor shifting occurs.</p>
+
+<h3 id="appendix_equalheightproblems-linking-half-gecko-fix">Half a cure for Geckos</h3>
+<p class="example"><a href="example/equalheightanchorsgeckofix.html">Half fix for anchor problem in Gecko</a></p>
+
+<p>Ingo Chao has come up with a solution that works as long as certain conditions are met - the trick is to apply <code>position:absolute</code> to the target.</p>
+
+<p>For anchors of the form <code>&lt;a name=&quot;target&quot;&gt;&lt;/a&gt;</code>, this presents no problems. If the target element can stand being absolutely positioned, everything will be ok. Obviously though, attempts to apply the same technique to an anchor which is actually an id on an element enveloping content will result in dismal failure. And for many off-the-peg  blogs and CMSes, that's probably going to be the case.</p>
+
+<p>Furthermore, the parent element of the target must not have <code>position:relative</code> applied to it, which also somewhat reduces the usefullness of the technique.</p>
+
+
+<h3 id="appendix_equalheightproblems-linking-back-history">What the hell is going on?</h3>
+
+<p>Weirdly, just to add spice to the whole over-egged pudding, when used in equal heights mode, Opera 9 doesn't shift. But with the following <a href="http://www.fu2k.org/alex/css/testcases/overflowhiddenplusanchor">reduced test case</a>, it does.</p>
+
+<p>Two distinct behaviours can be seen in the previous reduced testcase.</p>
+<dl>
+<dt>Behaviour A</dt>
+<dd><em>the content shifts within the element to reveal the triggered anchor</em><br />
+Mozilla since 1.6a, IEs 5.01 through 6 and Opera 9b</dd>
+<dt>Behaviour B</dt>
+<dd><em>nothing happens</em><br />
+as seen in Safari, IE Mac 5, Mozilla 1.5 and earlier, and Operas pre v 9</dd>
+</dl>
+
+
+
+
+<p>The question is, are current Geckos, IE and Opera 9 correct in their handling of the above example? What do the specs say?</p>
+
+<blockquote><p>This value indicates that the content is clipped and that no scrolling user interface should be provided to view the content outside the clipping region.</p>
+<p><cite><a href="http://www.w3.org/TR/CSS21/visufx.html#propdef-overflow">CSS 2.1, 11.1.1 Overflow: the 'overflow' property</a></cite></p>
+</blockquote>
+
+<p>So does that mean that the content can be scrolled (though no interface should be provided) which is what Firefox and IE are doing, or does it mean that no scrolling should occur? But how would the latter jive with scrolling the content via scripting (which is surely meant to be allowed)?</p>
+
+<p>Sorry. Not fair. It's a bogus question. In the words of the editor of the CSS specs, Ian Hickson, "The spec doesn't define what happens with anchors." So, let's play detective and figure out when (and hopefully why) the behaviour changed in Mozilla and Opera.</p>
+
+<p>For Opera, the answer is fairly easy to track down thanks to a note in the <a href="http://snapshot.opera.com/windows/w90p1.html">changes log</a>, under the heading "Acid2 Fixes"...</p>
+
+<blockquote cite="http://snapshot.opera.com/windows/w90p1.html"><p>Elements with <code>overflow:hidden;</code> can scroll to anchors within them.</p></blockquote>
+
+<p>...which was done presumably (remember the specs say nothing about how an agent should handle anchors) because unless they scrolled to the anchor on the test page, nothing would show at all and so they would fail the test at the first hurdle.</p>
+
+<p>Safari has taken a different route to passing the test - by making the html element scrollable when overflow property is set to hidden, but not doing so for any other element.</p>
+
+<p>Of course there's nothing to say which of these paths (if either) is correct.
+There's nothing in the Acid2 guide reference that mentions testing for such behaviour and the only comment about the use of <code>overflow:hidden;</code> on the html element is:</p>
+
+<blockquote cite="http://www.webstandards.org/act/acid2/test.html"><pre>/* page setup */
+  html { font: 12px sans-serif; 
+  	margin: 0; padding: 0; overflow: hidden;
+  /* hides scrollbars on viewport, see 11.1.1:3 */</pre>
+<p><cite><a href="http://www.webstandards.org/act/acid2/test.html">The Second Acid Test</a></cite></p></blockquote>
+
+<p>...which leads us back to <em>that</em> section of the CSS specs which, er, has nothing to say about the treatment of anchors.</p>
+
+<p>So how did the test get into Acid 2? What is its purpose? Fortunately a little bird was able to tell me that Ian Hickson was the lead in constructing the Acid2 test. So I asked him why it was set up that way, with the content hidden and being scrolled to, and whether this was an intentional part of the test, or it just happened that way because that's how Mozilla and IE handled it</p>
+
+<blockquote>
+<p>Hmm. I didn't think about how anchors interacted with the overflow:hidden 
+text and just assumed it would work. :-)</p>
+<p>The reason I used overflow:hidden at all was to test make one of the browsers implement overflow:hidden on the root element, because authors were complaining it wasn't supported (I don't remember which one any more, probably Opera). Also, I needed to have scrolling to test fixed positioning, but I didn't want to show the scrollbar.</p>
+<p><cite>via personal correspondence</cite></p>
+</blockquote>
+
+
+<p>Incredibly dull downloading of many many copies of old versions, followed up by combing through the bug tracking system eventually gave up the <a href="http://bonsai.mozilla.org/cvsquery.cgi?treeid=default&amp;module=all&amp;branch=HEAD&amp;branchtype=match&amp;dir=&amp;file=&amp;filetype=match&amp;who=&amp;whotype=match&amp;sortby=Date&amp;hours=2&amp;date=explicit&amp;mindate=2003-10-13+14%3A58&amp;maxdate=2003-10-13+14%3A58&amp;cvsroot=%2Fcvsroot">point where Mozilla had begun to scroll overflow:hidden</a>, which in turn pointed to <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=221140">bug 221140</a> which gets us towards the heart of the matter.</p>
+
+<blockquote>
+<p>The basic problem here is that 'scroll' and 'auto' have never worked on table
+cells, and the working group decided to make 'hidden' work like 'scroll' and
+'auto', so now 'hidden' doesn't work either.</p>
+<p><cite><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=221140#c4">Bug 221140 - 'overflow: hidden' on table cells broken, comment #4</a></cite></p>
+</blockquote>
+
+<p>Of course, the question of exactly what and where the working group had decided is moot. Let's have another look at our old friend 11.1.1, the overflow:hidden definition (remembering that it says nothing about how user agents should deal with anchors):</p>
+
+<blockquote><p>This value indicates that the content is clipped and that no scrolling user interface should be provided to view the content outside the clipping region.</p>
+<p><cite><a href="http://www.w3.org/TR/CSS21/visufx.html#propdef-overflow">CSS 2.1, 11.1.1 Overflow: the 'overflow' property</a></cite></p>
+</blockquote>
+
+<p>Previously the same section had been:</p>
+
+<blockquote><p>This value indicates that the content is clipped and that no scrolling mechanism should be provided to view the content outside the clipping region; users will not have access to clipped content. The size and shape of the clipping region is specified by the 'clip' property.</p>
+<p><cite><a href="http://www.w3.org/TR/CSS2/visufx.html#overflow">CSS 2, 11.1.1 Overflow: the 'overflow' property</a></cite></p>
+</blockquote>
+
+<p>Do these changes to 2.1 mean that Behaviour A is correct and were they introduced for exactly such a situation? </p>
+<p>Prodding Ian Hickson again, I got the following explanation:</p>
+
+
+<blockquote>
+<p>It was changed in issue 1-16, around July-September 2003. But it was made 
+in response to an W3c-internal-only comment, so that won't help you...</p>
+<p>... I imagine the reasoning was "to make CSS compatible with the Web", which already behaved that way.</p>
+<p>... It was probably more "browsers won't change their behaviour to match the spec because doing so would break Web pages, so we'll change the spec to match the browsers instead". (This reasoning is the thinking behind much of the changes to CSS2.1. Pragmatism is an important factor in the development of the CSS2.1 and HTML5 specifications.)</p>
+<p><cite>via personal correspondence</cite></p>
+</blockquote>
+
+
+<h4 id="appendix_equalheightproblems-linking_the_mess_we_are_in">A bit of a mess...</h4>
+
+<p>So to sum up, the situation is happenstance yet quasi-official. That's how IE did it, so the W3 working group and Mozilla followed suit. And Opera followed along later to pass a test that reflected that status quo.</p>
+
+<p>Consequently there's nothing to say that Safari's divergent behaviour (scroll on html element, no scroll on any other) isn't correct. Or what the behaviour should be if a box that <code>overflow: hidden</code> is applied to is tall enough to show all the content within it, but there is additional padding-bottom beneath it...</p>
+
+<p><a href="http://dev.l-c-n.com/overflow/equal-height3-1.php" title="Mozilla causes the content within the container to scroll, Opera 9b the entire window.">La Chatte Noire example 1</a></p>
+<p><a href="http://dev.l-c-n.com/overflow/equal-height3-2.php" title="Opera 9b now causes the content to scroll, but only as much as is 'necessary'">La Chatte Noire example 2</a></p>
+
+<p>And <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=259615">Bug 259615 - 'overflow: hidden' elements shouldn't be scrollable by the user</a> probably shouldn't really be a bug. But <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=325942">Bug 325942</a> shows that some of the Mozilla team think it should.</p>
+
+<h3 id="appendix_equalheightproblems-linking_recommendations">Recommendations</h3>
+<p>Sorry, I don't have any recommendations. Really. It's up to you to decide what works for you, just like <strong>you</strong> should decide what browsers you should support. That said:</p>
+<ul>
+<li>Use of the method in situations like the <a href="example/tucows.html">Tucows example</a> where the technique is used just for a component of the page will be solid. (ie. just place any anchors you might need before or after the columns)</li>
+<li>Use for whole page layouts will be solid if you can guarantee that you won't need to use named anchors within the columns.<a href="#anchors_wrong">[note]</a></li>
+</ul>
+<p>If you can't guarantee the absence of anchors, then you're probably going to be better off going with faux columns or a javascript-based solution.</p>
+<p>Of course, if Mozilla supported multiple background images this would all be irrelevant... Or if Mozilla could apply <code>position: absolute</code> to generated content properly...</p>
+
+<h2 id="appendix_equalheightproblems-scrolling">Selecting and scrolling in Gecko-derived browsers</h2>
+<p>Drag to select content within the longest column and keep dragging downwards - if the bottom of column is above the bottom of the viewport there is no problem. If it's below the bottom of the viewport then it keeps scrolling, shunting the content of all the columns upwards and very rapidly at that so that in all likelihood it just vanishes. (It is possible to scroll it back if some of the content is still visible and selectable - but that's an academic point since in reality the average user is going to be just as foobarred as if all the content had dissapeared)</p>
+<p>Fixed as of Firefox 1.5 and Camino 1.0, so this is basically a non-issue.</p>
+
+<h2 id="appendix_equalheightproblems-printing">Printing in Internet Explorer</h2>
+<p>A less serious problem (unless you're being bitten by it) is that it can cause printing problems for IE. Depending on the exact values used for padding-bottom and margin-bottom, the content in the columns can shift upwards  and even disappear entirely. The answer to this problem is to suppress the negative margin-bottom (and consequently the padding-bottom too) in a print style sheet. You shouldn't be printing the backgrounds in any case ;)</p>
+
+
+<h2 id="appendix_equalheightproblems-usefullness-of-ehc">Do not ask for whom the bell tolls</h2>
+
+<p>So, the end result may be that the actual usefulness of the equal heights technique is in exposing flaws in certain rendering engines (whether it's Safari and Opera or Explorer and Gecko that get it wrong I leave for others to decide).</p>
+
+<p>Fortunately for me, it's the technique that I'm least concerned about since there's always Faux Columns to fall back on. And even more fortunately I covered myself in the article by saying that Faux Columns would probably remain the weapon of choice ;)</p>
+
+
+
+
+<table id="appendix_equalheightproblems-problem_results">
+<tr>
+<th>Browser</th>
+<th>Shifts on anchor trigger</th>
+<th>Scrolls on select drag</th>
+</tr>
+<tr>
+<td>Firefox 1.5</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Firefox 1.07<br />
+NS 7.2</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>IE 6</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>IE 5.01 (+ 5.5 ?)</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Opera 9b</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Opera 8.5, 8.0, 7.54, 7.23, 7.1, 6.06, 5.11</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Safari 2.0, 1.03</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>iCab 3.01</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>IE 5.23 (Mac)</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>NS 7.1, 6.23, 6.1</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</table>
+
+
+
+
+
+</div>
+
+
+
+
+<div id="footnotes">
+<h2>Footnotes</h2>
+<ol>
+
+<li id="style_remarks">Miscellaneous remarks on the conventions used in this article can be found in the <a href="appendix/notes.html">final appendix</a>.</li>
+<li id="table_shortcomings">Though obviously, table-based layouts have even greater shortcomings. Arguments about those shortcomings are well known and beyond the scope of this article.</li>
+<li id="one_true_origin">To be ultra clear, there is no one true layout. I am actually referring to the power to organise the underlying structure of your documents in a meaningful way, rather than the visual layout itself. I am not advocating three columns or whatever as the ultimate in design, nor am  I claiming that the particular document structure and naming conventions I've used here represent the final word in information architecture. Rather I'm trying to show that such layouts do not require the kind of kludges in general use that preclude other layouts. When freed from presentational-driven wrappers and non-logical ordering, a document <em>can</em> be styled <a href="http://www.tjkdesign.com/articles/liquid.asp" title="Thierry Koblentz's One clean HTML markup, many layouts... liquid, fluid, elastic, flexible, jello...">any which way you like</a>, be it as columns or <a href="http://www.fu2k.org/alex/css/frames" title="Frames without Frames - my article on how to emulate the visual appearance of frames in CSS">frames</a> or even just one long sausage. And when freed from the tyranny of presentational straitjackets, the structure of the document need only be considered with regard to semantics and accessibility. And from such rich semantics flow the hooks to make applying visual design easier... As for the name, it's a feeble gag referencing the original <a href="http://glish.com/css/7.asp">holy grail for CSS layouts</a> as well as that other timesink for nutters of a different persuasion, the one true cross. Just be thankful that I didn't write the article in full-on messianic millenial fever mode as I thought of doing. Yes, other layout techniques exist and may even be better for your needs - we'll get to those in the course of the article. And any mentions of trademarks are, sigh, <strong>jokes</strong>. All methods described here are released into the <a href="http://creativecommons.org/licenses/publicdomain/">public domain</a>.</li>
+
+
+<li id="source_order_bad">Tragically, the parlous state of web design and screen readers may already have hardcoded users' expectations. See <a href="http://www.usability.com.au/resources/source-order.cfm" title="Presentation by Roger Hudson, Russ Weakley and Lisa Miller at OZeWAI Conference, 9 December 2005 ">Source Order, Skip links and Structural labels</a> for details.</li>
+<li id="accessibility_elements">What do I mean by an element? Or by a tag? See <a href="http://www.456bereastreet.com/archive/200508/html_tags_vs_elements_vs_attributes/">Roger Johansson</a> for enlightenment</li>
+<li id="accessibility_heuristics">In my opinion, a CSS-based layout that orders its content just to achieve a particular design is no better than an old skool table-based one. In fact a table-based design <em>might</em> (under some circumstances) be more accessible since current browsers can use well-established rules to intelligently change the display order, eg. <a href="http://www.opera.com/products/mobile/smallscreen/">Opera's Small-Screen Rendering</a> for mobiles and PDAs.</li>
+<li id="search_heuristics">Though obviously this is no magic bullet substitute for actually having relevant content in the first place. For a more thorough explanation, read the section entitled "Position Your Keywords" in this <a href="http://searchenginewatch.com/webmasters/article.php/2168021">Search Engine Watch article</a>. Some go so far as to claim that <a href="http://www.456bereastreet.com/archive/200502/basics_of_search_engine_optimisation/">high quality markup will help boost your rankings</a>.</li>
+<li id="mixing_units">If you need to mix units, head on over to the reimagining of the <a href="appendix/holygrail.html">Holy Grail</a> for a solution after yet more browser pantsdom.</li>
+<li id="reverse_order">The same principle can be worked from right to left, using <code>float: right</code> instead (simply switch right and left in the previous instructions). Moreover, left and right floats could be combined. This would have the advantage of ensuring that the left and rightmost floated elements line up with the edge of the wrapper div and also potentially reduce the number of elements requiring negative margins (depending, of course, on just how many columns are required and how they need to be ordered).</li>
+<li id="missing_position">Ultra keen readers will be wondering what happened to <q>column positions 1 to <em>n</em>-1 are occupied by blocks 1 to <em>n</em>-1 (in any order)</q>. The answer is that actually the "real" formula is <code>column positions 0 to <em>n</em>-1 are occupied by blocks 0 to <em>n</em>-1 (in any order)</code> where ghost block 0 always fills ghost column slot 0. But that's a little confusing, isn't it?</li>
+<li id="not_so_basic">Andrey Petrov wrote in to point out that this was bust in IE6 - the cause? Because it's in standards mode, IE6 works out the percentages based on the entire body width, rather than the available space within in it. The cure for this, which after all is just a demo, is to zap the body's margin and padding. And to set <code>position: relative</code> on <code>#footer</code> to prevent wayward painting of its background colour.</li>
+<li id="reductio_ad_simplicitatem">Not that things are that complex in any case. In three column layouts only the first block will ever need adjusting, and only if it's not to be the first column. The same holds true for four column layouts with the single exception that the second block would need adjusting instead of the first block if the first block was the first column and the second block was the fourth, ie. last column. However, as mentioned above, there's no harm in just applying <code>display: inline</code> to all the blocks and not having to bother thinking about any of this.</li>
+<li id="gecko_regression">Except for the betas and release candidate 1 of Firefox 1.5. See <a href="http://www.fu2k.org/alex/css/bugs/gecko1.8b2+_negativefloats">here</a> for details. The same problem affects Camino 1.0a1.</li>
+<li id="any_order_vertical">Blocks don't just have to be displayed as columns - they can be stacked on each other or removed from the flow entirely. I ruminate more about this in the <a href="appendix/theory.html">appendix on theory</a>. And there's no need for headers not to follow the main content either if they're not the actual content - <a href="appendix/anyverticalorder.html">Any Vertical Order</a>.</li>
+<li id="previous_examples">For examples of the original source-ordered technique, see <a href="http://www.fu2k.org/alex/css/layouts/fiveeasypieces">Five Easy Companion Pieces</a>, several layouts that were published simultaneously with Big John's essay. Sharp eyes will notice faux columns (and liquid ones at that) lurking amongst them.</li>
+
+
+<li id="impossible_layouts">Now I come to write this, of course I can't recall any, other than right hand columns that are sized in ems.</li>
+<li id="big_value"><code>$big_value</code> is a variable name, standing in for the actual value.</li>
+<li id="overflow_table_clash">This is why <code>display: table</code> is a no go for containing the floats. Safari just doen't get on well with the combination of <code>display: table</code> and <code>overflow: hidden</code>. The end result is that the overflowing stuff simply isn't hidden.</li>
+<li id="alternative_padding">Of course, you could just as well insert another element into the block, apply the normal equal <code>padding-bottom</code> and negative <code>margin-bottom</code> to that and just set the required <code>padding-bottom</code> on the outer element.</li>
+<li id="obvious_point_about_z-indexes">The value of <code>z-index</code> doesn't have to be 1000. Depending on your design and whether you're using <code>z-index</code> elsewhere, you might need to use a different value.</li>
+<li id="media_query_hack">Currently only Operas 7.20 and up support <a href="http://www.w3.org/TR/2002/CR-css3-mediaqueries-20020708/" title="the W3C dope on meeja queeeeries, suckers">media queries</a>, which means that they work as a hack/filter.  Personally I'm wary of this solution since it's more than likely that Safari and/or Firefox will support such declarations in the not too distant future and then this will break. That wouldn't be necessarily be the end of the story though - we could turn to the <a href="http://www.fu2k.org/alex/css/hacks/fuzzyspecificity">Fuzzy Specificity hack</a>. Of course, it would probably be too much to expect Opera to get fixed... <ins>The good news is that Opera 9b fixed the bug.</ins></li>
+<li id="select_scroll_oddness">The presence of a relatively positioned element within any of the blocks causes weird scrolling effects when trying to select text in Firefox 1.0. This bug has been fixed in 1.5, but just so you know. Details in this <a href="http://archivist.incutio.com/viewlist/css-discuss/64928">[css-d] thread</a></li>
+
+
+<li id="rightmost_point">If you've forgotten what I'm talking about or came to this page directly go back and read <a href="anyorder.html#how"><em>Any Order Columns</em></a> now.</li>
+<li id="absolute_tables">Positioning elements absolutely in table-cells should work in theory, since <code>position:relative</code> applies to any element. CSS 2.1 notes however, that the behaviour is 'undefined for elements with <code>display: table-*</code>'. As Philippe Wittenbergh points out, with <code>td {position: relative}</code>, it does work... in iCab 3.0 alone.</li>
+
+
+<li id="opera9">The makeovers aside, all these examples were made almost a year ago and have only been retrofitted to cope with Opera 8. Now that the positioning and <code>overflow: hidden</code> bugs have been fixed, the hacks to make Opera 8 and under behave themselves trip Opera 9 up. Fortunately, ways and means exist to make things ok again, but it's probably just as sensible to ignore older versions of Opera.</li>
+<li id="table_impossibility">Don't understand why? Go back and read the 'Why' of <a href="verticalgrid.html">Vertical Grids</a> again.</li>
+<li id="table_version">Below is the table structure that would be required just to ape the barebones of the <em>One True Layout</em> version. Of course, to actually go the whole way and replicate the rounded corners and bottom alignment would be that bit more complicated. And remember, any time you want to reorganise the order of the layout, you have to shuffle it all up again. Still, if you do want to go down that route, here's a load of <a href="http://www.fu2k.org/alex/css/equalheight/tables">table-based experiments</a> I did way back in the day. You never know, they may come in handy...</li>
+
+
+
+
+
+<li id="spawn_of_redmond">That's sarcasm.</li>
+
+
+<li id="vertically_challenged">All the variations work in Safari but I suspect that it's Firefox and its Gecko-based relations that are on the money.</li>
+
+
+<li id="ie-fix-alt">Alternatively there's an equally trivial fix for IE 5.01 and 5.5. Give the column wrapper a height and then set the columns to be 100% high. IE 6 would obviously be the same in Quirks mode, but in Standards mode that doesn't work. So we'd need to use the same type of expression as for IE7 instead, making the columns the height of the column container, with all the same caveats mentioned above. along with an additonal one that changing the font size can cause IE6 to go screwy. Of course, I don't recommend this over the above-mentioned method, but just so you know. There might be a situation where you can't rely on expressions and don't mind being in Quirks mode...</li>
+<li id="anchors_wrong">Incidentally, a certain celebrated ascetic mad monk, er, usability expert, has decreed <a href="http://www.useit.com/alertbox/within_page_links.html" title="Jakob Nielsen says 'Avoid Within-Page Links'">use of anchors considered harmful</a>.</li>
+
+
+</ol>
+<table>
+<caption>Schematic table illustrating complexity of recreating "Nested Rounded Corners" layout as a table</caption>
+<tr>
+<td rowspan="3" colspan="2">
+<p>Block 6 Top</p>
+<p>Source order = 1</p>
+<p>Colspan = 2</p>
+<p>Rowspan = 3</p>
+</td>
+<td colspan="2">
+<p>Block 2 Top</p>
+<p>Source order = 2</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 1 Top</p>
+<p>Source order = 3</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 3 Top</p>
+<p>Source order = 4</p>
+<p>Colspan = 2</p>
+</td>
+<td rowspan="5" colspan="2">
+<p>Block 9 Top</p>
+<p>Source order = 5</p>
+<p>Colspan = 2</p>
+<p>Rowspan = 5</p>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<p>Block 2 Bottom</p>
+<p>Source order = 6</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 1 Bottom</p>
+<p>Source order = 7</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="2">
+<p>Block 3 Bottom</p>
+<p>Source order = 8</p>
+<p>Colspan = 2</p>
+</td>
+</tr>
+<tr>
+<td colspan="3">
+<p>Block 5 Top</p>
+<p>Source order = 9</p>
+<p>Colspan = 3</p>
+</td>
+<td colspan="3">
+<p>Block 4 Top</p>
+<p>Source order = 10</p>
+<p>Colspan = 3</p>
+</td>
+</tr>
+<tr>
+<td colspan="2">
+<p>Block 6 Bottom</p>
+<p>Source order = 11</p>
+<p>Colspan = 2</p>
+</td>
+<td colspan="3">
+<p>Block 5 Bottom</p>
+<p>Source order = 12</p>
+<p>Colspan = 3</p>
+</td>
+<td colspan="3">
+<p>Block 4 Bottom</p>
+<p>Source order = 13</p>
+<p>Colspan = 3</p>
+</td>
+</tr>
+<tr>
+<td colspan="4">
+<p>Block 8 Top</p>
+<p>Source order = 14</p>
+<p>Colspan = 4</p>
+</td>
+<td colspan="4">
+<p>Block 7 Top</p>
+<p>Source order = 15</p>
+<p>Colspan = 4</p>
+</td>
+</tr>
+<tr>
+<td colspan="4">
+<p>Block 8 Bottom</p>
+<p>Source order = 16</p>
+<p>Colspan = 4</p>
+</td>
+<td colspan="4">
+<p>Block 7 Bottom</p>
+<p>Source order = 17</p>
+<p>Colspan = 4</p>
+</td>
+<td colspan="2">
+<p>Block 9 Bottom</p>
+<p>Source order = 18</p>
+<p>Colspan = 2</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id="subnavigation">
+<div id="pages">
+<h2>In search of the One True Layout</h2>
+<ol>
+<li><a href="index.html">Introduction</a></li>
+<li><a href="anyorder.html">Any Order Columns</a></li>
+<li><a href="equalheight.html">Equal Height Columns - revisited</a></li>
+<li><a href="verticalgrid.html">Vertical Grids</a></li>
+<li><a href="combined.html">Putting it all together</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="conclusion.html">Conclusion</a></li>
+</ol>
+</div>
+<div id="appendices">
+<h2>Appendices</h2>
+<ol>
+<li><a href="appendix/acknowledgements.html">Acknowledgements</a></li>
+<li><a href="appendix/methodresults.html">Browser results for the methods</a></li>
+<li><a href="appendix/exampleresults.html">Browser results for the examples</a></li>
+<li><a href="appendix/holygrail.html">Any Order Columns - Liquid center, fixed-width sides</a></li>
+<li><a href="appendix/anyorderalternative.html">Any Order Columns - an alternative approach</a></li>
+<li><a href="appendix/anyverticalorder.html">Any Vertical Order</a></li>
+<li><a href="appendix/olderbrowsers.html">Any Order Columns for older browsers</a></li>
+<li><a href="appendix/theory.html">Notes on theory</a></li>
+<li><a href="appendix/notes.html">Miscellaneous notes</a></li>
+<li><a href="appendix/equalheightproblems.html">Problems with the Equal Height Columns method</a></li>
+</ol>
+</div>
+<div id="publication">
+<dl>
+<dt>Author</dt>
+<dd><a href="http://www.fu2k.org/alex/css" title="CSS Stuff">Alex Robinson</a></dd>
+<dt>Publishers</dt>
+<dd><a href="../../design/index.html" title="Holly 'n John's Tableless Design and Repair">Holly 'n John</a></dd>
+<dt>Published</dt>
+<dd>October 21, 2005</dd>
+<dt>Modified</dt>
+<dd>April 25, 2006<br />
+<a id="changelog" href="changes.html">Change Log</a></dd>
+</dl>
+<p>Send comments <a href="mailto:onetruelayout@alex.fu2k.org" title="But only if you've read the miscellaneous notes first...">here</a></p>
+</div>
+</div>
+<div id="site_ident">
+<a href="../../index.html" title="Return to p.i.e's homepage"><span id="position">Position</span> <span id="is">is</span> <span id="everything">Everything</span></a>
+</div>
+
+<ul id="navigation">
+<li class="current"><a href="../../articles.html">Articles</a></li>
+<li><a href="../../guests.html">Guest Demos</a></li>
+<li><a href="../../explorer.html" title="CSS bugs found only in Internet Explorer, versions 5 and higher">Explorer Exposed</a></li>
+<li><a href="../../ie-primer.html" title="How Microsoft has seen fit to engineer their browser to deliberately violate the standards">Explorer vs the Standards</a></li>
+</ul>
+</body>
+
+
+</html>
+
