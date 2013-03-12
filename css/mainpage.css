@@ -28,6 +28,12 @@ body {
 	color: #fff8aa;
 	}
 
+blockquote.note {
+    margin-bottom:45px;
+}
+blockquote.note em {
+    font-size:12px;
+}
 
 .announcement {
 	margin: 20px;
