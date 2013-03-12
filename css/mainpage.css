@@ -1,7 +1,7 @@
 html, body {margin: 0; padding: 0; border: 0; height: 100%;}
 
 body {
-	background: #1e2aa2 url(images/index-gradient2.jpg) repeat-x;margin: 160px 0 0;
+	background: #1e2aa2 url(../images/index-gradient2.jpg) repeat-x;margin: 160px 0 0;
 	padding: 0 0 20px;
 	font-family: verdana, sans-serif;
 	font-size: 90%;
@@ -19,7 +19,7 @@ body {
 	left: 0;
 	width: 580px;
 	height: 170px;
-	background: url(images/chess-pie1.jpg) no-repeat  ;
+	background: url(../images/chess-pie1.jpg) no-repeat  ;
 	}
 
 .intro {
@@ -92,7 +92,7 @@ h3 span {font-size: .8em; padding-left: 1em;}
 #rightcol {
 	border: 2px solid #000;
 	padding: 2em 1em 1.5em 1.3em;
-	background: #e6dc9f url(images/rightcol-gradient4.jpg) top left repeat-y;
+	background: #e6dc9f url(../images/rightcol-gradient4.jpg) top left repeat-y;
 	font-family: georgia, "times new roman", serif;
 	}
 
@@ -125,7 +125,7 @@ h3 span {font-size: .8em; padding-left: 1em;}
 #bugpic a {border: 0;}
 
 #title-img {
-	background: url(images/title-img.gif) 100% 0% no-repeat;
+	background: url(../images/title-img.gif) 100% 0% no-repeat;
 	position: absolute;
 	width: 400px;
 	height: 200px;
